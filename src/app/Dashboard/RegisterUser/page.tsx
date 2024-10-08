@@ -1,93 +1,168 @@
-'use client';
-import { FormEvent, useState } from 'react';
+'use client'
 
-const RegisterForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    displayName: ''
-  });
+import usersService from "@/app/Services/usersService";
+import { error } from "console";
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
+
+
+const LoginModal:React.FC = () => {
+
+  const [user,setUser] = useState({Username:'',Password:"",Email:"",DisplayName:""})
+  const [show, setShow] = useState(true);
+  const [errors,setErrors] = useState({email:"",password:""})
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  const  handleSubmitForm = async (e:React.FormEvent)=>{
+      e.preventDefault();
+      var result ;
+      var formError;
+      try{
+          result = await  new usersService().createUser(user);
+          if(result?.status === "Error"){
+            formError = result.message
+            console.log(result);
+            if( formError.includes("Duplicate")){
+              setErrors({...errors,password:"Duplicate email, please enter different"})
+            }
+          }else if(result.succeeded){
+            handleClose();
+            clearForm();
+          }
+      }catch(e:any){
+          console.log(e)
+      }
+      console.log(result)
+  }
+
+  const clearForm =()=>{
+     setUser({Username:'',Password:"",Email:"",DisplayName:""})
+     setShow(true);
+     setErrors({email:"",password:""})
+     setShow(false);
+     setShow(true);
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+    const { id, value } = e.target;
+    if(id === "Password"){
+        if(!validatePassword(value)){
+              setErrors({...errors,password:"Invalid password, password must have Capital, small, number and special character"})
+        }else {
+          setErrors({...errors,password:""})
+        }
+    }
+    console.log(value)
+    setUser({
+      ...user,
+      [id]: value,
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+  const closeForm=()=>{
+    setShow(false);
+  }
+
+  const validatePassword =(password:string)=> {
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+    return passwordPattern.test(password);
+  }
+
 
   return (
-    <div className='flex-grow justify-center items-center max-w-screen-md'>
+    <div>
+      <Modal show={show} onHide={closeForm} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="w-full text-center">
+            <h4 className="font-bold">Register User</h4>
+          </Modal.Title>
+        </Modal.Header>
 
-    <form onSubmit={handleSubmit} className=" mx-auto p-6 bg-white shadow-md rounded-lg col-span-full">
-      <div className="form-group mb-4  col-span-6" >
-        <label htmlFor="username" className="block text-gray-700 font-bold mb-2">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+        <Modal.Body>
+          <Form className="d-flex flex-column gap-3" onSubmit={handleSubmitForm}>
+            <Form.Group controlId="Username">
+              <Form.Label>User Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter you name"
+                className="w-100"
+                onChange={handleChange}
+                value={user.Username}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="DisplayName">
+              <Form.Label>Display Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                className="w-100"
+                onChange={handleChange}
+                value={user.DisplayName}
+                
+              />
+            </Form.Group>
+            <Form.Group controlId="Email">
+              <Form.Label>Your Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@mail.com"
+                className="w-100"
+                onChange={handleChange}
+                value={user.Email}
+                required
+              />
+              <div className="text-red-600">
+                  {errors.email}
+              </div>
+            </Form.Group>
+            <Form.Group controlId="Password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="password"
+                className="w-100"
+                onChange={handleChange}
+                value={user.Password}
+                required
+              />
+              <div className="text-red-600">
+                  {errors.password}
+              </div>
+            </Form.Group>
 
-      <div className="form-group mb-4  col-span-6">
-        <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+            <div className="flex justify-center items-center">
+                 <Button
+                    variant="primary"
+                    type="submit"
+                    className="d-flex w-28 justify-content-center align-items-center gap-2"
+                  >
+                    Register
+                  </Button>
+                <div className="flex justify-end items-center">
+                    <button className="w-28 text-blue-600">Login</button>
+                </div>
+            </div>
+          </Form>
+        </Modal.Body>
 
-      <div className="form-group mb-4 ">
-        <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="form-group mb-4 ">
-        <label htmlFor="displayName" className="block text-gray-700 font-bold mb-2">Display Name</label>
-        <input
-          type="text"
-          id="displayName"
-          name="displayName"
-          value={formData.displayName}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
-      >
-        Register
-      </button>
-    </form>
-            
+        <Modal.Footer className="d-flex justify-content-center">
+          <p className="text-center text-gray-600">
+            Upon signing in, you consent to abide by our{" "}
+            <a href="#" className="text-primary">
+              Terms of Service
+            </a>{" "}
+            &{" "}
+            <a href="#" className="text-primary">
+              Privacy Policy.
+            </a>
+          </p>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
-};
+}
 
-export default RegisterForm;
+export default LoginModal;
