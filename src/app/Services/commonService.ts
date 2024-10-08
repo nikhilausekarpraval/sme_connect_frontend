@@ -22,8 +22,9 @@ class ApiService {
   // eslint-disable-next-line
   async apiFetch(endpoint: string, options: any) {
     try {
+      debugger;
       let token = await authService.getAccessToken();
-
+      
       const headers = {
         ...options.headers,
         'Content-Type': 'application/json',
