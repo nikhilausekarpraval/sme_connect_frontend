@@ -1,7 +1,5 @@
-/* eslint no-use-before-define: 0 */  // --> OFF
 
-/* eslint-disable no-use-before-define */
-/* eslint-disable-line any */
+
 export interface IEmployee{
     id:number | null;
     name:string;
@@ -49,3 +47,32 @@ endDate:Date | null;
 createdOnDt : Date | null;
 createdBy:string;
 }   
+
+export interface IUser{
+
+    Username : string
+
+    Email : string
+ 
+    Password: string
+ 
+    DisplayName : string
+}
+
+export interface IClaim{
+
+      UserName : string
+
+      userId : string
+
+      claimType : string
+      
+      claimValue : string
+}
+
+export interface IRoleUser{
+  
+    userId: string,
+
+    roleName :string
+}
