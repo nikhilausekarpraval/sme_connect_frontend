@@ -71,8 +71,13 @@ export interface IClaim{
 }
 
 export interface IRoleUser{
-  
+
     userId: string,
 
     roleName :string
+}
+
+export interface IUserCredentials{
+  username:string,
+  password:string
 }

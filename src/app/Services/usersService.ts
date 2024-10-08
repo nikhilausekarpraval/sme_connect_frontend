@@ -1,11 +1,6 @@
 import { IClaim, IRoleUser, IUser } from "../Interfaces/Interfaces";
 import { apiService } from "./commonService"
 
-
-
-
-
-
 class usersService {
 
     constructor(){
@@ -22,10 +17,6 @@ class usersService {
 
     async deleteUser(user:IUser){
         return await apiService.delete("api/Authenticate",user);
-    }
-
-    async getUsers(){
-        await apiService.get("api/Authenticate/getAll");
     }
 
     async assignClaimToUser(claim:IClaim){
@@ -45,6 +36,13 @@ class usersService {
         await apiService.post("api/Admin/add_role",{role:role})
     }
 
+    async getRoles(){
+        await apiService.get("api/Authenticate/getRoles")
+    }
+
+    async getUsers(){
+        await apiService.get("api/Authenticate/getUsers")
+    }
 
 
 }export default usersService

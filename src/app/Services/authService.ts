@@ -1,6 +1,7 @@
 // services/authService.js
 
 import {jwtDecode} from 'jwt-decode';
+import { apiService } from "./commonService"
 
 let accessToken : string = "";
 let refreshToken : string = "";
@@ -17,24 +18,11 @@ const authService = {
   
   async login(username:string, password:string) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const data = await apiService.post("api/Authenticate/login",{ username, password })
 
-      if (!response.ok) {
-        throw new Error('Invalid login credentials');
-      }
-
-      const data = await response.json();
-      accessToken = data.accessToken;
-      refreshToken = data.refreshToken;
+      accessToken = data.token;
       
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
 
       return data;
     } catch (error) {
@@ -48,19 +36,11 @@ const authService = {
    */
   async logout() {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
+      await apiService.post("api/Authenticate/logout",{})
 
       // Clear tokens
       accessToken = "";
-      refreshToken = "";
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
     } catch (error) {
       console.error('Logout failed:', error);
     }
@@ -73,13 +53,13 @@ const authService = {
   async getAccessToken() {
     // Check if the access token exists and is still valid
     const token = accessToken || localStorage.getItem('accessToken');
-    if (!token) return null;
+    // if (!token) return null;
 
-    const isExpired = authService.isTokenExpired(token);
-    if (isExpired) {
-      const refreshedToken = await authService.refreshToken();
-      return refreshedToken;
-    }
+    // const isExpired = authService.isTokenExpired(token);
+    // if (isExpired) {
+    //   const refreshedToken = await authService.refreshToken();
+    //   return refreshedToken;
+    // }
 
     return token;
   },

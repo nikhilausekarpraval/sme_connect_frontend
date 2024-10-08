@@ -9,7 +9,7 @@ class ApiService {
   baseUrl: string;
 
   constructor() {
-      this.baseUrl = 'http://localhost:3000/';
+      this.baseUrl = 'http://localhost:9091/';
   }
 
 
@@ -45,10 +45,6 @@ class ApiService {
             headers,
           });
         }
-      }
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data from ${endpoint}: ${response.status}`);
       }
 
       return await response.json();

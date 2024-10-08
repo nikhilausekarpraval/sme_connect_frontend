@@ -36,7 +36,7 @@ export const LeftMenubar = () => {
         <div>
           <ul className="flex flex-col space-y-5 p-0">
             <li>
-              <Link className="text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex justify-start items-center transition-all duration-300 no-underline" href="/Dashboard/About">
+              <Link className="text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex justify-start items-center transition-all duration-300 no-underline" href="/Dashboard/AboutUser">
                 <div className="justify-start flex items-center w-44">
                     <FaInfoCircle className="mx-3" /> 
                     {!isCollapsed && 'About'}

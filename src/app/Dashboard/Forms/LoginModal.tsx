@@ -1,4 +1,6 @@
-import React from "react";
+import { validatePassword } from "@/app/Helpers/Helpers";
+import authService from "@/app/Services/authService";
+import React, { useState } from "react";
 import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
 
 interface LoginInterface {
@@ -6,10 +8,13 @@ interface LoginInterface {
   closeForm:()=>void;
 }
 
-const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) =>{
+const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) => {
+
+  const [user,setUser] = useState({username:'',password:""})
+  const [errors,setErrors] = useState({email:"",password:"",invalid:""})
 
 //   const [show, setShow] = useState(isShow);
-//   const handleClose = () => setShow(false);
+
 //   const handleShow = () => setShow(true);
 
 //   useEffect(() => {
@@ -23,13 +28,48 @@ const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) =>{
 // };
 
 
+const  handleSubmitForm = async (e:React.FormEvent)=>{
+  e.preventDefault();
+  debugger;
+  var result ;
+  try{
+        result = await authService.login(user.username,user.password);
+        if(result?.status == 401){
+            setErrors({...errors,invalid:"Invalid username or password"})
+        }else {
+          closeForm();
+          clearForm();
+        }
+  }catch(e:any){
+      console.log(e)
+  }
+  console.log(result)
+}
+
+
+const clearForm =()=>{
+  setUser({password:"",username:""})
+  setErrors({email:"",password:"",invalid:""})
+}
+
+ const  handleChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
+        const {id,value} = e.target;
+        if(id === "password"){
+          if(!validatePassword(value)){
+                setErrors({...errors,password:"Invalid password, password must have Capital, small, number and special character"})
+            }else {
+              setErrors({...errors,password:""})
+            }
+        }
+        setUser({...user,
+          [id]:value
+         }
+        )
+  }
+
 
   return (
     <>
-
-      {/* <Button variant="primary" onClick={handleShow}>
-        Open Login Modal
-      </Button> */}
 
       <Modal show={isShow} onHide={closeForm} centered>
         <Modal.Header closeButton>
@@ -39,25 +79,35 @@ const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) =>{
         </Modal.Header>
 
         <Modal.Body>
-          <Form className="d-flex flex-column gap-3">
-            <Form.Group controlId="formEmail">
+          <Form className="d-flex flex-column gap-3" onSubmit={handleSubmitForm}>
+            <div className="text-red-600">
+                  {errors.invalid}
+            </div>
+            <Form.Group controlId="username">
               <Form.Label>Your Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="name@mail.com"
                 className="w-100"
+                onChange={handleChange}
+                value={user.username}
               />
             </Form.Group>
-            <Form.Group controlId="formPassword">
+            <Form.Group controlId="password">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="password"
                 className="w-100"
+                onChange={handleChange}
+                value={user.password}
               />
+              <div className="text-red-600">
+                  {errors.password}
+              </div>
             </Form.Group>
 
-            <Button variant="primary" size="lg" className="w-100">
+            <Button variant="primary" type="submit" size="lg" className="w-100">
               Login
             </Button>
 
@@ -77,6 +127,7 @@ const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) =>{
             <Button
               variant="outline-secondary"
               size="lg"
+              type="submit"
               className="d-flex justify-content-center align-items-center gap-2 w-100"
             >
               {/* <CpuChipIcon className="h-6 w-6" /> */}
