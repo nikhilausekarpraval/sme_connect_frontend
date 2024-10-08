@@ -20,28 +20,28 @@ class usersService {
     }
 
     async assignClaimToUser(claim:IClaim){
-        await apiService.post("api/Admin/add_claim_to_user",claim);
+       return await apiService.post("api/Admin/add_claim_to_user",claim);
     }
 
     async addRoleToUser(role:IRoleUser){
-        await apiService.post("api/Admin/add_role_to_user",role)
+      return  await apiService.post("api/Admin/add_role_to_user",role)
     }
 
     async addClaimtoRole(claim:IClaim){
-        await apiService.post("api/Admin/add_role_to_user",claim)
+      return  await apiService.post("api/Admin/add_role_to_user",claim)
 
     }
 
     async addRole(role:string){
-        await apiService.post("api/Admin/add_role",{role:role})
+        return await apiService.post("api/Admin/add_role",{role:role})
     }
 
     async getRoles(){
-        await apiService.get("api/Authenticate/getRoles")
+        return await apiService.get("api/Admin/getRoles")
     }
 
     async getUsers(){
-        await apiService.get("api/Authenticate/getUsers")
+       return await apiService.get("api/Admin/getUsers")
     }
 
 

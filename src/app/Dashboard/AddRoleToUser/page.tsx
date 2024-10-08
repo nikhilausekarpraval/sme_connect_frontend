@@ -1,7 +1,8 @@
 "use client"
 
 import SubmitButton from '@/app/Components/SubmitButton';
-import React, { useState } from 'react'
+import usersService from '@/app/Services/usersService';
+import React, { useEffect, useState } from 'react'
 
 export default function AddRoleToUser() {
 
@@ -9,6 +10,23 @@ export default function AddRoleToUser() {
         roleName: '',
         userId:"",
       });
+
+    const userService = new usersService();
+
+    const [users,setUsers] = useState([]);
+    const [roles,setRoles] = useState([]);
+
+      useEffect(() => {
+            getRolesAndUsers();
+      }, []); 
+    
+      const getRolesAndUsers  = async()=>{
+
+        const rolesResult = await userService.getRoles();   
+        const usersResult = await userService.getUsers();
+        console.log(rolesResult,usersResult)
+
+      }
 
    const handleChange=(e:React.ChangeEvent<HTMLSelectElement>)=>{
            
