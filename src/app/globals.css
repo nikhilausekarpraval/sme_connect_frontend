@@ -25,3 +25,11 @@ body {
     text-wrap: balance;
   }
 }
+
+.max-width{
+width: -webkit-fill-available;
+}
+
+.form-input-group-width{
+  width: 450px;
+}

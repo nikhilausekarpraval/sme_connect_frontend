@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { CustomNavbar } from "./Components/CustomNavbar";
+import { LeftMenubar } from "./Components/LeftMenubar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +31,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <CustomNavbar/>
+        <div className="flex">
+      <div>
+        <LeftMenubar />
+        </div>
+        <div className="flex justify-center items-center max-width">
+            {children} 
+        </div>
+      </div>
       </body>
     </html>
   );
