@@ -4,6 +4,15 @@ import authService from "./authService";
 
 
 class ApiService {
+
+
+  baseUrl: string;
+
+  constructor() {
+      this.baseUrl = 'http://localhost:3000/';
+  }
+
+
   /**
    * Fetch data from an API endpoint, with token handling.
    * @param {string} endpoint - The API endpoint to call.
@@ -21,7 +30,7 @@ class ApiService {
         'Authorization': `Bearer ${token}`,
       };
 
-      let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+      let response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
         headers,
       });
@@ -31,7 +40,7 @@ class ApiService {
         token = await authService.refreshToken();
         if (token) {
           headers['Authorization'] = `Bearer ${token}`;
-          response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+          response = await fetch(`${this.baseUrl}${endpoint}`, {
             ...options,
             headers,
           });
@@ -50,26 +59,26 @@ class ApiService {
   }
 
   // CRUD methods
-  get(endpoint: string) {
-    return this.apiFetch(endpoint, { method: 'GET' });
+  async get(endpoint: string) {
+    return await this.apiFetch(endpoint, { method: 'GET' });
   }
 
-  post(endpoint: string, body: object) {
-    return this.apiFetch(endpoint, {
+  async post(endpoint: string, body: object) {
+    return  await this.apiFetch(endpoint, {
       method: 'POST',
       body: JSON.stringify(body),
     });
   }
 
-  put(endpoint: string, body: object) {
-    return this.apiFetch(endpoint, {
+  async put(endpoint: string, body: object) {
+    return await this.apiFetch(endpoint, {
       method: 'PUT',
       body: JSON.stringify(body),
     });
   }
 
-  delete(endpoint: string) {
-    return this.apiFetch(endpoint, { method: 'DELETE' });
+  async delete(endpoint: string,items:any) {
+    return await this.apiFetch(endpoint, { method: 'DELETE',body:JSON.stringify(items) });
   }
 }
 
