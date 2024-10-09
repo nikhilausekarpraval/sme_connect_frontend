@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import SubmitButton from '@/app/Components/SubmitButton';
+import usersService from '../Services/usersService';
+
 
 interface Props {
-  users: Array<{ id: string, name: string }>;
-  roles: Array<{ id: string, name: string }>;
+  users: Array<{id:string,userName:string,}>;
+  roles: Array<{id:string,name:string}>;
 }
 
 export default function AddRoleToUserClient({ users, roles }: Props) {
@@ -14,6 +16,12 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
     userId: '',
   });
 
+  useEffect(()=>{
+
+    console.log(users)
+  },[])
+
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -21,10 +29,12 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
     });
   };
 
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    // Call the service to update the user role here
+    new usersService().addRoleToUser(formData);
+
+
   };
 
   return (
@@ -42,7 +52,7 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
           >
             <option value="">Select a user</option>
             {users.map(user => (
-              <option key={user.id} value={user.id}>{user.name}</option>
+              <option key={user.id} value={user.id}>{user.userName}</option>
             ))}
           </select>
         </div>

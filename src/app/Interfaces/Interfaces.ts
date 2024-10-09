@@ -50,6 +50,8 @@ createdBy:string;
 
 export interface IUser{
 
+    Id : string
+    
     Username : string
 
     Email : string
@@ -80,4 +82,10 @@ export interface IRoleUser{
 export interface IUserCredentials{
   username:string,
   password:string
+}
+
+
+export interface IRole{
+ id:string,
+ name:string,
 }

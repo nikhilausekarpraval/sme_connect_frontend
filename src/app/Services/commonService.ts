@@ -21,39 +21,53 @@ class ApiService {
    */
   // eslint-disable-next-line
   async apiFetch(endpoint: string, options: any) {
+  debugger;
     try {
       debugger;
       let token = await authService.getAccessToken();
-      
+  
       const headers = {
         ...options.headers,
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       };
-
+  
       let response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
         headers,
       });
+  
+      // Check for 401 and try to refresh the token
+      // if (response.status === 401) {
+      //   token = await authService.refreshToken();
+      //   if (token) {
+      //     headers['Authorization'] = `Bearer ${token}`;
+      //     response = await fetch(`${this.baseUrl}${endpoint}`, {
+      //       ...options,
+      //       headers,
+      //     });
+      //   }
+      // }
+  
+      // Check if response body is present and is JSON
 
-      if (response.status === 401) {
-        // Token might be expired, try to refresh
-        token = await authService.refreshToken();
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
-          response = await fetch(`${this.baseUrl}${endpoint}`, {
-            ...options,
-            headers,
-          });
-        }
+      const contentType = response.headers.get('Content-Type');
+      if (response.ok && contentType && contentType.includes('application/json')) {
+        return await response.json();
+      } else if (response.ok && response.status === 204) {
+        // 204 No Content
+        return null;
+      } else {
+        const errorText = await response.text();
+        console.error('API fetch error - non-JSON response:', errorText);
+        throw new Error(`Error: ${response.statusText}`);
       }
-
-      return await response.json();
+  
     } catch (error) {
       console.error('API fetch error:', error);
-      throw error; // Re-throw the error for higher-level handling
     }
   }
+  
 
   // CRUD methods
   async get(endpoint: string) {

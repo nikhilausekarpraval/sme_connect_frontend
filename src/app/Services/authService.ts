@@ -8,7 +8,7 @@ let refreshToken : string = "";
 
 
 interface JwtPayload {
-    exp: number;  
+    exp:  number;  
     iat?: number; 
     sub?: string; 
     [key: string]:unknown;
@@ -17,6 +17,7 @@ interface JwtPayload {
 const authService = {
   
   async login(username:string, password:string) {
+    debugger;
     try {
       const data = await apiService.post("api/Authenticate/login",{ username, password })
 
@@ -51,17 +52,27 @@ const authService = {
    * @returns {string|null} The access token or null if unavailable.
    */
   async getAccessToken() {
-    // Check if the access token exists and is still valid
-    const token = accessToken || localStorage.getItem('accessToken');
-    // if (!token) return null;
 
-    // const isExpired = authService.isTokenExpired(token);
-    // if (isExpired) {
-    //   const refreshedToken = await authService.refreshToken();
-    //   return refreshedToken;
-    // }
-
-    return token;
+    try{
+      var token;
+      if(accessToken){
+        token = accessToken
+      }else {
+        token = localStorage.getItem("accessToken");
+      }
+      // if (!token) return null;
+  
+      // Check if the access token exists and is still valid
+      // const isExpired = authService.isTokenExpired(token);
+      // if (isExpired) {
+      //   const refreshedToken = await authService.refreshToken();
+      //   return refreshedToken;
+      // }
+      return token
+    }catch(ex:any){
+        console.log(ex);
+        return "";
+    }
   },
 
   /**
@@ -69,7 +80,7 @@ const authService = {
    * @returns {string|null} The new access token or null if refreshing fails.
    */
   async refreshToken() {
-    const token = refreshToken || localStorage.getItem('refreshToken');
+    const token = this.getAccessToken();
     if (!token) return null;
 
     try {

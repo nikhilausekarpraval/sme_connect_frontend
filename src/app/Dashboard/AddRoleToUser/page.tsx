@@ -1,16 +1,38 @@
-
+"use client"
 import AddRoleToUserClient from '@/app/Components/AddRoleToUserClient';
 import usersService from '@/app/Services/usersService';
+import { useEffect,useState } from 'react';
 
-// This will run on the server
-export default async function AddRoleToUserServer() {
-  
-    const userService = new usersService();
 
-    const rolesResult = await userService.getRoles();   
-    const usersResult = await userService.getUsers();
+export default function page() {
+    
+  const [rolesResult,setRolesResult] =  useState([]);
+  const [usersResult,setUsersResult] = useState([]);
+
+    useEffect(()=>{
+
+        getUsersAndRoles();
+
+    },[])
+
+  const  getUsersAndRoles=async()=>{
+        try {
+            
+            const userService = new usersService();
+           const  roles = await userService.getRoles();   
+           setRolesResult(roles);
+           const  users = await userService.getUsers();
+           setUsersResult(users);
+     
+        } catch (error) {
+            console.error("Error fetching data on the server:", error);
+            return <div>Error loading roles or users</div>;
+        }
+    }
 
     return (
         <AddRoleToUserClient roles={rolesResult} users={usersResult} />
     );
 }
+
+
