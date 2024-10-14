@@ -117,11 +117,11 @@ const AboutUser = () => {
               </select>
             </div>
             <div className="form-group mb-4 ">
-              <label htmlFor="Answer" className="block text-gray-700 font-bold mb-2">Answer</label>
+              <label htmlFor="answer" className="block text-gray-700 font-bold mb-2">Answer</label>
               <input
                 type="password"
-                id="Answer"
-                name="Answer"
+                id="answer"
+                name="answer"
                 value={formData.answer}
                 onChange={handleChange}
                 required
