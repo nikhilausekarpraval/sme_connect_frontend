@@ -5,9 +5,10 @@ interface PasswordInputProps {
   currentValue: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errorMessage: string;
+  title?:string;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, handleChange, errorMessage }) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, handleChange, errorMessage ,title=""}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -15,8 +16,8 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, 
   };
 
   return (
-    <div className="">
-      <label className="block text-gray-700 font-bold mb-2">Password</label>
+    <div className="mb-4">
+      <label className="block text-gray-700 font-bold mb-2">{title}</label>
       <div className="relative">
         <input
           id={filedName}

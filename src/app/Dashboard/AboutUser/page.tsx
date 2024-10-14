@@ -144,7 +144,7 @@ const AboutUser = () => {
           />
         </div> */}
 
-        <FormPasswordInput currentValue={formData.password} handleChange={handleChange} filedName={isResetUsingPassword ? "Old Password": "password"} errorMessage={""}/>
+        <FormPasswordInput currentValue={formData.password} handleChange={handleChange} title ={isResetUsingPassword ? "Old Password": "Password"} filedName={"password"} errorMessage={""}/>
 
         {isResetUsingPassword &&
           <div>
@@ -168,7 +168,7 @@ const AboutUser = () => {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
-                value={formData.newPassword}
+                value={formData.confirmPassword}
                 onChange={handleChange}
                 required
                 className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
