@@ -21,7 +21,8 @@ class ApiService {
    */
   // eslint-disable-next-line
   async apiFetch(endpoint: string, options: any) {
-  debugger;
+
+  var response : any;
     try {
       debugger;
       let token = await authService.getAccessToken();
@@ -30,9 +31,10 @@ class ApiService {
         ...options.headers,
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
+          cache: 'no-store' 
       };
   
-      let response = await fetch(`${this.baseUrl}${endpoint}`, {
+       response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
         headers,
       });
@@ -63,8 +65,9 @@ class ApiService {
         throw new Error(`Error: ${response.statusText}`);
       }
   
-    } catch (error) {
+    } catch (error:any) {
       console.error('API fetch error:', error);
+      return await response.json();
     }
   }
   

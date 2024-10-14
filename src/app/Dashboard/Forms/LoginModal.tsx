@@ -10,7 +10,7 @@ interface LoginInterface {
 
 const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) => {
 
-  const [user,setUser] = useState({username:'',password:""})
+  const [user,setUser] = useState({userName:'',password:""})
   const [errors,setErrors] = useState({email:"",password:"",invalid:""})
 
 //   const [show, setShow] = useState(isShow);
@@ -33,7 +33,7 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
   debugger;
   var result ;
   try{
-        result = await authService.login(user.username,user.password);
+        result = await authService.login(user.userName,user.password);
         if(result?.status == 401){
             setErrors({...errors,invalid:"Invalid username or password"})
         }else {
@@ -48,7 +48,7 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
 
 
 const clearForm =()=>{
-  setUser({password:"",username:""})
+  setUser({password:"",userName:""})
   setErrors({email:"",password:"",invalid:""})
 }
 
@@ -83,14 +83,14 @@ const clearForm =()=>{
             <div className="text-red-600">
                   {errors.invalid}
             </div>
-            <Form.Group controlId="username">
+            <Form.Group controlId="userName">
               <Form.Label>Your Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="name@mail.com"
                 className="w-100"
                 onChange={handleChange}
-                value={user.username}
+                value={user.userName}
               />
             </Form.Group>
             <Form.Group controlId="password">

@@ -1,19 +1,20 @@
 'use client'
 
+import FormPasswordInput from "@/app/Components/FormPasswordInput";
+import { emptyUser } from "@/app/Constants/Constants";
+import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";
 import usersService from "@/app/Services/usersService";
-import { error } from "console";
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
 
 
 const LoginModal:React.FC = () => {
 
-  const [user,setUser] = useState({Username:'',Password:"",Email:"",DisplayName:""})
+  const [user,setUser] = useState(emptyUser)
   const [show, setShow] = useState(true);
-  const [errors,setErrors] = useState({email:"",password:""})
+  const [errors,setErrors] = useState({email:"",password:"",username:""})
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
 
   const  handleSubmitForm = async (e:React.FormEvent)=>{
       e.preventDefault();
@@ -21,26 +22,26 @@ const LoginModal:React.FC = () => {
       var formError;
       try{
           result = await  new usersService().createUser(user);
-          if(result?.status === "Error"){
-            formError = result.message
-            console.log(result);
+          if(result.value.status === "Error"){
+            formError = result.value.statusText
             if( formError.includes("Duplicate")){
-              setErrors({...errors,password:"Duplicate email, please enter different"})
+              setErrors({...errors,email:formError});
             }
           }else if(result.succeeded){
             handleClose();
             clearForm();
           }
+
       }catch(e:any){
           console.log(e)
       }
-      console.log(result)
+
   }
 
   const clearForm =()=>{
-     setUser({Username:'',Password:"",Email:"",DisplayName:""})
+     setUser(emptyUser)
      setShow(true);
-     setErrors({email:"",password:""})
+     setErrors({email:"",password:"",username:""})
      setShow(false);
      setShow(true);
   }
@@ -53,6 +54,12 @@ const LoginModal:React.FC = () => {
         }else {
           setErrors({...errors,password:""})
         }
+    }else if(id ==="Username"){
+      if(!validateUsername(value)){
+            setErrors({...errors,username:"Invalid username, can only contain number or character"})
+      }else {
+          setErrors({...errors,username:""})
+      }
     }
     console.log(value)
     setUser({
@@ -63,11 +70,6 @@ const LoginModal:React.FC = () => {
 
   const closeForm=()=>{
     setShow(false);
-  }
-
-  const validatePassword =(password:string)=> {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-    return passwordPattern.test(password);
   }
 
 
@@ -82,56 +84,60 @@ const LoginModal:React.FC = () => {
 
         <Modal.Body>
           <Form className="d-flex flex-column gap-3" onSubmit={handleSubmitForm}>
-            <Form.Group controlId="Username">
-              <Form.Label>User Name</Form.Label>
+            <Form.Group controlId="userName">
+              <Form.Label className="block text-gray-700 font-bold mb-2">User Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter you name"
                 className="w-100"
                 onChange={handleChange}
-                value={user.Username}
+                value={user.userName}
                 required
               />
+              <div className="text-red-600">
+                {errors.username}
+              </div>
             </Form.Group>
-            <Form.Group controlId="DisplayName">
-              <Form.Label>Display Name</Form.Label>
+            <Form.Group controlId="displayName">
+              <Form.Label className="block text-gray-700 font-bold mb-2">Display Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter name"
                 className="w-100"
                 onChange={handleChange}
-                value={user.DisplayName}
+                value={user.displayName}
                 
               />
             </Form.Group>
-            <Form.Group controlId="Email">
-              <Form.Label>Your Email</Form.Label>
+            <Form.Group controlId="email">
+              <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="name@mail.com"
                 className="w-100"
                 onChange={handleChange}
-                value={user.Email}
+                value={user.email}
                 required
               />
               <div className="text-red-600">
                   {errors.email}
               </div>
             </Form.Group>
-            <Form.Group controlId="Password">
+            {/* <Form.Group controlId="password">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="password"
                 className="w-100"
                 onChange={handleChange}
-                value={user.Password}
+                value={user.password}
                 required
               />
               <div className="text-red-600">
                   {errors.password}
               </div>
-            </Form.Group>
+            </Form.Group> */}
+            <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password}/>
 
             <div className="flex justify-center items-center">
                  <Button

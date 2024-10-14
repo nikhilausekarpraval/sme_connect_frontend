@@ -2,17 +2,11 @@
 
 import {jwtDecode} from 'jwt-decode';
 import { apiService } from "./commonService"
+import { JwtPayload } from '../Interfaces/Interfaces';
 
 let accessToken : string = "";
 let refreshToken : string = "";
 
-
-interface JwtPayload {
-    exp:  number;  
-    iat?: number; 
-    sub?: string; 
-    [key: string]:unknown;
-  }
 
 const authService = {
   
@@ -107,21 +101,6 @@ const authService = {
     }
   },
 
-  /**
-   * Checks if the token is expired by decoding its payload and comparing the expiry time.
-   * @param {string} token
-   * @returns {boolean} True if the token is expired, false otherwise.
-   */
-  isTokenExpired(token :string) {
-    try {
-      const decodedToken : JwtPayload  = jwtDecode(token);
-      const currentTime = Date.now() / 1000; // Convert to seconds
-      return decodedToken.exp < currentTime;
-    } catch (error) {
-      console.error('Failed to decode token:', error);
-      return true;
-    }
-  },
 };
 
 export default authService;

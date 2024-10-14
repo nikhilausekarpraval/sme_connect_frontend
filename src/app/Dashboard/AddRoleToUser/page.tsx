@@ -17,12 +17,13 @@ export default function page() {
 
   const  getUsersAndRoles=async()=>{
         try {
-            
+            debugger;
             const userService = new usersService();
            const  roles = await userService.getRoles();   
            setRolesResult(roles);
            const  users = await userService.getUsers();
            setUsersResult(users);
+           console.log(roles, users)
      
         } catch (error) {
             console.error("Error fetching data on the server:", error);

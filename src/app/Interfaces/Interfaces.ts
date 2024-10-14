@@ -50,26 +50,35 @@ createdBy:string;
 
 export interface IUser{
 
-    Id : string
+    id : string
     
-    Username : string
+    userName : string
 
-    Email : string
+    email : string
  
-    Password: string
+    password: string
  
-    DisplayName : string
+    displayName : string
 }
 
 export interface IClaim{
 
-      UserName : string
+      userName : string
 
       userId : string
 
       claimType : string
       
       claimValue : string
+}
+
+export interface IRoleClaim{
+
+  roleName : string
+
+  claimType : string
+  
+  claimValue : string
 }
 
 export interface IRoleUser{
@@ -88,4 +97,26 @@ export interface IUserCredentials{
 export interface IRole{
  id:string,
  name:string,
+}
+
+
+
+export interface IUserContext {
+  user : IUser,
+  userClaim:IClaim,
+  roleClaim:IRoleClaim,
+  role:IRole
+}
+
+export interface IApplicationContext {
+expiration:string,
+token:string,
+userContext : IUserContext
+}
+
+export interface JwtPayload {
+  exp:  number;  
+  iat?: number; 
+  sub?: string; 
+  [key: string]:unknown;
 }

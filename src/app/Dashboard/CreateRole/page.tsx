@@ -1,13 +1,16 @@
 "use client"
 
 import SubmitButton from '@/app/Components/SubmitButton';
+import usersService from '@/app/Services/usersService';
 import React, { useState } from 'react'
 
 export default function createRole() {
 
     const [formData, setFormData] = useState({
-        roleName: '',
+        roleName : '',
       });
+
+    const service = new usersService();
 
    const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
            
@@ -16,8 +19,16 @@ export default function createRole() {
     }
 
     const handleSubmit = (e:React.FormEvent)=>{
-        // create service
+      e.preventDefault();
+
+      try{
         console.log(formData);
+        const result = service.addRole({roleName:formData});
+
+      }catch(e:any){
+        console.log(e);
+      }
+      
     }
 
   return (
@@ -41,3 +52,4 @@ export default function createRole() {
     </div>
   )
 }
+

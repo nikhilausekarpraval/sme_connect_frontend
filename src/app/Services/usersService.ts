@@ -1,4 +1,4 @@
-import { IClaim, IRoleUser, IUser } from "../Interfaces/Interfaces";
+import { IClaim, IRoleClaim, IRoleUser, IUser } from "../Interfaces/Interfaces";
 import { apiService } from "./commonService"
 
 class usersService {
@@ -27,13 +27,13 @@ class usersService {
       return  await apiService.post("api/Admin/add_role_to_user",role)
     }
 
-    async addClaimtoRole(claim:IClaim){
-      return  await apiService.post("api/Admin/add_role_to_user",claim)
+    async addClaimtoRole(claim:IRoleClaim){
+      return  await apiService.post("api/Admin/add_claim_to_role",claim)
 
     }
 
-    async addRole(role:string){
-        return await apiService.post("api/Admin/add_role",{role:role})
+    async addRole(role:any){
+        return await apiService.post("api/Admin/add_role",role)
     }
 
     async getRoles(){

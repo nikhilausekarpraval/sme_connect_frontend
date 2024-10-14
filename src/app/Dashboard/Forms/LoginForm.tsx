@@ -1,111 +1,162 @@
-// import React from "react";
+"use client"
+import { validatePassword } from "@/app/Helpers/Helpers";
+import { IApplicationContext, IUserContext } from "@/app/Interfaces/Interfaces";
+import authService from "@/app/Services/authService";
+import { useRouter } from 'next/navigation'
+import React, { useState } from "react";
+import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
 
-// // @components
-// import {
-//   Card,
-//   Input,
-//   Button,
-//   CardBody,
-//   CardHeader,
-//   Typography,
-// } from "@material-tailwind/react";
+interface ILoginFormProps{
+    handleLogin:(userContext:IApplicationContext)=> void;
+}
 
-// // @icons
-// import { CpuChipIcon } from "@heroicons/react/24/solid";
+const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
 
-// function Login1() {
-//   return (
-//     <section className="px-8">
-//       <div className="container mx-auto h-screen grid place-items-center">
-//         <Card
-//           shadow={false}
-//           className="md:px-24 md:py-14 py-8 border border-gray-300"
-//         >
-//           <CardHeader shadow={false} floated={false} className="text-center">
-//             <Typography
-//               variant="h1"
-//               color="blue-gray"
-//               className="mb-4 !text-3xl lg:text-4xl"
-//             >
-//               Web3 Login Simplified
-//             </Typography>
-//             <Typography className="!text-gray-600 text-[18px] font-normal md:max-w-sm">
-//               Enjoy quick and secure access to your accounts on various Web3
-//               platforms.
-//             </Typography>
-//           </CardHeader>
-//           <CardBody>
-//             <form
-//               action="#"
-//               className="flex flex-col gap-4 md:mt-12"
-//             >
-//               <div>
-//                 <label htmlFor="email">
-//                   <Typography
-//                     variant="small"
-//                     color="blue-gray"
-//                     className="block font-medium mb-2"
-//                   >
-//                     Your Email
-//                   </Typography>
-//                 </label>
-//                 <Input
-//                   id="email"
-//                   color="gray"
-//                   size="lg"
-//                   type="email"
-//                   name="email"
-//                   placeholder="name@mail.com"
-//                   className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
-//                   labelProps={{
-//                     className: "hidden",
-//                   }}
-//                 />
-//               </div>
-//               <Button size="lg" color="gray" fullWidth>
-//                 continue
-//               </Button>
-//               <Button
-//                 variant="outlined"
-//                 size="lg"
-//                 className="flex h-12 border-blue-gray-200 items-center justify-center gap-2"
-//                 fullWidth
-//               >
-//                 <img
-//                   src={`https://www.material-tailwind.com/logos/logo-google.png`}
-//                   alt="google"
-//                   className="h-6 w-6"
-//                 />{" "}
-//                 sign in with google
-//               </Button>
-//               <Button
-//                 variant="outlined"
-//                 size="lg"
-//                 className="flex h-12 border-blue-gray-200 items-center justify-center gap-2"
-//                 fullWidth
-//               >
-//                 <CpuChipIcon className="h-6 w-6" />
-//                 Wallet Authentication
-//               </Button>
-//               <Typography
-//                 variant="small"
-//                 className="text-center mx-auto max-w-[19rem] !font-medium !text-gray-600"
-//               >
-//                 Upon signing in, you consent to abide by our{" "}
-//                 <a href="#" className="text-gray-900">
-//                   Terms of Service
-//                 </a>{" "}
-//                 &{" "}
-//                 <a href="#" className="text-gray-900">
-//                   Privacy Policy.
-//                 </a>
-//               </Typography>
-//             </form>
-//           </CardBody>
-//         </Card>
-//       </div>
-//     </section>
-//   );
-// }
+  const [user,setUser] = useState({userName:'',password:""})
+  const [errors,setErrors] = useState({email:"",password:"",invalid:""})
+  const [show,setShow] = useState(true);
+  const closeForm =()=>{setShow(false)};
+  const router = useRouter();
 
-// export default Login1;
+//   const [show, setShow] = useState(isShow);
+
+//   const handleShow = () => setShow(true);
+
+//   useEffect(() => {
+//     if (isShow) {
+//       handleShow(); 
+//     } else {
+//       handleClose(); 
+//       closeForm();
+//     }
+//   }, [isShow]); 
+// };
+
+
+const  handleSubmitForm = async (e:React.FormEvent)=>{
+  e.preventDefault();
+  var result ;
+  try{
+        result = await authService.login(user.userName,user.password);
+        if(result?.status == 401){
+            setErrors({...errors,invalid:"Invalid username or password"})
+        }else {
+          closeForm();
+          handleLogin(result);// getting error handleLoginSuccess not found which is callback function
+          clearForm();
+        }
+  }catch(e:any){
+      console.log(e)
+  }
+  console.log(result)
+}
+
+
+const clearForm =()=>{
+  setUser({password:"",userName:""})
+  setErrors({email:"",password:"",invalid:""})
+}
+
+ const  handleChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
+        const {id,value} = e.target;
+        if(id === "password"){
+          if(!validatePassword(value)){
+                setErrors({...errors,password:"Invalid password, password must have Capital, small, number and special character"})
+            }else {
+              setErrors({...errors,password:""})
+            }
+        }
+        setUser({...user,
+          [id]:value
+         }
+        )
+  }
+
+
+  return (
+    <>
+
+      <Modal show={show} onHide={closeForm} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="w-full text-center">
+            <h4 className="font-bold">Login</h4>
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form className="d-flex flex-column gap-3" onSubmit={handleSubmitForm}>
+            <div className="text-red-600">
+                  {errors.invalid}
+            </div>
+            <Form.Group controlId="userName">
+              <Form.Label>Your Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@mail.com"
+                className="w-100"
+                onChange={handleChange}
+                value={user.userName}
+              />
+            </Form.Group>
+            <Form.Group controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="password"
+                className="w-100"
+                onChange={handleChange}
+                value={user.password}
+              />
+              <div className="text-red-600">
+                  {errors.password}
+              </div>
+            </Form.Group>
+
+            <Button variant="primary" type="submit" size="lg" className="w-100">
+              Login
+            </Button>
+
+            <Button
+              variant="outline-secondary"
+              size="lg"
+              className="d-flex justify-content-center align-items-center gap-2 w-100"
+            >
+              <Image
+                src="https://www.material-tailwind.com/logos/logo-google.png"
+                alt="google"
+                className="h-6 w-6"
+              />
+              Sign in with Google
+            </Button>
+
+            <Button
+              variant="outline-secondary"
+              size="lg"
+              type="button"
+              className="d-flex justify-content-center align-items-center gap-2 w-100"
+              onClick={()=>router.push("/Dashboard/RegisterUser")}
+            >
+              {/* <CpuChipIcon className="h-6 w-6" /> */}
+              Register
+            </Button>
+          </Form>
+        </Modal.Body>
+
+        <Modal.Footer className="d-flex justify-content-center">
+          <p className="text-center text-gray-600">
+            Upon signing in, you consent to abide by our{" "}
+            <a href="#" className="text-primary">
+              Terms of Service
+            </a>{" "}
+            &{" "}
+            <a href="#" className="text-primary">
+              Privacy Policy.
+            </a>
+          </p>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+
+export default LoginForm;

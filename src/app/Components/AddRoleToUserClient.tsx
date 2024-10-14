@@ -16,6 +16,8 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
     userId: '',
   });
 
+   const service = new usersService();
+
   useEffect(()=>{
 
     console.log(users)
@@ -30,10 +32,11 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
   };
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    debugger;
     e.preventDefault();
-    new usersService().addRoleToUser(formData);
-
+   const result = await service.addRoleToUser(formData);
+   console.log(result);
 
   };
 

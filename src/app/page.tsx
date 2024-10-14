@@ -1,11 +1,8 @@
-'use client'
-import SSRProvider from "react-bootstrap/esm/SSRProvider";
+
 
 export default function Home() {
 
-
   return (
-    <SSRProvider>
         <div >
         <main>
         </main>
@@ -13,6 +10,5 @@ export default function Home() {
 
         </footer>
       </div>
-    </SSRProvider>
   )
 }

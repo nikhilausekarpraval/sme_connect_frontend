@@ -4,6 +4,9 @@ import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CustomNavbar } from "./Components/CustomNavbar";
 import { LeftMenubar } from "./Components/LeftMenubar";
+import { AppWrapper } from "./Context/AppContext";
+import PrelineScript from "./Components/PrelineScript";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,16 +34,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CustomNavbar/>
-        <div className="flex">
-      <div>
-        <LeftMenubar />
-        </div>
-        <div className="flex justify-center items-center max-width">
-            {children} 
-        </div>
-      </div>
+          <AppWrapper>
+              <CustomNavbar/>
+              <div className="flex">
+              <div>
+                  <LeftMenubar />
+                  </div>
+                  <div className="flex justify-center items-center max-width">
+                      {children} 
+                  </div>
+              </div>
+          </AppWrapper>
+          
       </body>
+      <PrelineScript />
     </html>
   );
 }
