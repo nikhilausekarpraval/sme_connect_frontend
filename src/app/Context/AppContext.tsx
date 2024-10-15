@@ -1,13 +1,16 @@
 'use client';
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { IApplicationContext, IUserContext } from '../Interfaces/Interfaces';
 import LoginForm from '../Dashboard/Forms/LoginForm';
 import { isTokenExpired } from '../Helpers/Helpers';
+import { emptyApplicationContext } from '../Constants/Constants';
 
-const AppContext = createContext<IApplicationContext | undefined>(undefined);
+type ApplicationContextType = [IApplicationContext, Dispatch<SetStateAction<IApplicationContext>>];
+
+export const ApplicationContext = createContext<ApplicationContextType | undefined>(undefined);
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
-  const [contextData, setContextData] = useState<IApplicationContext | undefined>(undefined);
+  const [applicationContext, setApplicationContext] = useState<IApplicationContext>(emptyApplicationContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false); 
 
   useEffect(() => {
@@ -21,7 +24,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         }else {
             const storedUserContext = localStorage.getItem('userContext');
             if (storedUserContext) {
-              setContextData(JSON.parse(storedUserContext));
+              setApplicationContext(JSON.parse(storedUserContext));
               setIsAuthenticated(true);
             }
         }
@@ -29,27 +32,28 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   }, []);
 
   function handleLogin(userContext: IApplicationContext) {
-    setContextData(userContext);
+    setApplicationContext(userContext);
     localStorage.setItem('userContext', JSON.stringify(userContext));
     setIsAuthenticated(true);
-    console.log("User logged in successfully");
+    
+    console.log("User logged in successfully",userContext);
   };
 
 
   if (!isAuthenticated) {
     return <LoginForm handleLogin={handleLogin} />;
   } else {
-    console.log(contextData)
+    console.log(applicationContext)
     return (
-      <AppContext.Provider value={contextData}>
+      <ApplicationContext.Provider value={[applicationContext,setApplicationContext]}>
         {children}
-      </AppContext.Provider>
+      </ApplicationContext.Provider>
     );
   }
 }
 
 export function useAppContext() {
-  const context = useContext(AppContext);
+  const context = useContext(ApplicationContext);
   if (context === undefined) {
     throw new Error('useAppContext must be used within an AppWrapper');
   }

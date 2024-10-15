@@ -3,13 +3,18 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { FaBars, FaTimes, FaInfoCircle, FaUserPlus, FaUserShield, FaKey, FaUserTag, FaShieldAlt, FaUserCheck } from 'react-icons/fa'; // Importing icons
+import { useAppContext } from '../Context/AppContext';
 
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const userContext = useAppContext()[0].userContext;
+
   const toggleMenu = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -27,8 +32,9 @@ export const LeftMenubar = () => {
         {/* User Info (only show when not collapsed) */}
         {!isCollapsed && (
           <div className="text-start mb-4 mt-4 ps-4">
-            <div className="text-white font-bold text-lg">User Name: {"Nikhil"}</div>
-            <div className="text-gray-400 font-medium">User Role: {"Admin"}</div>
+            <div className="text-white font-bold">User Name: {userContext.user.displayName}</div>
+            <div className="text-gray-400 font-medium">User Email: {userContext.user.email}</div>
+            <div className="text-gray-400 font-medium">User Role: {userContext.roles[0]}</div>
           </div>
         )}
 

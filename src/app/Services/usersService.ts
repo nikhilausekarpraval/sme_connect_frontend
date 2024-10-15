@@ -1,4 +1,4 @@
-import { IClaim, IRoleClaim, IRoleUser, IUser } from "../Interfaces/Interfaces";
+import { IClaim, IRoleClaim, IRoleUser, IUser, IUserForm } from "../Interfaces/Interfaces";
 import { apiService } from "./commonService"
 
 class usersService {
@@ -11,9 +11,17 @@ class usersService {
        return await apiService.post('api/Authenticate/register',user);
     }
 
-    // async updateUser(user:Iuser){
-    //     return await apiService.put('api/Authenticate/update')
-    // }
+    async updateUser(user:IUserForm){
+        return await apiService.put('api/Authenticate/update_user',user);
+    }
+
+    async resetUserPasssword(user:IUserForm){
+        return await apiService.put('api/Authenticate/reset_password',user)
+    }
+
+    async forgettUserPasssword(user:IUserForm){
+      return await apiService.put('api/Authenticate/forget_password',user)
+  }
 
     async deleteUser(user:IUser){
         return await apiService.delete("api/Authenticate",user);

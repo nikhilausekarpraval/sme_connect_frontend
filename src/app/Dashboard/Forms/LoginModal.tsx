@@ -1,7 +1,9 @@
+import { useAppContext } from "@/app/Context/AppContext";
 import { validatePassword } from "@/app/Helpers/Helpers";
 import authService from "@/app/Services/authService";
-import React, { useState } from "react";
-import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from "react";
+import { Modal, Button, Form, Image } from "react-bootstrap"; 
 
 interface LoginInterface {
   isShow:boolean;
@@ -12,20 +14,18 @@ const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) => {
 
   const [user,setUser] = useState({userName:'',password:""})
   const [errors,setErrors] = useState({email:"",password:"",invalid:""})
+  const [applicationContext, setApplicationContext] = useAppContext();
+  const router = useRouter();
 
+  
 //   const [show, setShow] = useState(isShow);
 
 //   const handleShow = () => setShow(true);
 
-//   useEffect(() => {
-//     if (isShow) {
-//       handleShow(); 
-//     } else {
-//       handleClose(); 
-//       closeForm();
-//     }
-//   }, [isShow]); 
-// };
+  // useEffect(() => {
+  //   router.push("/");
+  // }, []); 
+
 
 
 const  handleSubmitForm = async (e:React.FormEvent)=>{
@@ -37,6 +37,9 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
         if(result?.status == 401){
             setErrors({...errors,invalid:"Invalid username or password"})
         }else {
+          console.log(result)
+          setApplicationContext(result);
+          localStorage.setItem('userContext', JSON.stringify(result));
           closeForm();
           clearForm();
         }
@@ -66,6 +69,15 @@ const clearForm =()=>{
          }
         )
   }
+
+  const showRegisterForm=()=>{
+
+      console.log("sdfsdfsf")
+      clearForm()
+      closeForm();
+
+      router.push("/Dashboard/RegisterUser");   
+  } 
 
 
   return (
@@ -111,7 +123,7 @@ const clearForm =()=>{
               Login
             </Button>
 
-            <Button
+            {/* <Button
               variant="outline-secondary"
               size="lg"
               className="d-flex justify-content-center align-items-center gap-2 w-100"
@@ -122,15 +134,15 @@ const clearForm =()=>{
                 className="h-6 w-6"
               />
               Sign in with Google
-            </Button>
+            </Button> */}
 
             <Button
               variant="outline-secondary"
               size="lg"
-              type="submit"
+              type="button"
               className="d-flex justify-content-center align-items-center gap-2 w-100"
+              onClick={showRegisterForm}
             >
-              {/* <CpuChipIcon className="h-6 w-6" /> */}
               Register
             </Button>
           </Form>
@@ -154,3 +166,5 @@ const clearForm =()=>{
 }
 
 export default LoginModal;
+
+

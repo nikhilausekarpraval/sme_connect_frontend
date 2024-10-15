@@ -3,8 +3,10 @@ import { validatePassword } from "@/app/Helpers/Helpers";
 import { IApplicationContext, IUserContext } from "@/app/Interfaces/Interfaces";
 import authService from "@/app/Services/authService";
 import { useRouter } from 'next/navigation'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
+import { BiRegistered } from "react-icons/bi";
+import LoginModal from "../RegisterUser/page";
 
 interface ILoginFormProps{
     handleLogin:(userContext:IApplicationContext)=> void;
@@ -16,21 +18,18 @@ const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
   const [errors,setErrors] = useState({email:"",password:"",invalid:""})
   const [show,setShow] = useState(true);
   const closeForm =()=>{setShow(false)};
+  const [isRegister,setIsRegister] = useState(false);
   const router = useRouter();
 
 //   const [show, setShow] = useState(isShow);
 
 //   const handleShow = () => setShow(true);
 
-//   useEffect(() => {
-//     if (isShow) {
-//       handleShow(); 
-//     } else {
-//       handleClose(); 
-//       closeForm();
-//     }
-//   }, [isShow]); 
-// };
+  useEffect(() => {
+    
+    setIsRegister(false);
+  }, [show]); 
+
 
 
 const  handleSubmitForm = async (e:React.FormEvent)=>{
@@ -43,6 +42,7 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
         }else {
           closeForm();
           handleLogin(result);// getting error handleLoginSuccess not found which is callback function
+          console.log(result);
           clearForm();
         }
   }catch(e:any){
@@ -72,6 +72,13 @@ const clearForm =()=>{
         )
   }
 
+  const showRegister =()=>{
+    setIsRegister(!isRegister)
+    // closeForm();
+    // clearForm();
+  
+  }
+
 
   return (
     <>
@@ -93,6 +100,7 @@ const clearForm =()=>{
               <Form.Control
                 type="email"
                 placeholder="name@mail.com"
+                required
                 className="w-100"
                 onChange={handleChange}
                 value={user.userName}
@@ -103,6 +111,7 @@ const clearForm =()=>{
               <Form.Control
                 type="password"
                 placeholder="password"
+                required
                 className="w-100"
                 onChange={handleChange}
                 value={user.password}
@@ -116,7 +125,7 @@ const clearForm =()=>{
               Login
             </Button>
 
-            <Button
+            {/* <Button
               variant="outline-secondary"
               size="lg"
               className="d-flex justify-content-center align-items-center gap-2 w-100"
@@ -127,14 +136,14 @@ const clearForm =()=>{
                 className="h-6 w-6"
               />
               Sign in with Google
-            </Button>
+            </Button> */}
 
             <Button
               variant="outline-secondary"
               size="lg"
               type="button"
               className="d-flex justify-content-center align-items-center gap-2 w-100"
-              onClick={()=>router.push("/Dashboard/RegisterUser")}
+              onClick={showRegister}
             >
               {/* <CpuChipIcon className="h-6 w-6" /> */}
               Register
@@ -155,6 +164,9 @@ const clearForm =()=>{
           </p>
         </Modal.Footer>
       </Modal>
+      {isRegister &&
+        <LoginModal />
+      }
     </>
   );
 }

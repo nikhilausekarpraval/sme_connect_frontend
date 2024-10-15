@@ -16,7 +16,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, 
   };
 
   return (
-    <div className="mb-4">
+    <div className="">
       <label className="block text-gray-700 font-bold mb-2">{title}</label>
       <div className="relative">
         <input
@@ -25,7 +25,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, 
           type={showPassword ? 'text' : 'password'}
           onChange={handleChange}
           className="pe-10 form-control"
-          placeholder="Enter password"
+          placeholder={`Enter ${title}`}
           value={currentValue}
         />
         <button

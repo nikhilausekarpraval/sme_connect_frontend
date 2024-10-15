@@ -1,4 +1,7 @@
-export const emptyUser = {userName:'',password:"",email:"",displayName:"",id:""}
+import { IApplicationContext, IClaim, IRoleClaim, IUser } from "../Interfaces/Interfaces";
+
+export const emptyUser = {userName:'',password:"",email:"",displayName:"",id:"",mobileNumber:"",question:"",answer:"",  newPassword: "",
+    confirmPassword: ""}
 export const questions = ["What was the name of your first pet?",
     "What was the make and model of your first car?",
     "In what city were you born?",
@@ -9,3 +12,15 @@ export const questions = ["What was the name of your first pet?",
     "What is your father's middle name?",
     "What was the name of your first school?",
     "What is the name of the company where you got your first job?"]
+export const registerUserFormErrors = {email:"",password:"",username:"",answer:""}
+
+export const emptyApplicationContext: IApplicationContext = {
+    expiration: "",
+    token: '',
+    userContext: {
+      user: {} as IUser, 
+      userClaim: {} as IClaim, 
+      roleClaim: {} as IRoleClaim,
+      roles: []
+    }
+  };

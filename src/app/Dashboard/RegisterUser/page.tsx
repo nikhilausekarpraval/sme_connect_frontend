@@ -1,20 +1,29 @@
 'use client'
 
 import FormPasswordInput from "@/app/Components/FormPasswordInput";
-import { emptyUser } from "@/app/Constants/Constants";
+import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
+import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";
 import usersService from "@/app/Services/usersService";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
+import LoginForm from "../Forms/LoginForm";
 
 
 const LoginModal:React.FC = () => {
 
   const [user,setUser] = useState(emptyUser)
   const [show, setShow] = useState(true);
-  const [errors,setErrors] = useState({email:"",password:"",username:""})
-  const handleClose = () => setShow(false);
+  const [errors,setErrors] = useState(registerUserFormErrors)
   const handleShow = () => setShow(true);
+  const [isUserLoggedIn,setIsUserLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(()=>{
+    setShow(true);
+    setIsUserLoggedIn(!window.location.pathname.includes("/Dashboard/RegisterUser"))
+  },[])
 
   const  handleSubmitForm = async (e:React.FormEvent)=>{
       e.preventDefault();
@@ -28,7 +37,7 @@ const LoginModal:React.FC = () => {
               setErrors({...errors,email:formError});
             }
           }else if(result.succeeded){
-            handleClose();
+            closeForm();
             clearForm();
           }
 
@@ -41,12 +50,12 @@ const LoginModal:React.FC = () => {
   const clearForm =()=>{
      setUser(emptyUser)
      setShow(true);
-     setErrors({email:"",password:"",username:""})
+     setErrors(registerUserFormErrors);
      setShow(false);
      setShow(true);
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any >) => {
     const { id, value } = e.target;
     if(id === "Password"){
         if(!validatePassword(value)){
@@ -70,6 +79,12 @@ const LoginModal:React.FC = () => {
 
   const closeForm=()=>{
     setShow(false);
+    router.push("/")
+  }
+
+  const showLoginPage=()=>{
+    setShow(false);
+    router.push("/")
   }
 
 
@@ -137,7 +152,9 @@ const LoginModal:React.FC = () => {
                   {errors.password}
               </div>
             </Form.Group> */}
-            <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password}/>
+            <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password} title={"Password"}/>
+            
+            <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errorMessage={errors.answer}  />
 
             <div className="flex justify-center items-center">
                  <Button
@@ -147,9 +164,12 @@ const LoginModal:React.FC = () => {
                   >
                     Register
                   </Button>
-                <div className="flex justify-end items-center">
-                    <button className="w-28 text-blue-600">Login</button>
-                </div>
+                  { isUserLoggedIn &&
+                    <div className="flex justify-end items-center">
+                        <button className="w-28 text-blue-600" onClick={showLoginPage} type="button">Login</button>
+                    </div>
+                  }
+
             </div>
           </Form>
         </Modal.Body>

@@ -105,7 +105,7 @@ export interface IUserContext {
   user : IUser,
   userClaim:IClaim,
   roleClaim:IRoleClaim,
-  role:IRole
+  roles: string[],
 }
 
 export interface IApplicationContext {
@@ -119,4 +119,18 @@ export interface JwtPayload {
   iat?: number; 
   sub?: string; 
   [key: string]:unknown;
+}
+
+
+export interface IUserForm{
+  userName: string,
+  email: string,
+  password: string,
+  displayName: string,
+  newPassword: string,
+  confirmPassword: string,
+  question: string,
+  answer: string,
+  mobileNumber:string,
+  id:string,
 }
