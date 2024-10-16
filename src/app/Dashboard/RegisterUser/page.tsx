@@ -30,6 +30,7 @@ const LoginModal:React.FC = () => {
       var result ;
       var formError;
       try{
+        if(Object.values(errors).filter((error)=> error !=="").length == 0){
           result = await  new usersService().createUser(user);
           if(result.value.status === "Error"){
             formError = result.value.statusText
@@ -40,7 +41,7 @@ const LoginModal:React.FC = () => {
             closeForm();
             clearForm();
           }
-
+        }
       }catch(e:any){
           console.log(e)
       }
@@ -57,13 +58,13 @@ const LoginModal:React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any >) => {
     const { id, value } = e.target;
-    if(id === "Password"){
+    if(id === "password"){
         if(!validatePassword(value)){
               setErrors({...errors,password:"Invalid password, password must have Capital, small, number and special character"})
         }else {
           setErrors({...errors,password:""})
         }
-    }else if(id ==="Username"){
+    }else if(id ==="userName"){
       if(!validateUsername(value)){
             setErrors({...errors,username:"Invalid username, can only contain number or character"})
       }else {

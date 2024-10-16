@@ -70,7 +70,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, 
       </div>
       <div className="text-red-600">
                   {errorMessage}
-              </div>
+      </div>
     </div>
   );
 };
