@@ -36,9 +36,9 @@ const LoginModal:React.FC = () => {
             if( formError.includes("Duplicate")){
               setErrors({...errors,email:formError});
             }
-          }else if(result.succeeded){
-            closeForm();
+          }else{
             clearForm();
+            closeForm();
           }
         }
       }catch(e:any){

@@ -5,8 +5,10 @@ import authService from "@/app/Services/authService";
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
-import { BiRegistered } from "react-icons/bi";
 import LoginModal from "../RegisterUser/page";
+import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
+import { emptyUser } from "@/app/Constants/Constants";
+import usersService from "@/app/Services/usersService";
 
 interface ILoginFormProps{
     handleLogin:(userContext:IApplicationContext)=> void;
@@ -14,12 +16,15 @@ interface ILoginFormProps{
 
 const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
 
-  const [user,setUser] = useState({userName:'',password:""})
-  const [errors,setErrors] = useState({email:"",password:"",invalid:""})
+  const [user,setUser] = useState(emptyUser)
+  const [errors,setErrors] = useState({email:"",password:"",invalid:"",answer:"",question:""})
   const [show,setShow] = useState(true);
   const closeForm =()=>{setShow(false)};
   const [isRegister,setIsRegister] = useState(false);
-  const router = useRouter();
+  const [isResetUsingQuestion, setIsResetUsingQuestion] = useState(false);
+  const [currentOperation, setCurrentOperation] = useState("Login");
+  const service = new usersService()
+  //const router = useRouter();
 
 //   const [show, setShow] = useState(isShow);
 
@@ -28,6 +33,7 @@ const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
   useEffect(() => {
     
     setIsRegister(false);
+    setIsResetUsingQuestion(false);
   }, [show]); 
 
 
@@ -36,15 +42,39 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
   e.preventDefault();
   var result ;
   try{
-        result = await authService.login(user.userName,user.password);
-        if(result?.status == 401){
-            setErrors({...errors,invalid:"Invalid username or password"})
+    debugger;
+
+    if(currentOperation === "Login"){
+
+      result = await authService.login(user.userName,user.password);
+      if(result?.status == 401){
+          setErrors({...errors,invalid:"Invalid username or password"})
+      }else if(result?.status == 400){
+        setErrors({...errors,invalid:"User not found"})
+        
+      }else {
+        closeForm();
+        handleLogin(result);
+        console.log(result);
+        clearForm();
+      }
+
+    }else {
+        // used to forget user 
+        const result = await service.forgettUserPasssword(user);
+        const message = result.value.statusText
+        const status = result.value.status
+
+        if(status === "Error" && message.includes("Question or answer is wrong!")){
+          setErrors({...errors,answer : message});
         }else {
-          closeForm();
-          handleLogin(result);// getting error handleLoginSuccess not found which is callback function
-          console.log(result);
-          clearForm();
+          setErrors({...errors,answer : ""});
+            resetForm();
+            updateApplication();
         }
+
+    }
+        
   }catch(e:any){
       console.log(e)
   }
@@ -52,13 +82,27 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
 }
 
 
-const clearForm =()=>{
-  setUser({password:"",userName:""})
-  setErrors({email:"",password:"",invalid:""})
+const updateApplication = () => {
+  localStorage.clear();
+  window.location.reload();
 }
 
- const  handleChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
+const resetForm = () => {
+  setUser(emptyUser);
+  setErrors({email:"",password:"",invalid:"",answer:"",question:""});
+  setCurrentOperation("Login")
+  setIsResetUsingQuestion(false);
+}
+
+
+const clearForm =()=>{
+  setUser(emptyUser)
+  setErrors({email:"",password:"",invalid:"",answer:"",question:""})
+}
+
+ const  handleChange =(e:React.ChangeEvent<HTMLInputElement | any>)=>{
         const {id,value} = e.target;
+        debugger;
         if(id === "password"){
           if(!validatePassword(value)){
                 setErrors({...errors,password:"Invalid password, password must have Capital, small, number and special character"})
@@ -66,10 +110,12 @@ const clearForm =()=>{
               setErrors({...errors,password:""})
             }
         }
-        setUser({...user,
-          [id]:value
-         }
-        )
+        
+        setUser((prevUser) => ({
+          ...prevUser,
+          email: id === "userName" ? value : prevUser.email, 
+          [id]: value 
+        }));
   }
 
   const showRegister =()=>{
@@ -79,6 +125,16 @@ const clearForm =()=>{
   
   }
 
+  const showLogin=()=>{
+    setIsResetUsingQuestion(false)
+    setCurrentOperation("Login")
+  }
+
+  const forgetPassword=()=>{
+    setIsResetUsingQuestion(true);
+    setCurrentOperation("Forget Password")
+  }
+
 
   return (
     <>
@@ -86,7 +142,7 @@ const clearForm =()=>{
       <Modal show={show} onHide={closeForm} centered>
         <Modal.Header closeButton>
           <Modal.Title className="w-full text-center">
-            <h4 className="font-bold">Login</h4>
+            <h4 className="font-bold">{currentOperation}</h4>
           </Modal.Title>
         </Modal.Header>
 
@@ -121,8 +177,12 @@ const clearForm =()=>{
               </div>
             </Form.Group>
 
+            {isResetUsingQuestion &&
+                <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errorMessage={errors.answer} />
+            }
+
             <Button variant="primary" type="submit" size="lg" className="w-100">
-              Login
+              {currentOperation}
             </Button>
 
             {/* <Button
@@ -138,16 +198,27 @@ const clearForm =()=>{
               Sign in with Google
             </Button> */}
 
-            <Button
-              variant="outline-secondary"
-              size="lg"
-              type="button"
-              className="d-flex justify-content-center align-items-center gap-2 w-100"
-              onClick={showRegister}
-            >
-              {/* <CpuChipIcon className="h-6 w-6" /> */}
-              Register
-            </Button>
+            {currentOperation === "Login" &&
+                <Button
+                variant="outline-secondary"
+                size="lg"
+                type="button"
+                className="d-flex justify-content-center align-items-center gap-2 w-100"
+                onClick={showRegister}
+              >
+                {/* <CpuChipIcon className="h-6 w-6" /> */}
+                Register
+              </Button>
+            }
+
+            <div className='text-blue-500 gap-3 flex justify-end items-center'>
+              {(currentOperation !== "Login") &&
+                <button type='button' onClick={() => showLogin()} className='hover:underline'>Login</button>
+              }
+              {(currentOperation !== "Forget Password") &&
+                <button type='button' onClick={() => forgetPassword()} className='hover:underline'>Forget Password</button>
+              }
+          </div>
           </Form>
         </Modal.Body>
 

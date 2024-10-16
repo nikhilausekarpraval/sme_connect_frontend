@@ -60,14 +60,14 @@ class ApiService {
         // 204 No Content
         return null;
       } else {
-        const errorText = await response.text();
+        const errorText = await response.json();
         console.error('API fetch error - non-JSON response:', errorText);
-        throw new Error(`Error: ${response.statusText}`);
+        throw new Error(`Error: ${errorText}`);
       }
   
     } catch (error:any) {
       console.error('API fetch error:', error);
-      return await response.json();
+      return await response;
     }
   }
   

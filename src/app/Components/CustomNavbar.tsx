@@ -9,6 +9,7 @@ export const CustomNavbar = () => {
   const [isForm,setForm] = useState(false);
   const handleClose = () => setForm(false);
   const handleShow = () =>{ setForm(true)};
+  const [isUserLoggedIn,setIsUserLoggedIn] = useState(false);
 
 
   const logout=()=>{
@@ -40,10 +41,7 @@ export const CustomNavbar = () => {
         <div>
           <ul className='flex space-x-5 m-0'>
             <li>
-              <button type='button' className='text-white no-underline' onClick={handleShow}  >Login</button>
-            </li>
-            <li>
-              <button type="button" className='text-white no-underline' onClick={logout}>Logout</button>
+              <button type='button' className='text-white no-underline' onClick={isUserLoggedIn ? handleShow : logout}  >{isUserLoggedIn ? "Login": "Logout"}</button>
             </li>
           </ul>
         </div>

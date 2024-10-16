@@ -82,7 +82,7 @@ const AboutUser = () => {
           }else{
             setErrors({...errors,password :""});
             resetForm();
-            updateApplication
+            updateApplication();
           }
 
       } else if (currentOperation === "Forget Password") {
