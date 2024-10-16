@@ -51,7 +51,9 @@ width: -webkit-fill-available;
   border: 3px solid #c1c1c1;
 }
 
-
+.about-user-width{
+  width: 80vw;
+}
 .about-user-height{
   height:75vh;
 }

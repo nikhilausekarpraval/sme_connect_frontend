@@ -158,7 +158,7 @@ const AboutUser = () => {
 
 
   return (
-    <div className='flex justify-center items-center w-50 shadow-md h-full shadow-md'>
+    <div className='flex justify-center items-center about-user-width shadow-md h-full max-w-screen-md'>
       <form onSubmit={handleSubmit} className="w-full  flex-col space-y-4 p-6 bg-white rounded-lg col-span-full">
         <div className=' overflow-y-scroll flex-col p-2 space-y-4 form-content-height'>
         <div className='text-red-600'>

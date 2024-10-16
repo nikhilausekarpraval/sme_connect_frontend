@@ -49,7 +49,7 @@ export const LeftMenubar = () => {
                 </div>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link className="text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex justify-start items-center transition-all duration-300 no-underline" href="/Dashboard/RegisterUser">
               <div className="justify-start flex items-center w-44">
               <FaUserPlus className="mx-3" />
@@ -57,7 +57,7 @@ export const LeftMenubar = () => {
                 </div>
                 
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <Link className="text-white hover:bg-gray-700 rounded-lg px-2 py-2 justify-start flex items-center transition-all duration-300 no-underline" href="/Dashboard/CreateRole">

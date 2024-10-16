@@ -16,7 +16,6 @@ export default function AddClaimToUser() {
   
    const [rolesResult,setRolesResult] =  useState([{userName:"",id:""}]);
 
-
      useEffect(()=>{
  
          getUsersAndRoles();
@@ -46,7 +45,6 @@ export default function AddClaimToUser() {
   
   
   const handleSubmit = async (e: React.FormEvent) => {
-
     e.preventDefault();
     console.log(formData)
    const result = await service.assignClaimToUser(formData);
@@ -99,7 +97,6 @@ export default function AddClaimToUser() {
         >
         </input>
       </div>
-
       <SubmitButton title={"Update"} />
     </form>
   </div>
