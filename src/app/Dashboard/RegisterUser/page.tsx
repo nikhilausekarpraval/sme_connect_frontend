@@ -16,7 +16,6 @@ const LoginModal:React.FC = () => {
   const [user,setUser] = useState(emptyUser)
   const [show, setShow] = useState(true);
   const [errors,setErrors] = useState(registerUserFormErrors)
-  const handleShow = () => setShow(true);
   const [isUserLoggedIn,setIsUserLoggedIn] = useState(false);
   const router = useRouter();
 
@@ -70,6 +69,8 @@ const LoginModal:React.FC = () => {
       }else {
           setErrors({...errors,username:""})
       }
+    }else if(id ==="email"){
+      setErrors({ ...errors, email: "" })
     }
     console.log(value)
     setUser({

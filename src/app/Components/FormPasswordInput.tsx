@@ -27,6 +27,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, 
           className="pe-10 form-control"
           placeholder={`Enter ${title}`}
           value={currentValue}
+          required
         />
         <button
           type="button"
