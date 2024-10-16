@@ -34,18 +34,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <AppWrapper>
-              <CustomNavbar/>
-              <div className="flex">
+        <AppWrapper>
+          <div className="min-h-screen">
+            <CustomNavbar />
+            <div className="flex">
               <div>
-                  <LeftMenubar />
-                  </div>
-                  <div className="flex justify-center items-center max-width">
-                      {children} 
-                  </div>
+                <LeftMenubar />
               </div>
-          </AppWrapper>
-          
+              <div className="flex justify-center items-center max-width">
+                {children}
+              </div>
+            </div>
+          </div>
+        </AppWrapper>
+
       </body>
       <PrelineScript />
     </html>

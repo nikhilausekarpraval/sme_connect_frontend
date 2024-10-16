@@ -33,3 +33,33 @@ width: -webkit-fill-available;
 .form-input-group-width{
   width: 450px;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 18px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 18px;
+  border: 3px solid #c1c1c1;
+}
+
+
+.about-user-height{
+  height:75vh;
+}
+
+.form-content-height{
+  height:65vh;
+}
+
+:root {
+  --top-menu-height: 48px; 
+}

@@ -15,6 +15,7 @@ const AboutUser = () => {
   const [currentOperation, setCurrentOperation] = useState("Update");
   const service = new usersService()
   const userContext = useAppContext()[0].userContext;
+  const [formError,setFormError] = useState("");
 
   useEffect(() => {
     setUser();
@@ -94,8 +95,8 @@ const AboutUser = () => {
           setErrors({...errors,answer : message});
         }else {
           setErrors({...errors,answer : ""});
-          // resetForm();
-          // updateApplication();
+            resetForm();
+            updateApplication();
         }
 
       } else if (currentOperation === "Reset Password") {
@@ -134,6 +135,7 @@ const AboutUser = () => {
   }
 
   const resetForm = () => {
+    setFormError("");
     setUser();
     setErrors(registerUserFormErrors);
     setCurrentOperation("Update")
@@ -156,13 +158,12 @@ const AboutUser = () => {
 
 
   return (
-    <div className='flex-grow justify-center items-center max-w-screen-md'>
-
-      <form onSubmit={handleSubmit} className=" mx-auto flex-col space-y-4 p-6 bg-white shadow-md rounded-lg col-span-full">
+    <div className='flex justify-center items-center w-50 shadow-md h-full shadow-md'>
+      <form onSubmit={handleSubmit} className="w-full  flex-col space-y-4 p-6 bg-white rounded-lg col-span-full">
+        <div className=' overflow-y-scroll flex-col p-2 space-y-4 form-content-height'>
         <div className='text-red-600'>
-          {errors.confirmPassword}
+          {formError}
         </div>
-        <div className='min-h-64 overflow-y-scroll flex-col space-y-4'>
         <div className="form-group   col-span-6" >
           <label htmlFor="userName" className="block text-gray-700 font-bold mb-2">Username</label>
           <input

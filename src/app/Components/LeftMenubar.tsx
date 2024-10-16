@@ -17,8 +17,8 @@ export const LeftMenubar = () => {
 
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <nav className={`bg-gray-800 ${isCollapsed ? 'w-14' : 'w-64'}  min-h-screen transition-all duration-300`}>
+    <div className=" flex flex-col">
+      <nav className={`bg-gray-800 ${isCollapsed ? 'w-14' : 'w-64'} h-[calc(100vh-var(--top-menu-height))] transition-all duration-50`}>
         {/* Toggle Button */}
         <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
           <div className="text-white text-lg font-bold">
