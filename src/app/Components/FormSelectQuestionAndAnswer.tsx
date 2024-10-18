@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { quenstionsAndAnswers, questions } from '../Constants/Constants';
 import { IRegisterUserErrors, IUserForm } from '../Interfaces/Interfaces';
 import FormPasswordInput from './FormPasswordInput';
@@ -9,12 +9,42 @@ interface FormSelectQuestionAndAnswerProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   errors: IRegisterUserErrors;
   title?: string;
+  visibleQuestion:number;
 }
 
-const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = ({ formData, handleChange, errors, title = "" }) => {
+const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = ({ formData, handleChange, errors, title = "",visibleQuestion = 1 }) => {
+
+  const [visibleQuestions, setVisibleQuestions] =  useState(quenstionsAndAnswers.slice(0,1));
+
+  useEffect(()=>{
+      setVisibleQuestions(quenstionsAndAnswers.slice(0,1));
+      console.log(quenstionsAndAnswers.slice(0,1))
+
+},[])
+
+
+  useEffect(()=>{
+      if(visibleQuestion === 1) {
+
+        setVisibleQuestions(quenstionsAndAnswers.slice(0,1));
+
+      }else if(visibleQuestion === 2){
+
+        setVisibleQuestions(quenstionsAndAnswers.slice(1,2))
+
+      }else if(visibleQuestion === 3){
+
+        setVisibleQuestions(quenstionsAndAnswers.slice(2,3))
+
+      }
+
+      console.log(visibleQuestions)
+
+  },[visibleQuestion])
+
   return (
     <div>
-      {quenstionsAndAnswers.map((q) => (
+      {visibleQuestions.map((q) => (
         <div className='flex-col space-y-4'>
         <div className="form-group col-span-6">
           <label htmlFor="rolename" className="block text-gray-700 font-bold mb-2">Q{Object.keys(q)[0].slice(1)}</label>
@@ -26,7 +56,7 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
             required
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Select a qustion</option>
+            <option value="">Select a question</option>
             {questions.map(question => (
               <option key={question} value={question}>{question}</option>
             ))}

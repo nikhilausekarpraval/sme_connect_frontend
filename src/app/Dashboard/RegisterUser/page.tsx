@@ -4,6 +4,7 @@ import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";
+import { IUserForm } from "@/app/Interfaces/Interfaces";
 import usersService from "@/app/Services/usersService";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -15,7 +16,9 @@ const LoginModal:React.FC = () => {
   const [show, setShow] = useState(true);
   const [errors,setErrors] = useState(registerUserFormErrors)
   const [isUserLoggedIn,setIsUserLoggedIn] = useState(false);
+  const [visibleQuestion,setVisibleQuestion] = useState(1);
   const router = useRouter();
+  const [questionOperation,setQuestionOperation] = useState("Next");
 
   useEffect(()=>{
     setShow(true);
@@ -69,15 +72,36 @@ const LoginModal:React.FC = () => {
       }
     }else if(id ==="email"){
       setErrors({ ...errors, email: "" })
-    }else if(id.includes("answer") && !validatePassword(value)){
-      setErrors({...errors,[id]:"Invalid password, password must have Capital, small, number and special character"})
+    }else if(id.includes("answer") ){
+      if(!validatePassword(value)){
+        setErrors({...errors,[id]:"Invalid password, password must have Capital, small, number and special character"})
+      }else {
+        setErrors({...errors,[id]:""})
+      }
     }
-    console.log(value)
+
+    if(id.includes("answer")){
+      if(visibleQuestion === 3 && errors.answer3 === ""){
+          setQuestionOperation("done");
+      }
+    }
+
+
     setUser({
       ...user,
       [id]: value,
     });
   };
+
+  const nextQuestion=()=>{
+    if(errors[`answer1`] ==="" && visibleQuestion == 1){
+          setVisibleQuestion(2);
+    }else if(errors[`answer2`] ==="" && visibleQuestion == 2){
+        setVisibleQuestion(3);
+    }else if(errors[`answer3`] ==="" && visibleQuestion == 3){
+
+    } 
+  }
 
   const closeForm=()=>{
     setShow(false);
@@ -156,7 +180,11 @@ const LoginModal:React.FC = () => {
             </Form.Group> */}
             <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password} title={"Password"}/>
             
-            <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors}  />
+            <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
+            {questionOperation ==="Next" &&
+                   <button type="button" onClick={nextQuestion} >{questionOperation}</button>
+            }
+
 
             <div className="flex justify-center items-center">
                  <Button
