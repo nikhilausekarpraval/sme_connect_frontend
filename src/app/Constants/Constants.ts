@@ -17,7 +17,7 @@ export const questions = ["What was the name of your first pet?",
     "What is your father's middle name?",
     "What was the name of your first school?",
     "What is the name of the company where you got your first job?"]
-export const registerUserFormErrors = {email:"",password:"",username:"",answer:"",newPassword:"",confirmPassword:""}
+export const registerUserFormErrors = {email:"",password:"",username:"",answer1:"",answer2:"",answer3:"",newPassword:"",confirmPassword:""}
 
 export const emptyApplicationContext: IApplicationContext = {
     expiration: "",

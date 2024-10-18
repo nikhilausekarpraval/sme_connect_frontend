@@ -1,17 +1,17 @@
 import React from 'react'
 import { quenstionsAndAnswers, questions } from '../Constants/Constants';
-import { IUserForm } from '../Interfaces/Interfaces';
+import { IRegisterUserErrors, IUserForm } from '../Interfaces/Interfaces';
 import FormPasswordInput from './FormPasswordInput';
-import { ValueOf } from 'next/dist/shared/lib/constants';
+
 
 interface FormSelectQuestionAndAnswerProps {
   formData: IUserForm;
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-  errorMessage: string;
+  errors: IRegisterUserErrors;
   title?: string;
 }
 
-const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = ({ formData, handleChange, errorMessage, title = "" }) => {
+const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = ({ formData, handleChange, errors, title = "" }) => {
   return (
     <div>
       {quenstionsAndAnswers.map((q) => (
@@ -33,7 +33,7 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
           </select>
         </div>
 
-        <FormPasswordInput filedName={Object.values(q)[0]} currentValue={formData[Object.values(q)[0] as keyof IUserForm]} handleChange={handleChange} errorMessage={errorMessage} title={`A${Object.values(q)[0].slice(1)}`} />
+        <FormPasswordInput filedName={Object.values(q)[0]} currentValue={formData[Object.values(q)[0] as keyof IUserForm]} handleChange={handleChange} errorMessage={errors[Object.values(q)[0] as keyof IRegisterUserErrors]} title={`A${Object.values(q)[0].slice(1)}`} />
         </div>
         ))
       }

@@ -69,6 +69,8 @@ const LoginModal:React.FC = () => {
       }
     }else if(id ==="email"){
       setErrors({ ...errors, email: "" })
+    }else if(id.includes("answer") && !validatePassword(value)){
+      setErrors({...errors,[id]:"Invalid password, password must have Capital, small, number and special character"})
     }
     console.log(value)
     setUser({
@@ -154,7 +156,7 @@ const LoginModal:React.FC = () => {
             </Form.Group> */}
             <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password} title={"Password"}/>
             
-            <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errorMessage={errors.answer}  />
+            <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors}  />
 
             <div className="flex justify-center items-center">
                  <Button
