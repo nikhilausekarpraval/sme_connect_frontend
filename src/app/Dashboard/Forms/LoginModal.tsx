@@ -30,7 +30,7 @@ const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) => {
 
 const  handleSubmitForm = async (e:React.FormEvent)=>{
   e.preventDefault();
-  debugger;
+  
   var result ;
   try{
         result = await authService.login(user.userName,user.password);

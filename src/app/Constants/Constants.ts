@@ -1,3 +1,4 @@
+
 import { IApplicationContext, IClaim, IRoleClaim, IUser } from "../Interfaces/Interfaces";
 
 export const emptyUser = {userName:'',password:"",email:"",displayName:"",id:"",mobileNumber:"",question:"",answer:"",  newPassword: "",
@@ -24,3 +25,16 @@ export const emptyApplicationContext: IApplicationContext = {
       roles: []
     }
   };
+
+export const Routes = {
+
+  aboutUser : "/Dashboard/AboutUser",
+  addClaimToRole:"/Dashboard/AddClaimToRole",
+  addClaimToUser : "/Dashboard/AddClaimToUser",
+  addRoleToUser : "/Dashboard/AddRoleToUser",
+  createTole :"/Dashboard/CreateRole",
+  employee : "/Dashboard/EmployeeDashboard/Employee",
+  task : "/Dashboard/EmployeeDashboard/Task",
+  home : "/Dashboard/Home"
+
+}

@@ -42,7 +42,7 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
   e.preventDefault();
   var result ;
   try{
-    debugger;
+    
 
     if(currentOperation === "Login"){
 
@@ -76,9 +76,10 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
     }
         
   }catch(e:any){
+    
+      setErrors({...errors,invalid : e.message});
       console.log(e)
   }
-  console.log(result)
 }
 
 
@@ -102,7 +103,6 @@ const clearForm =()=>{
 
  const  handleChange =(e:React.ChangeEvent<HTMLInputElement | any>)=>{
         const {id,value} = e.target;
-        debugger;
         if(id === "password"){
           if(!validatePassword(value)){
                 setErrors({...errors,password:"Invalid password, password must have Capital, small, number and special character"})

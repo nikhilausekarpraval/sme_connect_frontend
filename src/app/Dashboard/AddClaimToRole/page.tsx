@@ -56,6 +56,7 @@ export default function AddClaimToRole() {
   return (
     <div className='flex-grow justify-center items-center max-w-screen-md'>
     <form onSubmit={handleSubmit} className="mx-auto p-6 bg-white shadow-md rounded-lg col-span-full">
+    <div className='justify-center items-center text-center font-bold h4 mb-0'>Add Claim To Role</div>
     <div className="form-group mb-4 col-span-6">
           <label htmlFor="rolename" className="block text-gray-700 font-bold mb-2">Role Name</label>
           <select

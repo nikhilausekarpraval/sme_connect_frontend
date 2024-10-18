@@ -92,7 +92,7 @@ const LoginModal:React.FC = () => {
 
   return (
     <div>
-      <Modal show={show} onHide={closeForm} centered>
+      <Modal show={show} onHide={closeForm} centered className="modal-background-color">
         <Modal.Header closeButton>
           <Modal.Title className="w-full text-center">
             <h4 className="font-bold">Register User</h4>

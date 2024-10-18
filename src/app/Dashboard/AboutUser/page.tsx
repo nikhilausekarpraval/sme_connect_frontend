@@ -12,7 +12,7 @@ const AboutUser = () => {
   const [isResetUsingPassword, setIsResetUsingPassword] = useState(false);
   const [isResetUsingQuestion, setIsResetUsingQuestion] = useState(false);
   const [errors, setErrors] = useState(registerUserFormErrors)
-  const [currentOperation, setCurrentOperation] = useState("Update");
+  const [currentOperation, setCurrentOperation] = useState("Update User");
   const service = new usersService()
   const userContext = useAppContext()[0].userContext;
   const [formError,setFormError] = useState("");
@@ -69,10 +69,10 @@ const AboutUser = () => {
 
     try {
 
-      debugger;
+      
 
     if(Object.values(errors).filter((error)=>error !=="").length == 0){
-      if (currentOperation === "Update") {
+      if (currentOperation === "Update User") {
 
         const result = await service.updateUser(formData);
         const message = result.value.statusText
@@ -138,14 +138,14 @@ const AboutUser = () => {
     setFormError("");
     setUser();
     setErrors(registerUserFormErrors);
-    setCurrentOperation("Update")
+    setCurrentOperation("Update User")
 
     setIsResetUsingQuestion(false);
     setIsResetUsingPassword(false);
   }
 
-  const forgetPassword = () => {
-    setCurrentOperation("Forget Password")
+  const updateUser = () => {
+    setCurrentOperation("Update User")
     setIsResetUsingQuestion(true);
     setIsResetUsingPassword(false);
   }
@@ -158,9 +158,11 @@ const AboutUser = () => {
 
 
   return (
-    <div className='flex justify-center items-center about-user-width shadow-md h-full max-w-screen-md'>
-      <form onSubmit={handleSubmit} className="w-full  flex-col space-y-4 p-6 bg-white rounded-lg col-span-full">
-        <div className=' overflow-y-scroll flex-col p-2 space-y-4 form-content-height'>
+    <div className='flex justify-center items-center about-user-width  shadow-md h-full max-w-screen-md'>
+     
+      <form onSubmit={handleSubmit} className="w-full flex-col space-y-4 px-6 pb-6 bg-white rounded-lg col-span-full">
+      <div className='justify-center items-center text-center font-bold h4 mb-0 pt-3'>About</div>
+        <div className=' overflow-y-scroll flex-col px-2 pb-2 mt-0 space-y-4 form-content-height'>
         <div className='text-red-600'>
           {formError}
         </div>
@@ -207,9 +209,9 @@ const AboutUser = () => {
           />
         </div>
 
-        {isResetUsingQuestion &&
+        {/* {isResetUsingQuestion &&
           <FormSelectQuestionAndAnswer formData={formData} handleChange={handleChange} errorMessage={errors.answer} />
-        }
+        } */}
 
         {/* <div className="form-group  ">
           <label htmlFor="password" className="block text-gray-700 font-bold mb-2">{isResetUsingPassword &&"Old" }Password</label>
@@ -239,8 +241,8 @@ const AboutUser = () => {
           {(currentOperation !== "Reset Password") &&
             <button type='button' onClick={() => resetPassword()} className='hover:underline'>Reset Password</button>
           }
-          {(currentOperation !== "Forget Password") &&
-            <button type='button' onClick={() => forgetPassword()} className='hover:underline'>Forget Password</button>
+          {(currentOperation !== "Update User") &&
+            <button type='button' onClick={() => updateUser()} className='hover:underline'>Update User</button>
           }
 
         </div>

@@ -65,3 +65,7 @@ width: -webkit-fill-available;
 :root {
   --top-menu-height: 48px; 
 }
+
+.modal-background-color{
+  background-color: #7f7f7f;
+}

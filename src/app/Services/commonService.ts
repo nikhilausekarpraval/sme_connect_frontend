@@ -24,7 +24,7 @@ class ApiService {
 
   var response : any;
     try {
-      debugger;
+      
       let token = await authService.getAccessToken();
   
       const headers = {
@@ -60,14 +60,15 @@ class ApiService {
         // 204 No Content
         return null;
       } else {
-        const errorText = await response.json();
-        console.error('API fetch error - non-JSON response:', errorText);
-        throw new Error(`Error: ${errorText}`);
+        //const errorText = await response.json();
+        return response;
+        // console.error('API fetch error - non-JSON response:', errorText);
+        // throw new Error(`Error: ${errorText}`);
       }
   
     } catch (error:any) {
       console.error('API fetch error:', error);
-      return await response;
+      throw error;
     }
   }
   

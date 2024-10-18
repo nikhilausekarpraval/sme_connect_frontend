@@ -17,7 +17,7 @@ export default function page() {
 
   const  getUsersAndRoles=async()=>{
         try {
-            debugger;
+            
             const userService = new usersService();
            const  roles = await userService.getRoles();   
            setRolesResult(roles);

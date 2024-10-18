@@ -11,7 +11,7 @@ let refreshToken : string = "";
 const authService = {
   
   async login(username:string, password:string) {
-    debugger;
+    
     try {
       const data = await apiService.post("api/Authenticate/login",{ username, password })
 
