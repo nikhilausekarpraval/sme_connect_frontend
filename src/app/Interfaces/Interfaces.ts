@@ -121,6 +121,9 @@ export interface JwtPayload {
   [key: string]:unknown;
 }
 
+export interface IQuestions{
+
+}
 
 export interface IUserForm{
   userName: string,
@@ -129,8 +132,12 @@ export interface IUserForm{
   displayName: string,
   newPassword: string,
   confirmPassword: string,
-  question: string,
-  answer: string,
+  question1:string,
+  question2:string,
+  question3:string,
+  answer1:string,
+  answer2:string,
+  answer3:string
   mobileNumber:string,
   id:string,
 }

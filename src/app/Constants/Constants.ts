@@ -1,8 +1,12 @@
 
 import { IApplicationContext, IClaim, IRoleClaim, IUser } from "../Interfaces/Interfaces";
 
-export const emptyUser = {userName:'',password:"",email:"",displayName:"",id:"",mobileNumber:"",question:"",answer:"",  newPassword: "",
+
+export const emptyUser = {userName:'',password:"",email:"",displayName:"",id:"",mobileNumber:"",question1:"",question2:"",question3:"",answer1:"",answer2:"",answer3:"",answer:"",  newPassword: "",
     confirmPassword: ""}
+
+export const quenstionsAndAnswers = [{question1:"answer1"},{question2:"answer2"},{question3:"answer3"}]
+
 export const questions = ["What was the name of your first pet?",
     "What was the make and model of your first car?",
     "In what city were you born?",

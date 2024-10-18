@@ -119,6 +119,7 @@ const clearForm =()=>{
   }
 
   const showRegister =()=>{
+    //setShow(false);
     setIsRegister(!isRegister)
     // closeForm();
     // clearForm();
@@ -126,6 +127,7 @@ const clearForm =()=>{
   }
 
   const showLogin=()=>{
+
     setIsResetUsingQuestion(false)
     setCurrentOperation("Login")
   }

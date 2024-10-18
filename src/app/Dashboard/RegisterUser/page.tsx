@@ -8,8 +8,6 @@ import usersService from "@/app/Services/usersService";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
-import LoginForm from "../Forms/LoginForm";
-
 
 const LoginModal:React.FC = () => {
 
@@ -92,15 +90,15 @@ const LoginModal:React.FC = () => {
 
   return (
     <div>
-      <Modal show={show} onHide={closeForm} centered className="modal-background-color">
+      <Modal show={show} onHide={closeForm} backdrop="static" centered className="modal-background-color">
         <Modal.Header closeButton>
           <Modal.Title className="w-full text-center">
             <h4 className="font-bold">Register User</h4>
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          <Form className="d-flex flex-column gap-3" onSubmit={handleSubmitForm}>
+        <Modal.Body className="h-90">
+          <Form className="d-flex flex-column gap-3 px-2 h-96 overflow-y-scroll" onSubmit={handleSubmitForm}>
             <Form.Group controlId="userName">
               <Form.Label className="block text-gray-700 font-bold mb-2">User Name</Form.Label>
               <Form.Control

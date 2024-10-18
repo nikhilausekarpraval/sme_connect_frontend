@@ -83,7 +83,7 @@ const clearForm =()=>{
   return (
     <>
 
-      <Modal show={isShow} onHide={closeForm} centered>
+      <Modal show={isShow} onHide={closeForm}  centered>
         <Modal.Header closeButton>
           <Modal.Title className="w-full text-center">
             <h4 className="font-bold">Login</h4>
