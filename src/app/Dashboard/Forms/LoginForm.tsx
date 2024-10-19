@@ -7,8 +7,9 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
 import LoginModal from "../RegisterUser/page";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
-import { emptyUser } from "@/app/Constants/Constants";
+import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import usersService from "@/app/Services/usersService";
+import PasswordInput from "@/app/Components/FormPasswordInput";
 
 interface ILoginFormProps{
     handleLogin:(userContext:IApplicationContext)=> void;
@@ -17,7 +18,7 @@ interface ILoginFormProps{
 const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
 
   const [user,setUser] = useState(emptyUser)
-  const [errors,setErrors] = useState({email:"",password:"",invalid:"",answer:"",question:""})
+  const [errors,setErrors] = useState(registerUserFormErrors)
   const [show,setShow] = useState(true);
   const closeForm =()=>{setShow(false)};
   const [isRegister,setIsRegister] = useState(false);
@@ -66,9 +67,9 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
         const status = result.value.status
 
         if(status === "Error" && message.includes("Question or answer is wrong!")){
-          setErrors({...errors,answer : message});
+          setErrors({...errors,answer1 : message});
         }else {
-          setErrors({...errors,answer : ""});
+          setErrors({...errors,answer1 : ""});
             resetForm();
             updateApplication();
         }
@@ -90,7 +91,7 @@ const updateApplication = () => {
 
 const resetForm = () => {
   setUser(emptyUser);
-  setErrors({email:"",password:"",invalid:"",answer:"",question:""});
+  setErrors(registerUserFormErrors);
   setCurrentOperation("Login")
   setIsResetUsingQuestion(false);
 }
@@ -98,7 +99,7 @@ const resetForm = () => {
 
 const clearForm =()=>{
   setUser(emptyUser)
-  setErrors({email:"",password:"",invalid:"",answer:"",question:""})
+  setErrors(registerUserFormErrors)
 }
 
  const  handleChange =(e:React.ChangeEvent<HTMLInputElement | any>)=>{
@@ -154,7 +155,7 @@ const clearForm =()=>{
                   {errors.invalid}
             </div>
             <Form.Group controlId="userName">
-              <Form.Label>Your Email</Form.Label>
+              <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="name@mail.com"
@@ -164,23 +165,11 @@ const clearForm =()=>{
                 value={user.userName}
               />
             </Form.Group>
-            <Form.Group controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="password"
-                required
-                className="w-100"
-                onChange={handleChange}
-                value={user.password}
-              />
-              <div className="text-red-600">
-                  {errors.password}
-              </div>
-            </Form.Group>
+
+            <PasswordInput filedName={"password"} title={"Password"} currentValue={user.password} handleChange={handleChange} errorMessage={errors.password} />
 
             {isResetUsingQuestion &&
-                <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errorMessage={errors.answer} />
+                <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={1}/>
             }
 
             <Button variant="primary" type="submit" size="lg" className="w-100">

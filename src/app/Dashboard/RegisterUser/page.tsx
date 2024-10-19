@@ -2,7 +2,7 @@
 
 import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
-import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
+import { emptyUser, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, registerUserFormErrors, totalAnswers, totalQuestions } from "@/app/Constants/Constants";
 import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";
 import { IUserForm } from "@/app/Interfaces/Interfaces";
 import usersService from "@/app/Services/usersService";
@@ -73,12 +73,18 @@ const LoginModal:React.FC = () => {
     }else if(id ==="email"){
       setErrors({ ...errors, email: "" })
     }else if(id.includes("answer") ){
-      if(!validatePassword(value)){
-        setErrors({...errors,[id]:"Invalid password, password must have Capital, small, number and special character"})
-      }else {
+      // if(!validatePassword(value)){
+      //   setErrors({...errors,[id]:"Invalid password, password must have Capital, small, number and special character"})
+      // }else {
+      //   setErrors({...errors,[id]:""})
+      // }
+
+      if(value !== ""){
         setErrors({...errors,[id]:""})
       }
     }
+
+    handleQuestionChange(id,value);
 
     if(id.includes("answer")){
       if(visibleQuestion === 3 && errors.answer3 === ""){
@@ -93,15 +99,66 @@ const LoginModal:React.FC = () => {
     });
   };
 
-  const nextQuestion=()=>{
-    if(errors[`answer1`] ==="" && visibleQuestion == 1){
-          setVisibleQuestion(2);
-    }else if(errors[`answer2`] ==="" && visibleQuestion == 2){
-        setVisibleQuestion(3);
-    }else if(errors[`answer3`] ==="" && visibleQuestion == 3){
 
-    } 
+  const handleQuestionChange =(id : string, value : string)=> {
+
+    if (id.includes("question")) {
+    const otherQuestions =  totalQuestions.filter(q => q !== id);
+        const isDuplicate = otherQuestions.some(q => user[q as keyof IUserForm] === value);
+        const currentError = totalAnswers.filter((a)=>a.includes(id.charAt(8)));
+        setErrors({ ...errors, [currentError[0]]: isDuplicate ? pleaseSelectDifferentQuestion : "" });
+    }
+}
+
+  const nextQuestion=()=>{
+    if(setQuestionErrors()){
+
+      if(errors[`answer1`] ==="" && visibleQuestion == 1){
+        setVisibleQuestion(2);
+      }else if(errors[`answer2`] ==="" && visibleQuestion == 2){
+          setVisibleQuestion(3);
+      }else if(errors[`answer3`] ==="" && visibleQuestion == 3){
+
+      }
+    }
   }
+
+
+  const setQuestionErrors=()=>{
+
+      if(visibleQuestion == 1 ){
+        if((user["answer1"] === "" || user["question1"] === "")){
+          setErrors({...errors,answer1 :  pleaseSelectQuestionAndAswer});
+          return false
+        }else {
+            return true;
+        }
+            
+      }
+
+      if(visibleQuestion == 2 ){
+        if((user["answer2"] === "" || user["question2"] === "")){
+          setErrors({...errors,answer2 :  pleaseSelectQuestionAndAswer});
+          return false
+        }else {
+            return true;
+        }
+            
+      }
+
+      if(visibleQuestion == 3 ){
+        if((user["answer3"] === "" || user["question3"] === "")){
+          setErrors({...errors,answer3 :  pleaseSelectQuestionAndAswer});
+          return false
+        }else {
+            return true;
+        }
+            
+      }
+
+      return true;
+  }
+
 
   const closeForm=()=>{
     setShow(false);
@@ -182,7 +239,10 @@ const LoginModal:React.FC = () => {
             
             <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
             {questionOperation ==="Next" &&
-                   <button type="button" onClick={nextQuestion} >{questionOperation}</button>
+                   //<button type="button" className="btn" onClick={nextQuestion} >{questionOperation}</button>
+                   <div className="flex justify-center items-center">
+                       <button type="button" onClick={nextQuestion} className="py-2 w-1/5  px-1 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-1 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{questionOperation}</button>
+                   </div>
             }
 
 

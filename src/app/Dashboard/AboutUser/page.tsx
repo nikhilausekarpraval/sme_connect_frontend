@@ -1,9 +1,8 @@
 'use client';
 import { FormEvent, useEffect, useState } from 'react';
 import { useAppContext } from '@/app/Context/AppContext';
-import { emptyUser, questions, registerUserFormErrors } from '@/app/Constants/Constants';
+import { emptyUser, registerUserFormErrors } from '@/app/Constants/Constants';
 import FormPasswordInput from '@/app/Components/FormPasswordInput';
-import FormSelectQuestionAndAnswer from '@/app/Components/FormSelectQuestionAndAnswer';
 import usersService from '@/app/Services/usersService';
 import { validatePassword, validateUsername } from '@/app/Helpers/Helpers';
 
@@ -92,9 +91,9 @@ const AboutUser = () => {
         const status = result.value.status
 
         if(status === "Error" && message.includes("Question or answer is wrong!")){
-          setErrors({...errors,answer : message});
+          setErrors({...errors,answer1 : message});
         }else {
-          setErrors({...errors,answer : ""});
+          setErrors({...errors,answer1 : ""});
             resetForm();
             updateApplication();
         }

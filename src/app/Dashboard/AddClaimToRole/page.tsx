@@ -25,8 +25,11 @@ export default function AddClaimToRole() {
    const  getUsersAndRoles=async()=>{
          try {
              const userService = new usersService();
-            const  roles = await userService.getRoles() as any;   
-            setRolesResult(roles);
+            const  roles = await userService.getRoles() as any;  
+            if(roles){
+              setRolesResult(roles);
+            } 
+
 
       
          } catch (error) {
@@ -68,7 +71,7 @@ export default function AddClaimToRole() {
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select a role</option>
-            {rolesResult.map(role => (
+            {rolesResult?.map(role => (
               <option key={role?.name} value={role?.name}>{role?.name}</option>
             ))}
           </select>

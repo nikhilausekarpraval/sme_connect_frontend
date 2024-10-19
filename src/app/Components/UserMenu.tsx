@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { Routes } from '../Constants/Constants'
+import { routes } from '../Constants/Constants'
 
 export default function UserMenu() {
 
@@ -13,7 +13,7 @@ export default function UserMenu() {
     <div>
         <div className='flex '>
             <div className='font-bold'>
-                 <Link href={Routes.aboutUser}> <span></span>  Profile</Link>
+                 <Link href={routes.aboutUser}> <span></span>  Profile</Link>
             </div>
             <div className='font-bold'>
                  <button onClick={logout}><span></span> Logout</button> 

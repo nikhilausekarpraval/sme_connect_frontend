@@ -2,7 +2,7 @@
 import { IApplicationContext, IClaim, IRoleClaim, IUser } from "../Interfaces/Interfaces";
 
 
-export const emptyUser = {userName:'',password:"",email:"",displayName:"",id:"",mobileNumber:"",question1:"",question2:"",question3:"",answer1:"",answer2:"",answer3:"",answer:"",  newPassword: "",
+export const emptyUser = {userName:'',password:"",email:"",displayName:"",id:"",mobileNumber:"",question1:"",question2:"",question3:"",answer1:"",answer2:"",answer3:"",  newPassword: "",
     confirmPassword: ""}
 
 export const quenstionsAndAnswers = [{question1:"answer1"},{question2:"answer2"},{question3:"answer3"}]
@@ -17,7 +17,7 @@ export const questions = ["What was the name of your first pet?",
     "What is your father's middle name?",
     "What was the name of your first school?",
     "What is the name of the company where you got your first job?"]
-export const registerUserFormErrors = {email:"",password:"",username:"",answer1:"",answer2:"",answer3:"",newPassword:"",confirmPassword:""}
+export const registerUserFormErrors = {email:"",password:"",invalid:"",question1:"",username:"",answer1:"",answer2:"",answer3:"",newPassword:"",confirmPassword:""}
 
 export const emptyApplicationContext: IApplicationContext = {
     expiration: "",
@@ -30,7 +30,7 @@ export const emptyApplicationContext: IApplicationContext = {
     }
   };
 
-export const Routes = {
+export const routes = {
 
   aboutUser : "/Dashboard/AboutUser",
   addClaimToRole:"/Dashboard/AddClaimToRole",
@@ -42,3 +42,11 @@ export const Routes = {
   home : "/Dashboard/Home"
 
 }
+
+export const pleaseSelectQuestionAndAswer ="Please select question and answer";
+
+export const pleaseSelectDifferentQuestion ="Please select different question";
+
+export const totalQuestions = ["question1", "question2", "question3"];
+
+export const totalAnswers = ["answer1","answer2","answer3"];

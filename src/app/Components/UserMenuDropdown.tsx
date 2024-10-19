@@ -2,7 +2,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon ,ChevronUpIcon} from '@heroicons/react/20/solid'
 import Link from 'next/link';
 import { useState } from 'react';
-import { Routes } from '../Constants/Constants';
+import { routes } from '../Constants/Constants';
 
 export default function UserMenuDropdown() {
     
@@ -30,7 +30,7 @@ export default function UserMenuDropdown() {
         <div className="py-1">
           <MenuItem>
             <Link
-              href={Routes.aboutUser}
+              href={routes.aboutUser}
               className="block px-4 py-2 w-full text-center font-bold text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               Profile

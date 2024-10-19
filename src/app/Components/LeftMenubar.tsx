@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { FaBars, FaTimes,FaHome,FaUser,FaTasks, FaInfoCircle, FaKey, FaUserTag, FaShieldAlt, FaUserCheck } from 'react-icons/fa'; // Importing icons
 import { useAppContext } from '../Context/AppContext';
 import { useRouter, usePathname } from 'next/navigation';
-import { Routes } from '../Constants/Constants';
+import { routes } from '../Constants/Constants';
 import AdminOptionsDropdown from './AdminOptionsDropdown';
 
 export const LeftMenubar = () => {
@@ -14,7 +14,7 @@ export const LeftMenubar = () => {
   const userContext = useAppContext()[0].userContext;
 
   useEffect(()=>{
-    router.push(Routes.home)
+    router.push(routes.home)
   
   },[])
 
@@ -49,7 +49,7 @@ export const LeftMenubar = () => {
         <div className='pt-3 flex flex-col justify-center items-center'>
           <ul className= {`flex flex-col space-y-5 ${isCollapsed && 'w-8'}`}>
             <li>
-              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(Routes.home) ? 'bg-gray-700' : ''}`} href={Routes.home}>
+              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.home) ? 'bg-gray-700' : ''}`} href={routes.home}>
                 <div className="justify-start flex items-center w-52">
                   <FaHome className="" />
                   {!isCollapsed && <span className='ps-3'>Home</span>}
@@ -57,7 +57,7 @@ export const LeftMenubar = () => {
               </Link>
             </li>
             <li>
-              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(Routes.employee) ? 'bg-gray-700' : ''}`} href={Routes.employee}>
+              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.employee) ? 'bg-gray-700' : ''}`} href={routes.employee}>
                 <div className="justify-start flex items-center w-52">
                   <FaUser className="" />
                   {!isCollapsed && <span className='ps-3'>Employees</span>}
@@ -65,7 +65,7 @@ export const LeftMenubar = () => {
               </Link>
             </li>
             <li>
-              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(Routes.task) ? 'bg-gray-700' : ''}`} href={Routes.task}>
+              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.task) ? 'bg-gray-700' : ''}`} href={routes.task}>
                 <div className="justify-start flex items-center w-52">
                   <FaTasks className="" />
                   {!isCollapsed && <span className='ps-3'>Tasks</span>}
