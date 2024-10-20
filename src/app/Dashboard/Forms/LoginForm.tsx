@@ -2,9 +2,7 @@
 import { validatePassword } from "@/app/Helpers/Helpers";
 import { IApplicationContext, IUserContext } from "@/app/Interfaces/Interfaces";
 import authService from "@/app/Services/authService";
-import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
 import LoginModal from "../RegisterUser/page";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
@@ -142,90 +140,98 @@ const clearForm =()=>{
   return (
     <>
 
-      <Modal show={show} onHide={closeForm} centered>
-        <Modal.Header closeButton>
-          <Modal.Title className="w-full text-center">
-            <h4 className="font-bold">{currentOperation}</h4>
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <Form className="d-flex flex-column gap-3" onSubmit={handleSubmitForm}>
-            <div className="text-red-600">
-                  {errors.invalid}
+      <div className={`modal fade modal-background-color ${show ? "show d-block" : ""}`} tabIndex={-1} style={{ display: show ? "block" : "none" }} role="dialog" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered " role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h4 className="modal-title font-bold h4 w-100 text-center">
+                    {currentOperation}
+              </h4>
+              <button type="button" className="close btn-close" onClick={closeForm} aria-label="Close">
+              </button>
             </div>
-            <Form.Group controlId="userName">
-              <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="name@mail.com"
-                required
-                className="w-100"
-                onChange={handleChange}
-                value={user.userName}
-              />
-            </Form.Group>
 
-            <PasswordInput filedName={"password"} title={"Password"} currentValue={user.password} handleChange={handleChange} errorMessage={errors.password} />
+            <div className="modal-body">
+              <form className="d-flex flex-column gap-3" onSubmit={handleSubmitForm}>
+                <div className="text-danger">{errors.invalid}</div>
 
-            {isResetUsingQuestion &&
-                <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={1}/>
-            }
+                <div className="form-group" control-id="userName">
+                  <label className="block text-gray-700 font-bold mb-2">Your Email</label>
+                  <input
+                    type="email"
+                    className="form-control w-100"
+                    placeholder="name@mail.com"
+                    required
+                    id="userName"
+                    name="userName"
+                    onChange={handleChange}
+                    value={user.userName}
+                  />
+                </div>
 
-            <Button variant="primary" type="submit" size="lg" className="w-100">
-              {currentOperation}
-            </Button>
+                <PasswordInput filedName="password" title="Password" currentValue={user.password} handleChange={handleChange} errorMessage={errors.password} />
 
-            {/* <Button
-              variant="outline-secondary"
-              size="lg"
-              className="d-flex justify-content-center align-items-center gap-2 w-100"
-            >
-              <Image
-                src="https://www.material-tailwind.com/logos/logo-google.png"
-                alt="google"
-                className="h-6 w-6"
-              />
-              Sign in with Google
-            </Button> */}
+                {isResetUsingQuestion && (
+                  <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={1} />
+                )}
 
-            {currentOperation === "Login" &&
-                <Button
-                variant="outline-secondary"
-                size="lg"
-                type="button"
-                className="d-flex justify-content-center align-items-center gap-2 w-100"
-                onClick={showRegister}
-              >
-                {/* <CpuChipIcon className="h-6 w-6" /> */}
-                Register
-              </Button>
-            }
+                <button type="submit" className="btn btn-primary btn-lg w-100">
+                  {currentOperation}
+                </button>
 
-            <div className='text-blue-500 gap-3 flex justify-end items-center'>
-              {(currentOperation !== "Login") &&
-                <button type='button' onClick={() => showLogin()} className='hover:underline'>Login</button>
-              }
-              {(currentOperation !== "Forget Password") &&
-                <button type='button' onClick={() => forgetPassword()} className='hover:underline'>Forget Password</button>
-              }
+                {/* Uncomment if using Google button */}
+                {/* <button
+                  className="btn btn-outline-secondary btn-lg d-flex justify-content-center align-items-center gap-2 w-100"
+                >
+                  <img
+                    src="https://www.material-tailwind.com/logos/logo-google.png"
+                    alt="google"
+                    className="h-6 w-6"
+                  />
+                  Sign in with Google
+                </button> */}
+
+                {currentOperation === "Login" && (
+                  <button
+                    className="btn btn-outline-secondary btn-lg d-flex justify-content-center align-items-center gap-2 w-100"
+                    type="button"
+                    onClick={showRegister}
+                  >
+                    Register
+                  </button>
+                )}
+
+                <div className="text-primary gap-3 d-flex justify-content-end align-items-center">
+                  {currentOperation !== "Login" && (
+                    <button type="button" className="btn btn-link" onClick={showLogin}>
+                      Login
+                    </button>
+                  )}
+                  {currentOperation !== "Forget Password" && (
+                    <button type="button" className="btn btn-link" onClick={forgetPassword}>
+                      Forget Password
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            <div className="modal-footer d-flex justify-content-center">
+              <p className="text-center text-gray-600">
+                Upon signing in, you consent to abide by our{" "}
+                <a href="#" className="text-primary">
+                  Terms of Service
+                </a>{" "}
+                &{" "}
+                <a href="#" className="text-primary">
+                  Privacy Policy
+                </a>.
+              </p>
+            </div>
           </div>
-          </Form>
-        </Modal.Body>
+        </div>
+      </div>
 
-        <Modal.Footer className="d-flex justify-content-center">
-          <p className="text-center text-gray-600">
-            Upon signing in, you consent to abide by our{" "}
-            <a href="#" className="text-primary">
-              Terms of Service
-            </a>{" "}
-            &{" "}
-            <a href="#" className="text-primary">
-              Privacy Policy.
-            </a>
-          </p>
-        </Modal.Footer>
-      </Modal>
       {isRegister &&
         <LoginModal />
       }

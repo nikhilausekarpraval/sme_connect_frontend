@@ -6,7 +6,20 @@ import { CustomNavbar } from "./Components/CustomNavbar";
 import { LeftMenubar } from "./Components/LeftMenubar";
 import { AppWrapper } from "./Context/AppContext";
 import PrelineScript from "./Components/PrelineScript";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from "./Components/theme";
+import { Roboto } from 'next/font/google';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import BootstrapClient from "./Components/BootstrapClient";
 
+
+const roboto = Roboto({
+    weight: ['300', '400', '500', '700'],
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-roboto',
+  });
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,6 +31,7 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -32,22 +46,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ${roboto.variable}`}
       >
-        <AppWrapper>
-          <div className="min-h-screen">
-            <CustomNavbar />
-            <div className="flex">
-              <div>
-                <LeftMenubar />
+        {/* <AppRouterCacheProvider options={{ enableCssLayer: true, key: 'css' }}> */}
+          {/* <ThemeProvider theme={theme}> */}
+            {/* <CssBaseline /> */}
+            <AppWrapper>
+              <div className="min-h-screen">
+                <CustomNavbar />
+                <div className="flex">
+                  <div>
+                    <LeftMenubar />
+                  </div>
+                  <div className="flex justify-center items-center max-width">
+                    {children}
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-center items-center max-width">
-                {children}
-              </div>
-            </div>
-          </div>
-        </AppWrapper>
-
+            </AppWrapper>
+          {/* </ThemeProvider> */}
+        {/* </AppRouterCacheProvider> */}
+        <BootstrapClient/>
       </body>
       <PrelineScript />
     </html>

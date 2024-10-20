@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@headlessui/react": "^2.1.10",
     "@heroicons/react": "^2.1.5",
     "@material-tailwind/react": "^2.1.10",
     "@mui/material": "^6.1.4",
+    "@mui/material-nextjs": "^6.1.4",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
     "next": "14.2.14",
