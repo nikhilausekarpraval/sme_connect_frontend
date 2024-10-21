@@ -256,7 +256,7 @@ const LoginModal:React.FC = () => {
                   </Button>
                   { isUserLoggedIn &&
                     <div className="flex justify-end items-center">
-                        <button className="w-28 text-blue-600" onClick={showLoginPage} type="button">Login</button>
+                        <button className="w-28 text-blue-600 hover:text-blue-800 underline" onClick={showLoginPage} type="button">Login</button>
                     </div>
                   }
 
