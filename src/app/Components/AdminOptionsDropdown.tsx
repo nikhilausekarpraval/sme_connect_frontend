@@ -1,8 +1,7 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { FaInfoCircle, FaKey, FaShieldAlt, FaUserCheck, FaUserTag, FaChevronUp,FaChevronDown } from 'react-icons/fa';
-import {MdAdminPanelSettings} from 'react-icons/md'
+import { FaChevronDown, FaChevronUp, FaInfoCircle, FaKey, FaShieldAlt, FaUserCheck, FaUserTag } from 'react-icons/fa';
+import { MdAdminPanelSettings } from 'react-icons/md';
 
 interface IAdminOptionsDropdownProps {
   isCollapsed: boolean;

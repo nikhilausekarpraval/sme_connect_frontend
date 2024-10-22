@@ -1,11 +1,9 @@
 // services/authService.js
 
-import {jwtDecode} from 'jwt-decode';
-import { apiService } from "./commonService"
-import { JwtPayload } from '../Interfaces/Interfaces';
+import { apiService } from "./commonService";
 
 let accessToken : string = "";
-let refreshToken : string = "";
+
 
 
 const authService = {

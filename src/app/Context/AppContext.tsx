@@ -1,9 +1,9 @@
 'use client';
-import { createContext, useContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { IApplicationContext, IUserContext } from '../Interfaces/Interfaces';
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { emptyApplicationContext } from '../Constants/Constants';
 import LoginForm from '../Dashboard/Forms/LoginForm';
 import { isTokenExpired } from '../Helpers/Helpers';
-import { emptyApplicationContext } from '../Constants/Constants';
+import { IApplicationContext } from '../Interfaces/Interfaces';
 
 type ApplicationContextType = [IApplicationContext, Dispatch<SetStateAction<IApplicationContext>>];
 

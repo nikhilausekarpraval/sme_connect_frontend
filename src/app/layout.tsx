@@ -1,17 +1,13 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import type { Metadata } from "next";
+import { Roboto } from 'next/font/google';
+import localFont from "next/font/local";
+import BootstrapClient from "./Components/BootstrapClient";
 import { CustomNavbar } from "./Components/CustomNavbar";
 import { LeftMenubar } from "./Components/LeftMenubar";
-import { AppWrapper } from "./Context/AppContext";
 import PrelineScript from "./Components/PrelineScript";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import theme from "./Components/theme";
-import { Roboto } from 'next/font/google';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import BootstrapClient from "./Components/BootstrapClient";
+import { AppWrapper } from "./Context/AppContext";
+import "./globals.css";
 
 
 const roboto = Roboto({

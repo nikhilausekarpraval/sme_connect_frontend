@@ -1,10 +1,10 @@
 'use client';
-import { FormEvent, useEffect, useState } from 'react';
-import { useAppContext } from '@/app/Context/AppContext';
-import { emptyUser, registerUserFormErrors } from '@/app/Constants/Constants';
 import FormPasswordInput from '@/app/Components/FormPasswordInput';
-import usersService from '@/app/Services/usersService';
+import { emptyUser, registerUserFormErrors } from '@/app/Constants/Constants';
+import { useAppContext } from '@/app/Context/AppContext';
 import { validatePassword, validateUsername } from '@/app/Helpers/Helpers';
+import usersService from '@/app/Services/usersService';
+import { FormEvent, useEffect, useState } from 'react';
 
 const AboutUser = () => {
   const [formData, setFormData] = useState(emptyUser);

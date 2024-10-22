@@ -1,10 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import LoginModal from '../Dashboard/Forms/LoginModal'
-import {usePathname} from "next/navigation"
+import { useState } from 'react'
 import { useAppContext } from '../Context/AppContext'
+import LoginModal from '../Dashboard/Forms/LoginModal'
 import UserMenuDropdown from './UserMenuDropdown'
 
 export const CustomNavbar = () => {

@@ -1,17 +1,15 @@
 'use client'
 
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { FaBars, FaTimes,FaHome,FaUser,FaTasks, FaInfoCircle, FaKey, FaUserTag, FaShieldAlt, FaUserCheck } from 'react-icons/fa'; // Importing icons
-import { useAppContext } from '../Context/AppContext';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { FaBars, FaHome, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
 import { routes } from '../Constants/Constants';
 import AdminOptionsDropdown from './AdminOptionsDropdown';
 
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const router = useRouter();
-  const userContext = useAppContext()[0].userContext;
 
   useEffect(()=>{
     router.push(routes.home)

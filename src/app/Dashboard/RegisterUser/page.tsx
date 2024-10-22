@@ -8,7 +8,7 @@ import { IUserForm } from "@/app/Interfaces/Interfaces";
 import usersService from "@/app/Services/usersService";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Form, Image } from "react-bootstrap"; // React Bootstrap components
+import { Button, Form, Modal } from "react-bootstrap"; // React Bootstrap components
 
 const LoginModal:React.FC = () => {
 
