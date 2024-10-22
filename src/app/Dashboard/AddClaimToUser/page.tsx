@@ -46,9 +46,8 @@ export default function AddClaimToUser() {
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData)
+
    const result = await service.assignClaimToUser(formData);
-   console.log(result,formData);
   
   };
 

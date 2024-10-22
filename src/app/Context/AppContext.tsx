@@ -36,14 +36,13 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     localStorage.setItem('userContext', JSON.stringify(userContext));
     setIsAuthenticated(true);
     
-    console.log("User logged in successfully",userContext);
   };
 
 
   if (!isAuthenticated) {
     return <LoginForm handleLogin={handleLogin} />;
   } else {
-    console.log(applicationContext)
+
     return (
       <ApplicationContext.Provider value={[applicationContext,setApplicationContext]}>
         {children}

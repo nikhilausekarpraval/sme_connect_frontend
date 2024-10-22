@@ -50,9 +50,8 @@ export default function AddClaimToRole() {
   const handleSubmit = async (e: React.FormEvent) => {
 
     e.preventDefault();
-    console.log(formData)
    const result = await service.addClaimtoRole(formData);
-   console.log(result,formData);
+
   
   };
 

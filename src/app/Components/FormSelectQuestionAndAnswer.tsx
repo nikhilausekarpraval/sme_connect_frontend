@@ -18,7 +18,6 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
 
   useEffect(()=>{
       setVisibleQuestions(quenstionsAndAnswers.slice(0,1));
-      console.log(quenstionsAndAnswers.slice(0,1))
 
 },[])
 
@@ -38,8 +37,6 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
 
       }
 
-      console.log(visibleQuestions)
-
   },[visibleQuestion])
 
   return (
@@ -47,7 +44,7 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
       {visibleQuestions.map((q) => (
         <div className='flex-col space-y-4'>
         <div className="form-group col-span-6">
-          <label htmlFor="rolename" className="block text-gray-700 font-bold mb-2">Q{Object.keys(q)[0].slice(1)}</label>
+          <label htmlFor="rolename" className="block text-gray-700 font-bold mb-2">Q{`${Object.keys(q)[0].slice(1).slice(0,7)} ${Object.keys(q)[0].slice(8,9)} `}</label>
           <select
             id={Object.keys(q)[0]}
             name={Object.keys(q)[0]}
@@ -63,7 +60,7 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
           </select>
         </div>
 
-        <FormPasswordInput filedName={Object.values(q)[0]} currentValue={formData[Object.values(q)[0] as keyof IUserForm]} handleChange={handleChange} errorMessage={errors[Object.values(q)[0] as keyof IRegisterUserErrors]} title={`A${Object.values(q)[0].slice(1)}`} />
+        <FormPasswordInput filedName={Object.values(q)[0]} currentValue={formData[Object.values(q)[0] as keyof IUserForm]} handleChange={handleChange} errorMessage={errors[Object.values(q)[0] as keyof IRegisterUserErrors]} title={`A${Object.values(q)[0].slice(1).slice(0,5)} ${Object.values(q)[0].slice(6,7)}`} />
         </div>
         ))
       }

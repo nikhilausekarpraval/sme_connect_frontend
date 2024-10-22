@@ -20,7 +20,6 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
 
   useEffect(()=>{
 
-    console.log(users)
   },[])
 
 
@@ -36,7 +35,7 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
     
     e.preventDefault();
    const result = await service.addRoleToUser(formData);
-   console.log(result);
+;
 
   };
 

@@ -22,7 +22,6 @@ export default function createRole() {
       e.preventDefault();
 
       try{
-        console.log(formData);
         const result = service.addRole({roleName:formData});
 
       }catch(e:any){
