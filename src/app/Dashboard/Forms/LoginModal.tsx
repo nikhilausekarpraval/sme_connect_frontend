@@ -2,8 +2,8 @@ import { useAppContext } from "@/app/Context/AppContext";
 import { validatePassword } from "@/app/Helpers/Helpers";
 import authService from "@/app/Services/authService";
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from "react";
-import { Modal, Button, Form, Image } from "react-bootstrap"; 
+import React, { useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 
 interface LoginInterface {
   isShow:boolean;

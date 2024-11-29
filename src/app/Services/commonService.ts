@@ -25,7 +25,7 @@ class ApiService {
   var response : any;
     try {
       
-      let token = await authService.getAccessToken();
+      const token = await authService.getAccessToken();
   
       const headers = {
         ...options.headers,
