@@ -10,12 +10,12 @@ export const CustomNavbar = () => {
 
   const [isForm,setForm] = useState(false);
   const handleClose = () => setForm(false);
-  const userContext = useAppContext()[0].userContext;
+  const userContext = useAppContext()[0] as any;
   const [isDropdown, setIsDropdown] = useState(false);
-
+  const displayName = userContext?.user?.displayName;
   var initials =
-  userContext.user.displayName.charAt(0) +
-  (userContext.user.displayName.indexOf(" ") !== -1 ? userContext.user.displayName.charAt(userContext.user.displayName.indexOf(" ") + 1) : "");
+  displayName?.charAt(0) +
+  (displayName?.indexOf(" ") !== -1 ? displayName?.charAt(displayName?.indexOf(" ") + 1) : "");
 
   // const isActive = (path:string) => usePathname() === path as any;
 
@@ -73,12 +73,12 @@ export const CustomNavbar = () => {
                       <div className="col col-sm-9  px-2 d-flex  flex-column  justify-content-evenly ">
                         <div>
                           <h3 className="user-name h6 font-bold m-0 p-0 text-white">
-                            {userContext.user.email}
+                            {userContext?.user?.email}
                           </h3>
                         </div>
                         <div className='flex gap-3 items-center'>
                               <div className="text-sm text-white ">
-                                {userContext.roles[0]}
+                                {userContext?.roles[0]}
                               </div>
                             <div className=" text-gray-100 cursor-pointer" onClick={()=>setIsDropdown(!isDropdown)}>  
                                 <UserMenuDropdown/>

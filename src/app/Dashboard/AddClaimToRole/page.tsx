@@ -26,12 +26,10 @@ export default function AddClaimToRole() {
          try {
              const userService = new usersService();
             const  roles = await userService.getRoles() as any;  
-            if(roles){
-              setRolesResult(roles);
+            if(roles.value){
+              setRolesResult(roles.value);
             } 
 
-
-      
          } catch (error) {
              console.error("Error fetching data on the server:", error);
              return <div>Error loading roles or users</div>;

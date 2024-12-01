@@ -3,12 +3,17 @@ import { ChevronDownIcon ,ChevronUpIcon} from '@heroicons/react/20/solid'
 import Link from 'next/link';
 import { useState } from 'react';
 import { routes } from '../Constants/Constants';
+import authService from '../Services/authService';
+import { useRouter } from 'next/navigation';
 
 export default function UserMenuDropdown() {
     
     const [isDropdown, setIsDropdown] = useState(false);
+    const router = useRouter();
 
-    const logout=()=>{
+    const logout= async()=>{
+        await authService.logout();
+        router.push("/")
         localStorage.clear();
         window.location.reload();
     }

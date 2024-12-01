@@ -52,5 +52,9 @@ class usersService {
        return await apiService.get("api/Admin/getUsers")
     }
 
+    async logoutUser(user:any){
+        return await apiService.get("api/Authenticate/logout");
+    }
+
 
 }export default usersService

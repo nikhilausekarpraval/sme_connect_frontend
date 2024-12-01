@@ -121,9 +121,6 @@ export interface JwtPayload {
   [key: string]:unknown;
 }
 
-export interface IQuestions{
-
-}
 
 export interface IRegisterUserErrors {
   email: string,password:string,username:string,answer1:string,answer2:string,answer3:string,newPassword:string,confirmPassword:string

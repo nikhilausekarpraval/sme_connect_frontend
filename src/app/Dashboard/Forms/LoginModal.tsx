@@ -14,7 +14,7 @@ const LoginModal:React.FC<LoginInterface> = ({isShow,closeForm}) => {
 
   const [user,setUser] = useState({userName:'',password:""})
   const [errors,setErrors] = useState({email:"",password:"",invalid:""})
-  const [applicationContext, setApplicationContext] = useAppContext();
+  const [applicationContext, setApplicationContext] = useAppContext() as any;
   const router = useRouter();
 
   
@@ -34,19 +34,20 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
   var result ;
   try{
         result = await authService.login(user.userName,user.password);
-        if(result?.status == 401){
+        debugger;
+        if(result?.statusCode != 200){
             setErrors({...errors,invalid:"Invalid username or password"})
         }else {
-          console.log(result)
-          setApplicationContext(result);
-          localStorage.setItem('userContext', JSON.stringify(result));
+
+          setApplicationContext(result.value.userContext);
+          localStorage.setItem('userContext', JSON.stringify(result.value.userContext));
           closeForm();
           clearForm();
         }
   }catch(e:any){
       console.log(e)
   }
-  console.log(result)
+
 }
 
 

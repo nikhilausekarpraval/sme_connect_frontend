@@ -181,7 +181,7 @@ const LoginModal:React.FC = () => {
         </Modal.Header>
 
         <Modal.Body className="h-90">
-          <Form className="d-flex flex-column gap-3 px-2 h-96 overflow-y-scroll" onSubmit={handleSubmitForm}>
+          <Form className="d-flex flex-column gap-1 px-2 h-96 overflow-y-scroll" onSubmit={handleSubmitForm}>
             <Form.Group controlId="userName">
               <Form.Label className="block text-gray-700 font-bold mb-2">User Name</Form.Label>
               <Form.Control
@@ -240,24 +240,25 @@ const LoginModal:React.FC = () => {
             <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
             {questionOperation ==="Next" &&
                    //<button type="button" className="btn" onClick={nextQuestion} >{questionOperation}</button>
-                   <div className="flex justify-center items-center">
-                       <button type="button" onClick={nextQuestion} className="py-2 w-1/5  px-1 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-1 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{questionOperation}</button>
+                   <div className="flex justify-end items-center">
+                <button type="button" onClick={nextQuestion} className="py-1 w-1/5  px-1 text-sm font-medium text-blue-600 hover:text-blue-800 underline cursor-pointer">{"Next"}</button>
                    </div>
             }
 
 
-            <div className="flex justify-center items-center">
-                 <Button
-                    variant="primary"
+            <div className="">
+                  <button
+                    className="btn btn-outline-secondary btn-lg d-flex justify-content-center align-items-center gap-2 w-100"
                     type="submit"
-                    className="d-flex w-28 justify-content-center align-items-center gap-2"
                   >
                     Register
-                  </Button>
+                  </button>
                   { isUserLoggedIn &&
-                    <div className="flex justify-end items-center">
-                        <button className="w-28 text-blue-600 hover:text-blue-800 underline" onClick={showLoginPage} type="button">Login</button>
-                    </div>
+                    
+                    //<button className="btn btn-link btn-lg d-flex justify-content-center align-items-center gap-2 w-100" onClick={showLoginPage} type="button">Login</button>
+                  <button type="button" className="btn btn-primary mt-3 btn-lg w-100" onClick={showLoginPage}>
+                    {"Login"}
+                  </button>
                   }
 
             </div>

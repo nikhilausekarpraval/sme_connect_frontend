@@ -46,23 +46,24 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
     if(currentOperation === "Login"){
 
       result = await authService.login(user.userName,user.password);
-      if(result?.status == 401){
+      debugger;
+      if (result?.statusCode !== 200 && result?.statusCode != 404){
           setErrors({...errors,invalid:"Invalid username or password"})
-      }else if(result?.status == 400){
+      } else if (result?.statusCode == 404){
         setErrors({...errors,invalid:"User not found"})
         
       }else {
         closeForm();
-        handleLogin(result);
-        console.log(result);
+        console.log(result)
+        handleLogin(result.value.userContext);
         clearForm();
       }
 
     }else {
         // used to forget user 
         const result = await service.forgettUserPasssword(user);
-        const message = result.value.statusText
-        const status = result.value.status
+        const message = result?.value?.statusText
+        const status = result?.value?.status
 
         if(status === "Error" && message.includes("Question or answer is wrong!")){
           setErrors({...errors,answer1 : message});

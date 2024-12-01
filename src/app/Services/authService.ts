@@ -1,4 +1,3 @@
-// services/authService.js
 
 import { apiService } from "./commonService";
 
@@ -13,7 +12,7 @@ const authService = {
     try {
       const data = await apiService.post("api/Authenticate/login",{ username, password })
 
-      accessToken = data.token;
+      accessToken = data?.value.token;
       
       localStorage.setItem('accessToken', accessToken);
 
@@ -30,8 +29,6 @@ const authService = {
   async logout() {
     try {
       await apiService.post("api/Authenticate/logout",{})
-
-      // Clear tokens
       accessToken = "";
       localStorage.removeItem('accessToken');
     } catch (error) {
@@ -46,7 +43,7 @@ const authService = {
   async getAccessToken() {
 
     try{
-      var token;
+      let token;
       if(accessToken){
         token = accessToken
       }else {

@@ -13,7 +13,7 @@ const AboutUser = () => {
   const [errors, setErrors] = useState(registerUserFormErrors)
   const [currentOperation, setCurrentOperation] = useState("Update User");
   const service = new usersService()
-  const userContext = useAppContext()[0].userContext;
+  const userContext = useAppContext()[0] as any;
   const [formError,setFormError] = useState("");
 
   useEffect(() => {

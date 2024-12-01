@@ -22,7 +22,7 @@ class ApiService {
   // eslint-disable-next-line
   async apiFetch(endpoint: string, options: any) {
 
-  var response : any;
+  let response : any;
     try {
       
       const token = await authService.getAccessToken();

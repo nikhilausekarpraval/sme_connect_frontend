@@ -20,9 +20,9 @@ export default function page() {
             
             const userService = new usersService();
            const  roles = await userService.getRoles();   
-           setRolesResult(roles);
+           setRolesResult(roles.value);
            const  users = await userService.getUsers();
-           setUsersResult(users);
+           setUsersResult(users.value);
      
         } catch (error) {
             console.error("Error fetching data on the server:", error);

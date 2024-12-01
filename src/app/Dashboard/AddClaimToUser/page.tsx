@@ -26,7 +26,7 @@ export default function AddClaimToUser() {
          try {
              const userService = new usersService();
             const  users = await userService.getUsers() as any;   
-            setRolesResult(users);
+            setRolesResult(users.value);
 
       
          } catch (error) {
