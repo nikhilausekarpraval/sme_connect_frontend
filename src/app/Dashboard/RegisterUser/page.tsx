@@ -9,6 +9,7 @@ import usersService from "@/app/Services/usersService";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap"; // React Bootstrap components
+import { FiArrowRight } from "react-icons/fi";
 
 const LoginModal:React.FC = () => {
 
@@ -174,7 +175,7 @@ const LoginModal:React.FC = () => {
   return (
     <div>
       <Modal show={show} onHide={closeForm} backdrop="static" centered className="modal-background-color">
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="w-full text-center">
             <h4 className="font-bold">Register User</h4>
           </Modal.Title>
@@ -239,14 +240,20 @@ const LoginModal:React.FC = () => {
             
             <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
             {questionOperation ==="Next" &&
-                   //<button type="button" className="btn" onClick={nextQuestion} >{questionOperation}</button>
-                   <div className="flex justify-end items-center">
-                <button type="button" onClick={nextQuestion} className="py-1 w-1/5  px-1 text-sm font-medium text-blue-600 hover:text-blue-800 underline cursor-pointer">{"Next"}</button>
+                   <div className="flex justify-center items-center">
+                <button
+                  type="button"
+                  onClick={nextQuestion}
+                  className="btn-sm mt-2 cursor-pointer btn flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold  rounded-lg shadow-md transition-all duration-300"
+                >
+                  <span>Next</span>
+                  <FiArrowRight className="text-lg ms-1" />
+                </button>
                    </div>
             }
 
 
-            <div className="">
+            <div className="mt-2">
                   <button
                     className="btn btn-outline-secondary btn-lg d-flex justify-content-center align-items-center gap-2 w-100"
                     type="submit"
@@ -255,10 +262,10 @@ const LoginModal:React.FC = () => {
                   </button>
                   { isUserLoggedIn &&
                     
-                    //<button className="btn btn-link btn-lg d-flex justify-content-center align-items-center gap-2 w-100" onClick={showLoginPage} type="button">Login</button>
-                  <button type="button" className="btn btn-primary mt-3 btn-lg w-100" onClick={showLoginPage}>
-                    {"Login"}
-                  </button>
+                <button className="btn btn-link d-flex justify-content-end align-items-center gap-2 w-100 hover:text-blue-700" onClick={showLoginPage} type="button">Login</button>
+                  // <button type="button" className="btn btn-primary mt-3 btn-lg w-100" onClick={showLoginPage}>
+                  //   {"Login"}
+                  // </button>
                   }
 
             </div>

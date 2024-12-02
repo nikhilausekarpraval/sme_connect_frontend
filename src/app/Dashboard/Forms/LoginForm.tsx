@@ -141,15 +141,15 @@ const clearForm =()=>{
   return (
     <>
 
-      <div className={`modal fade modal-background-color ${show ? "show d-block" : ""}`} tabIndex={-1} style={{ display: show ? "block" : "none" }} role="dialog" aria-hidden="true">
+      <div className={`modal fade modal-background-color ${show ? "show d-block" : ""}`} tabIndex={-1} style={{ display: show ? "block" : "none" }} role="dialog" data-backdrop="static" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered " role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h4 className="modal-title font-bold h4 w-100 text-center">
                     {currentOperation}
               </h4>
-              <button type="button" className="close btn-close" onClick={closeForm} aria-label="Close">
-              </button>
+              {/* <button type="button" className="close btn-close" onClick={closeForm} aria-label="Close">
+              </button> */}
             </div>
 
             <div className="modal-body">
