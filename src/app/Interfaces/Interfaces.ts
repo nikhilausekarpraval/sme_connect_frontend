@@ -52,6 +52,8 @@ export interface IUser{
 
     id : string
     
+    userGroupId: number;
+    
     userName : string
 
     email : string

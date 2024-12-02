@@ -21,3 +21,27 @@ export const isTokenExpired =(token :string) =>{
     return true;
   }
 }
+
+export function formatDate(inputDate : any, yearMonth = false) {
+
+  if (inputDate === "" || inputDate === null || inputDate === undefined)
+    return "";
+
+  const months = [
+    "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+    "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+  ];
+
+  var dateObj;
+
+  if ((typeof inputDate) !== 'object') {
+    dateObj = new Date(inputDate);
+  } else if (typeof inputDate === 'object') {
+    dateObj = inputDate
+  }
+
+  const year = dateObj.getFullYear();
+  const month = months[dateObj.getMonth()];
+  const day = dateObj.getDate().toString().padStart(2, '0');
+  return yearMonth ? `${month.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())}-${dateObj.getFullYear().toString()}` : `${day}-${month}-${year}`;
+}

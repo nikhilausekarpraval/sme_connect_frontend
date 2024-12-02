@@ -70,6 +70,14 @@ export const LeftMenubar = () => {
                 </div>
               </Link>
             </li>
+            <li>
+              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.user) ? 'bg-gray-700' : ''}`} href={routes.user}>
+                <div className="justify-start flex items-center w-52">
+                  <FaTasks className="" />
+                  {!isCollapsed && <span className='ps-3'>Users</span>}
+                </div>
+              </Link>
+            </li>
           </ul>
         </div>
         {/* <div className='pt-3'>

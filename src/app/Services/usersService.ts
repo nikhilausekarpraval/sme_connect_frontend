@@ -1,7 +1,7 @@
 import { IClaim, IRoleClaim, IRoleUser, IUser, IUserForm } from "../Interfaces/Interfaces";
 import { apiService } from "./commonService"
 
-class usersService {
+class UsersService {
 
     constructor(){
 
@@ -57,4 +57,4 @@ class usersService {
     }
 
 
-}export default usersService
+}export default UsersService

@@ -3,7 +3,7 @@ import FormPasswordInput from '@/app/Components/FormPasswordInput';
 import { emptyUser, registerUserFormErrors } from '@/app/Constants/Constants';
 import { useAppContext } from '@/app/Context/AppContext';
 import { validatePassword, validateUsername } from '@/app/Helpers/Helpers';
-import usersService from '@/app/Services/usersService';
+import UsersService from '@/app/Services/UsersService';
 import { FormEvent, useEffect, useState } from 'react';
 
 const AboutUser = () => {
@@ -12,7 +12,7 @@ const AboutUser = () => {
   const [isResetUsingQuestion, setIsResetUsingQuestion] = useState(false);
   const [errors, setErrors] = useState(registerUserFormErrors)
   const [currentOperation, setCurrentOperation] = useState("Update User");
-  const service = new usersService()
+  const service = new UsersService()
   const userContext = useAppContext()[0] as any;
   const [formError,setFormError] = useState("");
 

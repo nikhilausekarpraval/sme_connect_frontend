@@ -1,7 +1,7 @@
 "use client"
 
 import SubmitButton from '@/app/Components/SubmitButton';
-import usersService from '@/app/Services/usersService';
+import UsersService from '@/app/Services/UsersService';
 import React, { useState } from 'react'
 
 export default function createRole() {
@@ -10,7 +10,7 @@ export default function createRole() {
         roleName : '',
       });
 
-    const service = new usersService();
+    const service = new UsersService();
 
    const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
            

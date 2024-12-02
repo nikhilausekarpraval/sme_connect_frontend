@@ -1,7 +1,7 @@
 'use client'
 
 import SubmitButton from '@/app/Components/SubmitButton';
-import usersService from '@/app/Services/usersService';
+import UsersService from '@/app/Services/UsersService';
 import React, { useEffect, useState } from 'react'
 export default function AddClaimToRole() {
 
@@ -11,7 +11,7 @@ export default function AddClaimToRole() {
     claimValue:''
   });
   
-   const service = new usersService();
+   const service = new UsersService();
   
    const [rolesResult,setRolesResult] =  useState([{name:""}]);
 
@@ -24,7 +24,7 @@ export default function AddClaimToRole() {
  
    const  getUsersAndRoles=async()=>{
          try {
-             const userService = new usersService();
+             const userService = new UsersService();
             const  roles = await userService.getRoles() as any;  
             if(roles.value){
               setRolesResult(roles.value);

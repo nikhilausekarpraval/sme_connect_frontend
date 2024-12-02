@@ -5,9 +5,9 @@ import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import { validatePassword } from "@/app/Helpers/Helpers";
 import { IApplicationContext } from "@/app/Interfaces/Interfaces";
 import authService from "@/app/Services/authService";
-import usersService from "@/app/Services/usersService";
 import React, { useEffect, useState } from "react";
 import LoginModal from "../RegisterUser/page";
+import UsersService from "@/app/Services/usersService";
 
 interface ILoginFormProps{
     handleLogin:(userContext:IApplicationContext)=> void;
@@ -22,7 +22,7 @@ const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
   const [isRegister,setIsRegister] = useState(false);
   const [isResetUsingQuestion, setIsResetUsingQuestion] = useState(false);
   const [currentOperation, setCurrentOperation] = useState("Login");
-  const service = new usersService()
+  const service = new UsersService()
   //const router = useRouter();
 
 //   const [show, setShow] = useState(isShow);

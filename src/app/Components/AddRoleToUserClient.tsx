@@ -2,7 +2,7 @@
 
 import SubmitButton from '@/app/Components/SubmitButton';
 import React, { useEffect, useState } from 'react';
-import usersService from '../Services/usersService';
+import UsersService from '../Services/UsersService';
 
 
 interface Props {
@@ -16,7 +16,7 @@ export default function AddRoleToUserClient({ users, roles }: Props) {
     userId: '',
   });
 
-   const service = new usersService();
+   const service = new UsersService();
 
   useEffect(()=>{
 
