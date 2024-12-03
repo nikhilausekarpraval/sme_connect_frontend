@@ -6,7 +6,7 @@ import TableHeader from '../TableHeader/TableHeader';
 import TableRow from '../TableRow/TableRow';
 import { UserColumnConfig, userHeaders } from '@/app/Constants/Constants';
 import { Loader } from '../../Loader/Loader';
-
+import './TableBody.scss';
 
 interface ITableBodyProps {
   sortTableData: (data: IUser[],
@@ -15,61 +15,54 @@ interface ITableBodyProps {
   sortedData: IUser[];
   isLoading: boolean;
   getData: () => void;
-  defaultSortedColumn:string;
-  setLoaderAndSortedData:(loading:boolean,sortedData : IUser[])=>void;
-  handleRowCheckboxChange:(id:any)=>void;
+  defaultSortedColumn: string;
+  setLoaderAndSortedData: (loading: boolean, sortedData: IUser[]) => void;
+  handleRowCheckboxChange: (id: any) => void;
   selectedItems: Set<any>;
+  sortOrder:string;
+  setSortOrder:(order:string)=>void;
+  sortedColumn:string;
+  setSortedColumn:(col:string)=>void;
+  itemsPerPage:number;
+  setItemsPerPage:(page:number)=>void;
+  currentPage:number;
+  setCurrentPage:(page:number)=>void;
 }
 
 
-const TableBody: React.FC<ITableBodyProps> = ({ sortedData,selectedItems, isLoading, handleRowCheckboxChange, defaultSortedColumn, sortTableData, setLoaderAndSortedData })=> {
+const TableBody: React.FC<ITableBodyProps> = ({ sortOrder,setSortOrder,sortedColumn,setSortedColumn,itemsPerPage,setItemsPerPage,currentPage,setCurrentPage, sortedData, selectedItems, isLoading, handleRowCheckboxChange, sortTableData, setLoaderAndSortedData }) => {
 
   const myElementRef: RefObject<HTMLDivElement> = React.createRef();
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [sortedColumn, setSortedColumn] = useState(defaultSortedColumn);
-
-  const [itemsPerPage, setItemsPerPage] = useState(50);
-  const [totalPageCount, setTotalPageCount] = useState(Math.ceil(sortedData.length / itemsPerPage));
-  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPageCount, setTotalPageCount] = useState(Math.ceil(sortedData.length / itemsPerPage) <= 0 ? 1 : Math.ceil(sortedData.length / itemsPerPage));
   const idColumn = "id";
 
 
-  const resetState = () => {
-    setSortOrder('asc');
-    setCurrentPage(1);
-    setItemsPerPage(50);
-    setSortedColumn(defaultSortedColumn)
-  }
-
   const handleSort = (column: string, order = "") => {
-    let sortOrder = 'asc'
-    if (column == "") {
-      sortOrder = (order === 'asc') ? 'asc' :
-        (sortedColumn === column) ?
-          (sortOrder === 'asc' ?
-            'desc' : 'asc') : 'asc';
 
-        setSortOrder(sortOrder);
-        setSortedColumn(column);
+    if (column !== "") {
+      let sort = (sortedColumn === column) ? (sortOrder === 'asc' ? 'desc' : 'asc') : 'asc';
 
-        saveSortedData(column.charAt(0).toLocaleLowerCase() + column.slice(1), sortOrder);
-      
+      setSortOrder(sort);
+      setSortedColumn(column);
+
+      saveSortedData(column.charAt(0).toLocaleLowerCase() + column.slice(1), sortOrder);
+
     }
   };
 
-  const saveSortedData = async (column:string, sortOrder:string) => {
+  const saveSortedData = async (column: string, sortOrder: string) => {
     const data = await sortTableData(sortedData, column, sortOrder) as IUser[]
-    setLoaderAndSortedData( false,  data )
+    setLoaderAndSortedData(false, data)
   }
 
-  const renderRow = (item: IUser, index:number) => {
+  const renderRow = (item: IUser, index: number) => {
     return <TableRow
-            key={index}
-            item={item} 
-            handleRowCheckboxChange={handleRowCheckboxChange} 
-            selectedItems={selectedItems} 
-            idColumn={idColumn} 
-            FieldConfig={UserColumnConfig}      
+      key={index}
+      item={item}
+      handleRowCheckboxChange={handleRowCheckboxChange}
+      selectedItems={selectedItems}
+      idColumn={idColumn}
+      FieldConfig={UserColumnConfig}
     />
   }
 
@@ -86,7 +79,7 @@ const TableBody: React.FC<ITableBodyProps> = ({ sortedData,selectedItems, isLoad
   };
 
 
-  const pageHandler = async (page:number) => {
+  const pageHandler = async (page: number) => {
     setCurrentPage(page);
     scrollToTop()
   }
@@ -100,45 +93,58 @@ const TableBody: React.FC<ITableBodyProps> = ({ sortedData,selectedItems, isLoad
   };
 
 
-    return (
-      <div>
-        {isLoading && <Loader />}
-        <div
-          className="la-snapshot-table table-responsive table-body-container-height-config  rounded-3">
-          <table className="table m-0">
-            <thead className="position-static table-header-style">
-              <tr className="table-header">
-                {Object.entries(userHeaders).map(([key, label]) => (
-                  <TableHeader
-                    handleSort={()=>handleSort(key)}
-                    sortedColumn={sortedColumn}
-                    sortOrder={sortOrder}
-                    value={key}
-                    name={label}
-                  />
-                ))}
-              </tr>
-            </thead>
-            <tbody className="table-body overflow-auto">
-              {sortedData.length > 0 &&
-                renderItems()
-              }
-            </tbody>
-          </table>
-          {false && (
-            <div>
-              <div className="no-records no-records text-center secondary-fontSize p-5">No records found</div>
-            </div>
-          )}
-        </div>
-        
-        <PaginationComponent 
-          page={currentPage} 
-          setCurrentPage={pageHandler} 
-          pageCount={totalPageCount}
-          />
+  return (
+    <div className='pt-1'>
+      {isLoading && <Loader />}
+      <div
+        className="table-body-size rounded-3">
+        <table className="table m-0">
+          <thead className="position-static table-header-style">
+            <tr className="table-header">
+              <th scope="col" className="border-0 position-sticky start-0 sticky-top select-all-checkbox-header-width">
+                <input
+                  className="cursor-pointer"
+                  type="checkbox"
+                  checked={selectedItems.size == sortedData.length}
+                  onChange={() => handleRowCheckboxChange("header")}
+                />
+              </th>
+              {Object.entries(userHeaders).map(([key, label]) => (
+                <TableHeader
+                  handleSort={handleSort}
+                  sortedColumn={sortedColumn}
+                  sortOrder={sortOrder}
+                  value={key}
+                  name={label}
+                />
+              ))}
+            </tr>
+          </thead>
+          <tbody className="table-body ">
+            {sortedData.length > 0 &&
+              renderItems()
+            }
+          </tbody>
+        </table>
+        {false && (
+          <div>
+            <div className="no-records no-records text-center secondary-fontSize p-5">No records found</div>
+          </div>
+        )}
 
       </div>
-    );
-  };
+      <div className='flex justify-end'>      
+        <div className='flex justify-end align-center py-3 w-1/2'>
+        <PaginationComponent
+          page={currentPage}
+          setCurrentPage={pageHandler}
+          pageCount={totalPageCount}
+        />
+      </div>
+
+      </div>
+
+    </div>
+  );
+};
 export default TableBody

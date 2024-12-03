@@ -6,7 +6,7 @@ const Layout = ({
     children: React.ReactNode;
   }>) => {
   return (
-    <div className="max-width justify-center items-center flex">
+    <div className="w-full">
          {children} 
     </div>
         

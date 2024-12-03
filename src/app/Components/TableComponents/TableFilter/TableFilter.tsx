@@ -1,47 +1,32 @@
 import { EmployeeService } from "@/app/Services/employeeService";
-import { ReactNode, useCallback, useState } from "react";
+import {  useState } from "react";
 import React from "react";
-import ConfirmPopup from "../../ConfirmPopup";
 import InputGroup from "react-bootstrap/esm/InputGroup";
 import Form from "react-bootstrap/esm/Form";
 import Button from "react-bootstrap/esm/Button";
 import { IoSearchOutline } from "react-icons/io5";
-import debounce from "@mui/material/utils/debounce";
-
+import './TableFilter.scss';
+import ConfirmPopup from "../../ConfirmPopup/ConfirmPopup";
+import UsersService from "@/app/Services/usersService";
+import { IUser } from "@/app/Interfaces/Interfaces";
 
 interface ITableFilterProps{
     items:any[]
     search:(searchValue:any)=>void;
     selectedItems: Set<any>;
     resetFilters:()=>void;
+    reloadData:()=>void;
+    setIsEdit:(isEdit:boolean)=>void;
+    setIsCreate:(isCreate:boolean)=>void;
 }
 
-const TableFilter: React.FC<ITableFilterProps> = ({ items, search,selectedItems,resetFilters }) =>{
+const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate, items, reloadData, search,selectedItems,resetFilters }) =>{
 
     const [searchValue, setSearchValue] = useState("");
     const [isShowDelete, setIsShowDelete] = useState(false);
-    const [isEditForm, setIsEditForm] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
     const [popupTitle,setPopupTitle]= useState("Delete record");
-    const employeeService = new EmployeeService();
-    const debouncedOnSearch = useCallback(debounce(search, 300), []);
+    const employeeService = new UsersService();
 
-    const showEdit = () => {
-        setIsEditForm(true);
-        if (selectedItems.size === 1) {
-            const employee = items.find(emp => emp.id === selectedItems);
-            setSelectedItem(employee || null);
-        }
-    };
-
-    const save = () => {
-        clearSelectedItems();
-        setIsEditForm(false);
-    };
-
-    const clearForm = () => {
-        setIsEditForm(false);
-    };
 
     const clearPopup = () => {
         setIsShowDelete(false);
@@ -52,77 +37,58 @@ const TableFilter: React.FC<ITableFilterProps> = ({ items, search,selectedItems,
     };
 
     const deleteSelected = async () => {
-      const result =  await employeeService.deleteEmployees(selectedItem); 
-        clearSelectedItems();
-    };
 
-    const create = () => {
-        setSelectedItem(null);
-        setIsEditForm(true);
-    };
+        try {
+            const selectedItemsArray = Array.from(selectedItems);
+            const result = await employeeService.deleteUser(selectedItemsArray);
+            setIsShowDelete(false);
+            reloadData();
 
-    const clearSelectedItems = () => {
-        resetFilters();
+        } catch (error) {
+            console.error("Error deleting selected items:", error);
+        }
     };
 
 
     return (
-        <div>
-            <div className="filter-bar p-2 m-0">
+        <React.Fragment>
+            <div className="filter-bar flex justify-between py-2 m-0">
                 <div>
                     <span className="filter-heading">Filter</span>
                 </div>
                 <div className="d-flex gap-3">
-                    <div className="search-bar">
-                        <input
-                            type="text"
-                            value={searchValue}
-                            onChange={e => setSearchValue(e.target.value)}
-                            placeholder="Search..."
-                        />
-                        <button onChange={() => debouncedOnSearch(searchValue)}>Search</button>
-                    </div>
-                    <InputGroup className="mb-3">
+                    <InputGroup className="">
                         <Form.Control
                             type="text"
                             value={searchValue}
                             onChange={e => setSearchValue(e.target.value)}
                             placeholder="Search..."
                         />
-                        <Button onChange={() => debouncedOnSearch(searchValue)} variant="outline-secondary" id="searchButton">
+                        <Button onClick={() => search(searchValue)} variant="outline-secondary" id="searchButton">
                             <IoSearchOutline/>
                         </Button>
                     </InputGroup>
                     <div className="filter-buttons">
                         {selectedItems.size === 1 && (
-                            <button onClick={showEdit}>Edit</button>
+                            <button onClick={()=>setIsEdit(true)}>Edit</button>
                         )}
-                        <button onClick={create}>Create</button>
-                        <button onClick={showDelete}>Delete</button>
+                        <button onClick={()=>setIsCreate(true)}>Create</button>
+                        {selectedItems.size === 1 && (
+                            <button onClick={showDelete}>Delete</button>
+                        )}
                         <button onClick={resetFilters}>Reset</button>
                     </div>
                 </div>
             </div>
-            {isShowDelete && (
+            {true && (
                 <ConfirmPopup
-                    onClearPopup={clearPopup}
-                    onDelete={deleteSelected}
-                    isShowDelete={isShowDelete}
-                    title={popupTitle}
+                    handleClose={clearPopup}
+                    deleteItem={deleteSelected}
+                    show={isShowDelete}
+                    message={`Are you sure you want to delete ${selectedItems.size} item${selectedItems.size > 1 ? "s" : ""}.`}
                 />
             )}
-            {/* {isEditForm && FormComponent && (
-                <>
-                    {FormComponent &&
-                        React.cloneElement(FormComponent as React.ReactElement, {
-                            clearForm,
-                            save,
-                            isEditForm,
-                            employee: selectedItem,
-                        })}
-                </>
-            )} */}
-        </div>
+        </React.Fragment>
     );
 }
 export default TableFilter;

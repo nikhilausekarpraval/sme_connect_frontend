@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
+import './Pagination.scss';
 
 interface IPaginationProps{
     page:number,

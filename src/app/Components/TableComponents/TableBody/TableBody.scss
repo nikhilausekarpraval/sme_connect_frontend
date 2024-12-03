@@ -1,0 +1,33 @@
+  .table-body {
+      .products-details td {
+          color: #1a1c1e;
+          font-family: Helvetica;
+          height: 40px;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 16.1px;
+          line-height: normal;
+      }
+
+      .products-details:nth-child(odd) td {
+          background-color: white;
+      }
+
+      .products-details:nth-child(even) td {
+          background-color: #fafbfb;
+      }
+  }
+
+  .table-body-size {
+      width: calc(92vw - 180px);
+      height: calc(97svh - 162px);
+      overflow: scroll;
+  }
+
+.table-header {
+    background-color: #f2f3f3 !important;
+}
+
+.table-header-style {
+    background-color: #0d7d7d !important;
+}

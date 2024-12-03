@@ -1,6 +1,7 @@
 "use client"
 import SubmitButton from '@/app/Components/SubmitButton'
-import UsersService from '@/app/Services/UsersService';
+import UsersService from '@/app/Services/usersService';
+
 import React, { useEffect, useState } from 'react'
 
 export default function AddClaimToUser() {

@@ -3,47 +3,63 @@ import TableBody from '@/app/Components/TableComponents/TableBody/TableBody';
 import TableFilter from '@/app/Components/TableComponents/TableFilter/TableFilter';
 import { IUser } from '@/app/Interfaces/Interfaces';
 import UsersService from '@/app/Services/usersService';
-import React, { RefObject, useEffect, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import UserForm from '../Forms/UserForm/UserForm';
-
+import SortWorker from '@/app/Workers/SortWorker';
+import SearchWorker from '@/app/Workers/SearchWorker';
 
 export default function User() {
-    
-    let  sortWorker: any;
-    let searchWorker: any;
-    const myElementRef: RefObject<HTMLDivElement> = React.createRef();
+
     const _UserService = new UsersService();
     const [allItems, setAllItems] = useState<IUser[]>([]);
     const [sortedData, setSortedData] = useState<IUser[]>([]);
-    const [isLoading,setIsLoading] = useState(false);
-    const [isResetSearch,setIsResetSearch] = useState(false);
-    const [selectedItems, setSelectedItems] = useState(new Set<any>());
-    const [selectedItem,setSelectedItem] = useState<IUser>();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isResetSearch, setIsResetSearch] = useState(false);
+    const [selectedItems, setSelectedItems] = useState<Set<any>>(new Set<any>());
     const defaultSortedColumn = "id";
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [sortedColumn, setSortedColumn] = useState(defaultSortedColumn);
+    const [itemsPerPage, setItemsPerPage] = useState(30);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isEdit,setIsEdit] = useState(false);
+    const [isCreate,setIsCreate] = useState(false);
+    const [selectedUser,setSelectedUser] = useState<IUser|null>();
 
-    
-   const onReset = async () => {
-        setIsLoading(true);
-        setSortedData(allItems);
+    let searchWorker: Worker;
+    let sortWorker: Worker;
+
+    const onReset = async (isReload = false) => {
+        setSelectedItems(new Set<any>());
+        setSortOrder("asc");
+        setSortedColumn(defaultSortedColumn);
+        if(!isReload){
+            setSortedData(await getSortedData(allItems));
+        }
         setIsResetSearch(!isResetSearch);
-        setIsLoading(false);
+    }
+
+    const reloadData = async()=>{
+        await getData();
+        onReset(true);
+
     }
 
     const getSortedApiData = async () => {
         return await sortTableData(allItems, "", "") as IUser[];
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getData();
-    },[])
-    
+    }, [])
 
-  const  getData = async () => {
+
+    const getData = async () => {
         setIsLoading(true);
 
         try {
+
             const result = await _UserService.getUsers();
-            const sortedApis = await sortTableData(result.Data, "moduleName", "asc") as IUser[];
+            const sortedApis = await getSortedData(result.value);
             setSortedData(sortedApis);
             setAllItems(sortedApis);
             setIsLoading(false);
@@ -54,12 +70,12 @@ export default function User() {
         }
     };
 
-  const  sortTableData = (
+    const sortTableData = (
         data: IUser[],
         sortedColumn: string,
         sortOrder: string
     ): any => {
-        initializeWorker();
+        initializeSortWorker();
         sortWorker.postMessage({
             sortedData: data,
             sortedOrder: sortOrder,
@@ -74,30 +90,33 @@ export default function User() {
         });
     };
 
-  const  initializeWorker=()=> {
-        const code = sortWorker.toString();
+    const getSortedData = async (data: any) => {
+        return await sortTableData(data, "userName", "asc") as IUser[];
+    }
+
+    const initializeSortWorker = () => {
+        const code = SortWorker.toString();
         const blob = new Blob(["(" + code + ")()"]);
         sortWorker = new Worker(URL.createObjectURL(blob));
 
-        sortWorker.onerror = (event:any) => {
+        sortWorker.onerror = (event: any) => {
             sortWorker.terminate();
-            console.log("There is an error with your worker!", event);
+            console.log("There is an error with your searchWorker!", event);
         };
     }
 
-   const initializeSearchWorker=() =>{
-        const code = searchWorker.toString();
+    const initializeSearchWorker = () => {
+        const code = SearchWorker.toString();
         const blob = new Blob(["(" + code + ")()"]);
         searchWorker = new Worker(URL.createObjectURL(blob));
 
-        searchWorker.onerror = (event:any) => {
+        searchWorker.onerror = (event: any) => {
             searchWorker.terminate();
-            console.log("There is an error with your worker!", event);
+            console.log("There is an error with your searchWorker!", event);
         };
     }
 
-
-   const getsortedData = (data: any, searchText: string) => {
+    const getSearchData = (data: any, searchText: string) => {
         try {
             initializeSearchWorker();
             searchWorker.postMessage({ data, searchText: searchText, dateFormat: "DD-MM-YY" });
@@ -113,29 +132,28 @@ export default function User() {
                 };
             });
         } catch (error) {
-            console.error('Error in getsortedData:', error);
+            console.error('Error in getSearchData:', error);
             return Promise.reject(error);
         }
     };
 
-  const  onSearch = (searchText: string) => {
 
+    const onSearch = (searchText: string) => {
+        getSearchData(allItems, searchText).then((data) => {
+            const d = data as any;
+            setSortedData(d);
+        });
         if (searchText.trim() === "") {
             setSortedData(allItems);
-        } else {
-            getsortedData(allItems, searchText).then((data) => {
-                const d = data as IUser[];
-               setSortedData(d);
-            });
         }
     };
 
-    const setLoaderAndSortedData =(loader:boolean,sortData:IUser[])=>{
-            setIsLoading(loader);
-            setSortedData(sortData);
+    const setLoaderAndSortedData = (loader: boolean, sortData: IUser[]) => {
+        setIsLoading(loader);
+        setSortedData(sortData);
     }
 
-   const handleCheckboxChange = (identifier: any) => {
+    const handleCheckboxChange = (identifier: any) => {
 
         if (identifier === "header") {
             if (sortedData.length === allItems.length) {
@@ -149,27 +167,51 @@ export default function User() {
             }
 
         } else {
-           if(selectedItems.has(identifier) ){
+            if (selectedItems.has(identifier)) {
+                const updatedItems = new Set(selectedItems);
+                updatedItems.delete(identifier);
+                setSelectedItems(updatedItems);
+            } else {
+                const updatedItems = new Set(selectedItems);
+                updatedItems.add(identifier);
+                setSelectedItems(updatedItems);
+            }
 
-               selectedItems.delete(identifier) 
-
-           }else {
-
-               selectedItems.add(identifier);
-
-           }
-            
         }
     };
 
-        return (
-            <div className='px-3 la-table-styles user-select-none align-items-center user-access-config justify-content-between'>
-                <div className='d-flex align-items-center justify-content-between'>
-                    <h1 className="h4 apex-primary table-header-style m-0">Manage Apis</h1>
-                    <TableFilter items={allItems} search={onSearch}
-                    resetFilters={onReset} selectedItems={selectedItems} />
-                </div>
-                <TableBody sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} defaultSortedColumn={defaultSortedColumn} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} />
-            </div>
-        );
- }
+    useEffect(() => {
+        try{
+            if(isCreate){
+                setSelectedUser(null);
+                return;
+            }
+            const user = Array.from(selectedItems)[0];
+            const emp = allItems.filter(item => item.id === user)[0];
+            setSelectedUser(emp);
+        }catch(e:any){
+
+        }
+
+    }, [isCreate,isEdit])
+
+    const clearForm=(e:any)=>{
+        e?.preventDefault();
+        setIsCreate(false);
+        setIsEdit(false);
+    }
+
+    const submitForm=(e:any)=>{
+        e.preventDefault();
+        clearForm(null);
+
+    }
+
+    return (
+        <div className='px-3 la-table-styles min-w-full user-select-none user-access-config'>
+            <TableFilter  setIsEdit={setIsEdit}  setIsCreate={setIsCreate} reloadData={reloadData} items={allItems} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
+            <TableBody sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <UserForm employee={selectedUser} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm } save={submitForm}/>
+        </div>
+    );
+}

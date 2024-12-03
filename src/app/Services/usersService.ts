@@ -23,8 +23,8 @@ class UsersService {
       return await apiService.put('api/Authenticate/forget_password',user)
   }
 
-    async deleteUser(user:IUser){
-        return await apiService.delete("api/Authenticate",user);
+    async deleteUser(user:any){
+        return await apiService.delete("api/Admin/deleteUser",user);
     }
 
     async assignClaimToUser(claim:IClaim){

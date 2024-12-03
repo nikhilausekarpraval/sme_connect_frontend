@@ -11,11 +11,11 @@ import "./globals.css";
 
 
 const roboto = Roboto({
-    weight: ['300', '400', '500', '700'],
-    subsets: ['latin'],
-    display: 'swap',
-    variable: '--font-roboto',
-  });
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto',
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,24 +45,24 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${roboto.variable}`}
       >
         {/* <AppRouterCacheProvider options={{ enableCssLayer: true, key: 'css' }}> */}
-          {/* <ThemeProvider theme={theme}> */}
-            {/* <CssBaseline /> */}
-            <AppWrapper>
-              <div className="min-h-screen">
-                <CustomNavbar />
-                <div className="flex">
-                  <div>
-                    <LeftMenubar />
-                  </div>
-                  <div className="flex justify-center items-center max-width">
-                    {children}
-                  </div>
-                </div>
+        {/* <ThemeProvider theme={theme}> */}
+        {/* <CssBaseline /> */}
+        <AppWrapper>
+          <div className="min-h-screen">
+            <CustomNavbar />
+            <div className="flex">
+              <div className="">
+                <LeftMenubar />
               </div>
-            </AppWrapper>
-          {/* </ThemeProvider> */}
+              <div className="w-full">
+                {children}
+              </div>
+            </div>
+          </div>
+        </AppWrapper>
+        {/* </ThemeProvider> */}
         {/* </AppRouterCacheProvider> */}
-        <BootstrapClient/>
+        <BootstrapClient />
       </body>
       <PrelineScript />
     </html>

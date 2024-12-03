@@ -1,6 +1,6 @@
 import { formatDate } from '@/app/Helpers/Helpers';
 import React from 'react'
-
+import './TableRow.scss';
 interface ITableRowProps {
     item: any;
     handleRowCheckboxChange: (id: any) => void;
@@ -16,7 +16,7 @@ interface ITableRowProps {
 const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, selectedItems, idColumn, FieldConfig, useDefaultAuditColumns = true }) => {
     return (
         <tr className="item-table-row">
-            <td className=" d-flex align-items-center position-sticky start-0">
+            <td className="position-sticky start-0">
                 <input
                     type="checkbox"
                     className="cursor-pointer"

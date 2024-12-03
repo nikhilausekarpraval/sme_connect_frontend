@@ -60,37 +60,48 @@ export const UserColumnConfig = [
     dataType: "string",
   },
   {
-    field: "userGroupId",
-    dataType: "number",
-  },
-  {
-    field: "userName",
-    dataType: "string",
-  },
-  {
     field: "email",
-    dataType: "string",
-  },
-  {
-    field: "password",
     dataType: "string",
   },
   {
     field: "displayName",
     dataType: "string",
   },
+  {
+    field: "userName",
+    dataType: "string",
+  },
+  {
+    field: "userGroupName",
+    dataType: "string",
+  },
+  {
+    field: "userRole",
+    dataType: "string",
+  },
+
 ];
 
 export const userHeaders = {
+
   id : "ID",
-
-  userGroupId: "User Group ID",
-
-  userName: "User Name",
 
   email: "Email",
 
-  password: "Password",
+  displayName: "Full Name",
 
-  displayName: "Display Name",
+  userName: "User Name",
+
+  userGroupName: "Group",
+
+  userRole : "Role",
+
+  CreatedOn : 'Created On Dt',
+
+  CreatedBy : 'Created By',
+
+  ChangedOn : 'Changed On Dt',
+
+  ChangedBy : 'Changed By'
+
 }

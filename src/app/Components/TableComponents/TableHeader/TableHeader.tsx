@@ -1,7 +1,8 @@
 import React from 'react'
 import { SortOrderEnum } from '@/app/Constants/Enum';
 import { FaSortUp, FaSortDown } from "react-icons/fa";
-
+import './TableHeader.scss';
+import { AscSortSVG, DescSortSVG } from '@/app/Assets/Images/SortSVG';
 interface ITableHeaderProps {
   name: string;
   notSortable?: boolean;
@@ -23,26 +24,25 @@ const TableHeader : React.FC<
 
 
     return (
-      <th scope="col" className="border-bottom-0 position-sticky top-0" onClick={()=>handleSort(name)}>
-        <div className={`w-100 d-flex ${typeof value === 'number' ?'justify-content-end' : '' }`}>
+      <th scope="col" className="border-bottom-0 position-sticky top-0" onClick={()=>handleSort(value)}>
+        <div className={`d-flex ${name.includes("On Dt") ? 'audit-column-width' :""} ${typeof value === 'number' ?'justify-content-end' : '' }`}>
           {notSortable ? (
             <span>{name}</span>
           ) : (
-            <React.Fragment>
-              <span>{name}</span>
-              <span>
-                {isSortedColumn() ? (
-                  sortOrder === SortOrderEnum.ASC ? (
-                    <FaSortUp />
+              <React.Fragment>
+                <span>{name}</span>
+                <span className='ps-1 pt-1'>
+                  {isSortedColumn() ? (
+                    sortOrder === SortOrderEnum.ASC ? (
+                      <AscSortSVG />
+                    ) : (
+                      <DescSortSVG />
+                    )
                   ) : (
-                    <FaSortDown />
-                  )
-                ) : (
-                  <span className="space-for-sort-icon"></span>
-                )}
-              </span>
-
-            </React.Fragment>
+                    <span className="space-for-sort-icon"></span>
+                  )}
+                </span>
+              </React.Fragment>
           )}
         </div>
       </th>
