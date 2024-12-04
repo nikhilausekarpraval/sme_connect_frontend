@@ -44,10 +44,6 @@ class UsersService {
         return await apiService.post("api/Admin/add_role",role)
     }
 
-    async getRoles(){
-        return await apiService.get("api/Admin/getRoles")
-    }
-
     async getUsers(){
        return await apiService.get("api/Admin/getUsers")
     }

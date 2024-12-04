@@ -3,7 +3,7 @@ import { IApplicationContext, IClaim, IRoleClaim, IUser } from "../Interfaces/In
 
 
 export const emptyUser = {
-  userName: '', password: "", userGroupId: 0, email: "", displayName: "", id: "", mobileNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
+  userName: '', password: "", groupId:0, practiceId:0, email: "", displayName: "", id: "", phoneNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
   confirmPassword: ""
 }
 
@@ -19,7 +19,7 @@ export const questions = ["What was the name of your first pet?",
   "What is your father's middle name?",
   "What was the name of your first school?",
   "What is the name of the company where you got your first job?"]
-export const registerUserFormErrors = { email: "", password: "", invalid: "", question1: "", username: "", answer1: "", answer2: "", answer3: "", newPassword: "", confirmPassword: "" }
+export const registerUserFormErrors = { email: "", password: "", invalid: "", question1: "", username: "", answer1: "", answer2: "", answer3: "", newPassword: "", confirmPassword: "" ,phoneNumber:""}
 
 export const emptyApplicationContext: IApplicationContext = {
   expiration: "",

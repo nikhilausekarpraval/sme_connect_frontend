@@ -51,9 +51,7 @@ createdBy:string;
 export interface IUser{
 
     id : string
-    
-    userGroupId: number;
-    
+        
     userName : string
 
     email : string
@@ -61,6 +59,13 @@ export interface IUser{
     password: string
  
     displayName : string
+
+    phoneNumber : string
+
+    groupId : number
+
+    practiceId : number
+
 }
 
 export interface IClaim{
@@ -101,7 +106,15 @@ export interface IRole{
  name:string,
 }
 
+export interface IGroup{
+  id:number,
+  name:string
+}
 
+export interface IPractice{
+  id:number,
+  practice:string
+}
 
 export interface IUserContext {
   user : IUser,
@@ -141,6 +154,6 @@ export interface IUserForm{
   answer1:string,
   answer2:string,
   answer3:string
-  mobileNumber:string,
+  phoneNumber:string,
   id:string,
 }
