@@ -183,7 +183,6 @@ export default function User() {
 
     useEffect(() => {
         try{
-            debugger;
             if(isCreate){
                 setSelectedUser(emptyUser);
                 return;
@@ -210,7 +209,7 @@ export default function User() {
     }
 
     return (
-        <div className='px-3 la-table-styles min-w-full user-select-none user-access-config'>
+        <div className='px-3 flex flex-1 flex-column overflow-auto la-table-styles min-w-full user-select-none user-access-config'>
             <TableFilter  setIsEdit={setIsEdit}  setIsCreate={setIsCreate} reloadData={reloadData} items={allItems} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
             <TableBody sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <UserForm employee={selectedUser} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm } save={submitForm}/>

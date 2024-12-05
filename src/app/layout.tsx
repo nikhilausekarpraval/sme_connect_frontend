@@ -5,7 +5,6 @@ import localFont from "next/font/local";
 import BootstrapClient from "./Components/BootstrapClient";
 import { CustomNavbar } from "./Components/CustomNavbar";
 import { LeftMenubar } from "./Components/LeftMenubar";
-import PrelineScript from "./Components/PrelineScript";
 import { AppWrapper } from "./Context/AppContext";
 import "./globals.css";
 
@@ -50,11 +49,11 @@ export default function RootLayout({
         <AppWrapper>
           <div className="min-h-screen">
             <CustomNavbar />
-            <div className="flex">
+            <div className="flex overflow-hidden">
               <div className="">
                 <LeftMenubar />
               </div>
-              <div className="w-full">
+              <div className="overflow-auto flex-1 flex">
                 {children}
               </div>
             </div>
@@ -64,7 +63,6 @@ export default function RootLayout({
         {/* </AppRouterCacheProvider> */}
         <BootstrapClient />
       </body>
-      <PrelineScript />
     </html>
   );
 }

@@ -48,7 +48,12 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     }, [isCreate, isEdit])
 
     useEffect(()=>{
-        setUser(employee);
+
+        if(employee !== null && employee != undefined)
+         setUser(employee);
+        else
+        setUser(emptyUser)
+
     },[employee])
 
     const loadData = async () => {
@@ -222,7 +227,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password} title={"Password"} />
+                                        <FormPasswordInput currentValue={user?.password} handleChange={handleChange} filedName={"password"} errorMessage={errors?.password} title={"Password"} />
                                     </div>
 
 
@@ -234,7 +239,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             className="w-100"
                                             id="displayName"
                                             onChange={handleChange}
-                                            value={user.displayName}
+                                            value={user?.displayName}
                                         />
                                     </div>
 
@@ -245,7 +250,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             placeholder="name@mail.com"
                                             className="w-100"
                                             onChange={handleChange}
-                                            value={user.email}
+                                            value={user?.email}
                                             id="email"
                                             required
                                         />
@@ -261,7 +266,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             placeholder="number..."
                                             className="w-100"
                                             onChange={handleChange}
-                                            value={user.phoneNumber}
+                                            value={user?.phoneNumber}
                                             maxLength={10}
                                             id="phoneNumber"
                                             required

@@ -72,7 +72,11 @@ export const UserColumnConfig = [
     dataType: "string",
   },
   {
-    field: "userGroupName",
+    field: "group",
+    dataType: "string",
+  },
+  {
+    field: "practice",
     dataType: "string",
   },
   {
@@ -81,6 +85,7 @@ export const UserColumnConfig = [
   },
 
 ];
+
 
 export const rolesData:IRole[]=[
   {id:"234",name:"admin"},
@@ -112,16 +117,16 @@ export const userHeaders = {
 
   userName: "User Name",
 
-  userGroupName: "Group",
+  Group: "Group",
+
+  Practice : "Practice",
 
   userRole : "Role",
 
-  CreatedOn : 'Created On Dt',
+  ModifiedOnDt: 'Modified On Dt',
 
-  CreatedBy : 'Created By',
+  ModifiedBy : 'Modified By',
 
-  ChangedOn : 'Changed On Dt',
 
-  ChangedBy : 'Changed By'
 
 }

@@ -22,7 +22,7 @@ export const CustomNavbar = () => {
 
   return (
     <div>
-    <nav className='bg-blue-600 h-12 py-2 px-3 flex justify-between items-center' >
+    <nav className='bg-blue-600 h-12  px-3 flex justify-between items-center' >
         <div>
           <h3 className='font-semibold text-xl text-white m-0' ><Link href="/Dashboard/Home">Next.Js Demo</Link></h3>
         </div>
@@ -57,10 +57,10 @@ export const CustomNavbar = () => {
             </li>
           </ul> */}
         </div>
-        <div>
+        <div className="col col-sm-3 flex justify-end">
           <ul className='flex m-0'>
             <li>
-            <div className="current-user col-9 d-inline-block text-dark ">
+            <div className="current-user col-10 d-inline-block text-dark ">
               <div className="d-flex justify-content-end">
                 <div className="row user-container bg-none text-dark m-0">
                   <div className="p-0">
