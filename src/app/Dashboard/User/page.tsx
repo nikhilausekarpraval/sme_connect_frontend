@@ -7,6 +7,7 @@ import React, { RefObject, useEffect, useRef, useState } from 'react';
 import UserForm from '../Forms/UserForm/UserForm';
 import SortWorker from '@/app/Workers/SortWorker';
 import SearchWorker from '@/app/Workers/SearchWorker';
+import { emptyUser } from '@/app/Constants/Constants';
 
 export default function User() {
 
@@ -182,8 +183,9 @@ export default function User() {
 
     useEffect(() => {
         try{
+            debugger;
             if(isCreate){
-                setSelectedUser(null);
+                setSelectedUser(emptyUser);
                 return;
             }
             const user = Array.from(selectedItems)[0];

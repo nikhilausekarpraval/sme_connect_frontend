@@ -47,6 +47,10 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
     }, [isCreate, isEdit])
 
+    useEffect(()=>{
+        setUser(employee);
+    },[employee])
+
     const loadData = async () => {
         setIsLoading(true);
         // setRoles(await new RoleService().getRoles());
@@ -186,7 +190,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
             {/* <NotificationContainer/> */}
             <Modal
                 show={isEdit || isCreate}
-                onHide={() => clearForm}
+                onHide={() => clearForm(null)}
                 centered
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -329,7 +333,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                             </div>
                             <Modal.Footer className="p-0 py-2">
                                 <div className="d-flex justify-content-end gap-4 pe-3">
-                                    <Button className="cancel-button-style px-4 py-2" onClick={clearForm}>Cancel</Button>
+                                    <Button type="button" className="cancel-button-style px-4 py-2" onClick={clearForm}>Cancel</Button>
                                     <Button type="submit" className="button-style button-width px-4 py-2" disabled={isDisabled}>Save</Button>
                                 </div>
                             </Modal.Footer>
