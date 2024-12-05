@@ -1,5 +1,5 @@
 
-import { IApplicationContext, IClaim, IRoleClaim, IUser } from "../Interfaces/Interfaces";
+import { IApplicationContext, IClaim, IGroup, IPractice, IRole, IRoleClaim, IUser } from "../Interfaces/Interfaces";
 
 
 export const emptyUser = {
@@ -19,7 +19,7 @@ export const questions = ["What was the name of your first pet?",
   "What is your father's middle name?",
   "What was the name of your first school?",
   "What is the name of the company where you got your first job?"]
-export const registerUserFormErrors = { email: "", password: "", invalid: "", question1: "", username: "", answer1: "", answer2: "", answer3: "", newPassword: "", confirmPassword: "" ,phoneNumber:""}
+export const registerUserFormErrors = { email: "",role:"",practice:"", group:"", password: "", invalid: "", question1: "", username: "", answer1: "", answer2: "", answer3: "", newPassword: "", confirmPassword: "" ,phoneNumber:""}
 
 export const emptyApplicationContext: IApplicationContext = {
   expiration: "",
@@ -80,6 +80,26 @@ export const UserColumnConfig = [
     dataType: "string",
   },
 
+];
+
+export const rolesData:IRole[]=[
+  {id:"234",name:"admin"},
+  {id:"234",name:"Manager"}
+]
+
+export const groupsData: IGroup[] = [
+  { id: 1, name: "Admin" },
+  { id: 2, name: "HR" },
+  { id: 3, name: "User" },
+  { id: 4, name: "IT" },
+];
+
+
+export const practicesData: IPractice[] = [
+  { id: 1, practice: "Software Development" },
+  { id: 2, practice: "Quality Assurance" },
+  { id: 3, practice: "Project Management" },
+  { id: 4, practice: "Business Analysis" },
 ];
 
 export const userHeaders = {

@@ -1,6 +1,6 @@
 import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
-import { emptyUser, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, registerUserFormErrors, totalAnswers, totalQuestions } from "@/app/Constants/Constants";
+import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions } from "@/app/Constants/Constants";
 import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";
 import { IClaim, IGroup, IPractice, IRole, IUser, IUserForm } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";
@@ -14,6 +14,7 @@ import RoleService from "@/app/Services/RoleService";
 import ClaimService from "@/app/Services/ClaimService";
 import GroupService from "@/app/Services/GroupService";
 import PracticesService from "@/app/Services/PracticesService";
+
 interface EmployeeFormProps {
     employee: IUser | null | undefined;
     isEdit: boolean;
@@ -24,17 +25,17 @@ interface EmployeeFormProps {
 
 const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, clearForm, save }) => {
 
-    const [user, setUser] = useState(emptyUser)
+    const [user, setUser] = useState<any>(employee)
     const [errors, setErrors] = useState(registerUserFormErrors)
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const [visibleQuestion, setVisibleQuestion] = useState(1);
     const [questionOperation, setQuestionOperation] = useState("Next");
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
-    const [roles, setRoles] = useState<IRole[]>([]);
+    const [roles, setRoles] = useState<IRole[]>(rolesData);
     const [claims, setClaims] = useState<IClaim[]>([]);
-    const [practice, setPractce] = useState<IPractice[]>([]);
-    const [group, setGroup] = useState<IGroup[]>([]);
+    const [practices, setPractces] = useState<IPractice[]>(practicesData);
+    const [groups, setGroup] = useState<IGroup[]>(groupsData);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -48,10 +49,10 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
     const loadData = async () => {
         setIsLoading(true);
-        setRoles(await new RoleService().getRoles());
-        setClaims(await new ClaimService().getClaims());
-        setGroup(await new GroupService().getGroups());
-        setPractce(await new PracticesService().getPractices());
+        // setRoles(await new RoleService().getRoles());
+        // setClaims(await new ClaimService().getClaims());
+        // setGroup(await new GroupService().getGroups());
+        // setPractces(await new PracticesService().getPractices());
         setIsLoading(false);
     }
 
@@ -180,104 +181,6 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     }
 
     return (
-        // <Modal show={isEdit || isCreate} onHide={()=>clearForm} backdrop="static" centered className="">
-        //     <Modal.Header>
-        //         <Modal.Title className="w-full text-center">
-        //             <h4 className="font-bold">Register User</h4>
-        //         </Modal.Title>
-        //     </Modal.Header>
-
-        //     <Modal.Body className="h-90">
-        //         <Form className="d-flex flex-column gap-1 px-2 h-96 overflow-y-scroll" onSubmit={handleSubmitForm}>
-        //             <Form.Group controlId="userName">
-        //                 <Form.Label className="block text-gray-700 font-bold mb-2">User Name</Form.Label>
-        //                 <Form.Control
-        //                     type="text"
-        //                     placeholder="Enter you name"
-        //                     className="w-100"
-        //                     onChange={handleChange}
-        //                     value={user.userName}
-        //                     required
-        //                 />
-        //                 <div className="text-red-600">
-        //                     {errors.username}
-        //                 </div>
-        //             </Form.Group>
-        //             <Form.Group controlId="displayName">
-        //                 <Form.Label className="block text-gray-700 font-bold mb-2">Full Name</Form.Label>
-        //                 <Form.Control
-        //                     type="text"
-        //                     placeholder="Enter name"
-        //                     className="w-100"
-        //                     onChange={handleChange}
-        //                     value={user.displayName}
-
-        //                 />
-        //             </Form.Group>
-        //             <Form.Group controlId="email">
-        //                 <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
-        //                 <Form.Control
-        //                     type="email"
-        //                     placeholder="name@mail.com"
-        //                     className="w-100"
-        //                     onChange={handleChange}
-        //                     value={user.email}
-        //                     required
-        //                 />
-        //                 <div className="text-red-600">
-        //                     {errors.email}
-        //                 </div>
-        //             </Form.Group>
-        //             <Form.Group controlId="email">
-        //                 <Form.Label className="block text-gray-700 font-bold mb-2">Phone Number</Form.Label>
-        //                 <Form.Control
-        //                     type={'text'}
-        //                     placeholder="number..."
-        //                     className="w-100"
-        //                     onChange={handleChange}
-        //                     value={user.email}
-        //                     maxLength={10}
-        //                     required
-        //                 />
-        //                 <div className="text-red-600">
-        //                     {errors.phoneNumber}
-        //                 </div>
-        //             </Form.Group>
-        //             <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password} title={"Password"} />
-
-        //             <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
-        //             {questionOperation === "Next" &&
-        //                 <div className="flex justify-center items-center">
-        //                     <button
-        //                         type="button"
-        //                         onClick={nextQuestion}
-        //                         className="btn-sm mt-2 cursor-pointer btn flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold  rounded-lg shadow-md transition-all duration-300"
-        //                     >
-        //                         <span>Next</span>
-        //                         <FiArrowRight className="text-lg ms-1" />
-        //                     </button>
-        //                 </div>
-        //             }
-
-
-        //             <div className="mt-2">
-        //                 <Button onClick={clearForm}
-        //                     className="btn btn-outline-secondary btn-lg d-flex justify-content-center align-items-center gap-2 w-100"
-        //                     type="button"
-        //                 >
-        //                     Cancel
-        //                 </Button>
-
-        //                     <Button className="btn btn-link d-flex justify-content-end align-items-center gap-2 w-100 hover:text-blue-700" onClick={save} type="button">Login</Button>
-        //                      <Button type="submit" className="btn btn-primary mt-3 btn-lg w-100" onClick={save}>
-        //                       {"Login"}
-        //                     </Button>
-
-
-        //             </div>
-        //         </Form>
-        //     </Modal.Body>
-        // </Modal>
         <div className="building-form-container">
             {isLoading && <Loader />}
             {/* <NotificationContainer/> */}
@@ -288,7 +191,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
             >
-                <Modal.Header closeButton className="px-5">
+                <Modal.Header closeButton className="px-4 py-2">
                     <div className="building-form-header py-2 d-flex gap-4 align-items-center">
                         {isEdit ? "Edit" : "Register"} User
                         <h4 className='m-0'> {isDuplicate && <div><span className='text-danger '>*Duplicate Email is not allowed</span></div>}</h4>
@@ -297,32 +200,27 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                 <Modal.Body className="p-0">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
-                            <div className="px-5 py-4 form-row-container">
+                            <div className="px-4 py-4 form-row-container">
                                 <div className="row m-0">
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <label className="form-label label-styles py-2 m-0">Role</label>
-                                        {/* <select className="form-select form-input-style py-3" value={roles?.find((role) => role?.id == user?.id)?.name} onChange={handleChange} name="ROLE" id="ROLE">
-                                            <option value="" selected></option>
-                                            {roles?.map((role) => (
-                                                <option value={role?.id}>{role.name}</option>
-                                            ))
-                                            } 
-                                        </select> */}
-                                    </div>
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2"><span className='text-danger font-14'>*</span>User Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Enter you name"
-                                            className="w-100 form-input-style"
+                                            className="w-100"
                                             onChange={handleChange}
-                                            value={user.userName}
+                                            value={user?.userName}
                                             required
                                         />
                                         <div className="text-red-600">
-                                            {errors.username}
+                                            {errors?.username}
                                         </div>
                                     </div>
+
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password} title={"Password"} />
+                                    </div>
+
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Full Name</Form.Label>
@@ -337,7 +235,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2"><span className='text-danger font-14'>*</span>Your Email</Form.Label>
                                         <Form.Control
                                             type="email"
                                             placeholder="name@mail.com"
@@ -353,13 +251,13 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Phone Number</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2"><span className='text-danger font-14'>*</span>Phone Number</Form.Label>
                                         <Form.Control
                                             type={'text'}
                                             placeholder="number..."
                                             className="w-100"
                                             onChange={handleChange}
-                                            value={user.email}
+                                            value={user.phoneNumber}
                                             maxLength={10}
                                             id="phoneNumber"
                                             required
@@ -370,38 +268,46 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            placeholder="name@mail.com"
-                                            className="w-100"
-                                            onChange={handleChange}
-                                            value={user.email}
-                                            id="email"
-                                            required
-                                        />
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Role</Form.Label>
+                                        <Form.Select className=" " value={roles?.find((role) => role?.id == user?.id)?.name} onChange={handleChange} name="ROLE" id="ROLE">
+                                            <option value=""></option>
+                                            {roles?.map((role) => (
+                                                <option value={role?.id}>{role.name}</option>
+                                            ))
+                                            } 
+                                        </Form.Select>
                                         <div className="text-red-600">
-                                            {errors.email}
+                                            {errors.role}
                                         </div>
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            placeholder="name@mail.com"
-                                            className="w-100"
-                                            onChange={handleChange}
-                                            value={user.email}
-                                            id="email"
-                                            required
-                                        />
+                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Group</Form.Label>
+                                        <Form.Select className="" value={groups?.find((group) => group?.id == group?.id)?.name} onChange={handleChange} name="Group" id="Group">
+                                            <option value=""></option>
+                                            {groups?.map((role) => (
+                                                <option value={role?.id}>{role.name}</option>
+                                            ))
+                                            }
+                                        </Form.Select>
                                         <div className="text-red-600">
-                                            {errors.email}
+                                            {errors.group}
                                         </div>
                                     </div>
 
-                                    <FormPasswordInput currentValue={user.password} handleChange={handleChange} filedName={"password"} errorMessage={errors.password} title={"Password"} />
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
+                                        <Form.Select className="" value={practices?.find((prac) => prac?.id == user?.practiceId)?.practice} onChange={handleChange} name="Practice" id="Practice">
+                                            <option value=""></option>
+                                            {practices?.map((prac) => (
+                                                <option value={prac?.id}>{prac?.practice}</option>
+                                            ))
+                                            }
+                                        </Form.Select>
+                                        <div className="text-red-600">
+                                            {errors.practice}
+                                        </div>
+                                    </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
@@ -421,8 +327,8 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
                                 </div>
                             </div>
-                            <Modal.Footer className="p-0 py-3">
-                                <div className="d-flex justify-content-end gap-4 pe-5">
+                            <Modal.Footer className="p-0 py-2">
+                                <div className="d-flex justify-content-end gap-4 pe-3">
                                     <Button className="cancel-button-style px-4 py-2" onClick={clearForm}>Cancel</Button>
                                     <Button type="submit" className="button-style button-width px-4 py-2" disabled={isDisabled}>Save</Button>
                                 </div>
