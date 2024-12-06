@@ -41,19 +41,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased ${roboto.variable}`}
+        className={`overflow-hidden ${geistSans.variable} ${geistMono.variable} antialiased ${roboto.variable}`}
       >
         {/* <AppRouterCacheProvider options={{ enableCssLayer: true, key: 'css' }}> */}
         {/* <ThemeProvider theme={theme}> */}
         {/* <CssBaseline /> */}
         <AppWrapper>
-          <div className="min-h-screen">
+          <div className="min-h-screen overflow-hidden">
             <CustomNavbar />
             <div className="flex overflow-hidden">
               <div className="">
                 <LeftMenubar />
               </div>
-              <div className="overflow-auto flex-1 flex">
+              <div className="overflow-hidden flex-1 flex">
                 {children}
               </div>
             </div>
