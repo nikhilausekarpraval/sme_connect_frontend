@@ -29,7 +29,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
   const toggleDropdown = () => setIsDropdown(!isDropdown);
 
   return (
-    <div className="relative text-left py-4 px-3" ref={menuRef}>
+    <div className="flex-1 flex flex-col overflow-hidden text-left py-4 px-3" ref={menuRef}>
       <div className={isCollapsed ? "w-8": ""} onClick={(event) => {
         event.stopPropagation();
         toggleDropdown(); // Toggle dropdown
@@ -46,8 +46,8 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
 
       {isDropdown && (
         <div
-          className={`absolute ${!isCollapsed && 'right-4'} z-10 mt-2 py-2 ${
-            !isCollapsed ? 'w-56' : 'inline-block w-8 right-3'
+          className={` ${!isCollapsed && ''}  mt-2 py-2 overflow-y-auto ${
+            !isCollapsed ? 'w-56' : 'inline-block w-8 '
           } origin-center rounded-md bg-gray-800 ring-1 ring-black ring-opacity-5 transition focus:outline-none`}
         >
           <div className="flex flex-col space-y-5">

@@ -10,12 +10,6 @@ import { FiUsers } from 'react-icons/fi';
 
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const router = useRouter();
-
-  useEffect(()=>{
-    router.push(routes.home)
-  
-  },[])
 
   const toggleMenu = () => {
     setIsCollapsed(!isCollapsed);
@@ -25,7 +19,7 @@ export const LeftMenubar = () => {
 
   return (
     <div className=" flex flex-col">
-      <nav className={`bg-gray-800 ${isCollapsed ? 'w-14' : 'w-64'} h-[calc(100vh-var(--top-menu-height))] transition-all duration-50`}>
+      <nav className={`bg-gray-800 flex flex-col overflow-hidden ${isCollapsed ? 'w-14' : 'w-64'} h-[calc(100vh-var(--top-menu-height))] transition-all duration-50`}>
         {/* Toggle Button */}
         <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
           <div className="text-white text-lg font-bold">
@@ -45,8 +39,8 @@ export const LeftMenubar = () => {
           </div>
         )} */}
 
-        <div className='pt-3 flex flex-col justify-center items-center'>
-          <ul className= {`flex flex-col space-y-5 ${isCollapsed && 'w-8'}`}>
+        <div className='pt-3 flex flex-col justify-center overflow-hidden items-center'>
+          <ul className= {`flex flex-col overflow-y-auto space-y-5 ${isCollapsed && 'w-8'}`}>
             <li>
               <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.home) ? 'bg-gray-700' : ''}`} href={routes.home}>
                 <div className="justify-start flex items-center w-52">
