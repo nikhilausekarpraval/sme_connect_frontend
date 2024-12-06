@@ -64,6 +64,8 @@ export interface IUser{
 
     groupId : number
 
+    role:string
+
     practiceId : number
 
 }
@@ -116,14 +118,18 @@ export interface IRole{
  name:string,
 }
 
-export interface IGroup{
+export interface IUserGroup{
   id:number,
-  name:string
+  name:string,
+  modifiedBy:string,
+  modifiedOnDt:Date,
 }
 
 export interface IPractice{
   id:number,
-  practice:string
+  name:string
+  modifiedBy: string,
+  modifiedOnDt: Date,
 }
 
 export interface IUserContext {

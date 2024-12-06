@@ -1,9 +1,9 @@
 
-import { IApplicationContext, IClaim, IGroup, IPractice, IRole, IRoleClaim, IUser, IUserClaim } from "../Interfaces/Interfaces";
+import { IApplicationContext, IClaim, IPractice, IRole, IRoleClaim, IUser, IUserClaim, IUserGroup } from "../Interfaces/Interfaces";
 
 
 export const emptyUser = {
-  userName: '', password: "", groupId:0, practiceId:0, email: "", displayName: "", id: "", phoneNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
+  userName: '', password: "", groupId:0,role:"", practiceId:0, email: "", displayName: "", id: "", phoneNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
   confirmPassword: ""
 }
 
@@ -76,7 +76,7 @@ export const UserColumnConfig = [
     dataType: "string",
   },
   {
-    field: "practice",
+    field: "name",
     dataType: "string",
   },
   {
@@ -88,15 +88,16 @@ export const UserColumnConfig = [
 
 
 export const rolesData:IRole[]=[
-  {id:"234",name:"admin"},
-  {id:"234",name:"Manager"}
+  {id:"234",name:"Admin"},
+  {id:"234",name:"Manager"},
+  {id:"34",name:"User"},
 ]
 
-export const groupsData: IGroup[] = [
-  { id: 1, name: "Admin" },
-  { id: 2, name: "HR" },
-  { id: 3, name: "User" },
-  { id: 4, name: "IT" },
+export const groupsData: IUserGroup[] = [
+  { id: 1, name: "Admin",modifiedBy:"", modifiedOnDt:new Date() },
+  { id: 2, name: "HR", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 3, name: "User", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 4, name: "IT", modifiedBy: "", modifiedOnDt: new Date() },
 ];
 
 export const mobileNumberRegex = /^[6-9]\d{9}$/;
@@ -110,10 +111,10 @@ export const replaceChracterWithSpace = /[^0-9\-]/g;
 export const replaceNumbersWithSpace = /[^0-9\.\-]/g;
 
 export const practicesData: IPractice[] = [
-  { id: 1, practice: "Software Development" },
-  { id: 2, practice: "Quality Assurance" },
-  { id: 3, practice: "Project Management" },
-  { id: 4, practice: "Business Analysis" },
+  { id: 1, name: "Software Development", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 2, name: "Quality Assurance", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 3, name: "Project Management", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 4, name: "Business Analysis", modifiedBy: "", modifiedOnDt: new Date() },
 ];
 
 export const userClaims: IUserClaim[] = [

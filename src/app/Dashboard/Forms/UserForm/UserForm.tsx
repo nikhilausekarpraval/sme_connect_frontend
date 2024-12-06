@@ -2,7 +2,7 @@ import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
 import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
-import { IClaim, IGroup, IPractice, IRole, IUser, IUserClaim, IUserForm } from "@/app/Interfaces/Interfaces";
+import { IClaim, IUserGroup, IPractice, IRole, IUser, IUserClaim, IUserForm } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
@@ -36,7 +36,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [roles, setRoles] = useState<IRole[]>(rolesData);
     const [claims, setClaims] = useState<IUserClaim[]>(userClaims);
     const [practices, setPractces] = useState<IPractice[]>(practicesData);
-    const [groups, setGroup] = useState<IGroup[]>(groupsData);
+    const [groups, setGroup] = useState<IUserGroup[]>(groupsData);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -73,17 +73,20 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
                 result = await new UsersService().createUser(user);
-                if (result.value.status === "Error") {
+                if (result.value.status !== "Success") {
                     formError = result.value.statusText
                     if (formError.includes("Duplicate")) {
                         setErrors({ ...errors, email: formError });
                     }
                 } else {
+                    clearForm(null);
                     clearFormData();
                 }
             }
         } catch (e: any) {
             console.log(e)
+            clearForm(null);
+            clearFormData();
         }
 
     }
@@ -227,6 +230,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             className="w-100"
                                             onChange={handleChange}
                                             value={user?.userName}
+                                            id={'userName'}
                                             required
                                         />
                                         <div className="text-red-600">
@@ -269,11 +273,11 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     <FormNumberInput validateField={errors} required={true} fieldName={"phoneNumber"} fieldValue={user?.phoneNumber} fieldLabel={"Mobile Number"} handleInputChange={handleChange} maxLength={10} />
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Role</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Role<span className='text-danger font-14 p-1'>*</span></Form.Label>
                                         <Form.Select className=" " value={roles?.find((role) => role?.id == user?.id)?.name} onChange={handleChange} name="ROLE" id="ROLE">
-                                            <option value=""></option>
+                                            <option value="User">User</option>
                                             {roles?.map((role) => (
-                                                <option value={role?.id}>{role.name}</option>
+                                                <option value={role?.name}>{role.name}</option>
                                             ))
                                             } 
                                         </Form.Select>
@@ -327,10 +331,10 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
-                                        <Form.Select className="" value={practices?.find((prac) => prac?.id == user?.practiceId)?.practice} onChange={handleChange} name="Practice" id="Practice">
+                                        <Form.Select className="" value={practices?.find((prac) => prac?.id == user?.practiceId)?.name} onChange={handleChange} name="Practice" id="Practice">
                                             <option value=""></option>
                                             {practices?.map((prac) => (
-                                                <option value={prac?.id}>{prac?.practice}</option>
+                                                <option value={prac?.id}>{prac?.name}</option>
                                             ))
                                             }
                                         </Form.Select>

@@ -1,4 +1,4 @@
-import { IClaim, IRoleClaim, IRoleUser, IUser, IUserForm } from "../Interfaces/Interfaces";
+import { IClaim, IUserGroup } from "../Interfaces/Interfaces";
 import { apiService } from "./commonService"
 
 class GroupService {
@@ -8,15 +8,15 @@ class GroupService {
     }
 
     async addGroup(role: any) {
-        return await apiService.post("api/Admin/add_role", role)
+        return await apiService.post("api/Practice/add_group", role)
     }
 
     async getGroups() {
-        return await apiService.get("api/Admin/getRoles")
+        return await apiService.get("api/Practice/get_groups")
     }
 
-    async deleteGroup() {
-        return await apiService.get("api/Admin/getRoles")
+    async deleteGroup(groups:IUserGroup[]) {
+        return await apiService.delete("api/Practice/delete_groups",groups)
     }
 
 

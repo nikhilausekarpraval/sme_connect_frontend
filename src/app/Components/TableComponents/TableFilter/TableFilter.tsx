@@ -72,8 +72,10 @@ const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate, items,
                         {selectedItems.size === 1 && (
                             <button onClick={()=>setIsEdit(true)}>Edit</button>
                         )}
+                        {selectedItems.size <= 0 && (
                         <button onClick={()=>setIsCreate(true)}>Create</button>
-                        {selectedItems.size === 1 && (
+                        )}
+                        {selectedItems.size >= 1 && (
                             <button onClick={showDelete}>Delete</button>
                         )}
                         <button onClick={resetFilters}>Reset</button>
