@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { quenstionsAndAnswers, questions } from '../Constants/Constants';
 import { IRegisterUserErrors, IUserForm } from '../Interfaces/Interfaces';
 import FormPasswordInput from './FormPasswordInput';
+import { Form } from 'react-bootstrap';
 
 
 interface FormSelectQuestionAndAnswerProps {
@@ -44,8 +45,8 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
       {visibleQuestions.map((q) => (
         <div className='flex-col space-y-4'>
         <div className="form-group col-span-6">
-          <label htmlFor="rolename" className="block text-gray-700 font-bold mb-2">Q{`${Object.keys(q)[0].slice(1).slice(0,7)} ${Object.keys(q)[0].slice(8,9)} `}</label>
-          <select
+          <Form.Label htmlFor="rolename" className="block text-gray-700 font-bold mb-2">Q{`${Object.keys(q)[0].slice(1).slice(0,7)} ${Object.keys(q)[0].slice(8,9)} `}</Form.Label>
+          <Form.Select
             id={Object.keys(q)[0]}
             name={Object.keys(q)[0]}
             value={formData[Object.keys(q)[0] as keyof IUserForm]}
@@ -57,7 +58,7 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
             {questions.map(question => (
               <option key={question} value={question}>{question}</option>
             ))}
-          </select>
+          </Form.Select>
         </div>
 
         <FormPasswordInput filedName={Object.values(q)[0]} currentValue={formData[Object.values(q)[0] as keyof IUserForm]} handleChange={handleChange} errorMessage={errors[Object.values(q)[0] as keyof IRegisterUserErrors]} title={`A${Object.values(q)[0].slice(1).slice(0,5)} ${Object.values(q)[0].slice(6,7)}`} />

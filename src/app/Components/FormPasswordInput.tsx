@@ -17,7 +17,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, 
 
   return (
     <div className="">
-      <label className="block text-gray-700 font-bold mb-2">{title}</label>
+      <label className="block text-gray-700 font-bold mb-2">{title}<span className='text-danger font-14 ps-1'>*</span></label>
       <div className="relative">
         <input
           id={filedName}

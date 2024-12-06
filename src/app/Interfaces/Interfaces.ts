@@ -79,6 +79,16 @@ export interface IClaim{
       claimValue : string
 }
 
+export interface IUserClaim{
+  userId: string
+
+  claimType: string
+
+  claimValue: string
+
+  id: number
+}
+
 export interface IRoleClaim{
 
   roleName : string

@@ -19,7 +19,7 @@ export const questions = ["What was the name of your first pet?",
   "What is your father's middle name?",
   "What was the name of your first school?",
   "What is the name of the company where you got your first job?"]
-export const registerUserFormErrors = { email: "",role:"",practice:"", group:"", password: "", invalid: "", question1: "", username: "", answer1: "", answer2: "", answer3: "", newPassword: "", confirmPassword: "" ,phoneNumber:""}
+export const registerUserFormErrors = { email: "",role:"",claim:"",practice:"", group:"", password: "", invalid: "", question1: "", username: "", answer1: "", answer2: "", answer3: "", newPassword: "", confirmPassword: "" ,phoneNumber:""}
 
 export const emptyApplicationContext: IApplicationContext = {
   expiration: "",
@@ -99,6 +99,15 @@ export const groupsData: IGroup[] = [
   { id: 4, name: "IT" },
 ];
 
+export const mobileNumberRegex = /^[6-9]\d{9}$/;
+export const allow15Numbers = /^\d{0,15}$/;
+export const allow15_7Numbers = /^(-?\d{0,15}\.\d{0,7})$/;
+export const allowIntegers = /^-?[0-9]*$/;
+export const allowNumbers = /(?<=\d)\.|\b\d+\b/;
+export const allow10Numbers = /^\d{0,10}$/
+export const allowDotAndDash = /^[-.]$/;
+export const replaceChracterWithSpace = /[^0-9\-]/g;
+export const replaceNumbersWithSpace = /[^0-9\.\-]/g;
 
 export const practicesData: IPractice[] = [
   { id: 1, practice: "Software Development" },

@@ -1,8 +1,8 @@
 import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions } from "@/app/Constants/Constants";
-import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";
-import { IClaim, IGroup, IPractice, IRole, IUser, IUserForm } from "@/app/Interfaces/Interfaces";
+import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
+import { IClaim, IGroup, IPractice, IRole, IUser, IUserClaim, IUserForm } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
@@ -14,6 +14,7 @@ import RoleService from "@/app/Services/RoleService";
 import ClaimService from "@/app/Services/ClaimService";
 import GroupService from "@/app/Services/GroupService";
 import PracticesService from "@/app/Services/PracticesService";
+import FormNumberInput from "@/app/Components/FormNumberInput/FormNumberInput";
 
 interface EmployeeFormProps {
     employee: IUser | null | undefined;
@@ -33,7 +34,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [roles, setRoles] = useState<IRole[]>(rolesData);
-    const [claims, setClaims] = useState<IClaim[]>([]);
+    const [claims, setClaims] = useState<IUserClaim[]>([]);
     const [practices, setPractces] = useState<IPractice[]>(practicesData);
     const [groups, setGroup] = useState<IGroup[]>(groupsData);
     const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +71,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         var result;
         var formError;
         try {
-            if (Object.values(errors).filter((error) => error !== "").length == 0) {
+            if (Object.values(errors).filter((error) => error !== "").length <= 0) {
                 result = await new UsersService().createUser(user);
                 if (result.value.status === "Error") {
                     formError = result.value.statusText
@@ -94,6 +95,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any>) => {
         const { id, value } = e.target;
+
         if (id === "password") {
             if (!validatePassword(value)) {
                 setErrors({ ...errors, password: "Invalid password, password must have Capital, small, number and special character" })
@@ -112,6 +114,12 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
             if (value !== "") {
                 setErrors({ ...errors, [id]: "" })
+            }
+        }else if(id.includes('phoneNumber')){
+            if (!isValidPhoneNumber(value)){
+                    setErrors({...errors,phoneNumber:"Invalid mobile number."})
+            }else {
+                setErrors({ ...errors, phoneNumber: "" })
             }
         }
 
@@ -212,7 +220,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                             <div className="px-4 py-4 form-row-container">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2"><span className='text-danger font-14'>*</span>User Name</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">User Name<span className='text-danger font-14 ps-1'>*</span></Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Enter you name"
@@ -230,7 +238,6 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         <FormPasswordInput currentValue={user?.password} handleChange={handleChange} filedName={"password"} errorMessage={errors?.password} title={"Password"} />
                                     </div>
 
-
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Full Name</Form.Label>
                                         <Form.Control
@@ -244,7 +251,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2"><span className='text-danger font-14'>*</span>Your Email</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Your Email<span className='text-danger font-14 p-1'>*</span></Form.Label>
                                         <Form.Control
                                             type="email"
                                             placeholder="name@mail.com"
@@ -259,22 +266,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         </div>
                                     </div>
 
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2"><span className='text-danger font-14'>*</span>Phone Number</Form.Label>
-                                        <Form.Control
-                                            type={'text'}
-                                            placeholder="number..."
-                                            className="w-100"
-                                            onChange={handleChange}
-                                            value={user?.phoneNumber}
-                                            maxLength={10}
-                                            id="phoneNumber"
-                                            required
-                                        />
-                                        <div className="text-red-600">
-                                            {errors.phoneNumber}
-                                        </div>
-                                    </div>
+                                    <FormNumberInput validateField={errors} required={true} fieldName={"phoneNumber"} fieldValue={user?.phoneNumber} fieldLabel={"Mobile Number"} handleInputChange={handleChange} maxLength={10} />
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Role</Form.Label>
@@ -291,8 +283,22 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claim</Form.Label>
+                                        <Form.Select className=" " value={claims?.find((claim) => claim?.userId == user?.id)?.claimType} onChange={handleChange} name="Claim" id="Claim">
+                                            <option value=""></option>
+                                            {claims?.map((claim) => (
+                                                <option value={claim?.id}>{claim.claimType}</option>
+                                            ))
+                                            }
+                                        </Form.Select>
+                                        <div className="text-red-600">
+                                            {errors.claim}
+                                        </div>
+                                    </div>
+
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className=" block text-gray-700 font-bold mb-2">Group</Form.Label>
-                                        <Form.Select className="" value={groups?.find((group) => group?.id == group?.id)?.name} onChange={handleChange} name="Group" id="Group">
+                                        <Form.Select className="" value={groups?.find((group) => group?.id == user?.groupId)?.name} onChange={handleChange} name="Group" id="Group">
                                             <option value=""></option>
                                             {groups?.map((role) => (
                                                 <option value={role?.id}>{role.name}</option>
