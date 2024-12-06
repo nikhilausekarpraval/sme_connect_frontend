@@ -51,7 +51,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
           } origin-center rounded-md bg-gray-800 ring-1 ring-black ring-opacity-5 transition focus:outline-none`}
         >
           <div className="flex flex-col space-y-5">
-            <Link
+            {/* <Link
               className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
                 isActive('/Dashboard/AboutUser') ? 'bg-gray-700' : ''
               }`}
@@ -61,7 +61,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 <FaInfoCircle />
                 {!isCollapsed && <span className="ps-3">About</span>}
               </div>
-            </Link>
+            </Link> */}
             <Link
               className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
                 isActive('/Dashboard/CreateRole') ? 'bg-gray-700' : ''

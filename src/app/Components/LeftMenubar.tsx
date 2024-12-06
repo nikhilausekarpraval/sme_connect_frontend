@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FaBars, FaHome, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
+import { FaBars, FaHome, FaInfoCircle, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
 import { routes } from '../Constants/Constants';
 import AdminOptionsDropdown from './AdminOptionsDropdown';
+import { FiUsers } from 'react-icons/fi';
 
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -73,7 +74,7 @@ export const LeftMenubar = () => {
             <li>
               <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.user) ? 'bg-gray-700' : ''}`} href={routes.user}>
                 <div className="justify-start flex items-center w-52">
-                  <FaTasks className="" />
+                  <FiUsers className="" />
                   {!isCollapsed && <span className='ps-3'>Users</span>}
                 </div>
               </Link>
