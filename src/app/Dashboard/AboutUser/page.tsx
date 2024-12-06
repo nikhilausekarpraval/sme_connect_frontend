@@ -3,7 +3,7 @@ import FormPasswordInput from '@/app/Components/FormPasswordInput';
 import { emptyUser, registerUserFormErrors } from '@/app/Constants/Constants';
 import { useAppContext } from '@/app/Context/AppContext';
 import { validatePassword, validateUsername } from '@/app/Helpers/Helpers';
-import UsersService from '@/app/Services/UsersService';
+import UsersService from '@/app/Services/usersService';
 import { FormEvent, useEffect, useState } from 'react';
 
 const AboutUser = () => {

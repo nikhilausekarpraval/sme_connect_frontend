@@ -39,7 +39,7 @@ const TableHeader : React.FC<
                       <DescSortSVG />
                     )
                   ) : (
-                    <span className="space-for-sort-icon"></span>
+                    <span className=""></span>
                   )}
                 </span>
               </React.Fragment>

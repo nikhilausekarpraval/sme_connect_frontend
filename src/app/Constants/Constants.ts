@@ -1,5 +1,5 @@
 
-import { IApplicationContext, IClaim, IGroup, IPractice, IRole, IRoleClaim, IUser } from "../Interfaces/Interfaces";
+import { IApplicationContext, IClaim, IGroup, IPractice, IRole, IRoleClaim, IUser, IUserClaim } from "../Interfaces/Interfaces";
 
 
 export const emptyUser = {
@@ -114,6 +114,33 @@ export const practicesData: IPractice[] = [
   { id: 2, practice: "Quality Assurance" },
   { id: 3, practice: "Project Management" },
   { id: 4, practice: "Business Analysis" },
+];
+
+export const userClaims: IUserClaim[] = [
+  {
+    userId: "user123",
+    claimType: "Role",
+    claimValue: "Admin",
+    id: 1,
+  },
+  {
+    userId: "user124",
+    claimType: "Permission",
+    claimValue: "ReadOnly",
+    id: 2,
+  },
+  {
+    userId: "user125",
+    claimType: "Department",
+    claimValue: "Finance",
+    id: 3,
+  },
+  {
+    userId: "user126",
+    claimType: "Region",
+    claimValue: "North America",
+    id: 4,
+  },
 ];
 
 export const userHeaders = {

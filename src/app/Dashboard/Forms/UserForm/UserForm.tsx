@@ -1,6 +1,6 @@
 import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
-import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions } from "@/app/Constants/Constants";
+import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
 import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
 import { IClaim, IGroup, IPractice, IRole, IUser, IUserClaim, IUserForm } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";
@@ -34,7 +34,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [roles, setRoles] = useState<IRole[]>(rolesData);
-    const [claims, setClaims] = useState<IUserClaim[]>([]);
+    const [claims, setClaims] = useState<IUserClaim[]>(userClaims);
     const [practices, setPractces] = useState<IPractice[]>(practicesData);
     const [groups, setGroup] = useState<IGroup[]>(groupsData);
     const [isLoading, setIsLoading] = useState(false);
@@ -311,20 +311,6 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
-                                        <Form.Select className="" value={practices?.find((prac) => prac?.id == user?.practiceId)?.practice} onChange={handleChange} name="Practice" id="Practice">
-                                            <option value=""></option>
-                                            {practices?.map((prac) => (
-                                                <option value={prac?.id}>{prac?.practice}</option>
-                                            ))
-                                            }
-                                        </Form.Select>
-                                        <div className="text-red-600">
-                                            {errors.practice}
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
                                         {questionOperation === "Next" &&
                                             <div className="flex justify-center items-center">
@@ -338,6 +324,19 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                                 </button>
                                             </div>
                                         }
+                                    </div>
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
+                                        <Form.Select className="" value={practices?.find((prac) => prac?.id == user?.practiceId)?.practice} onChange={handleChange} name="Practice" id="Practice">
+                                            <option value=""></option>
+                                            {practices?.map((prac) => (
+                                                <option value={prac?.id}>{prac?.practice}</option>
+                                            ))
+                                            }
+                                        </Form.Select>
+                                        <div className="text-red-600">
+                                            {errors.practice}
+                                        </div>
                                     </div>
 
                                 </div>
