@@ -11,7 +11,7 @@ class ClaimService {
         return await apiService.get("api/Admin/getClaims")
     }
 
-    async addClaimtoRole(claim: IRoleClaim) {
+    async addClaimtoRole(claim: IRoleClaim[]) {
         return await apiService.post("api/Admin/add_claim_to_role", claim)
 
     }

@@ -1,12 +1,15 @@
 
-import { createRoleErrors, emptyUser, registerUserFormErrors} from "@/app/Constants/Constants";
+import { createRoleErrors, emptyRole, emptyUser, registerUserFormErrors, roleClaims} from "@/app/Constants/Constants";
 import { isValidRole} from "@/app/Helpers/Helpers";
-import { IRole } from "@/app/Interfaces/Interfaces";
+import { IRole, IRoleClaim } from "@/app/Interfaces/Interfaces";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Loader from "@/app/Components/Loader/Loader";
 import RoleService from "@/app/Services/RoleService";
 import '../../../Common/Styles/Form.scss';
+import ClaimService from "@/app/Services/ClaimService";
+import MultipleSelectDropdown from "@/app/Components/MultiSelectDropdown/MultiSelectDropdown";
+import { ClipboardMinus } from "react-bootstrap-icons";
 
 interface EmployeeFormProps {
     selectedRole: IRole | null | undefined;
@@ -20,9 +23,11 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
     const [role, setUser] = useState<any>(selectedRole)
     const [errors, setErrors] = useState(createRoleErrors)
+    const [claims, setClaims] = useState<IRoleClaim[]>(roleClaims);
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedClaims, setSelectedClaims] = React.useState<string[]>([]);
 
 
     useEffect(() => {
@@ -35,12 +40,12 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
     useEffect(() => {
 
-        if (role !== null && role != undefined)
-            setUser(role);
+        if (selectedRole !== null && selectedRole != undefined)
+            setUser(selectedRole);
         else
-            setUser(emptyUser)
+            setUser(emptyRole)
 
-    }, [role])
+    }, [selectedRole])
 
     const loadData = async () => {
         setIsLoading(true);
@@ -55,7 +60,11 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
-                    result = await new RoleService().addRole(role);
+                   if(isCreate){
+                       result = await new RoleService().addRole(role);
+                   } 
+                   
+                    result = await new ClaimService().addClaimtoRole(role.claims)
                 
                 if (result.value.status !== "Success") {
                     formError = result.value.statusText
@@ -89,6 +98,12 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
             } else {
                 setErrors({ ...errors, role: "" })
             }
+        } else if (id === "claim") {
+            if (isValidRole(value)) {
+                setErrors({ ...errors, claim: "Invalid claim, claim must have only characters" })
+            } else {
+                setErrors({ ...errors, claim: "" })
+            }
         }
 
         setUser({
@@ -96,6 +111,18 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
             [id]: value,
         });
     };
+
+
+
+    const handleClaimChange = (event: any) => {
+        const {
+            target: { value },
+        } = event;
+        setSelectedClaims(
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
 
 
     return (
@@ -148,6 +175,23 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                                             {errors?.role}
                                         </div>
                                     </div>
+
+                                    {/* <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claim</Form.Label>
+                                        <Form.Select className=" " value={claims?.find((claim) => claim?.roleId == role?.id)?.claimType} onChange={handleChange} name="Claim" id="Claim">
+                                            <option value=""></option>
+                                            {claims?.map((claim) => (
+                                                <option value={claim?.id}>{claim.claimType}</option>
+                                            ))
+                                            }
+                                        </Form.Select>
+                                        <div className="text-red-600">
+                                            {errors.claim}
+                                        </div>
+                                    </div> */}
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                    <MultipleSelectDropdown values={selectedRole?.claims?.map((claim)=>claim.claimType)} title={"Claim"} selectedNames={selectedClaims} handleChange={handleClaimChange}/>
+                                     </div>
                                 </div>
                             </div>
                             <Modal.Footer className="p-0 py-2">

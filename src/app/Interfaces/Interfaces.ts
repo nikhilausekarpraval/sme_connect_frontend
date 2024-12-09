@@ -93,11 +93,13 @@ export interface IUserClaim{
 
 export interface IRoleClaim{
 
-  roleName : string
+  roleId : string
 
   claimType : string
   
   claimValue : string
+
+  id : number
 }
 
 export interface IRoleUser{
@@ -116,6 +118,7 @@ export interface IUserCredentials{
 export interface IRole{
  id:string,
  name:string,
+ claims:IRoleClaim[] | null,
 }
 
 export interface IUserGroup{

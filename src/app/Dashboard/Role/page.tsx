@@ -59,7 +59,7 @@ export default function Role() {
 
     try {
 
-      const result = await _RoleService.getRoles();
+      const result = await _RoleService.getRolesWithClaims();
       const sortedApis = await getSortedData(result.value);
       setSortedData(sortedApis);
       setAllItems(sortedApis);
@@ -231,7 +231,7 @@ export default function Role() {
 
   return (
     <div className='px-3 flex flex-1 flex-column overflow-hidden la-table-styles role-select-none role-access-config'>
-      <TableFilter setIsEdit={setIsEdit} haveEdit={false} setIsCreate={setIsCreate} showDelete={showDelete} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
+      <TableFilter setIsEdit={setIsEdit} setIsCreate={setIsCreate} showDelete={showDelete} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
       <TableBody<IRole> sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} tableHeaders={roleHeaders} columnConfig={RoleColumnConfig} />
       <RoleForm selectedRole={selectedUser} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm} save={submitForm} />
       {true && (

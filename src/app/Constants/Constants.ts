@@ -8,7 +8,7 @@ export const emptyUser = {
 }
 
 export const emptyRole = {
-  id:"",name:""
+  id:"",name:"",claims:null
 }
 
 export const quenstionsAndAnswers = [{ question1: "answer1" }, { question2: "answer2" }, { question3: "answer3" }]
@@ -36,7 +36,7 @@ export const emptyApplicationContext: IApplicationContext = {
   }
 };
 
-export const createRoleErrors = {role:""}
+export const createRoleErrors = {role:"",claim:""}
 
 export const routes = {
 
@@ -108,13 +108,17 @@ export const RoleColumnConfig = [
     field: "name",
     dataType: "string",
   },
+  {
+    field: "claims",
+    dataType: "dropdown",
+  },
 
 ];
 
 export const rolesData:IRole[]=[
-  {id:"234",name:"Admin"},
-  {id:"234",name:"Manager"},
-  {id:"34",name:"User"},
+  {id:"234",name:"Admin", claims:null},
+  {id:"234",name:"Manager",claims:null},
+  {id:"34",name:"User",claims:null},
 ]
 
 export const groupsData: IUserGroup[] = [
@@ -169,6 +173,21 @@ export const userClaims: IUserClaim[] = [
   },
 ];
 
+export const roleClaims: IRoleClaim[] = [
+  {
+    roleId: "user123",
+    claimType: "Role",
+    claimValue: "Admin",
+    id : 3,
+  },
+  {
+   roleId: "user124",
+    claimType: "Permission",
+    claimValue: "ReadOnly",
+    id: 2,
+  }
+];
+
 export const userHeaders = {
 
   id : "ID",
@@ -196,6 +215,8 @@ export const roleHeaders = {
   id: "ID",
 
   name: "Role",
+
+  claims:"Claims",
 
   ModifiedOnDt: 'Modified On Dt',
 

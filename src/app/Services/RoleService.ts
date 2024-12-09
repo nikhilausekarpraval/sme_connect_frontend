@@ -23,5 +23,8 @@ class RoleService {
         return await apiService.delete("api/Admin/deleteRole",roles)
     }
 
-
+    async getRolesWithClaims() {
+        return await apiService.get("api/Admin/getRolesWithClaims")
+    }
+    
 } export default RoleService

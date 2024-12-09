@@ -1,6 +1,7 @@
 import { formatDate } from '@/app/Helpers/Helpers';
 import React from 'react'
 import './TableRow.scss';
+import ItemDropdown from '../../Dropdown/ItemDropdown';
 interface ITableRowProps {
     item: any;
     handleRowCheckboxChange: (id: any) => void;
@@ -30,14 +31,16 @@ const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, sel
                     key={field}
                     title={dataType === 'date' ? formatDate(item?.[field]) : item[field]?.toString()}
                     className={`changed-by ${dataType === 'number'? 'text-end':''}`}
+                >  {dataType !== "dropdown" ? <span
+                    className={
+                        dataType === "number" ? "padding-right-for-number-row" : ""
+                    }
                 >
-                    <span
-                        className={
-                            dataType === "number" ? "padding-right-for-number-row" : ""
-                        }
-                    >
-                        {dataType === 'date' ? formatDate(item?.[field]) : item[field]}
-                    </span>
+                    {dataType === 'date' ? formatDate(item?.[field]) : item[field]}
+                    </span> : <ItemDropdown items={item[field]?.map((item : any) => item.claimType)} />
+                
+               }
+
                 </td>
             ))}
 
