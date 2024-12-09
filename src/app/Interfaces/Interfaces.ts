@@ -173,3 +173,25 @@ export interface IUserForm{
   phoneNumber:string,
   id:string,
 }
+
+export interface ITableBodyProps {
+  sortTableData: (data: IRole[],
+    sortedColumn: string,
+    sortOrder: string) => IRole[];
+  sortedData: IRole[];
+  isLoading: boolean;
+  getData: () => void;
+  defaultSortedColumn: string;
+  setLoaderAndSortedData: (loading: boolean, sortedData: IRole[]) => void;
+  handleRowCheckboxChange: (id: any) => void;
+  selectedItems: Set<any>;
+  sortOrder: string;
+  setSortOrder: (order: string) => void;
+  sortedColumn: string;
+  setSortedColumn: (col: string) => void;
+  itemsPerPage: number;
+  setItemsPerPage: (page: number) => void;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  tableHeaders: any;
+}

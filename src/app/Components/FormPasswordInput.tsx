@@ -6,9 +6,10 @@ interface PasswordInputProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   errorMessage: string;
   title?:string;
+  maxLength?:number;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, handleChange, errorMessage ,title=""}) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ filedName,maxLength = 100, currentValue, handleChange, errorMessage ,title=""}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -27,6 +28,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName, currentValue, 
           className="pe-10 form-control"
           placeholder={`Enter ${title}`}
           value={currentValue}
+          max={maxLength}
           required
         />
         <button

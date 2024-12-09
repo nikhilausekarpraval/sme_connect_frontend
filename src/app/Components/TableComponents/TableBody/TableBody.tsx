@@ -1,36 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import { RefObject } from 'react';
 import PaginationComponent from '../../Pagination/Pagination';
-import { IUser } from '@/app/Interfaces/Interfaces';
 import TableHeader from '../TableHeader/TableHeader';
 import TableRow from '../TableRow/TableRow';
-import { UserColumnConfig, userHeaders } from '@/app/Constants/Constants';
 import { Loader } from '../../Loader/Loader';
 import './TableBody.scss';
 
-interface ITableBodyProps {
-  sortTableData: (data: IUser[],
-    sortedColumn: string,
-    sortOrder: string) => IUser[];
-  sortedData: IUser[];
+interface ITableBodyProps<T> {
+  sortTableData: (data: T[], sortedColumn: string, sortOrder: string) => T[];
+  sortedData: T[];
   isLoading: boolean;
   getData: () => void;
   defaultSortedColumn: string;
-  setLoaderAndSortedData: (loading: boolean, sortedData: IUser[]) => void;
+  setLoaderAndSortedData: (loading: boolean, sortedData: T[]) => void;
   handleRowCheckboxChange: (id: any) => void;
   selectedItems: Set<any>;
-  sortOrder:string;
-  setSortOrder:(order:string)=>void;
-  sortedColumn:string;
-  setSortedColumn:(col:string)=>void;
-  itemsPerPage:number;
-  setItemsPerPage:(page:number)=>void;
-  currentPage:number;
-  setCurrentPage:(page:number)=>void;
+  sortOrder: string;
+  setSortOrder: (order: string) => void;
+  sortedColumn: string;
+  setSortedColumn: (col: string) => void;
+  itemsPerPage: number;
+  setItemsPerPage: (page: number) => void;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  tableHeaders: any; 
+  columnConfig: any;
 }
 
-
-const TableBody: React.FC<ITableBodyProps> = ({ sortOrder,setSortOrder,sortedColumn,setSortedColumn,itemsPerPage,setItemsPerPage,currentPage,setCurrentPage, sortedData, selectedItems, isLoading, handleRowCheckboxChange, sortTableData, setLoaderAndSortedData }) => {
+const TableBody = <T,>({
+  sortOrder,
+  columnConfig,
+  setSortOrder,
+  tableHeaders,
+  sortedColumn,
+  setSortedColumn,
+  itemsPerPage,
+  setItemsPerPage,
+  currentPage,
+  setCurrentPage,
+  sortedData,
+  selectedItems,
+  isLoading,
+  handleRowCheckboxChange,
+  sortTableData,
+  setLoaderAndSortedData,
+}: ITableBodyProps<T>) => {
 
   const myElementRef: RefObject<HTMLDivElement> = React.createRef();
   const [totalPageCount, setTotalPageCount] = useState(Math.ceil(sortedData.length / itemsPerPage) <= 0 ? 1 : Math.ceil(sortedData.length / itemsPerPage));
@@ -51,18 +65,18 @@ const TableBody: React.FC<ITableBodyProps> = ({ sortOrder,setSortOrder,sortedCol
   };
 
   const saveSortedData = async (column: string, sortOrder: string) => {
-    const data = await sortTableData(sortedData, column, sortOrder) as IUser[]
+    const data = await sortTableData(sortedData, column, sortOrder) as T[]
     setLoaderAndSortedData(false, data)
   }
 
-  const renderRow = (item: IUser, index: number) => {
+  const renderRow = (item: T, index: number) => {
     return <TableRow
       key={index}
       item={item}
       handleRowCheckboxChange={handleRowCheckboxChange}
       selectedItems={selectedItems}
       idColumn={idColumn}
-      FieldConfig={UserColumnConfig}
+      FieldConfig={columnConfig as any}
     />
   }
 
@@ -109,13 +123,13 @@ const TableBody: React.FC<ITableBodyProps> = ({ sortOrder,setSortOrder,sortedCol
                   onChange={() => handleRowCheckboxChange("header")}
                 />
               </th>
-              {Object.entries(userHeaders).map(([key, label]) => (
+              {Object.entries(tableHeaders).map(([key, label]) => (
                 <TableHeader
                   handleSort={handleSort}
                   sortedColumn={sortedColumn}
                   sortOrder={sortOrder}
                   value={key}
-                  name={label}
+                  name={label as any}
                 />
               ))}
             </tr>

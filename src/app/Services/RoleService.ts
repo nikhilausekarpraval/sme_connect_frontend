@@ -19,8 +19,8 @@ class RoleService {
         return await apiService.get("api/Admin/getRoles")
     }
 
-    async deleteRole() {
-        return await apiService.get("api/Admin/deleteRoles")
+    async deleteRole(roles:string[]) {
+        return await apiService.delete("api/Admin/deleteRole",roles)
     }
 
 

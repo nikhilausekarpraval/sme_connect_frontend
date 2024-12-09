@@ -7,7 +7,7 @@ import UsersService from "@/app/Services/usersService";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { FiArrowRight } from "react-icons/fi";
-import './UserForm.scss';
+import '../../../Common/Styles/Form.scss';
 import { List } from "postcss/lib/list";
 import Loader from "@/app/Components/Loader/Loader";
 import RoleService from "@/app/Services/RoleService";
@@ -231,6 +231,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             onChange={handleChange}
                                             value={user?.userName}
                                             id={'userName'}
+                                            max={256}
                                             required
                                         />
                                         <div className="text-red-600">
@@ -251,6 +252,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             id="displayName"
                                             onChange={handleChange}
                                             value={user?.displayName}
+                                            max={255}
                                         />
                                     </div>
 
@@ -263,6 +265,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             onChange={handleChange}
                                             value={user?.email}
                                             id="email"
+                                            max={256}
                                             required
                                         />
                                         <div className="text-red-600">

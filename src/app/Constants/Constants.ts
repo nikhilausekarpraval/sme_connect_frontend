@@ -7,6 +7,10 @@ export const emptyUser = {
   confirmPassword: ""
 }
 
+export const emptyRole = {
+  id:"",name:""
+}
+
 export const quenstionsAndAnswers = [{ question1: "answer1" }, { question2: "answer2" }, { question3: "answer3" }]
 
 export const questions = ["What was the name of your first pet?",
@@ -31,6 +35,8 @@ export const emptyApplicationContext: IApplicationContext = {
     roles: []
   }
 };
+
+export const createRoleErrors = {role:""}
 
 export const routes = {
 
@@ -93,6 +99,18 @@ export const UserColumnConfig = [
 ];
 
 
+export const RoleColumnConfig = [
+  {
+    field: "id",
+    dataType: "string",
+  },
+  {
+    field: "name",
+    dataType: "string",
+  },
+
+];
+
 export const rolesData:IRole[]=[
   {id:"234",name:"Admin"},
   {id:"234",name:"Manager"},
@@ -115,6 +133,7 @@ export const allow10Numbers = /^\d{0,10}$/
 export const allowDotAndDash = /^[-.]$/;
 export const replaceChracterWithSpace = /[^0-9\-]/g;
 export const replaceNumbersWithSpace = /[^0-9\.\-]/g;
+export const validString = /^[a-zA-Z]+$/;
 
 export const practicesData: IPractice[] = [
   { id: 1, name: "Software Development", modifiedBy: "", modifiedOnDt: new Date() },
@@ -170,6 +189,16 @@ export const userHeaders = {
 
   ModifiedBy : 'Modified By',
 
+}
 
+export const roleHeaders = {
+
+  id: "ID",
+
+  name: "Role",
+
+  ModifiedOnDt: 'Modified On Dt',
+
+  ModifiedBy: 'Modified By',
 
 }

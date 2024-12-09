@@ -191,6 +191,7 @@ const LoginModal:React.FC = () => {
                 className="w-100"
                 onChange={handleChange}
                 value={user.userName}
+                max={255}
                 required
               />
               <div className="text-red-600">
@@ -205,6 +206,7 @@ const LoginModal:React.FC = () => {
                 className="w-100"
                 onChange={handleChange}
                 value={user.displayName}
+                max={255}
                 
               />
             </Form.Group>
@@ -216,6 +218,7 @@ const LoginModal:React.FC = () => {
                 className="w-100"
                 onChange={handleChange}
                 value={user.email}
+                max={255}
                 required
               />
               <div className="text-red-600">

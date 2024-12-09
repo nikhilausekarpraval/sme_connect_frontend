@@ -7,7 +7,8 @@ import React, { RefObject, useEffect, useRef, useState } from 'react';
 import UserForm from '../Forms/UserForm/UserForm';
 import SortWorker from '@/app/Workers/SortWorker';
 import SearchWorker from '@/app/Workers/SearchWorker';
-import { emptyUser } from '@/app/Constants/Constants';
+import { emptyUser, UserColumnConfig, userHeaders } from '@/app/Constants/Constants';
+import ConfirmPopup from '@/app/Components/ConfirmPopup/ConfirmPopup';
 
 export default function User() {
 
@@ -25,6 +26,7 @@ export default function User() {
     const [isEdit,setIsEdit] = useState(false);
     const [isCreate,setIsCreate] = useState(false);
     const [selectedUser,setSelectedUser] = useState<IUser|null>();
+    const [isShowDelete, setIsShowDelete] = useState(false);
 
     let searchWorker: Worker;
     let sortWorker: Worker;
@@ -36,7 +38,7 @@ export default function User() {
         if(!isReload){
             setSortedData(await getSortedData(allItems));
         }
-        setSortedData(allItems);
+        setSortedData(allItems)
         setIsResetSearch(!isResetSearch);
     }
 
@@ -209,11 +211,40 @@ export default function User() {
 
     }
 
+    const clearPopup = () => {
+        setIsShowDelete(false);
+    };
+
+    const showDelete = () => {
+        setIsShowDelete(true);
+    };
+
+    const deleteSelected = async () => {
+
+        try {
+            const selectedItemsArray = Array.from(selectedItems);
+            const result = await _UserService.deleteUser(selectedItemsArray);
+            setIsShowDelete(false);
+            reloadData();
+
+        } catch (error) {
+            console.error("Error deleting selected items:", error);
+        }
+    };
+
     return (
         <div className='px-3 flex flex-1 flex-column overflow-hidden la-table-styles user-select-none user-access-config'>
-            <TableFilter  setIsEdit={setIsEdit}  setIsCreate={setIsCreate} reloadData={reloadData} items={allItems} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
-            <TableBody sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <TableFilter  setIsEdit={setIsEdit} showDelete={showDelete}  setIsCreate={setIsCreate}  search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
+            <TableBody<IUser> columnConfig={UserColumnConfig} tableHeaders={userHeaders} sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <UserForm employee={selectedUser} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm } save={submitForm}/>
+            {true && (
+                <ConfirmPopup
+                    handleClose={clearPopup}
+                    deleteItem={deleteSelected}
+                    show={isShowDelete}
+                    message={`Are you sure you want to delete ${selectedItems.size} item${selectedItems.size > 1 ? "s" : ""}.`}
+                />
+            )}
         </div>
     );
 }
