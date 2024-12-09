@@ -36,6 +36,7 @@ export default function User() {
         if(!isReload){
             setSortedData(await getSortedData(allItems));
         }
+        setSortedData(allItems);
         setIsResetSearch(!isResetSearch);
     }
 

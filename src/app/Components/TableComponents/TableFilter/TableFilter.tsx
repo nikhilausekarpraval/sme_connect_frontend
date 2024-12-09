@@ -55,7 +55,11 @@ const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate, items,
             console.error("Error deleting selected items:", error);
         }
     };
-
+    
+    const resetFiltersAndSearch=()=>{
+      setSearchValue("");
+      resetFilters();
+    }
 
     return (
         <React.Fragment>
@@ -85,7 +89,7 @@ const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate, items,
                         {selectedItems.size >= 1 && (
                             <FilterButton icon={MdDeleteForever} onClick={showDelete} title={"Delete"} />
                         )}
-                        <FilterButton icon={RxReset} onClick={resetFilters} title={"Reset"} />
+                        <FilterButton icon={RxReset} onClick={resetFiltersAndSearch} title={"Reset"} />
                     </div>
                 </div>
             </div>
