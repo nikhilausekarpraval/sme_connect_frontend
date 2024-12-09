@@ -2,6 +2,13 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaInfoCircle, FaKey, FaShieldAlt, FaUserCheck, FaUserTag } from 'react-icons/fa';
 import { MdAdminPanelSettings } from 'react-icons/md';
+import { routes } from '../Constants/Constants';
+import { FaUserLock } from "react-icons/fa6";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { PiTreeViewFill } from "react-icons/pi";
+import { MdOutlineSecurity } from "react-icons/md";
+import { FiUsers } from 'react-icons/fi';
+
 
 interface IAdminOptionsDropdownProps {
   isCollapsed: boolean;
@@ -35,7 +42,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
         toggleDropdown(); // Toggle dropdown
       }}>
         <button className="flex justify-start items-center w-full rounded-md p-2 font-semibold text-white ring-inset ring-gray-300 hover:bg-gray-700">
-         {!isCollapsed &&<span className='flex justify-center items-center'> <MdAdminPanelSettings/> <span className='px-3'>Admin Menu</span></span> }
+         {!isCollapsed &&<span className='flex justify-center items-center'> <MdAdminPanelSettings size={20}/> <span className='px-3'>Admin Menu</span></span> }
           {isDropdown ? (
             <FaChevronDown width={16} height={16} className=''/>
           ) : (
@@ -62,6 +69,52 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 {!isCollapsed && <span className="ps-3">About</span>}
               </div>
             </Link> */}
+            <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.user) ? 'bg-gray-700' : ''}`} href={routes.user}>
+              <div className="justify-start flex items-center w-52">
+                <FiUsers className="" />
+                {!isCollapsed && <span className='ps-3'>Users</span>}
+              </div>
+            </Link>
+            <Link
+              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.role) ? 'bg-gray-700' : ''
+                }`}
+              href={routes.role}
+            >
+              <div className="justify-start flex items-center w-44">
+                <FaUserLock />
+                {!isCollapsed && <span className="ps-3">Role</span>}
+              </div>
+            </Link>
+            <Link
+              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.group) ? 'bg-gray-700' : ''
+                }`}
+              href={routes.group}
+            >
+              <div className="justify-start flex items-center w-44">
+                <FaPeopleGroup />
+                {!isCollapsed && <span className="ps-3">Group</span>}
+              </div>
+            </Link>
+            <Link
+              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.group) ? 'bg-gray-700' : ''
+                }`}
+              href={routes.group}
+            >
+              <div className="justify-start flex items-center w-44">
+                <PiTreeViewFill />
+                {!isCollapsed && <span className="ps-3">Practice</span>}
+              </div>
+            </Link>
+            <Link
+              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.claim) ? 'bg-gray-700' : ''
+                }`}
+              href={routes.claim}
+            >
+              <div className="justify-start flex items-center w-44">
+                <MdOutlineSecurity />
+                {!isCollapsed && <span className="ps-3">Claim</span>}
+              </div>
+            </Link>
             <Link
               className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
                 isActive('/Dashboard/CreateRole') ? 'bg-gray-700' : ''

@@ -1,14 +1,21 @@
-import { EmployeeService } from "@/app/Services/employeeService";
+
 import {  useState } from "react";
 import React from "react";
 import InputGroup from "react-bootstrap/esm/InputGroup";
 import Form from "react-bootstrap/esm/Form";
-import Button from "react-bootstrap/esm/Button";
+//import Button from "react-bootstrap/esm/Button";
 import { IoSearchOutline } from "react-icons/io5";
 import './TableFilter.scss';
 import ConfirmPopup from "../../ConfirmPopup/ConfirmPopup";
 import UsersService from "@/app/Services/usersService";
-import { IUser } from "@/app/Interfaces/Interfaces";
+
+import { Button } from "react-bootstrap";
+import FilterButton from "../../FilterButton/FilterButton";
+import { MdEdit } from "react-icons/md";
+import { RxReset } from "react-icons/rx";
+import { MdDeleteForever } from "react-icons/md";
+import { MdOutlineResetTv } from "react-icons/md";
+import { RiAddLargeLine } from "react-icons/ri";
 
 interface ITableFilterProps{
     items:any[]
@@ -64,21 +71,21 @@ const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate, items,
                             onChange={e => setSearchValue(e.target.value)}
                             placeholder="Search..."
                         />
-                        <Button onClick={() => search(searchValue)} variant="outline-secondary" id="searchButton">
+                        <Button onClick={() => search(searchValue)}  id="searchButton">
                             <IoSearchOutline/>
                         </Button>
                     </InputGroup>
                     <div className="filter-buttons">
                         {selectedItems.size === 1 && (
-                            <button onClick={()=>setIsEdit(true)}>Edit</button>
+                            <FilterButton icon={MdEdit} onClick={()=>setIsEdit(true)} title={"Edit"} />
                         )}
                         {selectedItems.size <= 0 && (
-                        <button onClick={()=>setIsCreate(true)}>Create</button>
+                            <FilterButton icon={RiAddLargeLine} onClick={()=>setIsCreate(true)} title={"Add"} />
                         )}
                         {selectedItems.size >= 1 && (
-                            <button onClick={showDelete}>Delete</button>
+                            <FilterButton icon={MdDeleteForever} onClick={showDelete} title={"Delete"} />
                         )}
-                        <button onClick={resetFilters}>Reset</button>
+                        <FilterButton icon={RxReset} onClick={resetFilters} title={"Reset"} />
                     </div>
                 </div>
             </div>

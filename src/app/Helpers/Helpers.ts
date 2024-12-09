@@ -96,3 +96,17 @@ export function acceptIntegers(inputData: string, field: string, editedFormData:
     }
   }
 }
+
+export function isString(str : any){
+ if(str === null){
+  return false
+ }else if(str === undefined){
+  return false
+ }else if(str === ""){
+  return false
+ }else if(str){
+  return true
+ }
+
+ return false
+}

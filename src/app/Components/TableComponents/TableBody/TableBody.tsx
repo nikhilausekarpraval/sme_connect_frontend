@@ -97,7 +97,7 @@ const TableBody: React.FC<ITableBodyProps> = ({ sortOrder,setSortOrder,sortedCol
     <div className='pt-1 d-flex flex-1 flex-col h-100 overflow-auto'>
       {isLoading && <Loader />}
       <div
-        className="table-body-size rounded-3 flex-1 flex overflow-auto h-100 flex-column">
+        className="table-body-size rounded-3 border flex-1 flex overflow-auto h-100 flex-column">
         <table className="table m-0">
           <thead className="position-static table-header-style">
             <tr className="table-header">

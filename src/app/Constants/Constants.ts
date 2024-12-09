@@ -43,8 +43,14 @@ export const routes = {
   task: "/Dashboard/EmployeeDashboard/Task",
   home: "/Dashboard/Home",
   user:"/Dashboard/User",
+  role:"/Dashboard/Role",
+  group:"/Dashboard/Group",
+  practice:"/Dashboard/Practice",
+  claim:"/Dashboard/Claim",
 
 }
+
+
 
 export const pleaseSelectQuestionAndAswer = "Please select question and answer";
 

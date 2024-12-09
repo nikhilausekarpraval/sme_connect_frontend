@@ -270,7 +270,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         </div>
                                     </div>
 
-                                    <FormNumberInput validateField={errors} required={true} fieldName={"phoneNumber"} fieldValue={user?.phoneNumber} fieldLabel={"Mobile Number"} handleInputChange={handleChange} maxLength={10} />
+                                    <FormNumberInput validateField={errors} placeholder={"Enter mobile no."} required={true} fieldName={"phoneNumber"} fieldValue={user?.phoneNumber} fieldLabel={"Mobile Number"} handleInputChange={handleChange} maxLength={10} />
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Role<span className='text-danger font-14 p-1'>*</span></Form.Label>
