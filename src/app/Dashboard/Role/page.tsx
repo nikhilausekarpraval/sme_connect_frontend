@@ -43,8 +43,8 @@ export default function Role() {
   }
 
   const reloadData = async () => {
-    await getData();
     onReset(true);
+    await getData();
 
   }
 
@@ -60,9 +60,13 @@ export default function Role() {
     try {
 
       const result = await _RoleService.getRolesWithClaims();
-      const sortedApis = await getSortedData(result.value);
-      setSortedData(sortedApis);
-      setAllItems(sortedApis);
+
+      if(result?.value){
+        const sortedApis = await getSortedData(result?.value);
+        setSortedData(sortedApis);
+        setAllItems(sortedApis);
+      }
+
       setIsLoading(false);
 
     } catch (error) {
@@ -202,9 +206,9 @@ export default function Role() {
     setIsEdit(false);
   }
 
-  const submitForm = (e: any) => {
-    e.preventDefault();
+  const submitForm = () => {
     clearForm(null);
+    reloadData();
 
   }
 

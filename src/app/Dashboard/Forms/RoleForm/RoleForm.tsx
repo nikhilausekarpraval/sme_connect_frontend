@@ -16,7 +16,7 @@ interface EmployeeFormProps {
     isEdit: boolean;
     isCreate: boolean;
     clearForm: (e: any) => void,
-    save: (e: any) => void,
+    save: () => void,
 }
 
 const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit, clearForm, save }) => {
@@ -49,6 +49,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
     const loadData = async () => {
         setIsLoading(true);
+        setErrors(createRoleErrors);
         // setRoles(await new RoleService().getRoles());
         setIsLoading(false);
     }
@@ -64,15 +65,17 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                        result = await new RoleService().addRole(role);
                    } 
                    
-                    result = await new ClaimService().createClaim(role.claims)
-                
-                if (result.value.status !== "Success") {
-                    formError = result.value.statusText
-                    if (formError.includes("Duplicate")) {
+                   if(role?.claims){
+                       result = await new ClaimService().createClaim(role?.claims)
+                   }
+                    
+                if (result.statusCode != 200) {
+                    formError = result.value
+                    if (formError.includes("already exist")) {
                         setErrors({ ...errors, role: formError });
                     }
                 } else {
-                    clearForm(null);
+                    save();
                     clearFormData();
                 }
             }
@@ -92,7 +95,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any>) => {
         const { id, value } = e.target;
 
-        if (id === "role") {
+        if (id === "name") {
             if (isValidRole(value)) {
                 setErrors({ ...errors, role: "Invalid role, role must have only characters" })
             } else {
@@ -165,7 +168,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                                             type="text"
                                             placeholder="Role."
                                             className="w-100"
-                                            id="role"
+                                            id="name"
                                             onChange={handleChange}
                                             value={role?.name}
                                             max={256}

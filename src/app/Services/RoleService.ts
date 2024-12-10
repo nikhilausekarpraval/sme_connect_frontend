@@ -16,15 +16,15 @@ class RoleService {
     }
 
     async getRoles() {
-        return await apiService.get("api/Admin/getRoles")
+        return await apiService.get("api/Admin/get_roles")
     }
 
     async deleteRole(roles:string[]) {
-        return await apiService.delete("api/Admin/deleteRole",roles)
+        return await apiService.delete("api/Admin/delete_role",roles)
     }
 
     async getRolesWithClaims() {
-        return await apiService.get("api/Admin/getRolesWithClaims")
+        return await apiService.get("api/Admin/get_role_with_claims")
     }
     
 } export default RoleService
