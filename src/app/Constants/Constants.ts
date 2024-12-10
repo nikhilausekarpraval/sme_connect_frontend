@@ -42,6 +42,8 @@ export const emptyApplicationContext: IApplicationContext = {
 
 export const createRoleErrors = {role:"",claim:""}
 
+export const createRoleClaimErrors = {claimType:"",claimValue:""}
+
 export const routes = {
 
   aboutUser: "/Dashboard/AboutUser",

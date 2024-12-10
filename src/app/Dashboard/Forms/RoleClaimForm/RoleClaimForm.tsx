@@ -1,5 +1,5 @@
 
-import { createRoleErrors, emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
+import { createRoleClaimErrors, createRoleErrors, emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import { isValidRole } from "@/app/Helpers/Helpers";
 import {  IRole, IRoleClaimWithRoles } from "@/app/Interfaces/Interfaces";
 import React, { useState, useEffect } from "react";
@@ -22,7 +22,7 @@ interface RoleClaimFormProps {
 const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, isEdit, clearForm, save }) => {
 
     const [role, setUser] = useState<any>(selectedClaim)
-    const [errors, setErrors] = useState(createRoleErrors)
+    const [errors, setErrors] = useState(createRoleClaimErrors)
     const [roles, setRoles] = useState<IRole[]>([]);
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -41,7 +41,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
 
     const loadData = async () => {
         setIsLoading(true);
-        setErrors(createRoleErrors);
+        setErrors(createRoleClaimErrors);
         const selectedCla = selectedClaim?.roles?.map((role) => role.name);
         setSelectedRoles( selectedCla ? selectedCla : []);
         var allRoles = await new RoleService().getRoles();
@@ -67,7 +67,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                 if (result.statusCode != 200) {
                     formError = result.value
                     if (formError.includes("already exist")) {
-                        setErrors({ ...errors, role: formError });
+                        setErrors({ ...errors, claimType: formError });
                     }
                 } else {
                     save();
@@ -85,7 +85,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
         setRoles([])
         setUser(emptyUser);
         setSelectedRoles([""]);
-        setErrors(registerUserFormErrors);
+        setErrors(createRoleClaimErrors);
         clearForm(null);
     }
 
@@ -94,15 +94,15 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
 
         if (id === "claimType") {
             if (isValidRole(value)) {
-                setErrors({ ...errors, role: "Invalid claim type, claim type must have only characters" })
+                setErrors({ ...errors, claimType: "Invalid claim type, claim type must have only characters" })
             } else {
-                setErrors({ ...errors, role: "" })
+                setErrors({ ...errors, claimType: "" })
             }
         } else if (id === "claimValue") {
             if (isValidRole(value)) {
-                setErrors({ ...errors, claim: "Invalid claim, claim must have only characters" })
+                setErrors({ ...errors, claimValue: "Invalid claim, claim must have only characters" })
             } else {
-                setErrors({ ...errors, claim: "" })
+                setErrors({ ...errors, claimValue: "" })
             }
         }
 
@@ -167,12 +167,12 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                             className="w-100"
                                             id="claimType"
                                             onChange={handleChange}
-                                            value={role?.name}
+                                            value={role?.claimType}
                                             max={256}
                                             required
                                         />
                                         <div className="text-red-600">
-                                            {errors?.role}
+                                            {errors?.claimType}
                                         </div>
                                     </div>
 
@@ -184,12 +184,12 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                             className="w-100"
                                             id="claimValue"
                                             onChange={handleChange}
-                                            value={role?.name}
+                                            value={role?.claimValue}
                                             max={256}
                                             required
                                         />
                                         <div className="text-red-600">
-                                            {errors?.role}
+                                            {errors?.claimValue}
                                         </div>
                                     </div>
 
