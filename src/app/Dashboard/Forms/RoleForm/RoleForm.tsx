@@ -9,7 +9,7 @@ import RoleService from "@/app/Services/RoleService";
 import '../../../Common/Styles/Form.scss';
 import ClaimService from "@/app/Services/ClaimService";
 import MultipleSelectDropdown from "@/app/Components/MultiSelectDropdown/MultiSelectDropdown";
-import { ClipboardMinus } from "react-bootstrap-icons";
+
 
 interface EmployeeFormProps {
     selectedRole: IRole | null | undefined;
@@ -23,11 +23,11 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
     const [role, setUser] = useState<any>(selectedRole)
     const [errors, setErrors] = useState(createRoleErrors)
-    const [claims, setClaims] = useState<IRoleClaim[]>(roleClaims);
+    const [claims, setClaims] = useState<IRoleClaim[]>([]);
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedClaims, setSelectedClaims] = React.useState<string[]>([]);
+    const [selectedClaims, setSelectedClaims] = React.useState<string[]>([""]);
 
 
     useEffect(() => {
@@ -38,19 +38,14 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
     }, [isCreate, isEdit])
 
-    useEffect(() => {
-
-        if (selectedRole !== null && selectedRole != undefined)
-            setUser(selectedRole);
-        else
-            setUser(emptyRole)
-
-    }, [selectedRole])
 
     const loadData = async () => {
         setIsLoading(true);
-        setErrors(createRoleErrors);
-        // setRoles(await new RoleService().getRoles());
+        setErrors(createRoleErrors); 
+        const selectedClam = selectedRole?.claims?.map((claim) => claim.claimType);
+        setSelectedClaims(selectedClam ? selectedClam : [""]); 
+        var allClaims = await new ClaimService().getClaims();    
+        setClaims(allClaims?.value);   
         setIsLoading(false);
     }
 
@@ -80,16 +75,18 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                 }
             }
         } catch (e: any) {
-            console.log(e)
-            clearForm(null);
+            console.log(e);
             clearFormData();
         }
 
     }
 
     const clearFormData = () => {
-        setUser(emptyUser)
+        setClaims([])
+        setUser(emptyUser);
+        setSelectedClaims([""]);
         setErrors(registerUserFormErrors);
+        clearForm(null);
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any>) => {
@@ -134,7 +131,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
             {/* <NotificationContainer/> */}
             <Modal
                 show={isEdit || isCreate}
-                onHide={() => clearForm(null)}
+                onHide={() => clearFormData()}
                 centered
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -193,7 +190,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                                         </div>
                                     </div> */}
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                    <MultipleSelectDropdown values={selectedRole?.claims?.map((claim)=>claim.claimType)} title={"Claim"} selectedNames={selectedClaims} handleChange={handleClaimChange}/>
+                                    <MultipleSelectDropdown values={claims?.map((claim)=>claim.claimType)} title={"Claim"} selectedNames={selectedClaims} handleChange={handleClaimChange}/>
                                      </div>
                                 </div>
                             </div>

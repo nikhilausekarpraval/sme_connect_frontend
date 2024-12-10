@@ -185,9 +185,9 @@ export default function Role() {
     }
   };
 
-  useEffect(() => {
+const setCurrentItem=(create:boolean)=>{
     try {
-      if (isCreate) {
+      if (create) {
         setSelectedUser(emptyRole);
         return;
       }
@@ -197,8 +197,7 @@ export default function Role() {
     } catch (e: any) {
 
     }
-
-  }, [isCreate, isEdit])
+  }
 
   const clearForm = (e: any) => {
     e?.preventDefault();
@@ -233,9 +232,21 @@ export default function Role() {
     setIsShowDelete(true);
   };
 
+  const setEdit=(isEdit:boolean)=>{
+    setCurrentItem(false)
+    setIsEdit(true);
+    setIsCreate(false);
+  }
+
+  const setCreate=(isCreate:boolean)=>{
+    setCurrentItem(true);
+    setIsEdit(false);
+    setIsCreate(true);
+  }
+
   return (
     <div className='px-3 flex flex-1 flex-column overflow-hidden la-table-styles role-select-none role-access-config'>
-      <TableFilter setIsEdit={setIsEdit} setIsCreate={setIsCreate} showDelete={showDelete} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
+      <TableFilter setIsEdit={setEdit} setIsCreate={setCreate} showDelete={showDelete} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
       <TableBody<IRole> sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} tableHeaders={roleHeaders} columnConfig={RoleColumnConfig} />
       <RoleForm selectedRole={selectedUser} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm} save={submitForm} />
       {true && (
