@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import { Roboto } from 'next/font/google';
 import localFont from "next/font/local";
 import BootstrapClient from "./Components/BootstrapClient";
-import { CustomNavbar } from "./Components/CustomNavbar";
-import { LeftMenubar } from "./Components/LeftMenubar";
 import { AppWrapper } from "./Context/AppContext";
 import "./globals.css";
+import { CustomNavbar } from "./Components/TopNavBar/CustomNavbar";
+import { LeftMenubar } from "./Components/LeftMenuBar/LeftMenubar";
 
 
 const roboto = Roboto({

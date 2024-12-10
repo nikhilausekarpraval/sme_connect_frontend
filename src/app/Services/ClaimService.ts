@@ -7,6 +7,10 @@ class ClaimService {
 
     }
 
+    async getClaimsWithRoles() {
+        return await apiService.get("api/RoleClaim/get_claims_roles")
+    }
+
     async getClaims() {
         return await apiService.get("api/RoleClaim/get_role_claims")
     }

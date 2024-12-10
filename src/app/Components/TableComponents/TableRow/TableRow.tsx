@@ -31,13 +31,13 @@ const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, sel
                     key={field}
                     title={dataType === 'date' ? formatDate(item?.[field]) : item[field]?.toString()}
                     className={`changed-by ${dataType === 'number'? 'text-end':''}`}
-                >  {dataType !== "dropdown" ? <span
+                >  {!dataType.toString().includes("dropdown") ? <span
                     className={
                         dataType === "number" ? "padding-right-for-number-row" : ""
                     }
                 >
                     {dataType === 'date' ? formatDate(item?.[field]) : item[field]}
-                    </span> : <ItemDropdown items={item[field]?.map((item : any) => item.claimType)} />
+                    </span> : <ItemDropdown items={item[field]?.map((item : any) => item[dataType.toString().split(",")[1]])} />
                 
                }
 

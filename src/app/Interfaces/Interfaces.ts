@@ -102,6 +102,22 @@ export interface IRoleClaim{
   id : number
 }
 
+export interface IRoleClaimWithRoles {
+
+  claimType: string
+
+  claimValue: string
+
+  id: number
+
+  roles :IRoleDto[]
+}
+
+export interface IRoleDto {
+  id: string,
+  name: string,
+}
+
 export interface IRoleUser{
 
     userId: string,

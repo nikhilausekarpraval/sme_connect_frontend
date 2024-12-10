@@ -1,12 +1,11 @@
 'use client'
 
+import { routes } from '@/app/Constants/Constants';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaBars, FaHome, FaInfoCircle, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
-import { routes } from '../Constants/Constants';
-import AdminOptionsDropdown from './AdminOptionsDropdown';
-import { FiUsers } from 'react-icons/fi';
+import AdminOptionsDropdown from '../AdminOptionsDropdown';
 
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);

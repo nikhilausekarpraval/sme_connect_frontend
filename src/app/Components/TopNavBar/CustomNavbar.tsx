@@ -1,9 +1,10 @@
 'use client'
 
+import { useAppContext } from '@/app/Context/AppContext';
+import { isString } from '@/app/Helpers/Helpers';
 import Link from 'next/link'
-import { useAppContext } from '../Context/AppContext'
-import UserAvatar from './UserAvatar/UserAvatar'
-import { isString } from '../Helpers/Helpers'
+import UserAvatar from '../UserAvatar/UserAvatar';
+
 
 
 export const CustomNavbar = () => {

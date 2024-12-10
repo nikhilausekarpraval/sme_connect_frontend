@@ -11,6 +11,10 @@ export const emptyRole = {
   id:"",name:"",claims:null
 }
 
+export const emptyClaim ={
+  id:0,claimType:"",claimValue:"",roles:[{id:"",name:""}]
+}
+
 export const quenstionsAndAnswers = [{ question1: "answer1" }, { question2: "answer2" }, { question3: "answer3" }]
 
 export const questions = ["What was the name of your first pet?",
@@ -52,7 +56,7 @@ export const routes = {
   role:"/Dashboard/Role",
   group:"/Dashboard/Group",
   practice:"/Dashboard/Practice",
-  claim:"/Dashboard/Claim",
+  roleClaim:"/Dashboard/RoleClaim",
 
 }
 
@@ -110,7 +114,7 @@ export const RoleColumnConfig = [
   },
   {
     field: "claims",
-    dataType: "dropdown",
+    dataType: "dropdown,claimType",
   },
 
 ];
@@ -223,3 +227,40 @@ export const roleHeaders = {
   ModifiedBy: 'Modified By',
 
 }
+
+export const roleClaimHeader = {
+
+  id: "ID",
+
+  claimType: "Claim Type",
+
+  claimValue: "Claim Value",
+
+  roles : "Roles",
+
+  ModifiedOnDt: 'Modified On Dt',
+
+  ModifiedBy: 'Modified By',
+
+}
+
+
+export const roleClaimConfig = [
+  {
+    field: "id",
+    dataType: "number",
+  },
+  {
+    field: "claimType",
+    dataType: "string",
+  },
+  {
+    field: "claimValue",
+    dataType: "string",
+  },
+  {
+    field: "roles",
+    dataType: "dropdown,name",
+  },
+
+];

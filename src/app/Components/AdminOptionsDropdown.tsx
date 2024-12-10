@@ -106,13 +106,13 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.claim) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.roleClaim) ? 'bg-gray-700' : ''
                 }`}
-              href={routes.claim}
+              href={routes.roleClaim}
             >
               <div className="justify-start flex items-center w-44">
                 <MdOutlineSecurity />
-                {!isCollapsed && <span className="ps-3">Claim</span>}
+                {!isCollapsed && <span className="ps-3">Role Claim</span>}
               </div>
             </Link>
             <Link
