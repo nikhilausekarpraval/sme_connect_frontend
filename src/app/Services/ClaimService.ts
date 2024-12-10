@@ -8,21 +8,21 @@ class ClaimService {
     }
 
     async getClaims() {
-        return await apiService.get("api/Admin/getClaims")
+        return await apiService.get("api/RoleClaim/get_role_claims")
     }
 
-    async addClaimtoRole(claim: IRoleClaim[]) {
-        return await apiService.post("api/Admin/add_claim_to_role", claim)
+    async updateClaim(claim: IRoleClaim[]) {
+        return await apiService.post("api/RoleClaim/update_role_claim", claim)
 
     }
 
     async deleteClaim(claim: any) {
-        return await apiService.delete("api/Admin/deleteClaim", claim)
+        return await apiService.delete("api/RoleClaim/delete_role_claim", claim)
 
     }
 
     async createClaim(claim: IRoleClaim) {
-        return await apiService.post("api/Admin/createClaim", claim)
+        return await apiService.post("api/RoleClaim/add_claim_to_role", claim)
 
     }
 

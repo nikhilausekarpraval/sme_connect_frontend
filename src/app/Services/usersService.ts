@@ -36,7 +36,7 @@ class UsersService {
     }
 
     async addClaimtoRole(claim:IRoleClaim){
-      return  await apiService.post("api/Admin/add_claim_to_role",claim)
+      return  await apiService.post("api/RoleClaim/add_claim_to_role",claim)
 
     }
 

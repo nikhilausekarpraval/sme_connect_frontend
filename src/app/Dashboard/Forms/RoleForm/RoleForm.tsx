@@ -64,7 +64,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                        result = await new RoleService().addRole(role);
                    } 
                    
-                    result = await new ClaimService().addClaimtoRole(role.claims)
+                    result = await new ClaimService().createClaim(role.claims)
                 
                 if (result.value.status !== "Success") {
                     formError = result.value.statusText
