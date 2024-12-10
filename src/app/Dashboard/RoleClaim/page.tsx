@@ -27,7 +27,7 @@ export default function RoleClaim() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isEdit, setIsEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<IRoleClaimWithRoles | null>(emptyClaim);
+  const [selectedUser, setSelectedUser] = useState<IRoleClaimWithRoles>(emptyClaim);
   const [isShowDelete, setIsShowDelete] = useState(false);
 
   let searchWorker: Worker;

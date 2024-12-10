@@ -1,7 +1,7 @@
 
-import { createRoleClaimErrors, createRoleErrors, emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
+import { createRoleClaimErrors, createRoleErrors, emptyClaim, emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import { isValidRole } from "@/app/Helpers/Helpers";
-import {  IRole, IRoleClaimWithRoles } from "@/app/Interfaces/Interfaces";
+import {  IRole, IRoleClaim, IRoleClaimWithRoles, IRoleDto } from "@/app/Interfaces/Interfaces";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Loader from "@/app/Components/Loader/Loader";
@@ -12,7 +12,7 @@ import MultipleSelectDropdown from "@/app/Components/MultiSelectDropdown/MultiSe
 
 
 interface RoleClaimFormProps {
-    selectedClaim: IRoleClaimWithRoles | null | undefined;
+    selectedClaim: IRoleClaimWithRoles;
     isEdit: boolean;
     isCreate: boolean;
     clearForm: (e: any) => void,
@@ -21,7 +21,7 @@ interface RoleClaimFormProps {
 
 const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, isEdit, clearForm, save }) => {
 
-    const [role, setUser] = useState<any>(selectedClaim)
+    const [roleClaim, setRoleClaim] = useState<IRoleClaimWithRoles>(selectedClaim)
     const [errors, setErrors] = useState(createRoleClaimErrors)
     const [roles, setRoles] = useState<IRole[]>([]);
     const [isDuplicate, setIsDuplicate] = useState(false);
@@ -42,7 +42,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
     const loadData = async () => {
         setIsLoading(true);
         setErrors(createRoleClaimErrors);
-        const selectedCla = selectedClaim?.roles?.map((role) => role.name);
+        const selectedCla = selectedClaim?.roles?.map((roleClaim) => roleClaim.name);
         setSelectedRoles( selectedCla ? selectedCla : []);
         var allRoles = await new RoleService().getRoles();
         setRoles(allRoles?.value);
@@ -56,12 +56,18 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
-                if (isCreate) {
-                    result = await new RoleService().addRole(role);
-                }
-
-                if (role?.roles) {
-                    result = await new ClaimService().createClaim(role?.roles)
+                var result ;
+                if (roleClaim?.roles) {
+                    const claimService = new ClaimService();
+                    for (const roleId of roleClaim.roles) {
+                        const claim = {
+                            id: roleClaim.id,
+                            claimType: roleClaim.claimType,
+                            claimValue: roleClaim.claimValue,
+                            roleId: roleId,
+                        } as any;
+                     result =  await claimService.createClaim(claim);
+                    }
                 }
 
                 if (result.statusCode != 200) {
@@ -83,7 +89,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
 
     const clearFormData = () => {
         setRoles([])
-        setUser(emptyUser);
+        setRoleClaim(emptyClaim);
         setSelectedRoles([""]);
         setErrors(createRoleClaimErrors);
         clearForm(null);
@@ -106,8 +112,8 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
             }
         }
 
-        setUser({
-            ...role,
+        setRoleClaim({
+            ...roleClaim,
             [id]: value,
         });
     };
@@ -153,7 +159,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                             type="text"
                                             placeholder="Claim id."
                                             className="w-100"
-                                            value={role?.id}
+                                            value={roleClaim?.id}
                                             id={'id'}
                                             disabled
                                         />
@@ -167,7 +173,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                             className="w-100"
                                             id="claimType"
                                             onChange={handleChange}
-                                            value={role?.claimType}
+                                            value={roleClaim?.claimType}
                                             max={256}
                                             required
                                         />
@@ -184,7 +190,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                             className="w-100"
                                             id="claimValue"
                                             onChange={handleChange}
-                                            value={role?.claimValue}
+                                            value={roleClaim?.claimValue}
                                             max={256}
                                             required
                                         />
@@ -194,7 +200,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <MultipleSelectDropdown values={roles?.map((role) => role.name)} title={"Roles"} selectedNames={selectedRoles} handleChange={handleClaimChange} />
+                                        <MultipleSelectDropdown values={roles?.map((roleClaim) => roleClaim.name)} title={"Roles"} selectedNames={selectedRoles} handleChange={handleClaimChange} />
                                     </div>
                                 </div>
                             </div>
