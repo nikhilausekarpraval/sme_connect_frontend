@@ -191,8 +191,8 @@ const setCurrentItem=(create:boolean)=>{
         setSelectedUser(emptyRole);
         return;
       }
-      const role = Array.from(selectedItems)[0];
-      const emp = allItems.filter(item => item.id === role)[0];
+      const id = Array.from(selectedItems)[0];
+      const emp = allItems.filter(item => item.id === id)[0];
       setSelectedUser(emp);
     } catch (e: any) {
 

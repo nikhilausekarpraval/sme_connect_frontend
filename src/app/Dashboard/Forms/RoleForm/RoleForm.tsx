@@ -1,5 +1,5 @@
 
-import { createRoleErrors, emptyRole, emptyUser, registerUserFormErrors, roleClaims} from "@/app/Constants/Constants";
+import { createRoleErrors, emptyRole, registerUserFormErrors, roleClaims} from "@/app/Constants/Constants";
 import { isValidRole} from "@/app/Helpers/Helpers";
 import { IRole, IRoleClaim } from "@/app/Interfaces/Interfaces";
 import React, { useState, useEffect } from "react";
@@ -19,9 +19,9 @@ interface EmployeeFormProps {
     save: () => void,
 }
 
-const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit, clearForm, save }) => {
+const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit, clearForm, save }) => {
 
-    const [role, setUser] = useState<any>(selectedRole)
+    const [role, setRole] = useState<any>(selectedRole)
     const [errors, setErrors] = useState(createRoleErrors)
     const [claims, setClaims] = useState<IRoleClaim[]>([]);
     const [isDuplicate, setIsDuplicate] = useState(false);
@@ -83,7 +83,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
     const clearFormData = () => {
         setClaims([])
-        setUser(emptyUser);
+        setRole(emptyRole);
         setSelectedClaims([""]);
         setErrors(registerUserFormErrors);
         clearForm(null);
@@ -106,7 +106,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
             }
         }
 
-        setUser({
+        setRole({
             ...role,
             [id]: value,
         });
@@ -208,4 +208,4 @@ const UserForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
     );
 };
 
-export default UserForm;
+export default RoleForm;
