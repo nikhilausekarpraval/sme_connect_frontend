@@ -9,6 +9,7 @@ import { emptyRole, RoleColumnConfig, roleHeaders } from '@/app/Constants/Consta
 import RoleForm from '../Forms/RoleForm/RoleForm';
 import RoleService from '@/app/Services/RoleService';
 import ConfirmPopup from '@/app/Components/ConfirmPopup/ConfirmPopup';
+import { TIMEOUT } from 'dns';
 
 export default function Role() {
 
@@ -25,7 +26,7 @@ export default function Role() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isEdit, setIsEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<IRole | null>();
+  const [selectedUser, setSelectedUser] = useState<IRole>(emptyRole);
   const [isShowDelete, setIsShowDelete] = useState(false);
 
   let searchWorker: Worker;
@@ -234,14 +235,19 @@ const setCurrentItem=(create:boolean)=>{
 
   const setEdit=(isEdit:boolean)=>{
     setCurrentItem(false)
-    setIsEdit(true);
-    setIsCreate(false);
+
+      setIsEdit(true)
+      setIsCreate(false)
+
   }
 
   const setCreate=(isCreate:boolean)=>{
     setCurrentItem(true);
-    setIsEdit(false);
-    setIsCreate(true);
+
+      setIsEdit(false)
+      setIsCreate(true)
+
+
   }
 
   return (

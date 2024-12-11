@@ -33,6 +33,7 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
     useEffect(() => {
 
         if (isEdit || isCreate) {
+            setRole(selectedRole);
             loadData();
         }
 
