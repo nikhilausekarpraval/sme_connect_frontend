@@ -11,6 +11,7 @@ import RoleService from '@/app/Services/RoleService';
 import ConfirmPopup from '@/app/Components/ConfirmPopup/ConfirmPopup';
 import RoleClaimForm from '../Forms/RoleClaimForm/RoleClaimForm';
 import ClaimService from '@/app/Services/ClaimService';
+import { Allison } from 'next/font/google';
 
 export default function RoleClaim() {
 
@@ -213,18 +214,27 @@ const setCurrentItem=(create:boolean)=>{
 
   }
 
-  const deleteSelected = async () => {
+const deleteSelected = async () => {
+  try {
+    const selectedItemsArray = Array.from(selectedItems);
+    var selectedRoleIds = [""] ; 
 
-    try {
-      const selectedItemsArray = Array.from(selectedItems);
-      const result = await _claimService.deleteClaim(selectedItemsArray);
-      setIsShowDelete(false);
-      reloadData();
+    allItems.forEach(element => {
+      if (selectedItemsArray.includes(element.id)) {
+        selectedRoleIds = selectedRoleIds.concat(element.roles.map(role => role.id)); 
+      }
+    });
 
-    } catch (error) {
-      console.error("Error deleting selected items:", error);
-    }
-  };
+    console.log(selectedRoleIds)
+    //const result = await _claimService.deleteClaim(selectedItemsArray);
+    setIsShowDelete(false);
+    reloadData();
+
+  } catch (error) {
+    console.error("Error deleting selected items:", error);
+  }
+};
+
 
   const clearPopup = () => {
     setIsShowDelete(false);

@@ -2,17 +2,15 @@ import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
 import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
-import { IClaim, IUserGroup, IPractice, IRole, IUser, IUserClaim, IUserForm } from "@/app/Interfaces/Interfaces";
+import { IPractice, IRole, IUser, IUserClaim, IUserForm } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { FiArrowRight } from "react-icons/fi";
 import '../../../Common/Styles/Form.scss';
-import { List } from "postcss/lib/list";
 import Loader from "@/app/Components/Loader/Loader";
 import RoleService from "@/app/Services/RoleService";
 import ClaimService from "@/app/Services/ClaimService";
-import GroupService from "@/app/Services/GroupService";
 import PracticesService from "@/app/Services/PracticesService";
 import FormNumberInput from "@/app/Components/FormNumberInput/FormNumberInput";
 
@@ -36,7 +34,6 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [roles, setRoles] = useState<IRole[]>(rolesData);
     const [claims, setClaims] = useState<IUserClaim[]>(userClaims);
     const [practices, setPractces] = useState<IPractice[]>(practicesData);
-    const [groups, setGroup] = useState<IUserGroup[]>(groupsData);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -300,20 +297,6 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         </Form.Select>
                                         <div className="text-red-600">
                                             {errors.claim}
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Group</Form.Label>
-                                        <Form.Select className="" value={groups?.find((group) => group?.id == user?.groupId)?.name} onChange={handleChange} name="Group" id="Group">
-                                            <option value=""></option>
-                                            {groups?.map((role) => (
-                                                <option value={role?.id}>{role.name}</option>
-                                            ))
-                                            }
-                                        </Form.Select>
-                                        <div className="text-red-600">
-                                            {errors.group}
                                         </div>
                                     </div>
 

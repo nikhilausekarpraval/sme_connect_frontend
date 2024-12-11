@@ -90,10 +90,6 @@ export const UserColumnConfig = [
     dataType: "string",
   },
   {
-    field: "group",
-    dataType: "string",
-  },
-  {
     field: "name",
     dataType: "string",
   },
@@ -203,8 +199,6 @@ export const userHeaders = {
   displayName: "Full Name",
 
   userName: "User Name",
-
-  Group: "Group",
 
   Practice : "Practice",
 
