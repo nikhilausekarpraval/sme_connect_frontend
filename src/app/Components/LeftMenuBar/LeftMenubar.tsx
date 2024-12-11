@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaBars, FaHome, FaInfoCircle, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
 import AdminOptionsDropdown from '../AdminOptionsDropdown';
+import { MdDeveloperMode } from "react-icons/md";
 
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -45,6 +46,14 @@ export const LeftMenubar = () => {
                 <div className="justify-start flex items-center w-52">
                   <FaHome className="" />
                   {!isCollapsed && <span className='ps-3'>Home</span>}
+                </div>
+              </Link>
+            </li>
+            <li>
+              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-gray-700' : ''}`} href={routes.practices}>
+                <div className="justify-start flex items-center w-52">
+                  <MdDeveloperMode className="" />
+                  {!isCollapsed && <span className='ps-3'>Practices</span>}
                 </div>
               </Link>
             </li>

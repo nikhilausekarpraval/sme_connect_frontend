@@ -2,7 +2,7 @@
 
 import SubmitButton from '@/app/Components/SubmitButton';
 import React, { useEffect, useState } from 'react';
-import UsersService from '../Services/UsersService';
+import UsersService from '../Services/usersService';
 
 
 interface Props {

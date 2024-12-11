@@ -53,13 +53,14 @@ export const routes = {
   createTole: "/Dashboard/CreateRole",
   employee: "/Dashboard/EmployeeDashboard/Employee",
   task: "/Dashboard/EmployeeDashboard/Task",
-  home: "/Dashboard/Home",
+  home: "/",
   user:"/Dashboard/User",
   role:"/Dashboard/Role",
   group:"/Dashboard/Group",
   practice:"/Dashboard/Practice",
   roleClaim:"/Dashboard/RoleClaim",
-
+  practices: "/Dashboard/Practices",
+  practiceDashboard: "/Dashboard/PracticeDashboard",
 }
 
 
@@ -71,6 +72,60 @@ export const pleaseSelectDifferentQuestion = "Please select different question";
 export const totalQuestions = ["question1", "question2", "question3"];
 
 export const totalAnswers = ["answer1", "answer2", "answer3"];
+
+export const practicesList = [
+  {
+    title: "Web Development",
+    metrics: ["5 Active Projects", "80% Sprint Progress"],
+    links: [
+      { text: "GitHub", url: "https://github.com" },
+      { text: "Documentation", url: "https://developer.mozilla.org" },
+    ],
+    highlights: ["Deployed New Website", "Optimized Code", "95% Deployment Success"],
+    visuals: { progress: 80 },
+  },
+  {
+    title: "Database Management",
+    metrics: ["10 Databases", "99.9% Uptime", "150ms Avg Query Time"],
+    links: [
+      { text: "Schema Design", url: "https://example.com/schema" },
+      { text: "Backup Schedule", url: "https://example.com/backup" },
+    ],
+    highlights: ["Improved Indexing", "Automated Backups"],
+    visuals: { progress: 95 },
+  },
+  {
+    title: "Azure Operations",
+    metrics: ["20 Active Resources", "$3000 Monthly Cost", "95% Deployment Success"],
+    links: [
+      { text: "Azure Portal", url: "https://portal.azure.com" },
+      { text: "Cost Optimization", url: "https://example.com/cost" },
+    ],
+    highlights: ["Deployed 3 New VMs", "Improved Network Performance"],
+    visuals: { progress: 70 },
+  },
+  {
+    title: "Machine Learning",
+    metrics: ["8 Models in Production", "92% Avg Accuracy", "1TB Dataset"],
+    links: [
+      { text: "Model Repository", url: "https://example.com/models" },
+      { text: "Experiment Tracking", url: "https://example.com/experiments" },
+    ],
+    highlights: ["Deployed Fraud Detection Model", "Improved Precision by 5%"],
+    visuals: { progress: 85 },
+  },
+  {
+    title: "ServiceNow Operations",
+    metrics: ["150 Tickets Resolved", "2 Hours Avg Resolution Time", "98% SLA Compliance"],
+    links: [
+      { text: "ServiceNow Dashboard", url: "https://example.com/servicenow" },
+      { text: "Knowledge Base", url: "https://example.com/knowledge" },
+    ],
+    highlights: ["Resolved Major Incident", "Improved Workflow Automation"],
+    visuals: { progress: 90 },
+  },
+];
+
 
 export const UserColumnConfig = [
   {
