@@ -1,6 +1,5 @@
 'use client';
 import { routes } from '@/app/Constants/Constants';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Card, ProgressBar, Button } from 'react-bootstrap';
@@ -30,24 +29,11 @@ const PracticeCard: React.FC<DepartmentCardProps> = ({ title, metrics, links, hi
 
         <Card className="shadow-sm" onClick={handleNavigation} >
             <Card.Body>
+
                 <Card.Title className="text-primary">{title}</Card.Title>
-                <Card.Text>
-                    <strong>Key Metrics:</strong>
-                    <ul>
-                        {metrics.map((metric, index) => (
-                            <li key={index}>{metric}</li>
-                        ))}
-                    </ul>
-                </Card.Text>
-
-                {visuals?.progress && (
-                    <div className="my-3">
-                        <ProgressBar now={visuals.progress} label={`${visuals.progress}%`} />
-                    </div>
-                )}
 
                 <Card.Text>
-                    <strong>Highlights:</strong>
+                    <strong>Description:</strong>
                     <ul>
                         {highlights.map((highlight, index) => (
                             <li key={index}>{highlight}</li>
@@ -55,13 +41,23 @@ const PracticeCard: React.FC<DepartmentCardProps> = ({ title, metrics, links, hi
                     </ul>
                 </Card.Text>
 
-                <div className="d-grid gap-2">
+                <Card.Text className='mt-3'>
+                    <strong>Metrics:</strong>
+                    <ul>
+                        {metrics.map((metric, index) => (
+                            <li key={index}>{metric}</li>
+                        ))}
+                    </ul>
+                </Card.Text>
+
+
+                {/* <div className="d-grid gap-2">
                     {links.map((link, index) => (
                         <Button key={index} variant="outline-primary" href={link.url} target="_blank">
                             {link.text}
                         </Button>
                     ))}
-                </div>
+                </div> */}
             </Card.Body>
         </Card>
         // </Link>

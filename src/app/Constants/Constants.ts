@@ -95,7 +95,7 @@ export const practicesList = [
     visuals: { progress: 95 },
   },
   {
-    title: "Azure Operations",
+    title: "Azure",
     metrics: ["20 Active Resources", "$3000 Monthly Cost", "95% Deployment Success"],
     links: [
       { text: "Azure Portal", url: "https://portal.azure.com" },
@@ -105,7 +105,7 @@ export const practicesList = [
     visuals: { progress: 70 },
   },
   {
-    title: "Machine Learning",
+    title: "Oracle ERP",
     metrics: ["8 Models in Production", "92% Avg Accuracy", "1TB Dataset"],
     links: [
       { text: "Model Repository", url: "https://example.com/models" },
@@ -115,7 +115,7 @@ export const practicesList = [
     visuals: { progress: 85 },
   },
   {
-    title: "ServiceNow Operations",
+    title: "ServiceNow",
     metrics: ["150 Tickets Resolved", "2 Hours Avg Resolution Time", "98% SLA Compliance"],
     links: [
       { text: "ServiceNow Dashboard", url: "https://example.com/servicenow" },

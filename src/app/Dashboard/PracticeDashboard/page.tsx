@@ -55,12 +55,13 @@ const ThreeColumnLayout: React.FC = () => {
         <div className="d-flex" style={{ height: '100vh' }}>
 
             <div className="flex-shrink-0" style={{ width: '30%' }}>
-                <List items={leftList} title="Left List" />
+                <List items={leftList} title="Group List" />
             </div>
 
 
             <div className="flex-grow-1 mx-3" style={{ width: '40%' }}>
-                <div>{parsedData.key.title}</div>
+                <div className='py-4'>{parsedData.key.title}</div>
+                <div>Group card</div>
                 {details.map((detail, index) => (
                     <Detail key={index} header={detail.header} content={detail.content} />
                 ))}
@@ -68,7 +69,9 @@ const ThreeColumnLayout: React.FC = () => {
 
 
             <div className="flex-shrink-0" style={{ width: '30%' }}>
-                <List items={rightList} title="Right List" />
+                <List items={rightList} title="Updates" />
+
+                <div className='py-3 card p-3'>List of employees</div>
             </div>
         </div>
     );
