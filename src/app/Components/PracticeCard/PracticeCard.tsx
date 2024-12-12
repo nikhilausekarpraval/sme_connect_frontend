@@ -1,6 +1,7 @@
 'use client';
 import { routes } from '@/app/Constants/Constants';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Card, ProgressBar, Button } from 'react-bootstrap';
 
@@ -13,10 +14,21 @@ type DepartmentCardProps = {
 };
 
 const PracticeCard: React.FC<DepartmentCardProps> = ({ title, metrics, links, highlights, visuals }) => {
-    return (
-<Link className={` justify-start transition-all duration-50 no-underline }`} href={routes.home}>
 
-        <Card className="m-3 shadow-sm h-fit" >
+    const router = useRouter();
+
+    const handleNavigation = () => {
+        const data = JSON.stringify({ key: {title}});
+        router.push(`${routes.practiceDashboard}?data=${encodeURIComponent(data)}`);
+    };
+
+    return (
+        // <Link className={` justify-start transition-all duration-50 no-underline }`} href={{
+        //     pathname: '/targetPage',
+        //     query: { data: JSON.stringify({ practice: {title}}) }, 
+        // }}>
+
+        <Card className="shadow-sm" onClick={handleNavigation} >
             <Card.Body>
                 <Card.Title className="text-primary">{title}</Card.Title>
                 <Card.Text>
@@ -52,7 +64,7 @@ const PracticeCard: React.FC<DepartmentCardProps> = ({ title, metrics, links, hi
                 </div>
             </Card.Body>
         </Card>
-        </Link>
+        // </Link>
     );
 };
 

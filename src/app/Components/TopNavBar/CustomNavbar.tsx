@@ -23,7 +23,7 @@ export const CustomNavbar = () => {
     <div>
     <nav className='bg-blue-600 h-12  px-3 flex justify-between items-center' >
         <div>
-          <h3 className='font-semibold text-xl text-white m-0' ><Link href="/Dashboard/Home">Next Connect</Link></h3>
+          <h3 className='font-semibold text-xl text-white m-0' ><Link href="/Dashboard/Home">SME Connect</Link></h3>
         </div>
         <div>
           {/* <ul className='flex space-x-5 text-white items-center align-baseline no-underline m-0 p-0'>

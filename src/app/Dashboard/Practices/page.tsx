@@ -5,8 +5,8 @@ import './page.scss';
 
 export default function page() {
     return (
-        <div className="overflow-auto">
-            <div className="grid-container overflow-auto h-full">
+        <div className="overflow-auto flex flex-1 flex-col">
+            <div className="grid-container overflow-auto ">
                 {practicesList.map((department, index) => (
                     <PracticeCard key={index} {...department} />
                 ))}
