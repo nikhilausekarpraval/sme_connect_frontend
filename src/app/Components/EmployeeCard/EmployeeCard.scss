@@ -1,0 +1,97 @@
+.candidate-card-section {
+
+
+
+    .approved-candidate {
+        display: inline-block;
+        background: #14a045;
+        color: #fff;
+        padding: 3px 6px;
+        border-radius: 15px;
+        margin-left: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .pending-candidate {
+        display: inline-block;
+        background: #d0d01c;
+        color: #ffffff;
+        padding: 3px 6px;
+        border-radius: 15px;
+        margin-left: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* styles.css */
+
+    .user-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .user-photo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .user-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10px;
+        flex: 1;
+    }
+
+    .user-info h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .more-options {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        color: #999;
+    }
+
+    .card-body {
+        margin-top: 10px;
+    }
+
+    .card-body p {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .card-footer {
+        display: flex;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+    .tag {
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        font-size: 12px;
+        padding: 5px 10px;
+        color: #555;
+        max-width: 80px;
+        text-wrap: wrap;
+        text-overflow: ellipsis;
+        max-height: 35px;
+    }
+}

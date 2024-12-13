@@ -1,0 +1,19 @@
+// .grid-container {
+//     display: grid;
+//     grid-template-columns: auto auto auto auto auto auto auto;
+//     padding: 15px;
+//     gap: 15px;
+//     overflow-y: auto !important;
+//     height: 98%;
+// }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    padding: 15px;
+    gap: 15px;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    /* Ensure no horizontal scrolling */
+    height: 98%;
+}
