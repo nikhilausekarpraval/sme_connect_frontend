@@ -1,0 +1,54 @@
+.joined-groups-section {
+
+    .group-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .joined-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+
+            .group-header h2 {
+                font-size: 18px;
+                color: #333;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+
+            .group-notification {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .bell-icon {
+                    font-size: 24px;
+                    color: #007bff;
+                }
+
+                .chat-count {
+                    position: absolute;
+                    top: -5px;
+                    right: -10px;
+                    background: #ff4d4d;
+                    color: #fff;
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding: 3px 7px;
+                    border-radius: 50%;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                }
+            }
+        }
+    }
+}
+

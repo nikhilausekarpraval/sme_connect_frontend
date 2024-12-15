@@ -4,6 +4,9 @@ import { useSearchParams } from 'next/navigation';
 import CandidateCard from '@/app/Components/EmployeeCard/EmployeeCard';
 import GroupCard from '@/app/Components/GroupCard/GroupCard';
 import './practiceDashboard.scss';
+import GroupListCard from '@/app/Components/GroupListCard/GroupListCard';
+import JoinedGroups from '@/app/Components/JoinedGroupList/JoinedGroupList';
+import { useAppContext } from '@/app/Context/AppContext';
 
 type ListProps = {
     items: string[];
@@ -68,17 +71,17 @@ const List: React.FC<ListProps> = ({ items, title, height }) => {
 const Detail: React.FC<DetailProps> = ({ content, title }) => {
 
     return (
-        <div className="p-4 border rounded shadow-sm h-100">
-            <div>
-                Practice:{title}
+        <div className="p-2 h-100">
+            <div className='px-3 py-2 text-lg font-bold'>
+                My Groups.
             </div>
-            <div>
-                {content}
-            </div>
-            <div className=''>
+            {/* <div className=''>
                 {candidates.map((item, index) => (
                     <CandidateCard key={index} user={{ ...item }} />
                 ))}
+            </div> */}
+            <div>
+                <JoinedGroups/>
             </div>
 
         </div>
@@ -89,7 +92,7 @@ const ThreeColumnLayout: React.FC = () => {
 
     const searchParams = useSearchParams();
     const data = searchParams.get('data');
-
+      const userContext = useAppContext()[0] as any
     // Parse the data if necessary
     const parsedData = data ? JSON.parse(data) : {};
 
@@ -107,8 +110,9 @@ const ThreeColumnLayout: React.FC = () => {
 
     return (
         <div className="d-flex flex-1 h-100" >
-            <div className='flex flex-1 flex-col'>
-                <div className="flex-shrink-0 col border rounded  ms-2 mt-2 mb-2 h-50 overflow-auto" >
+            <div className='flex flex-1 flex-col p-2'>
+                <div className='ps-3 my-3 h-3 font-bold text-xl'>Welcome back,{userContext?.user?.displayName}. Let the games begin!</div>
+                <div className="flex-shrink-0 col  h-50 overflow-auto" >
                     <div className='grid-container'>
                         {groups.map((item) => (
                             < GroupCard group={{ ...item }} />
@@ -117,10 +121,10 @@ const ThreeColumnLayout: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="flex-shrink-0 col border rounded  ms-2 mb-2 h-50 overflow-auto" >
+                <div className="flex-shrink-0 col border rounded  ms-2 h-50 overflow-auto" >
                     <div className='grid-container'>
-                        <div>
-                            Recent Discussions from my groups
+                        <div className='px-3 py-2 text-lg font-bold'>
+                            Recent Discussions from my groups.
                         </div>
                     </div>
                 </div>
@@ -128,7 +132,7 @@ const ThreeColumnLayout: React.FC = () => {
             </div>
 
             <div className="flex-shrink-0 col-sm-3 m-2" >
-                <Detail content={"Joined Groups "} title={parsedData.key.title} />
+                <Detail content={"Joined Groups "} title={parsedData?.key?.title} />
             </div>
 
 
