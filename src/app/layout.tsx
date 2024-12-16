@@ -50,7 +50,7 @@ export default function RootLayout({
         <AppWrapper>
           <div className="min-h-screen overflow-hidden">
             <CustomNavbar />
-            <div className="flex overflow-hidden">
+            <div className="flex overflow-hidden h-[calc(100vh-var(--top-menu-height))] transition-all duration-50">
               <div className="">
                 <LeftMenubar />
               </div>

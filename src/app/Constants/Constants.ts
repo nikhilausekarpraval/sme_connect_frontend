@@ -61,6 +61,7 @@ export const routes = {
   roleClaim:"/Dashboard/RoleClaim",
   practices: "/Dashboard/Practices",
   practiceDashboard: "/Dashboard/PracticeDashboard",
+  groupDashboard: "/Dashboard/GroupDashboard"
 }
 
 

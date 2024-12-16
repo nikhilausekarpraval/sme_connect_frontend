@@ -109,10 +109,10 @@ const ThreeColumnLayout: React.FC = () => {
 
 
     return (
-        <div className="d-flex flex-1 " >
-            <div className='flex flex-1 flex-col p-2 '>
-                <div className='ps-3 my-3 h-3 font-bold text-xl'>Welcome back,{userContext?.user?.displayName}. Let the games begin!</div>
-                <div className="overflow-y-auto" >
+        <div className="d-flex flex-1 p-2" >
+            <div className='flex flex-1 flex-col'>
+                <div className="overflow-hidden height-30" >
+                    <div className='ps-3 mt-3 mb-2 font-bold text-xl'>Welcome back,{userContext?.user?.displayName}. Let the games begin!</div>
                     <div className='grid-container'>
                         {groups.map((item) => (
                             < GroupCard group={{ ...item }} />
@@ -124,6 +124,9 @@ const ThreeColumnLayout: React.FC = () => {
                 <div className="border rounded ms-2 discussion-height" >
                         <div className='px-3 py-2 text-lg font-bold'>
                             Recent Discussions from my groups.
+                        </div>
+                        <div className='overflow-y-auto h-100 '>
+
                         </div>
 
                 </div>

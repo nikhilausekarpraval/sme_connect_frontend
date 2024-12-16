@@ -1,6 +1,7 @@
 "use client"
 import AddRoleToUserClient from '@/app/Components/AddRoleToUserClient';
-import UsersService from '@/app/Services/UsersService';
+import RoleService from '@/app/Services/RoleService';
+import UsersService from '@/app/Services/usersService';
 import { useEffect,useState } from 'react';
 
 
@@ -19,7 +20,7 @@ export default function page() {
         try {
             
             const userService = new UsersService();
-           const  roles = await userService.getRoles();   
+           const  roles = await new RoleService().getRoles();   
            setRolesResult(roles.value);
            const  users = await userService.getUsers();
            setUsersResult(users.value);

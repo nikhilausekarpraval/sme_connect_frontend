@@ -5,10 +5,8 @@ import React from 'react';
 import Avatar from '@mui/material/Avatar';
 
 type CandiateDataType = {
-    id: string,
     name: string,
     email: string,
-    mobile: string,
 }
 
 
@@ -16,7 +14,7 @@ type CandidateProps = {
     user: CandiateDataType;
 }
 
-const CandidateCard: React.FC<CandidateProps> = ({ user }) => {
+const EmployeeCard: React.FC<CandidateProps> = ({ user }) => {
 
     return (
         <React.Fragment>
@@ -26,8 +24,6 @@ const CandidateCard: React.FC<CandidateProps> = ({ user }) => {
                         <div className="card-header">
                             <Avatar
                                 //sx={{ bgcolor: deepPurple[500] }}
-                                alt="Remy Sharp"
-                                src="/broken-image.jpg"
                             >
                                 <FaUserTie />
                             </Avatar>
@@ -44,4 +40,4 @@ const CandidateCard: React.FC<CandidateProps> = ({ user }) => {
         </React.Fragment>
     )
 };
-export default CandidateCard;
+export default EmployeeCard;
