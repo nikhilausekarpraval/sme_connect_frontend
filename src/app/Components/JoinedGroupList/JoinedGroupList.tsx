@@ -16,13 +16,49 @@ const JoinedGroups = () => {
             name: "Python Developers",
             activeChats: 7,
         },
+        {
+            name: ".NET Group",
+            activeChats: 5,
+        },
+        {
+            name: "Frontend Enthusiasts",
+            activeChats: 12,
+        },
+        {
+            name: "Python Developers",
+            activeChats: 7,
+        },
+        {
+            name: ".NET Group",
+            activeChats: 5,
+        },
+        {
+            name: "Frontend Enthusiasts",
+            activeChats: 12,
+        },
+        {
+            name: "Python Developers",
+            activeChats: 7,
+        },
+        {
+            name: ".NET Group",
+            activeChats: 5,
+        },
+        {
+            name: "Frontend Enthusiasts",
+            activeChats: 12,
+        },
+        {
+            name: "Python Developers",
+            activeChats: 7,
+        },
     ];
 
     return (
-        <div className="joined-groups-section">
-            <ul className="group-list">
+        <div className="joined-groups-section h-100 overflow-y-auto">
+            <ul className="group-list h-50 overflow-y-auto">
                 {groups.map((group, index) => (
-                    <li key={index} className="joined-group">
+                    <li key={index} className="joined-group py-2 my-2">
                         <div className="group-header">
                             <h2>{group.name}</h2>
                         </div>

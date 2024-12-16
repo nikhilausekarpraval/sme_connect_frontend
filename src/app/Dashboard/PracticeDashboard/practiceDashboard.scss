@@ -14,6 +14,9 @@
     gap: 15px;
     overflow-y: auto !important;
     overflow-x: hidden;
-    /* Ensure no horizontal scrolling */
-    height: 98%;
+    height:80%;
+}
+
+.discussion-height{
+    height: 33%;
 }
