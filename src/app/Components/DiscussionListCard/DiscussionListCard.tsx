@@ -2,46 +2,35 @@
 import React from "react";
 import './DiscussionListCard.scss';
 
-const GroupListCard : React.FC=({})=>{
-    const groups = [
+const discussionListCard : React.FC=({})=>{
+    const discussions = [
         {
-            name: ".NET Group",
-            description: "Focuses on .NET technologies for enterprise applications.",
-            technologies: [".NET Core", "C#", "ASP.NET", "Entity Framework"],
+            name: ".NET discussion",
+            description: "Focuses on .NET technologies for enterprise applications."
         },
         {
-            name: "Frontend Group",
+            name: "Frontend discussion",
             description: "Specializes in building modern UI using popular frontend tools.",
-            technologies: ["React.js", "Vue.js", "Angular", "Tailwind CSS"],
         },
         {
             name: "Python Developers",
             description: "Dedicated to Python and its diverse ecosystem.",
-            technologies: ["Python", "Django", "Flask", "Pandas"],
         },
     ];
 
 
 return(
 <React.Fragment>
-        <div className="technology-list">
-            <h1 className="list-heading">Technology Groups</h1>
+        <div className="technology-list w-100">
             <ul>
-                {groups.map((group, index) => (
-                    <li key={index} className="group-item">
-                        <h2>{group.name}</h2>
-                        <p>{group.description}</p>
-                        <ul className="technologies">
-                            {group.technologies.map((tech, techIndex) => (
-                                <li key={techIndex} className="technology-item">
-                                    {tech}
-                                </li>
-                            ))}
-                        </ul>
+                {discussions.map((discussion, index) => (
+                    <li key={index} className="discussion-item">
+                        <h2>{discussion.name}</h2>
+                        <p className="m-0">{discussion.description}</p>
                     </li>
                 ))}
             </ul>
         </div>
 </React.Fragment>
 )
-};export default GroupListCard;
+};export default discussionListCard;

@@ -171,6 +171,12 @@ export interface JwtPayload {
   [key: string]:unknown;
 }
 
+export interface IDiscussion{
+  id: number;
+  title:string;
+  description:string;
+  status:string;
+}
 
 export interface IRegisterUserErrors {
   email: string,password:string,username:string,answer1:string,answer2:string,answer3:string,newPassword:string,confirmPassword:string

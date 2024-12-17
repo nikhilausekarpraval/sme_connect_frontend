@@ -42,6 +42,17 @@ export const emptyApplicationContext: IApplicationContext = {
 
 export const createRoleErrors = {role:"",claim:""}
 
+export const createDiscussionErrors = {title:"",description:"",status:""}
+
+export const emptyDiscussion = {
+  id:0,
+  title:"",
+  description:"",
+  status:"Open",
+}
+
+export const discussionStatus = ["Open","Closed","Starred"];
+
 export const createRoleClaimErrors = {claimType:"",claimValue:""}
 
 export const routes = {
