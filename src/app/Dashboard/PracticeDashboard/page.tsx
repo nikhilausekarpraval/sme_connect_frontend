@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import CandidateCard from '@/app/Components/EmployeeCard/EmployeeCard';
 import GroupCard from '@/app/Components/GroupCard/GroupCard';
@@ -7,6 +7,8 @@ import './practiceDashboard.scss';
 import GroupListCard from '@/app/Components/GroupListCard/GroupListCard';
 import JoinedGroups from '@/app/Components/JoinedGroupList/JoinedGroupList';
 import { useAppContext } from '@/app/Context/AppContext';
+import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
+import { discussions } from '@/app/Constants/Constants';
 
 type ListProps = {
     items: string[];
@@ -93,8 +95,8 @@ const ThreeColumnLayout: React.FC = () => {
     const searchParams = useSearchParams();
     const data = searchParams.get('data');
       const userContext = useAppContext()[0] as any
-    // Parse the data if necessary
     const parsedData = data ? JSON.parse(data) : {};
+    const [recentDiscussions, setRecentDiscussions] = useState(discussions);
 
     const leftList = ["Item 1", "Item 2", "Item 3", "Item 4"];
     const rightList = ["Option A", "Option B", "Option C", "Option D"];
@@ -121,16 +123,10 @@ const ThreeColumnLayout: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="border rounded ms-2 discussion-height" >
-                        <div className='px-3 py-2 text-lg font-bold'>
-                            Recent Discussions from my groups.
-                        </div>
-                        <div className='overflow-y-auto h-100 '>
-
-                        </div>
-
+                <div className='flex flex-1 pt-2 flex-col overflow-y-auto '>
+                    <div className='py-2 ps-3 font-bold'>Recent discussions from my Groups</div>
+                    <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-0 '} listStyle= {"overflow-y-auto pe-3 discussion-list-height"}/>
                 </div>
-
             </div>
 
             <div className="flex-shrink-0 col-sm-3 m-2 h-100" >

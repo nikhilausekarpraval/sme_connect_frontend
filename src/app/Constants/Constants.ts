@@ -1,5 +1,5 @@
 
-import { IApplicationContext, IClaim, IPractice, IRole, IRoleClaim, IUser, IUserClaim, IUserGroup } from "../Interfaces/Interfaces";
+import { IApplicationContext, IClaim, IDiscussion, IPractice, IRole, IRoleClaim, IUser, IUserClaim, IUserGroup } from "../Interfaces/Interfaces";
 
 
 export const emptyUser = {
@@ -44,6 +44,12 @@ export const createRoleErrors = {role:"",claim:""}
 
 export const createDiscussionErrors = {title:"",description:"",status:""}
 
+export const discussionStatusTypes = {
+  Open: "Open", Close: "Close", Starred: "Starred", Unstar : "Unstar", Star:"Star"
+};
+
+export const discussionCloseType = ["Close","Unstar"]
+
 export const emptyDiscussion = {
   id:0,
   title:"",
@@ -72,9 +78,48 @@ export const routes = {
   roleClaim:"/Dashboard/RoleClaim",
   practices: "/Dashboard/Practices",
   practiceDashboard: "/Dashboard/PracticeDashboard",
-  groupDashboard: "/Dashboard/GroupDashboard"
+  groupDashboard: "/Dashboard/GroupDashboard",
+  discussionDashboard:"/Dashboard/DiscussionDashboard"
 }
 
+export const discussions:IDiscussion[] = [
+  {
+    id: 0,
+    title: ".NET discussion",
+    description: "Focuses on .NET technologies for enterprise applications.",
+    status: "Open"
+  },
+  {
+    id: 0,
+    title: "Frontend discussion",
+    description: "Specializes in building modern UI using popular frontend tools.",
+    status: "Close"
+  },
+  {
+    id: 0,
+    title: "Python Developers",
+    description: "Dedicated to Python and its diverse ecosystem.",
+    status: "Starred"
+  },
+  {
+    id: 0,
+    title: ".NET discussion",
+    description: "Focuses on .NET technologies for enterprise applications.",
+    status: "Open"
+  },
+  {
+    id: 0,
+    title: "Frontend discussion",
+    description: "Specializes in building modern UI using popular frontend tools.",
+    status: "Close"
+  },
+  {
+    id: 0,
+    title: "Python Developers",
+    description: "Dedicated to Python and its diverse ecosystem.",
+    status: "Starred"
+  },
+];
 
 
 export const pleaseSelectQuestionAndAswer = "Please select question and answer";
@@ -275,6 +320,12 @@ export const userHeaders = {
 
   ModifiedBy : 'Modified By',
 
+}
+
+export const discussionTabs = {
+  Starred: "Starred",
+  Close: "Closed Discussions",
+  Open: "Open Discussions"
 }
 
 export const roleHeaders = {

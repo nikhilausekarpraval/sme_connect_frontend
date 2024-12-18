@@ -1,6 +1,6 @@
 .technology-list {
 
-    padding: 15px;
+    padding: 0px 15px;
 
     .list-heading {
         font-size: 24px;
@@ -15,7 +15,7 @@
 
         .discussion-item {
             margin-bottom: 20px;
-            padding: 15px;
+            padding: 12px;
             background: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -41,6 +41,10 @@
                     margin-bottom: 4px;
                     color: #444;
                 }
+            }
+
+            .button-width{
+                width: 83px;
             }
         }
     }
