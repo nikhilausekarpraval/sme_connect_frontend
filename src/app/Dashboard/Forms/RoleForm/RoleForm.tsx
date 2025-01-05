@@ -1,6 +1,6 @@
 
-import { createRoleErrors, emptyRole, registerUserFormErrors, roleClaims} from "@/app/Constants/Constants";
-import { isValidRole} from "@/app/Helpers/Helpers";
+import { createRoleErrors, emptyRole, registerUserFormErrors, roleClaims } from "@/app/Constants/Constants";
+import { isValidRole } from "@/app/Helpers/Helpers";
 import { IRole, IRoleClaim } from "@/app/Interfaces/Interfaces";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
@@ -9,6 +9,7 @@ import RoleService from "@/app/Services/RoleService";
 import '../../../Common/Styles/Form.scss';
 import ClaimService from "@/app/Services/ClaimService";
 import MultipleSelectDropdown from "@/app/Components/MultiSelectDropdown/MultiSelectDropdown";
+import ReactMultiSelectComponent from "@/app/Components/ReactMultiSelectDropdown/ReactMultiSelectDropdown";
 
 
 interface EmployeeFormProps {
@@ -42,11 +43,11 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
     const loadData = async () => {
         setIsLoading(true);
-        setErrors(createRoleErrors); 
+        setErrors(createRoleErrors);
         const selectedClam = selectedRole?.claims?.map((claim) => claim.claimType);
-        setSelectedClaims(selectedClam ? selectedClam : [""]); 
-        var allClaims = await new ClaimService().getClaims();    
-        setClaims(allClaims?.value);   
+        setSelectedClaims(selectedClam ? selectedClam : [""]);
+        var allClaims = await new ClaimService().getClaims();
+        setClaims(allClaims?.value);
         setIsLoading(false);
     }
 
@@ -57,14 +58,14 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
-                   if(isCreate){
-                       result = await new RoleService().addRole(role);
-                   } 
-                   
-                   if(role?.claims){
-                       result = await new ClaimService().createClaim(role?.claims)
-                   }
-                    
+                if (isCreate) {
+                    result = await new RoleService().addRole(role);
+                }
+
+                if (role?.claims) {
+                    result = await new ClaimService().createClaim(role?.claims)
+                }
+
                 if (result.statusCode != 200) {
                     formError = result.value
                     if (formError.includes("already exist")) {
@@ -191,8 +192,8 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                                         </div>
                                     </div> */}
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                    <MultipleSelectDropdown values={claims?.map((claim)=>claim.claimType)} title={"Claim"} selectedNames={selectedClaims} handleChange={handleClaimChange}/>
-                                     </div>
+                                        <ReactMultiSelectComponent values={claims.map((claim) => ({ label: `${claim.claimType}: ${claim.claimValue}`, value: claim.claimValue.toLowerCase() }))} title={"Claim"} selectedNames={selectedClaims} handleChange={setSelectedClaims} />
+                                    </div>
                                 </div>
                             </div>
                             <Modal.Footer className="p-0 py-2">
