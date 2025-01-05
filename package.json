@@ -31,7 +31,7 @@
     "react-multi-select-component": "^4.3.4",
     "react-paginate": "^8.2.0",
     "react-responsive-pagination": "^2.9.0",
-    "sass": "^1.81.0",
+    "sass": "^1.83.1",
     "tw-elements": "^2.0.0"
   },
   "devDependencies": {
