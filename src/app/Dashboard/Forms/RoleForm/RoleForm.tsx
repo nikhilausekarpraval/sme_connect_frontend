@@ -8,7 +8,6 @@ import Loader from "@/app/Components/Loader/Loader";
 import RoleService from "@/app/Services/RoleService";
 import '../../../Common/Styles/Form.scss';
 import ClaimService from "@/app/Services/ClaimService";
-import MultipleSelectDropdown from "@/app/Components/MultiSelectDropdown/MultiSelectDropdown";
 import ReactMultiSelectComponent from "@/app/Components/ReactMultiSelectDropdown/ReactMultiSelectDropdown";
 
 

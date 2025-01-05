@@ -8,7 +8,8 @@ import Loader from "@/app/Components/Loader/Loader";
 import RoleService from "@/app/Services/RoleService";
 import '../../../Common/Styles/Form.scss';
 import ClaimService from "@/app/Services/ClaimService";
-import MultipleSelectDropdown from "@/app/Components/MultiSelectDropdown/MultiSelectDropdown";
+import ReactMultiSelectComponent from "@/app/Components/ReactMultiSelectDropdown/ReactMultiSelectDropdown";
+
 
 
 interface RoleClaimFormProps {
@@ -144,14 +145,14 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
             >
                 <Modal.Header closeButton className="px-4 py-2">
                     <div className="building-form-header py-2 d-flex gap-4 align-items-center">
-                        {isEdit ? "Edit" : "Create"} Role
+                        {isEdit ? "Edit" : "Create"} Role Claims
                         <h4 className='m-0'> {isDuplicate && <div><span className='text-danger '>*Duplicate Role is not allowed</span></div>}</h4>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="p-0">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
-                            <div className="px-4 py-4 form-row-container">
+                            <div className="px-4 py-4">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Claim Id</Form.Label>
@@ -200,7 +201,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <MultipleSelectDropdown values={roles?.map((roleClaim) => roleClaim.name)} title={"Roles"} selectedNames={selectedRoles} handleChange={handleClaimChange} />
+                                        <ReactMultiSelectComponent values={roles?.map((role)=> ({label:role.name,value: role.name }))} title={"Roles"} selectedNames={selectedRoles} handleChange={setSelectedRoles} />
                                     </div>
                                 </div>
                             </div>
