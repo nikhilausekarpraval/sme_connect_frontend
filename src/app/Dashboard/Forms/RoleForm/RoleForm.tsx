@@ -146,7 +146,7 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                 <Modal.Body className="p-0">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
-                            <div className="px-4 py-4 form-row-container">
+                            <div className="px-4 py-4 ">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Role Id</Form.Label>

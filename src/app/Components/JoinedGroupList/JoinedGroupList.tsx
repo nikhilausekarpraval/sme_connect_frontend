@@ -75,7 +75,7 @@ const JoinedGroups = () => {
                                 Lead
                             </div>
                             <div className="group-notification">
-                                <FaBell className="bell-icon" />
+                                <FaBell className="bell-icon" width={18} height={18} />
                                 <span className="chat-count">{group.activeChats}</span>
                             </div>
                         </div>

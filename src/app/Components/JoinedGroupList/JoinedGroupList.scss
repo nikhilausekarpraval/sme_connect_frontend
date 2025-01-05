@@ -37,16 +37,19 @@
 
                 .chat-count {
                     position: absolute;
-                    top: -7px;
+                    top: -8px;
                     right: -10px;
                     background: #ff4d4d;
                     color: #fff;
-                    font-size: 12px;
+                    font-size: 11px;
                     font-weight: bold;
-                    width:24px;
-                    height: 24px;
+                    width: 23px;
+                    height: 23px;
                     border-radius: 50%;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
             }
         }
