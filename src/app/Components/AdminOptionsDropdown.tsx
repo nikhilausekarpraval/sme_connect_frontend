@@ -115,7 +115,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 {!isCollapsed && <span className="ps-3">Role Claim</span>}
               </div>
             </Link>
-            <Link
+            {/* <Link
               className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
                 isActive('/Dashboard/CreateRole') ? 'bg-gray-700' : ''
               }`}
@@ -158,7 +158,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 <FaUserCheck />
                 {!isCollapsed && <span className="ps-3">Add Claim to User</span>}
               </div>
-            </Link>
+            </Link> */}
           </div>
         </div>
       )}
