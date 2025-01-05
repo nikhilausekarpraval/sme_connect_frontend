@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "../Interfaces/Interfaces";
-import { allow15_7Numbers, allow15Numbers, allowDotAndDash, allowIntegers, allowNumbers, mobileNumberRegex, replaceChracterWithSpace, replaceNumbersWithSpace, validString } from "../Constants/Constants";
+import { allow15_7Numbers, allow15Numbers, allowDotAndDash, allowIntegers, allowNumbers, mobileNumberRegex, replaceChracterWithSpace, replaceNumbersWithSpace, roleClaimConfig, validString } from "../Constants/Constants";
 
 export const validatePassword =(password:string)=> {
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%.*?&])[A-Za-z\d@$!.%*?&]{8,}$/;
@@ -56,6 +56,11 @@ export function isValidPhoneNumber(inputData:any){
     return false;
   }
 }
+
+export const getDataTypeForKey = (key :string) => {
+  const config = roleClaimConfig.find((item) => item.field === key);
+  return config ? config.dataType : null; 
+};
 
 export function acceptIntegers(inputData: string, field: string, editedFormData: any, isFloat = false) {
   var newValue  = inputData;

@@ -3,6 +3,7 @@ import { SortOrderEnum } from '@/app/Constants/Enum';
 import { FaSortUp, FaSortDown } from "react-icons/fa";
 import './TableHeader.scss';
 import { AscSortSVG, DescSortSVG } from '@/app/Assets/Images/SortSVG';
+import { getDataTypeForKey } from '@/app/Helpers/Helpers';
 interface ITableHeaderProps {
   name: string;
   notSortable?: boolean;
@@ -25,7 +26,7 @@ const TableHeader : React.FC<
 
     return (
       <th scope="col" className="border-bottom-0 position-sticky top-0" onClick={()=>handleSort(value)}>
-        <div className={`d-flex ${name.includes("On Dt") ? 'audit-column-width' :""} ${typeof value === 'number' ?'justify-content-end' : '' }`}>
+        <div className={`d-flex ${name.includes("On Dt") ? 'audit-column-width' :""} ${getDataTypeForKey(value) === 'number' ? 'justify-content-end' : '' }`}>
           {notSortable ? (
             <span>{name}</span>
           ) : (
