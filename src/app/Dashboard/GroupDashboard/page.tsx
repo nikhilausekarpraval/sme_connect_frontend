@@ -69,7 +69,7 @@ const page: React.FC = () => {
     }
 
     return (
-        <div className='flex flex-1 overflow-hidden'>
+        <div className='flex h-100 flex-1 overflow-hidden'>
             <DiscussionForm isCreate={showDisscussionForm} isEdit={false} clearForm={clearForm} selectedDiscussion={selectedDiscussion } save={saveDiscussion}/>
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='flex p-4 gap-4 items-center'>

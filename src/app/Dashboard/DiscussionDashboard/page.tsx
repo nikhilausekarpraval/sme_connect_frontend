@@ -33,7 +33,7 @@ const page: React.FC = () => {
 
 
     return (
-        <div className='flex flex-1 overflow-hidden'>
+        <div className='flex h-100 flex-1 overflow-hidden'>
 
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='px-3 pt-3'>

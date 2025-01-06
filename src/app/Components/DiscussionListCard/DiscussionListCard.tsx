@@ -72,7 +72,7 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdat
 
     return (
         <React.Fragment>
-            <div className={`technology-list ${cardStyle != "" ? cardStyle : '' }w-100`}>
+            <div className={`technology-list h-100 ${cardStyle != "" ? cardStyle : '' }w-100`}>
                 <ul className={listStyle}>
                     {discussions?.map((discussion, index) => (
                         <li key={index} className="discussion-item flex justify-between items-center">
