@@ -67,7 +67,7 @@ const JoinedGroups = () => {
         <div className="joined-groups-section h-100 overflow-y-auto ">
             <ul className="group-list h-50 overflow-y-auto pe-2">
                 {groups.map((group, index) => (
-                    <li key={index} className="joined-group cursor-pointer py-3 my-2" onClick={() => handleNavigation(group.name)}>
+                    <li key={index} className="joined-group cursor-pointer p-3 my-2" onClick={() => handleNavigation(group.name)}>
                         <div className="group-header">
                             <h2 className="m-0 group-name-style">{group.name}</h2>
                         </div>
