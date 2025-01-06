@@ -3,9 +3,9 @@
 
 export default function page() {
   return (
-    <div className='flex w-full justify-center items-center align-middle'>
+    <div className='flex w-full h-100 justify-center items-center align-middle'>
         <div className='col-span-4  sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/3'>
-                <h2 className='h2 font-bold'>Welcome to Task Manager Using Next JS</h2>
+                <h2 className='h2 py-2 font-bold'>Welcome to Task Manager Using Next JS</h2>
                 <h4 className='h5 font-bold'>Lorem Ipsum</h4>
                 <div className='py-2 mb-2'>
                     <p>

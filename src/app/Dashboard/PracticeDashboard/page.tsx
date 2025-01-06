@@ -90,11 +90,11 @@ const Detail: React.FC<DetailProps> = ({ content, title }) => {
     );
 };
 
-const ThreeColumnLayout: React.FC = () => {
+const PracticeDashboard: React.FC = () => {
 
     const searchParams = useSearchParams();
     const data = searchParams.get('data');
-      const userContext = useAppContext()[0] as any
+      const userContext = useAppContext() as any
     const parsedData = data ? JSON.parse(data) : {};
     const [recentDiscussions, setRecentDiscussions] = useState(discussions);
 
@@ -114,7 +114,7 @@ const ThreeColumnLayout: React.FC = () => {
         <div className="d-flex flex-1 p-2" >
             <div className='flex flex-1 flex-col'>
                 <div className="overflow-hidden height-30" >
-                    <div className='ps-3 mt-3 mb-2 font-bold text-xl'>Welcome back,{userContext?.user?.displayName}. Let the games begin!</div>
+                    <div className='ps-3 mt-3 mb-2 font-bold text-xl'>Welcome, {useAppContext()[0]?.userContext?.user?.displayName} {userContext?.user?.displayName}.</div>
                     <div className='grid-container'>
                         {groups.map((item) => (
                             < GroupCard group={{ ...item }} />
@@ -146,4 +146,4 @@ const ThreeColumnLayout: React.FC = () => {
     );
 };
 
-export default ThreeColumnLayout;
+export default PracticeDashboard;

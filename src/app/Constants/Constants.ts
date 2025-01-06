@@ -85,13 +85,13 @@ export const routes = {
 export const discussions:IDiscussion[] = [
   {
     id: 0,
-    title: ".NET discussion",
+    title: ".NET Discussion",
     description: "Focuses on .NET technologies for enterprise applications.",
     status: "Open"
   },
   {
     id: 0,
-    title: "Frontend discussion",
+    title: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
     status: "Close"
   },
@@ -103,13 +103,13 @@ export const discussions:IDiscussion[] = [
   },
   {
     id: 0,
-    title: ".NET discussion",
+    title: ".NET Discussion",
     description: "Focuses on .NET technologies for enterprise applications.",
     status: "Open"
   },
   {
     id: 0,
-    title: "Frontend discussion",
+    title: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
     status: "Close"
   },
