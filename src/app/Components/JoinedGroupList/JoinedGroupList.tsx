@@ -4,6 +4,7 @@ import { FaBell } from "react-icons/fa"; // Importing a bell icon from react-ico
 import Link from "next/link";
 import { routes } from "@/app/Constants/Constants";
 import  { useRouter } from "next/navigation";
+import BellIconSVG from "@/app/Assets/Images/BellIconSVG";
 
 const JoinedGroups = () => {
     const router = useRouter();
@@ -63,19 +64,16 @@ const JoinedGroups = () => {
     };
 
     return (
-        <div className="joined-groups-section h-100 overflow-y-auto">
+        <div className="joined-groups-section h-100 overflow-y-auto ">
             <ul className="group-list h-50 overflow-y-auto pe-2">
                 {groups.map((group, index) => (
-                    <li key={index} className="joined-group py-2 my-2" onClick={() => handleNavigation(group.name)}>
+                    <li key={index} className="joined-group cursor-pointer py-3 my-2" onClick={() => handleNavigation(group.name)}>
                         <div className="group-header">
-                            <h2>{group.name}</h2>
+                            <h2 className="m-0 group-name-style">{group.name}</h2>
                         </div>
                         <div className="flex px-2 text-lg text-gray-700">
-                            <div>
-                                Lead
-                            </div>
                             <div className="group-notification">
-                                <FaBell className="bell-icon" width={18} height={18} />
+                                <BellIconSVG/>
                                 <span className="chat-count">{group.activeChats}</span>
                             </div>
                         </div>
