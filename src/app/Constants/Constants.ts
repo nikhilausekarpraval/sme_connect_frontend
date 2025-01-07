@@ -378,9 +378,9 @@ export const roleHeaders = {
 
   claims:"Claims",
 
-  ModifiedOnDt: 'Modified On Dt',
+  modifiedOnDt: 'Modified On Dt',
 
-  ModifiedBy: 'Modified By',
+  modifiedBy: 'Modified By',
 
 }
 
@@ -392,9 +392,9 @@ export const practiceHeaders = {
 
   description:"Description",
 
-  ModifiedOnDt: 'Modified On Dt',
+  modifiedOnDt: 'Modified On Dt',
 
-  ModifiedBy: 'Modified By',
+  modifiedBy: 'Modified By',
 
 }
 
@@ -406,9 +406,9 @@ export const groupHeaders = {
 
   description:"Description",
 
-  ModifiedOnDt: 'Modified On Dt',
+  modifiedOnDt: 'Modified On Dt',
 
-  ModifiedBy: 'Modified By',
+  modifiedBy: 'Modified By',
 
 }
 

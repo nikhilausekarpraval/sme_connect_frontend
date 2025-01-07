@@ -46,8 +46,8 @@ const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, sel
 
             {useDefaultAuditColumns &&
                 <React.Fragment>
-                    <td title={formatDate(item?.ModifiedOnDt)} className='small-column-width'>{formatDate(item?.ModifiedOnDt)}</td>
-                    <td title={item?.ModifiedBy} className='changed-by'>{item?.ModifiedBy}</td>
+                    <td title={formatDate(item?.modifiedOnDt)} className='small-column-width'>{formatDate(item?.modifiedOnDt)}</td>
+                    <td title={item?.modifiedBy} className='changed-by'>{item?.modifiedBy}</td>
                 </React.Fragment>
             }
 
