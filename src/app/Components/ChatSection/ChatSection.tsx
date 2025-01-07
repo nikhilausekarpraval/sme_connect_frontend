@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './ChatSection.scss'; 
 import { IDiscussion } from '@/app/Interfaces/Interfaces';
 import Message from '../Message/Message';
 import { useAppContext } from '@/app/Context/AppContext';
+import { getCurrentTime } from '@/app/Helpers/Helpers';
 
 
 interface IChatComponet{
@@ -16,7 +17,7 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
      
       const displayName = userContext?.user?.displayName;
 
-    const messages = [
+    const tempMessages = [
         {
           id: 1,
           displayName: "Sai Chandana Konanki",
@@ -57,24 +58,43 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
 
    const [currentMessage,setCurrentMessage] = useState("");
 
-   function sendMessage(){
-        // logic to send message to signalR
+   const [messages,setMessages] = useState(tempMessages);
 
-        messages
+   function updateResponses(){
+            // write signla r logic here to update the message response from the other members
+   }
 
-        setCurrentMessage("");
+   function sendMessage() {
+
+    const newMessage = {
+      id: messages.length + 1, 
+      displayName: displayName,
+      timestamp: getCurrentTime(),
+      message: currentMessage,
+    };
+  
+    setMessages([...messages, newMessage]);
+  
+    setCurrentMessage("");
+  }
+
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
+  }, [messages]); 
 
     return (
         <div className="px-3 h-100">
             <div className='text-lg font-bold m-0'>{title}</div>
             <div className='h-100 overflow-y-auto'>
                 <div className="chat-container-wrapper">
-                    <div className="chat-container h-100 overflow-auto">
+                    <div className="chat-container h-100 overflow-auto" ref={chatContainerRef}>
                         {messages.map((message)=>(
                             <Message {...message} isCurrentUser={message.displayName === displayName} />
                         ))}
-    
                     </div>
 
                     <div className="chat-input">
