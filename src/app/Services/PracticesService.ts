@@ -7,17 +7,16 @@ class PracticesService {
 
     }
 
-
     async addPractice(Practices: any) {
-        return await apiService.post("api/Admin/add_Practices", Practices)
+        return await apiService.post("api/Practice/add_practice", Practices)
     }
 
-    async deletePractices() {
-        return await apiService.get("api/Admin/getPracticess")
+    async deletePractices(items:any) {
+        return await apiService.delete("api/Practice/delete_practices",items)
     }
 
     async getPractices() {
-        return await apiService.get("api/Admin/getPracticess")
+        return await apiService.get("api/Practice/get_practices")
     }
 
 

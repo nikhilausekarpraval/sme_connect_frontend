@@ -8,15 +8,15 @@ class GroupService {
     }
 
     async addGroup(role: any) {
-        return await apiService.post("api/Practice/add_group", role)
+        return await apiService.post("api/Group/add_group", role)
     }
 
     async getGroups() {
-        return await apiService.get("api/Practice/get_groups")
+        return await apiService.get("api/Group/get_groups")
     }
 
     async deleteGroup(groups:IUserGroup[]) {
-        return await apiService.delete("api/Practice/delete_groups",groups)
+        return await apiService.delete("api/Group/delete_groups",groups)
     }
 
 

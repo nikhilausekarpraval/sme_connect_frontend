@@ -140,13 +140,15 @@ export interface IRole{
 export interface IUserGroup{
   id:number,
   name:string,
+  description:string,
   modifiedBy:string,
   modifiedOnDt:Date,
 }
 
 export interface IPractice{
   id:number,
-  name:string
+  name:string,
+  description:string,
   modifiedBy: string,
   modifiedOnDt: Date,
 }

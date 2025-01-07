@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "../Interfaces/Interfaces";
-import { allow15_7Numbers, allow15Numbers, allowDotAndDash, allowIntegers, allowNumbers, mobileNumberRegex, replaceChracterWithSpace, replaceNumbersWithSpace, roleClaimConfig, validString } from "../Constants/Constants";
+import { allow15_7Numbers, allow15Numbers, allowDotAndDash, allowIntegers, allowNumbers, mobileNumberRegex, replaceChracterWithSpace, replaceNumbersWithSpace, roleClaimConfig, validString, validTitle } from "../Constants/Constants";
 
 export const validatePassword =(password:string)=> {
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%.*?&])[A-Za-z\d@$!.%*?&]{8,}$/;
@@ -129,4 +129,8 @@ export function isString(str : any){
 
 export function isValidRole(role:string){
   return validString.test(role) ? false : true
+}
+
+export function isValidTitle(text:string){
+  return validTitle.test(text) ? false : true
 }

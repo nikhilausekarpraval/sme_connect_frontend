@@ -96,9 +96,9 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.group) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceAdminDashboard) ? 'bg-gray-700' : ''
                 }`}
-              href={routes.group}
+              href={routes.practiceAdminDashboard}
             >
               <div className="justify-start flex items-center w-44">
                 <PiTreeViewFill />

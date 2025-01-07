@@ -1,4 +1,5 @@
 
+import { Description } from "@headlessui/react";
 import { IApplicationContext, IClaim, IDiscussion, IPractice, IRole, IRoleClaim, IUser, IUserClaim, IUserGroup } from "../Interfaces/Interfaces";
 
 
@@ -9,6 +10,11 @@ export const emptyUser = {
 
 export const emptyRole = {
   id:"",name:"",claims:null
+}
+
+export const emptyPractice = {
+  id:0,name:"",description:"",  modifiedBy:"",
+  modifiedOnDt:new Date(),
 }
 
 export const emptyClaim ={
@@ -42,6 +48,8 @@ export const emptyApplicationContext: IApplicationContext = {
 
 export const createRoleErrors = {role:"",claim:""}
 
+export const createPracticeErrors = {name:'',description:""}
+
 export const createDiscussionErrors = {title:"",description:"",status:""}
 
 export const discussionStatusTypes = {
@@ -73,7 +81,8 @@ export const routes = {
   home: "/",
   user:"/Dashboard/User",
   role:"/Dashboard/Role",
-  group:"/Dashboard/Group",
+  practiceAdminDashboard:"/Dashboard/PracticeAdminDashboard",
+  group:"/Dashboard/GroupAdminDashboard",
   practice:"/Dashboard/Practice",
   roleClaim:"/Dashboard/RoleClaim",
   practices: "/Dashboard/Practices",
@@ -229,6 +238,38 @@ export const RoleColumnConfig = [
 
 ];
 
+export const PracticeColumnConfig = [
+  {
+    field: "id",
+    dataType: "number",
+  },
+  {
+    field: "name",
+    dataType: "string",
+  },
+  {
+    field: "description",
+    dataType: "string",
+  },
+
+];
+
+export const GroupColumnConfig = [
+  {
+    field: "id",
+    dataType: "number",
+  },
+  {
+    field: "name",
+    dataType: "string",
+  },
+  {
+    field: "description",
+    dataType: "string",
+  },
+
+];
+
 export const rolesData:IRole[]=[
   {id:"234",name:"Admin", claims:null},
   {id:"234",name:"Manager",claims:null},
@@ -236,10 +277,10 @@ export const rolesData:IRole[]=[
 ]
 
 export const groupsData: IUserGroup[] = [
-  { id: 1, name: "Admin",modifiedBy:"", modifiedOnDt:new Date() },
-  { id: 2, name: "HR", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "User", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "IT", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 1, name: "Admin",description:"", modifiedBy:"", modifiedOnDt:new Date() },
+  { id: 2, name: "HR",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 3, name: "User",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 4, name: "IT",description:"", modifiedBy: "", modifiedOnDt: new Date() },
 ];
 
 export const mobileNumberRegex = /^[6-9]\d{9}$/;
@@ -252,12 +293,13 @@ export const allowDotAndDash = /^[-.]$/;
 export const replaceChracterWithSpace = /[^0-9\-]/g;
 export const replaceNumbersWithSpace = /[^0-9\.\-]/g;
 export const validString = /^[a-zA-Z]+$/;
+export const validTitle = /^[a-zA-Z\s]+$/;
 
 export const practicesData: IPractice[] = [
-  { id: 1, name: "Software Development", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 2, name: "Quality Assurance", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "Project Management", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "Business Analysis", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 1, name: "Software Development",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 2, name: "Quality Assurance",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 3, name: "Project Management",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 4, name: "Business Analysis",description:"", modifiedBy: "", modifiedOnDt: new Date() },
 ];
 
 export const userClaims: IUserClaim[] = [
@@ -335,6 +377,34 @@ export const roleHeaders = {
   name: "Role",
 
   claims:"Claims",
+
+  ModifiedOnDt: 'Modified On Dt',
+
+  ModifiedBy: 'Modified By',
+
+}
+
+export const practiceHeaders = {
+
+  id: "ID",
+
+  name: "Name",
+
+  description:"Description",
+
+  ModifiedOnDt: 'Modified On Dt',
+
+  ModifiedBy: 'Modified By',
+
+}
+
+export const groupHeaders = {
+
+  id: "ID",
+
+  name: "Name",
+
+  description:"Description",
 
   ModifiedOnDt: 'Modified On Dt',
 
