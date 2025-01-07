@@ -27,7 +27,7 @@ const PracticeCard: React.FC<DepartmentCardProps> = ({ title, metrics, links, hi
         //     query: { data: JSON.stringify({ practice: {title}}) }, 
         // }}>
 
-        <Card className="shadow-sm" onClick={handleNavigation} >
+        <Card className="shadow-sm cursor-pointer" onClick={handleNavigation} >
             <Card.Body>
 
                 <Card.Title className="text-primary">{title}</Card.Title>
