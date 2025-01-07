@@ -54,7 +54,8 @@ export default function RootLayout({
               <div className="">
                 <LeftMenubar />
               </div>
-              <div className="flex-1 flex">
+              {/* flex-1 flex */}
+              <div className="w-100 overflow-hidden">
                 {children}
               </div>
             </div>

@@ -257,7 +257,7 @@ const deleteSelected = async () => {
   }
 
   return (
-    <div className='px-3 flex flex-1 flex-column overflow-hidden la-table-styles role-select-none role-access-config'>
+    <div className='px-3 flex flex-1 flex-column h-100 overflow-hidden la-table-styles role-select-none role-access-config'>
       <TableFilter setIsEdit={setEdit} setIsCreate={setCreate} showDelete={showDelete} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
       <TableBody<IRoleClaimWithRoles> sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} tableHeaders={roleClaimHeader} columnConfig={roleClaimConfig} />
       <RoleClaimForm selectedClaim={selectedUser} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm} save={submitForm} />
