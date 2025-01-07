@@ -123,7 +123,7 @@ const PracticeDashboard: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='recent-discussion-height border mt-3  overflow-hidden '>
+                <div className='recent-discussion-height border mt-2  overflow-hidden '>
                     <div className='py-2 ps-3 font-bold'>Recent discussions from my Groups</div>
                     <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-0 '} listStyle= {"overflow-y-auto pe-3 h-100"}/>
                 </div>
