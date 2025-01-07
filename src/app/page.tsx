@@ -3,7 +3,7 @@
 export default function Home() {
 
   return (
-        <div >
+        <div className="flex justify-center items-center">
           <div className='flex w-full justify-center items-center align-middle'>
             <div className='col-span-4  sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/3'>
               <h2 className='h2 font-bold'>Welcome to Praval Connect</h2>

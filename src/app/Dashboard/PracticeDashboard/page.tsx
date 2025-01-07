@@ -123,13 +123,13 @@ const PracticeDashboard: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='recent-discussion-height overflow-hidden '>
+                <div className='recent-discussion-height border mt-3  overflow-hidden '>
                     <div className='py-2 ps-3 font-bold'>Recent discussions from my Groups</div>
                     <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-0 '} listStyle= {"overflow-y-auto pe-3 h-100"}/>
                 </div>
             </div>
 
-            <div className="flex-shrink-0 col-sm-3 ms-2 h-100" >
+            <div className="flex-shrink-0 ps-2 border col-sm-3 ms-2 h-100" >
                 <Detail content={"Joined Groups "} title={parsedData?.key?.title} />
             </div>
 
