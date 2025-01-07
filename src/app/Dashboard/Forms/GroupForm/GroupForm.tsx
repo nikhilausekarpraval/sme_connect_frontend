@@ -1,26 +1,27 @@
 
-import { createPracticeErrors, emptyPractice } from "@/app/Constants/Constants";
-import { IPractice} from "@/app/Interfaces/Interfaces";
+import { createGroupErrors, emptyGroup } from "@/app/Constants/Constants";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Loader from "@/app/Components/Loader/Loader";
 import '../../../Common/Styles/Form.scss';
 import { isValidTitle } from "@/app/Helpers/Helpers";
-import PracticesService from "@/app/Services/PracticesService";
+import { IUserGroup } from "@/app/Interfaces/Interfaces";
+import GroupService from "@/app/Services/GroupService";
 
 
-interface PracticeFormProps {
-    selectedPractice: IPractice | null | undefined;
+
+interface GroupFormProps {
+    selectedGroup: IUserGroup | null | undefined;
     isEdit: boolean;
     isCreate: boolean;
     clearForm: (e: any) => void,
     save: () => void,
 }
 
-const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate, isEdit, clearForm, save }) => {
+const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, clearForm, save }) => {
 
-    const [practice, setPractice] = useState<any>(selectedPractice)
-    const [errors, setErrors] = useState(createPracticeErrors)
+    const [group, setGroup] = useState<any>(selectedGroup)
+    const [errors, setErrors] = useState(createGroupErrors)
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +29,7 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
     useEffect(() => {
 
         if (isEdit || isCreate) {
-            setPractice(selectedPractice);
+            setGroup(selectedGroup);
             loadData();
         }
 
@@ -37,7 +38,7 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
 
     const loadData = async () => {
         setIsLoading(true);
-        setErrors(createPracticeErrors);
+        setErrors(createGroupErrors);
         setIsLoading(false);
     }
 
@@ -49,9 +50,9 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
                 if (isCreate) {
-                    result = await new PracticesService().addPractice(practice);
+                    result = await new GroupService().addGroup(group);
                 }else {
-                    result = await new PracticesService().updatePractice(practice);
+                    result = await new GroupService().updateGroup(group);
                 }
 
                 if (result.statusCode != 200) {
@@ -73,8 +74,8 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
 
     const clearFormData = () => {
 
-        setPractice(emptyPractice);
-        setErrors(createPracticeErrors);
+        setGroup(emptyGroup);
+        setErrors(createGroupErrors);
         clearForm(null);
     }
 
@@ -83,7 +84,7 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
 
         if (id === "name") {
             if (isValidTitle(value)) {
-                setErrors({ ...errors, name: "Invalid practice, practice must have only characters" })
+                setErrors({ ...errors, name: "Invalid group, group must have only characters" })
             } else {
                 setErrors({ ...errors, name: "" })
             }
@@ -95,8 +96,8 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
             }
         }
 
-        setPractice({
-            ...practice,
+        setGroup({
+            ...group,
             [id]: value,
         });
     };
@@ -115,8 +116,8 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
             >
                 <Modal.Header closeButton className="px-4 py-2">
                     <div className="building-form-header py-2 d-flex gap-4 align-items-center">
-                        {isEdit ? "Edit" : "Create"} Practice
-                        <h4 className='m-0'> {isDuplicate && <div><span className='text-danger '>*Duplicate Practice is not allowed</span></div>}</h4>
+                        {isEdit ? "Edit" : "Create"} Group
+                        <h4 className='m-0'> {isDuplicate && <div><span className='text-danger '>*Duplicate Group is not allowed</span></div>}</h4>
                     </div>
                 </Modal.Header>
                 <Modal.Body className="p-0">
@@ -125,12 +126,12 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
                             <div className="px-4 py-4 ">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Practice Id</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Group Id</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder="Practice id."
+                                            placeholder="Group id."
                                             className="w-100"
-                                            value={practice?.id}
+                                            value={group?.id}
                                             id={'id'}
                                             disabled
                                         />
@@ -140,11 +141,11 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Name</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder="Practice."
+                                            placeholder="Group."
                                             className="w-100"
                                             id="name"
                                             onChange={handleChange}
-                                            value={practice?.name}
+                                            value={group?.name}
                                             max={256}
                                             required
                                         />
@@ -161,7 +162,7 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
                                             className="w-100"
                                             id="description"
                                             onChange={handleChange}
-                                            value={practice?.description}
+                                            value={group?.description}
                                             max={256}
                                             required
                                         />
@@ -185,4 +186,4 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
     );
 };
 
-export default PracticeForm;
+export default GroupForm;

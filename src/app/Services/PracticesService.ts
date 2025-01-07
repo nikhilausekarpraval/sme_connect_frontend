@@ -11,6 +11,10 @@ class PracticesService {
         return await apiService.post("api/Practice/add_practice", Practices)
     }
 
+    async updatePractice(practice: any) {
+        return await apiService.post("api/Practice/update_practice", practice)
+    }
+
     async deletePractices(items:any) {
         return await apiService.delete("api/Practice/delete_practices",items)
     }

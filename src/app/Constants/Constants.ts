@@ -17,6 +17,11 @@ export const emptyPractice = {
   modifiedOnDt:new Date(),
 }
 
+export const emptyGroup = {
+  id:0,name:"",description:"",  modifiedBy:"",
+  modifiedOnDt:new Date(),
+}
+
 export const emptyClaim ={
   id:0,claimType:"",claimValue:"",roles:[{id:"",name:""}]
 }
@@ -47,6 +52,8 @@ export const emptyApplicationContext: IApplicationContext = {
 };
 
 export const createRoleErrors = {role:"",claim:""}
+
+export const createGroupErrors = {name:'',description:""}
 
 export const createPracticeErrors = {name:'',description:""}
 
