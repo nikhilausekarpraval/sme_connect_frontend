@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { FaBars, FaHome, FaInfoCircle, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
 import AdminOptionsDropdown from '../AdminOptionsDropdown';
 import { MdDeveloperMode } from "react-icons/md";
+import { useAppContext } from '@/app/Context/AppContext';
 
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -14,6 +15,9 @@ export const LeftMenubar = () => {
   const toggleMenu = () => {
     setIsCollapsed(!isCollapsed);
   };
+  debugger;
+  const userContext = useAppContext()[0] as any
+  const roles = userContext?.user?.roles.map((role:any)=>role?.name);
 
   const isActive = (path: string) => usePathname() === path as any;
 
@@ -40,7 +44,7 @@ export const LeftMenubar = () => {
         )} */}
 
         <div className='pt-3 flex flex-col justify-center overflow-hidden items-center'>
-          <ul className= {`flex flex-col overflow-y-auto space-y-5 ${isCollapsed && 'w-8'}`}>
+          <ul className={`flex flex-col overflow-y-auto space-y-5 ${isCollapsed && 'w-8'}`}>
             <li>
               <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.home) ? 'bg-gray-700' : ''}`} href={routes.home}>
                 <div className="justify-start flex items-center w-52">
@@ -50,10 +54,10 @@ export const LeftMenubar = () => {
               </Link>
             </li>
             <li>
-              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-gray-700' : ''}`} href={routes.practices}>
+              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-gray-700' : ''}`} href={routes.practiceDashboard}>
                 <div className="justify-start flex items-center w-52">
                   <MdDeveloperMode className="" />
-                  {!isCollapsed && <span className='ps-3'>Practices</span>}
+                  {!isCollapsed && <span className='ps-3'>My Practice</span>}
                 </div>
               </Link>
             </li>
@@ -119,7 +123,9 @@ export const LeftMenubar = () => {
             </li>
           </ul>
         </div> */}
-        <AdminOptionsDropdown isActive={isActive} isCollapsed={isCollapsed}/>
+        {roles.includes("Admin") &&
+          <AdminOptionsDropdown isActive={isActive} isCollapsed={isCollapsed} />
+        }
       </nav>
     </div>
   );

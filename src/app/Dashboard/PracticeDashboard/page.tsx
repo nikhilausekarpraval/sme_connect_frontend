@@ -10,11 +10,11 @@ import { useAppContext } from '@/app/Context/AppContext';
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
 import { discussions } from '@/app/Constants/Constants';
 
-type ListProps = {
-    items: string[];
-    title: string;
-    height: string;
-};
+// type ListProps = {
+//     items: string[];
+//     title: string;
+//     height: string;
+// };
 
 type DetailProps = {
     content: string;
@@ -55,20 +55,20 @@ const candidates = [
 ];
 
 
-const List: React.FC<ListProps> = ({ items, title, height }) => {
-    return (
-        <div className={`p-4 border rounded shadow-sm ${height}`}>
-            <h5 className="mb-3">{title}</h5>
-            <ul className="list-group">
-                {items.map((item, index) => (
-                    <li key={index} className="list-group-item">
-                        {item}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+// const List: React.FC<ListProps> = ({ items, title, height }) => {
+//     return (
+//         <div className={`p-4 border rounded shadow-sm ${height}`}>
+//             <h5 className="mb-3">{title}</h5>
+//             <ul className="list-group">
+//                 {items.map((item, index) => (
+//                     <li key={index} className="list-group-item">
+//                         {item}
+//                     </li>
+//                 ))}
+//             </ul>
+//         </div>
+//     );
+// };
 
 const Detail: React.FC<DetailProps> = ({ content, title }) => {
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaInfoCircle, FaKey, FaShieldAlt, FaUserCheck, FaUserTag } from 'react-icons/fa';
-import { MdAdminPanelSettings } from 'react-icons/md';
+import { MdAdminPanelSettings, MdDeveloperMode } from 'react-icons/md';
 import { routes } from '../Constants/Constants';
 import { FaUserLock } from "react-icons/fa6";
 import { FaPeopleGroup } from "react-icons/fa6";
@@ -93,6 +93,16 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               <div className="justify-start flex items-center w-44">
                 <FaPeopleGroup />
                 {!isCollapsed && <span className="ps-3">Group</span>}
+              </div>
+            </Link>
+            <Link
+              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-gray-700' : ''
+                }`}
+              href={routes.practices}
+            >
+              <div className="justify-start flex items-center w-44">
+                <MdDeveloperMode />
+                {!isCollapsed && <span className="ps-3">Practices</span>}
               </div>
             </Link>
             <Link
