@@ -1,12 +1,16 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import GroupCard from '@/app/Components/GroupCard/GroupCard';
 import './practiceDashboard.scss';
 import JoinedGroups from '@/app/Components/JoinedGroupList/JoinedGroupList';
-import { useAppContext } from '@/app/Context/AppContext';
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
 import { discussions } from '@/app/Constants/Constants';
+import PracticeHeader from '@/app/Components/PracticHeader/PracticeHeader';
+import { useAppContext } from '@/app/Context/AppContext';
+import PracticesService from '@/app/Services/PracticesService';
+import { IPractice } from '@/app/Interfaces/Interfaces';
+import { json } from 'stream/consumers';
 
 
 type DetailProps = {
@@ -28,7 +32,7 @@ const Detail: React.FC<DetailProps> = ({ content, title }) => {
                 ))}
             </div> */}
 
-                <JoinedGroups/>
+            <JoinedGroups />
 
 
         </div>
@@ -36,12 +40,30 @@ const Detail: React.FC<DetailProps> = ({ content, title }) => {
 };
 
 const PracticeDashboard: React.FC = () => {
-
+    debugger;
     const searchParams = useSearchParams();
-    const data = searchParams.get('data');
-      const userContext = useAppContext() as any
-    const parsedData = data ? JSON.parse(data) : {};
+    const data = searchParams.get('data') as string;
+    const parsedData = JSON.parse(data);
+    const userContext = useAppContext()[0].userContext;
     const [recentDiscussions, setRecentDiscussions] = useState(discussions);
+    const practiceService = new PracticesService();
+    const [practice, setPractice] = useState<IPractice>();
+
+    useEffect(() => {
+        if (!parsedData?.key?.title) {
+            if (userContext?.user?.practiceId) {
+                const fetchPractice = async () => {
+                    try {
+                        const practiceData = await practiceService.getPractice(userContext.user.practiceId);
+                        setPractice(practiceData);
+                    } catch (error) {
+                        console.error('Failed to fetch practice data:', error);
+                    }
+                };
+                fetchPractice();
+            }
+        }
+    }, [userContext]);
 
     const groups = [{ id: 2, name: ".NET" }, { id: 3, name: "React" }, { id: 5, name: "Angular" }, { id: 2, name: ".NET" }, { id: 3, name: "React" }, { id: 5, name: "Angular" }, { id: 2, name: ".NET" }, { id: 3, name: "React" }, { id: 5, name: "Angular" }]
 
@@ -49,7 +71,7 @@ const PracticeDashboard: React.FC = () => {
         <div className="d-flex h-100 border p-2" >
             <div className='h-100 overflow-auto w-full'>
                 <div className="border overflow-hidden group-grid-height" >
-                    <div className='ps-3 mt-2 mb-2 font-bold text-xl'>Welcome, {useAppContext()[0]?.userContext?.user?.displayName} {userContext?.user?.displayName}.</div>
+                    <PracticeHeader title={ parsedData?.key?.title ? parsedData?.key?.title : practice?.name as string} />
                     <div className='grid-container overflow-hidden'>
                         {groups.map((item) => (
                             < GroupCard group={{ ...item }} />
@@ -60,7 +82,7 @@ const PracticeDashboard: React.FC = () => {
 
                 <div className='recent-discussion-height border mt-2  overflow-hidden '>
                     <div className='py-2 ps-3 font-bold'>Recent discussions from my Groups</div>
-                    <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-0 '} listStyle= {"overflow-y-auto pe-3 h-100"}/>
+                    <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-0 '} listStyle={"overflow-y-auto pe-3 h-100"} />
                 </div>
             </div>
 

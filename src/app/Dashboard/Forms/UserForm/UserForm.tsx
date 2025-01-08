@@ -12,6 +12,9 @@ import Loader from "@/app/Components/Loader/Loader";
 import FormNumberInput from "@/app/Components/FormNumberInput/FormNumberInput";
 import ReactMultiSelectComponent from "@/app/Components/ReactMultiSelectDropdown/ReactMultiSelectDropdown";
 import GroupService from "@/app/Services/GroupService";
+import RoleService from "@/app/Services/RoleService";
+import ClaimService from "@/app/Services/ClaimService";
+import UserClaimService from "@/app/Services/UserClaimService";
 
 interface EmployeeFormProps {
     employee: IUser | null | undefined;
@@ -37,7 +40,8 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [isLoading, setIsLoading] = useState(false);
     const [selectedGroups,setSelectedGroups] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
     const [selectedGroupsUserRole,setSelectedGroupsUserRole] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
-
+    const [selectedRoles,setSelectedRoles] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
+    const [selectedClaims,setSelectedClaims] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
 
     useEffect(() => {
 
@@ -60,17 +64,43 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
     const loadData = async () => {
         setIsLoading(true);
-        // setRoles(await new RoleService().getRoles());
-        // setClaims(await new ClaimService().getClaims());
+        debugger;
+        const allRoles =  await new RoleService().getRoles();
+        setRoles(allRoles.value);
+        // const allClaims = await new UserClaimService().getClaims();
+        // setClaims(allClaims);
         const allGroups = await new GroupService().getGroups();
+        console.log(allGroups);
          setGroups(allGroups?.value?.data);
          updateSelectedGroups(allGroups?.value?.data);
+         updateSelectedRoles(allRoles.value);
+         //updateSelectedClaims(allClaims);
         // setPractces(await new PracticesService().getPractices());
         setIsLoading(false);
     }
 
+    function updateSelectedClaims(allClaims: IUserClaim[]) {
+        const userIds = user?.id;
+        const selectedClaims = allClaims
+            .filter(claim => claim.userId == userIds)
+            .map(claim => ({ label: claim.claimType, value: claim.claimValue }));
+    
+        setSelectedClaims(selectedClaims);
+    }
+
+    function updateSelectedRoles(allRoles: IUserGroup[]) {
+        const userRoles = user?.roles?.map((role:any)=>role.name) || [];
+    
+        const selectedRoles = allRoles
+            .filter(role => userRoles.includes(role.name))
+            .map(role => ({ label: role.name, value: role.name }));
+    
+        setSelectedRoles(selectedRoles);
+    }
+    
     function updateSelectedGroups(allGroups: IUserGroup[]) {
-        const selectedGroupIds = employee?.groupIds || [];
+
+        const selectedGroupIds = user?.groupIds || [];
     
         const selectedGroups = allGroups
             .filter(group => selectedGroupIds.includes(group.id))
@@ -289,7 +319,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <FormNumberInput validateField={errors} placeholder={"Enter mobile no."} required={true} fieldName={"phoneNumber"} fieldValue={user?.phoneNumber} fieldLabel={"Mobile Number"} handleInputChange={handleChange} maxLength={10} />
-
+{/* 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Roles<span className='text-danger font-14 p-1'>*</span></Form.Label>
                                         <Form.Select className=" " value={roles?.find((role) => role?.id == user?.id)?.name} onChange={handleChange} name="ROLE" id="ROLE">
@@ -302,9 +332,13 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         <div className="text-red-600">
                                             {errors.role}
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <ReactMultiSelectComponent values={roles?.map((role)=> ({label:role.name,value: role.id }))} title={"Roles"} selectedNames={selectedRoles} handleChange={setSelectedRoles}/>
+                                    </div>
+
+                                    {/* <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Claims</Form.Label>
                                         <Form.Select className=" " value={claims?.find((claim) => claim?.userId == user?.id)?.claimType} onChange={handleChange} name="Claim" id="Claim">
                                             <option value=""></option>
@@ -316,6 +350,10 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         <div className="text-red-600">
                                             {errors.claim}
                                         </div>
+                                    </div> */}
+
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <ReactMultiSelectComponent values={claims?.map((claim)=> ({label:claim.claimType,value: claim.id }))} title={"Claims"} selectedNames={selectedClaims} handleChange={setSelectedClaims}/>
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">

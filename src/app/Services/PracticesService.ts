@@ -23,5 +23,9 @@ class PracticesService {
         return await apiService.get("api/Practice/get_practices")
     }
 
+    async getPractice(id:number) {
+        return await apiService.get(`api/Practice/get_practice?id=${id}`)
+    }
+
 
 } export default PracticesService
