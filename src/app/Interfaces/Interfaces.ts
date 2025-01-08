@@ -62,7 +62,7 @@ export interface IUser{
 
     phoneNumber : string
 
-    groupId : number
+    groupIds : number[]
 
     role:string
 
@@ -145,6 +145,10 @@ export interface IUserGroup{
   modifiedOnDt:Date,
 }
 
+export interface IMultiSelectSelected{
+  label:string,
+  value:any,
+}
 export interface IPractice{
   id:number,
   name:string,

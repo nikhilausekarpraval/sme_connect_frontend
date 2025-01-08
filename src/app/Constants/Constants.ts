@@ -4,7 +4,7 @@ import { IApplicationContext, IClaim, IDiscussion, IPractice, IRole, IRoleClaim,
 
 
 export const emptyUser = {
-  userName: '', password: "", groupId:0,role:"", practiceId:0, email: "", displayName: "", id: "", phoneNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
+  userName: '', password: "", groupIds:[0],role:"", practiceId:0, email: "", displayName: "", id: "", phoneNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
   confirmPassword: ""
 }
 
@@ -284,10 +284,10 @@ export const rolesData:IRole[]=[
 ]
 
 export const groupsData: IUserGroup[] = [
-  { id: 1, name: "Admin",description:"", modifiedBy:"", modifiedOnDt:new Date() },
-  { id: 2, name: "HR",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "User",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "IT",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 1, name: "React",description:"", modifiedBy:"", modifiedOnDt:new Date() },
+  { id: 2, name: "Dot Net Core",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 3, name: "Angular",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 4, name: "QA",description:"", modifiedBy: "", modifiedOnDt: new Date() },
 ];
 
 export const mobileNumberRegex = /^[6-9]\d{9}$/;

@@ -2,17 +2,16 @@ import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
 import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
-import { IPractice, IRole, IUser, IUserClaim, IUserForm } from "@/app/Interfaces/Interfaces";
+import { IMultiSelectSelected, IPractice, IRole, IUser, IUserClaim, IUserForm, IUserGroup } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { FiArrowRight } from "react-icons/fi";
 import '../../../Common/Styles/Form.scss';
 import Loader from "@/app/Components/Loader/Loader";
-import RoleService from "@/app/Services/RoleService";
-import ClaimService from "@/app/Services/ClaimService";
-import PracticesService from "@/app/Services/PracticesService";
 import FormNumberInput from "@/app/Components/FormNumberInput/FormNumberInput";
+import ReactMultiSelectComponent from "@/app/Components/ReactMultiSelectDropdown/ReactMultiSelectDropdown";
+import GroupService from "@/app/Services/GroupService";
 
 interface EmployeeFormProps {
     employee: IUser | null | undefined;
@@ -34,7 +33,9 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [roles, setRoles] = useState<IRole[]>(rolesData);
     const [claims, setClaims] = useState<IUserClaim[]>(userClaims);
     const [practices, setPractces] = useState<IPractice[]>(practicesData);
+    const [groups,setGroups]= useState<IUserGroup[]>(groupsData)
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedGroups,setSelectedGroups] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
 
 
     useEffect(() => {
@@ -47,10 +48,12 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
     useEffect(()=>{
 
-        if(employee !== null && employee != undefined)
-         setUser(employee);
-        else
-        setUser(emptyUser)
+        if(employee !== null && employee != undefined){
+            setUser(employee);
+        }
+        else{
+            setUser(emptyUser)
+        }
 
     },[employee])
 
@@ -58,10 +61,23 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         setIsLoading(true);
         // setRoles(await new RoleService().getRoles());
         // setClaims(await new ClaimService().getClaims());
-        // setGroup(await new GroupService().getGroups());
+        const allGroups = await new GroupService().getGroups();
+         setGroups(allGroups?.value?.data);
+         updateSelectedGroups(allGroups?.value?.data);
         // setPractces(await new PracticesService().getPractices());
         setIsLoading(false);
     }
+
+    function updateSelectedGroups(allGroups: IUserGroup[]) {
+        const selectedGroupIds = employee?.groupIds || [];
+    
+        const selectedGroups = allGroups
+            .filter(group => selectedGroupIds.includes(group.id))
+            .map(group => ({ label: group.name, value: group.id }));
+    
+        setSelectedGroups(selectedGroups);
+    }
+    
 
     const handleSubmitForm = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -197,6 +213,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         return true;
     }
 
+
     return (
         <div className="building-form-container">
             {isLoading && <Loader />}
@@ -273,7 +290,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     <FormNumberInput validateField={errors} placeholder={"Enter mobile no."} required={true} fieldName={"phoneNumber"} fieldValue={user?.phoneNumber} fieldLabel={"Mobile Number"} handleInputChange={handleChange} maxLength={10} />
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Role<span className='text-danger font-14 p-1'>*</span></Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Roles<span className='text-danger font-14 p-1'>*</span></Form.Label>
                                         <Form.Select className=" " value={roles?.find((role) => role?.id == user?.id)?.name} onChange={handleChange} name="ROLE" id="ROLE">
                                             <option value="User">User</option>
                                             {roles?.map((role) => (
@@ -287,7 +304,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claim</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claims</Form.Label>
                                         <Form.Select className=" " value={claims?.find((claim) => claim?.userId == user?.id)?.claimType} onChange={handleChange} name="Claim" id="Claim">
                                             <option value=""></option>
                                             {claims?.map((claim) => (
@@ -300,21 +317,6 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         </div>
                                     </div>
 
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
-                                        {questionOperation === "Next" &&
-                                            <div className="flex justify-center items-center">
-                                                <button
-                                                    type="button"
-                                                    onClick={nextQuestion}
-                                                    className="btn-sm mt-2 cursor-pointer btn flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold  rounded-lg shadow-md transition-all duration-300"
-                                                >
-                                                    <span>Next</span>
-                                                    <FiArrowRight className="text-lg ms-1" />
-                                                </button>
-                                            </div>
-                                        }
-                                    </div>
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
                                         <Form.Select className="" value={practices?.find((prac) => prac?.id == user?.practiceId)?.name} onChange={handleChange} name="Practice" id="Practice">
@@ -329,6 +331,28 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         </div>
                                     </div>
 
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <ReactMultiSelectComponent values={groups?.map((group)=> ({label:group.name,value: group.id }))} title={"Groups"} selectedNames={selectedGroups} handleChange={setSelectedGroups}/>
+                                    </div>
+
+                                    <div></div>
+                                    {isCreate &&
+                                    <div className="mb-3 col  p-0 ps-3">
+                                        <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
+                                        {questionOperation === "Next" &&
+                                            <div className="flex justify-center items-center">
+                                                <button
+                                                    type="button"
+                                                    onClick={nextQuestion}
+                                                    className="btn-sm mt-2 cursor-pointer btn flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold  rounded-lg shadow-md transition-all duration-300"
+                                                >
+                                                    <span>Next</span>
+                                                    <FiArrowRight className="text-lg ms-1" />
+                                                </button>
+                                            </div>
+                                        }
+                                    </div>
+                                    }
                                 </div>
                             </div>
                             <Modal.Footer className="p-0 py-2">
