@@ -91,6 +91,13 @@ export interface IUserClaim{
   id: number
 }
 
+export interface IGroupUser{
+  id:number,
+  group:string,
+  userEmail:string,
+  groupRole:string,
+}
+
 export interface IRoleClaim{
 
   roleId : string

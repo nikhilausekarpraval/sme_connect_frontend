@@ -13,8 +13,13 @@ export const emptyRole = {
 }
 
 export const emptyPractice = {
-  id:0,name:"",description:"",  modifiedBy:"",
-  modifiedOnDt:new Date(),
+  id:0,group:"",userEmail:"",  groupRole:""
+}
+
+export const emptyGroupUsers = {
+  id:0,group:"",userEmail:"",  groupRole:"",
+    modifiedBy:"",
+    modifiedOnDt:new Date(),
 }
 
 export const emptyGroup = {
@@ -57,11 +62,15 @@ export const createGroupErrors = {name:'',description:""}
 
 export const createPracticeErrors = {name:'',description:""}
 
+export const createGroupUsersErrors = {group:'',userEmail:"",groupRole:""}
+
 export const createDiscussionErrors = {title:"",description:"",status:""}
 
 export const discussionStatusTypes = {
   Open: "Open", Close: "Close", Starred: "Starred", Unstar : "Unstar", Star:"Star"
 };
+
+export const groupRoles = ["Admin","SME","Member","Lead"];
 
 export const discussionCloseType = ["Close","Unstar"]
 
@@ -93,6 +102,7 @@ export const routes = {
   practice:"/Dashboard/Practice",
   roleClaim:"/Dashboard/RoleClaim",
   practices: "/Dashboard/Practices",
+  groupUsers: "/Dashboard/GroupUsers",
   practiceDashboard: "/Dashboard/PracticeDashboard",
   groupDashboard: "/Dashboard/GroupDashboard",
   discussionDashboard:"/Dashboard/DiscussionDashboard"
@@ -261,6 +271,26 @@ export const PracticeColumnConfig = [
 
 ];
 
+export const GroupUsersColumnConfig = [
+  {
+    field: "id",
+    dataType: "number",
+  },
+  {
+    field: "group",
+    dataType: "string",
+  },
+  {
+    field: "userEmail",
+    dataType: "string",
+  },
+  {
+    field: "groupRole",
+    dataType: "string",
+  },
+
+];
+
 export const GroupColumnConfig = [
   {
     field: "id",
@@ -398,6 +428,22 @@ export const practiceHeaders = {
   name: "Name",
 
   description:"Description",
+
+  modifiedOnDt: 'Modified On Dt',
+
+  modifiedBy: 'Modified By',
+
+}
+
+export const groupUsersHeader = {
+
+  id: "ID",
+
+  group:"Group",
+
+  userEmail:"User Email",
+
+  groupRole : "Group Role",
 
   modifiedOnDt: 'Modified On Dt',
 
