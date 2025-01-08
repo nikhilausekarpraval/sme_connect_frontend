@@ -15,9 +15,8 @@ export const LeftMenubar = () => {
   const toggleMenu = () => {
     setIsCollapsed(!isCollapsed);
   };
-  debugger;
   const userContext = useAppContext()[0] as any
-  const roles = userContext?.user?.roles.map((role:any)=>role?.name);
+  const roles = userContext?.user?.roles.map((role: any) => role?.name);
 
   const isActive = (path: string) => usePathname() === path as any;
 
@@ -53,14 +52,26 @@ export const LeftMenubar = () => {
                 </div>
               </Link>
             </li>
-            <li>
-              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-gray-700' : ''}`} href={routes.practiceDashboard}>
-                <div className="justify-start flex items-center w-52">
-                  <MdDeveloperMode className="" />
-                  {!isCollapsed && <span className='ps-3'>My Practice</span>}
-                </div>
-              </Link>
-            </li>
+            {roles.includes("Admin") ? (
+              <li>
+                <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-gray-700' : ''}`} href={routes.practices}>
+                  <div className="justify-start flex items-center w-52">
+                    <MdDeveloperMode className="" />
+                    {!isCollapsed && <span className='ps-3'>Practices</span>}
+                  </div>
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-gray-700' : ''}`} href={routes.practiceDashboard}>
+                  <div className="justify-start flex items-center w-52">
+                    <MdDeveloperMode className="" />
+                    {!isCollapsed && <span className='ps-3'>My Practice</span>}
+                  </div>
+                </Link>
+              </li>
+            )}
+
             {/* <li>
               <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.employee) ? 'bg-gray-700' : ''}`} href={routes.employee}>
                 <div className="justify-start flex items-center w-52">

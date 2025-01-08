@@ -36,6 +36,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [groups,setGroups]= useState<IUserGroup[]>(groupsData)
     const [isLoading, setIsLoading] = useState(false);
     const [selectedGroups,setSelectedGroups] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
+    const [selectedGroupsUserRole,setSelectedGroupsUserRole] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
 
 
     useEffect(() => {
@@ -333,6 +334,10 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <ReactMultiSelectComponent values={groups?.map((group)=> ({label:group.name,value: group.id }))} title={"Groups"} selectedNames={selectedGroups} handleChange={setSelectedGroups}/>
+                                    </div>
+
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <ReactMultiSelectComponent values={roles?.map((role)=> ({label:role.name,value: role.id }))} title={"Group User Role"} selectedNames={selectedGroupsUserRole} handleChange={setSelectedGroupsUserRole}/>
                                     </div>
 
                                     <div></div>

@@ -95,7 +95,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 {!isCollapsed && <span className="ps-3">Group</span>}
               </div>
             </Link>
-            <Link
+            {/* <Link
               className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-gray-700' : ''
                 }`}
               href={routes.practices}
@@ -104,7 +104,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 <MdDeveloperMode />
                 {!isCollapsed && <span className="ps-3">Practices</span>}
               </div>
-            </Link>
+            </Link> */}
             <Link
               className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceAdminDashboard) ? 'bg-gray-700' : ''
                 }`}
