@@ -7,9 +7,10 @@ interface PasswordInputProps {
   errorMessage: string;
   title?:string;
   maxLength?:number;
+  isDisabled?:boolean;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ filedName,maxLength = 100, currentValue, handleChange, errorMessage ,title=""}) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ filedName,maxLength = 100,isDisabled = false, currentValue, handleChange, errorMessage ,title=""}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -30,6 +31,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ filedName,maxLength = 100
           value={currentValue}
           max={maxLength}
           required
+          disabled={isDisabled}
         />
         <button
           type="button"

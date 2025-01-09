@@ -63,15 +63,19 @@ export default function User() {
         try {
 
             const result = await _UserService.getUsers();
+            if(result.statusCode != 200){
+                setIsLoading(false);
+            }
             const sortedApis = await getSortedData(result.value);
             setSortedData(sortedApis);
             setAllItems(sortedApis);
-            setIsLoading(false);
 
         } catch (error) {
             console.error("Error fetching data:", error);
             setIsLoading(false);
         }
+
+        setIsLoading(false);
     };
 
     const sortTableData = (
@@ -234,9 +238,9 @@ export default function User() {
 
     return (
         <div className='px-3 flex flex-1 flex-column h-100 la-table-styles user-select-none user-access-config'>
-            <TableFilter  setIsEdit={setIsEdit} showDelete={showDelete}  setIsCreate={setIsCreate}  search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
+            <TableFilter setIsEdit={setIsEdit} showDelete={showDelete}  setIsCreate={setIsCreate}  search={onSearch} resetFilters={onReset} selectedItems={selectedItems} />
             <TableBody<IUser> columnConfig={UserColumnConfig} tableHeaders={userHeaders} sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-            <UserForm employee={selectedUser} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm } save={submitForm}/>
+            <UserForm employee={selectedUser as any} isEdit={isEdit} isCreate={isCreate} clearForm={clearForm } save={submitForm}/>
             {true && (
                 <ConfirmPopup
                     handleClose={clearPopup}

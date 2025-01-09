@@ -130,6 +130,7 @@ const TableBody = <T,>({
                   sortOrder={sortOrder}
                   value={key}
                   name={label as any}
+                  conlumnConfig = {columnConfig as any}
                 />
               ))}
             </tr>

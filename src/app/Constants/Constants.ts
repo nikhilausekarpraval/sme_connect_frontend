@@ -4,7 +4,7 @@ import { IApplicationContext, IClaim, IDiscussion, IPractice, IRole, IRoleClaim,
 
 
 export const emptyUser = {
-  userName: '', password: "", groupIds:[0],role:"", practiceId:0, email: "", displayName: "", id: "", phoneNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
+  userName: '', password: "",roles:[], practice:"", email: "", claims:[{claimType:"",claimValue:""}], displayName: "", id: "", phoneNumber: "", question1: "", question2: "", question3: "", answer1: "", answer2: "", answer3: "", newPassword: "",
   confirmPassword: ""
 }
 
@@ -228,13 +228,18 @@ export const UserColumnConfig = [
     dataType: "string",
   },
   {
-    field: "name",
+    field: "practice",
     dataType: "string",
   },
   {
-    field: "userRole",
-    dataType: "string",
+    field: "roles",
+    dataType: "string[]",
   },
+  {
+    field: "claims",
+    dataType: "claimDto[]",
+  }
+
 
 ];
 
@@ -341,27 +346,27 @@ export const practicesData: IPractice[] = [
 
 export const userClaims: IUserClaim[] = [
   {
-    userId: "user123",
-    claimType: "Role",
-    claimValue: "Admin",
+    userId: "",
+    claimType: "Read",
+    claimValue: "Read",
     id: 1,
   },
   {
-    userId: "user124",
-    claimType: "Permission",
-    claimValue: "ReadOnly",
+    userId: "",
+    claimType: "Write",
+    claimValue: "Write",
     id: 2,
   },
   {
-    userId: "user125",
-    claimType: "Department",
-    claimValue: "Finance",
+    userId: "",
+    claimType: "Update",
+    claimValue: "Update",
     id: 3,
   },
   {
-    userId: "user126",
-    claimType: "Region",
-    claimValue: "North America",
+    userId: "",
+    claimType: "Delete",
+    claimValue: "Delete",
     id: 4,
   },
 ];
@@ -393,7 +398,9 @@ export const userHeaders = {
 
   Practice : "Practice",
 
-  userRole : "Role",
+  roles : "Roles",
+
+  claims : "Claims",
 
   ModifiedOnDt: 'Modified On Dt',
 

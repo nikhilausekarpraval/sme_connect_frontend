@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SortOrderEnum } from '@/app/Constants/Enum';
 import { FaSortUp, FaSortDown } from "react-icons/fa";
 import './TableHeader.scss';
@@ -11,10 +11,11 @@ interface ITableHeaderProps {
   sortedColumn: string;
   value: string
   handleSort:(column:string)=>void;
+  conlumnConfig : any;
 }
 
 const TableHeader : React.FC<
-  ITableHeaderProps> = ({ name ,notSortable,sortOrder,sortedColumn,value,handleSort})=>{
+  ITableHeaderProps> = ({name ,notSortable,sortOrder,sortedColumn,value,handleSort,conlumnConfig})=>{
 
  const isSortedColumn = () => {
     return (
@@ -24,9 +25,11 @@ const TableHeader : React.FC<
   };
 
 
+
+
     return (
       <th scope="col" className="border-bottom-0 position-sticky top-0" onClick={()=>handleSort(value)}>
-        <div className={`d-flex ${name.includes("On Dt") ? 'audit-column-width' :""} ${getDataTypeForKey(value) === 'number' ? 'justify-content-end' : '' }`}>
+        <div className={`d-flex ${name.includes("On Dt") ? 'audit-column-width' :""} ${getDataTypeForKey(value,conlumnConfig) === 'number' ? 'justify-content-end' : '' }`}>
           {notSortable ? (
             <span>{name}</span>
           ) : (

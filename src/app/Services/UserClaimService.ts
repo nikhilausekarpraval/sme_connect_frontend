@@ -9,21 +9,21 @@ class UserClaimService {
     }
 
     async getClaims() {
-        return await apiService.get("api/userClaim/get_user_claims")
+        return await apiService.get("api/userClaims/get_user_claims")
     }
 
     async updateClaim(claim: IUserClaim[]) {
-        return await apiService.post("api/userClaim/update_user_claim", claim)
+        return await apiService.post("api/userClaims/update_user_claim", claim)
 
     }
 
     async deleteClaim(claim: any) {
-        return await apiService.delete("api/userClaim/delete_user_claim", claim)
+        return await apiService.delete("api/userClaims/delete_user_claim", claim)
 
     }
 
     async createClaim(claim: IUserClaim) {
-        return await apiService.post("api/userClaim/add_claim_to_user", claim)
+        return await apiService.post("api/userClaims/add_claim_to_user", claim)
     }
 
 } export default UserClaimService

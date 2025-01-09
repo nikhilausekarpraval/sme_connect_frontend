@@ -75,10 +75,10 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                     result = await new GroupUserService().updateGroupUser(groupUser);
                 }
 
-                if (result.statusCode != 200) {
-                    formError = result.value
+                if (result?.statusCode != 200) {
+                    formError = result?.value?.message
 
-                    setErrors({ ...errors, group: formError });
+                    setErrors({ ...errors, userEmail: formError });
                     
                 } else {
                     save();

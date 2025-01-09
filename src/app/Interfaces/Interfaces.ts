@@ -62,12 +62,19 @@ export interface IUser{
 
     phoneNumber : string
 
-    groupIds : number[]
+    claims : IClaimDto[];
 
-    role:string
+    roles:string[];
 
-    practiceId : number
+    practice : string;
 
+}
+
+export interface IClaimDto{
+  
+  claimType : string
+      
+  claimValue : string
 }
 
 export interface IClaim{
@@ -196,6 +203,7 @@ export interface IRegisterUserErrors {
 }
 
 export interface IUserForm{
+  id:string,
   userName: string,
   email: string,
   password: string,
@@ -209,7 +217,10 @@ export interface IUserForm{
   answer2:string,
   answer3:string
   phoneNumber:string,
-  id:string,
+  claims : IClaimDto[];
+  roles:string[];
+  practice : string;
+
 }
 
 export interface ITableBodyProps {

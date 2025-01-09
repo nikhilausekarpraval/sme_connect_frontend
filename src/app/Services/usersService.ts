@@ -7,11 +7,11 @@ class UsersService {
 
     }
 
-    async createUser(user:IUser){
+    async createUser(user:IUserForm){
        return await apiService.post('api/Authenticate/register',user);
     }
 
-    async updateUser(user:IUserForm){
+    async updateUser(user:IUser){
         return await apiService.put('api/Authenticate/update_user',user);
     }
 

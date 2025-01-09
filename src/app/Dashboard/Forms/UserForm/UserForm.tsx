@@ -2,7 +2,7 @@ import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
 import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
-import { IMultiSelectSelected, IPractice, IRole, IUser, IUserClaim, IUserForm, IUserGroup } from "@/app/Interfaces/Interfaces";
+import { IClaimDto, IMultiSelectSelected, IPractice, IRole, IUser, IUserClaim, IUserForm, IUserGroup } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
@@ -11,13 +11,12 @@ import '../../../Common/Styles/Form.scss';
 import Loader from "@/app/Components/Loader/Loader";
 import FormNumberInput from "@/app/Components/FormNumberInput/FormNumberInput";
 import ReactMultiSelectComponent from "@/app/Components/ReactMultiSelectDropdown/ReactMultiSelectDropdown";
-import GroupService from "@/app/Services/GroupService";
 import RoleService from "@/app/Services/RoleService";
-import ClaimService from "@/app/Services/ClaimService";
 import UserClaimService from "@/app/Services/UserClaimService";
+import PracticesService from "@/app/Services/PracticesService";
 
 interface EmployeeFormProps {
-    employee: IUser | null | undefined;
+    employee: IUserForm;
     isEdit: boolean;
     isCreate: boolean;
     clearForm: (e: any) => void,
@@ -26,9 +25,8 @@ interface EmployeeFormProps {
 
 const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, clearForm, save }) => {
 
-    const [user, setUser] = useState<any>(employee)
+    const [user, setUser] = useState<IUserForm>(employee)
     const [errors, setErrors] = useState(registerUserFormErrors)
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const [visibleQuestion, setVisibleQuestion] = useState(1);
     const [questionOperation, setQuestionOperation] = useState("Next");
     const [isDuplicate, setIsDuplicate] = useState(false);
@@ -36,10 +34,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [roles, setRoles] = useState<IRole[]>(rolesData);
     const [claims, setClaims] = useState<IUserClaim[]>(userClaims);
     const [practices, setPractces] = useState<IPractice[]>(practicesData);
-    const [groups,setGroups]= useState<IUserGroup[]>(groupsData)
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedGroups,setSelectedGroups] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
-    const [selectedGroupsUserRole,setSelectedGroupsUserRole] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
     const [selectedRoles,setSelectedRoles] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
     const [selectedClaims,setSelectedClaims] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
 
@@ -65,17 +60,26 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const loadData = async () => {
         setIsLoading(true);
         debugger;
-        const allRoles =  await new RoleService().getRoles();
-        setRoles(allRoles.value);
-        // const allClaims = await new UserClaimService().getClaims();
-        // setClaims(allClaims);
-        const allGroups = await new GroupService().getGroups();
-        console.log(allGroups);
-         setGroups(allGroups?.value?.data);
-         updateSelectedGroups(allGroups?.value?.data);
-         updateSelectedRoles(allRoles.value);
-         //updateSelectedClaims(allClaims);
-        // setPractces(await new PracticesService().getPractices());
+        try{
+
+            const allRoles =  await new RoleService().getRoles();
+            const allClaims = await new UserClaimService().getClaims();
+            const allPractices = await new PracticesService().getPractices();
+
+            setRoles(allRoles?.value);
+            updateSelectedRoles(allRoles?.value);
+
+
+            setClaims(allClaims?.value);
+            updateSelectedClaims(allClaims?.value);
+
+            setPractces(allPractices?.value?.data);
+
+        }catch(e:any){
+            console.log(e)
+            setIsLoading(false);
+        }
+
         setIsLoading(false);
     }
 
@@ -89,24 +93,14 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     }
 
     function updateSelectedRoles(allRoles: IUserGroup[]) {
+        debugger;
         const userRoles = user?.roles?.map((role:any)=>role.name) || [];
     
         const selectedRoles = allRoles
-            .filter(role => userRoles.includes(role.name))
-            .map(role => ({ label: role.name, value: role.name }));
+            .filter(r => userRoles.includes(r.name))
+            .map(role => ({ label: role.name, value: role.id }));
     
         setSelectedRoles(selectedRoles);
-    }
-    
-    function updateSelectedGroups(allGroups: IUserGroup[]) {
-
-        const selectedGroupIds = user?.groupIds || [];
-    
-        const selectedGroups = allGroups
-            .filter(group => selectedGroupIds.includes(group.id))
-            .map(group => ({ label: group.name, value: group.id }));
-    
-        setSelectedGroups(selectedGroups);
     }
     
 
@@ -116,8 +110,23 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         var formError;
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
-                result = await new UsersService().createUser(user);
-                if (result.value.status !== "Success") {
+                debugger;
+
+                 const updatedUser = { ...user };
+
+                    updatedUser.roles = selectedRoles.map(role => role.label);
+                    updatedUser.claims = selectedClaims.map(claim => ({
+                        claimType: claim.label,
+                        claimValue: claim.value
+                    }));
+
+                if(isCreate){
+                    result = await new UsersService().createUser(updatedUser);
+                }else {
+                    result = await new UsersService().updateUser(updatedUser);
+                }
+                
+                if (result?.value?.status !== "Success" ) {
                     formError = result.value.statusText
                     if (formError.includes("Duplicate")) {
                         setErrors({ ...errors, email: formError });
@@ -189,7 +198,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
         if (id.includes("question")) {
             const otherQuestions = totalQuestions.filter(q => q !== id);
-            const isDuplicate = otherQuestions.some(q => user[q as keyof IUserForm] === value);
+            const isDuplicate = otherQuestions.some(q => user[q as keyof IUser] === value);
             const currentError = totalAnswers.filter((a) => a.includes(id.charAt(8)));
             setErrors({ ...errors, [currentError[0]]: isDuplicate ? pleaseSelectDifferentQuestion : "" });
         }
@@ -285,7 +294,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <FormPasswordInput currentValue={user?.password} handleChange={handleChange} filedName={"password"} errorMessage={errors?.password} title={"Password"} />
+                                        <FormPasswordInput isDisabled={isEdit} currentValue={user?.password} handleChange={handleChange} filedName={"password"} errorMessage={errors?.password} title={"Password"} />
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
@@ -311,6 +320,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             value={user?.email}
                                             id="email"
                                             max={256}
+                                            disabled={isEdit}
                                             required
                                         />
                                         <div className="text-red-600">
@@ -353,29 +363,21 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div> */}
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <ReactMultiSelectComponent values={claims?.map((claim)=> ({label:claim.claimType,value: claim.id }))} title={"Claims"} selectedNames={selectedClaims} handleChange={setSelectedClaims}/>
+                                        <ReactMultiSelectComponent values={userClaims?.map((claim)=> ({label:claim.claimType,value: claim.claimValue }))} title={"Claims"} selectedNames={selectedClaims} handleChange={setSelectedClaims}/>
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
-                                        <Form.Select className="" value={practices?.find((prac) => prac?.id == user?.practiceId)?.name} onChange={handleChange} name="Practice" id="Practice">
+                                        <Form.Select className="" value={practices?.find((prac) => prac?.name == user?.practice)?.name} onChange={handleChange} name="Practice" id="Practice">
                                             <option value=""></option>
                                             {practices?.map((prac) => (
-                                                <option value={prac?.id}>{prac?.name}</option>
+                                                <option value={prac?.name}>{prac?.name}</option>
                                             ))
                                             }
                                         </Form.Select>
                                         <div className="text-red-600">
                                             {errors.practice}
                                         </div>
-                                    </div>
-
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <ReactMultiSelectComponent values={groups?.map((group)=> ({label:group.name,value: group.id }))} title={"Groups"} selectedNames={selectedGroups} handleChange={setSelectedGroups}/>
-                                    </div>
-
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <ReactMultiSelectComponent values={roles?.map((role)=> ({label:role.name,value: role.id }))} title={"Group User Role"} selectedNames={selectedGroupsUserRole} handleChange={setSelectedGroupsUserRole}/>
                                     </div>
 
                                     <div></div>

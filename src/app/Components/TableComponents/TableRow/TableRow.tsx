@@ -29,18 +29,29 @@ const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, sel
             {FieldConfig.map(({ field, dataType }) => (
                 <td
                     key={field}
-                    title={dataType === 'date' ? formatDate(item?.[field]) : item[field]?.toString()}
+                    title={dataType === 'date' ? formatDate(item?.[field]) : ["string[]","claimsDto[]"].includes(dataType) ? "" :item[field]?.toString()}
                     className={`changed-by ${dataType === 'number'? 'text-end':''}`}
-                >  {!dataType.toString().includes("dropdown") ? <span
-                    className={
-                        dataType === "number" ? "padding-right-for-number-row" : ""
+                >  
+                {["string[]","claimDto[]"].includes(dataType)  ? (
+                    <>{dataType === "string[]" ?
+                        <ItemDropdown items={item[field]?.map((item : any) => item?.name)} />
+                        : 
+                        <ItemDropdown items={item[field]?.map((item : any) => item?.claimType)} />
                     }
-                >
-                    {dataType === 'date' ? formatDate(item?.[field]) : item[field]}
-                    </span> : <ItemDropdown items={item[field]?.map((item : any) => item[dataType.toString().split(",")[1]])} />
+                    </>
+                    
+                ) : (<>
+                    {!dataType.toString().includes("dropdown") ? <span
+                        className={
+                            dataType === "number" ? "padding-right-for-number-row" : ""
+                        }>
+                        {dataType === 'date' ? formatDate(item?.[field]) : item[field]}
+                        </span> : <ItemDropdown items={item[field]?.map((item : any) => item[dataType.toString().split(",")[1]])} />
+                    
+                       }
+                </>)
+                }
                 
-               }
-
                 </td>
             ))}
 
