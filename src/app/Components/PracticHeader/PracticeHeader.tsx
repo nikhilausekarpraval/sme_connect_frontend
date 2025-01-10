@@ -10,7 +10,7 @@ interface IPracticHeaderProps{
     const userContext = useAppContext()[0].userContext
     
     return (
-        <div className='px-3 mt-2 mb-2 flex  justify-between font-bold text-xl'>
+        <div className='px-3 mt-2 flex  justify-between font-bold text-xl'>
             <span className='font-bold m-0'>New Groups</span>
             <span>Welcome, {userContext?.user?.displayName}</span>
         </div>

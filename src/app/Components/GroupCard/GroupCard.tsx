@@ -1,39 +1,41 @@
-import React from 'react'
-import { Button, Card } from 'react-bootstrap'
+import React from 'react';
+import { Button, Card } from 'react-bootstrap';
+import { FaUsers } from 'react-icons/fa';  // Importing a user group icon
+import './GroupCard.scss';
 
 interface IGroupDetails {
-  group: { id: number, name: string }
+  group: { id: number, name: string };
 }
 
 const GroupCard: React.FC<IGroupDetails> = ({ group }) => {
 
   const joinGroup = () => {
+    console.log(`Joining group: ${group.name}`);
+  };
 
-  }
   const variant = "Light";
   return (
-    <div>
+    <div className="group-card cursor-pointer">
       <Card
         bg={variant.toLowerCase()}
         key={variant}
         text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-        style={{ width: '10rem' }}
-        className="mb-2"
+        className="shadow-sm group-card-style"
       >
-        {/* <Card.Header>Group</Card.Header> */}
-        <Card.Body className='flex flex-col'>
-          <div className='flex justify-center items-center py-4'>
-            <Card.Title>{group.name} </Card.Title>
+        <Card.Body className="d-flex flex-column justify-content-between">
+          <div className="d-flex align-items-center">
+            <FaUsers size={24} className="me-2 text-primary" /> 
+            <Card.Title className="m-0">{group.name}</Card.Title>
           </div>
-          <div className='flex justify-end'>
-            <Button onClick={joinGroup}>Join</Button>
+          <div className="d-flex justify-content-end">
+            <Button variant="primary" onClick={joinGroup} size="sm">
+              Join
+            </Button>
           </div>
-
         </Card.Body>
-        {/* <Card.Footer>
-          <Button onClick={joinGroup}>Join</Button>
-        </Card.Footer> */}
       </Card>
     </div>
-  )
-}; export default GroupCard;
+  );
+};
+
+export default GroupCard;

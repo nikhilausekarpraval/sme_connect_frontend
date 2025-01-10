@@ -23,7 +23,7 @@ class PracticesService {
         return await apiService.get("api/Practice/get_practices")
     }
 
-    async getPractice(id:number) {
+    async getPractice(id:string) {
         return await apiService.get(`api/Practice/get_practice?id=${id}`)
     }
 

@@ -1,0 +1,12 @@
+.group-card {
+    transition: transform 0.2s ease-in-out;
+  }
+  .group-card:hover {
+    transform: translateY(-3px); /* Subtle hover effect */
+  }
+  
+  .group-card{
+    .group-card-style{
+        border-radius : 10px;
+    }
+  }

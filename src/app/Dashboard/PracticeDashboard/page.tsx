@@ -51,10 +51,10 @@ const PracticeDashboard: React.FC = () => {
 
     useEffect(() => {
         if (!parsedData?.key?.title) {
-            if (userContext?.user?.practiceId) {
+            if (userContext?.user?.practice) {
                 const fetchPractice = async () => {
                     try {
-                        const practiceData = await practiceService.getPractice(userContext.user.practiceId);
+                        const practiceData = await practiceService.getPractice(userContext.user.practice);
                         setPractice(practiceData);
                     } catch (error) {
                         console.error('Failed to fetch practice data:', error);

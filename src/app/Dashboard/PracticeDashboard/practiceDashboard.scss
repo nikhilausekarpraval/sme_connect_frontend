@@ -9,17 +9,17 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
     padding: 10px;
     gap: 15px;
     overflow-y: auto !important;
     overflow-x: hidden;
-    height:90%;
-
+    height: 87%;
+    box-sizing: border-box; 
 }
 
 .group-grid-height{
-    height: 48.5%;
+    height: 47.5%;
 }
 
 .recent-discussion-height{
