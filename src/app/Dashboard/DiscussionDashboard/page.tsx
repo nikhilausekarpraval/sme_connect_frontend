@@ -36,7 +36,7 @@ const page: React.FC = () => {
         <div className='flex h-100 flex-1 overflow-hidden'>
 
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
-                <div className='px-3 pt-3'>
+                <div className='px-3 pt-2'>
                     <div className='h4 font-bold m-0'>{discussion}</div>
                     <div className='h6 m-0 py-3'>Lorem Ipsum</div>
                 </div>

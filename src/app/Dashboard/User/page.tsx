@@ -209,10 +209,8 @@ export default function User() {
         setIsEdit(false);
     }
 
-    const submitForm=(e:any)=>{
-        e.preventDefault();
-        clearForm(null);
-
+    const submitForm= async()=>{  
+        await reloadData();
     }
 
     const clearPopup = () => {

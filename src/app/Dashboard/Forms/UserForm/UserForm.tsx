@@ -20,7 +20,7 @@ interface EmployeeFormProps {
     isEdit: boolean;
     isCreate: boolean;
     clearForm: (e: any) => void,
-    save: (e: any) => void,
+    save: () => void,
 }
 
 const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, clearForm, save }) => {
@@ -136,6 +136,8 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                     clearForm(null);
                     clearFormData();
                 }
+
+                save();// will load data again
             }
         } catch (e: any) {
             console.log(e)
