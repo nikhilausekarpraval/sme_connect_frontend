@@ -42,7 +42,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
         event.stopPropagation();
         toggleDropdown(); // Toggle dropdown
       }}>
-        <button className="flex justify-start items-center w-full rounded-md p-2 font-semibold text-white ring-inset ring-gray-300 hover:bg-gray-700">
+        <button className="flex justify-start items-center w-full rounded-md p-2 font-semibold text-white ring-inset ring-gray-300 hover:bg-cyan-700">
          {!isCollapsed &&<span className='flex justify-center items-center'> <MdAdminPanelSettings size={20}/> <span className='px-3'>Admin Menu</span></span> }
           {isDropdown ? (
             <FaChevronDown width={16} height={16} className=''/>
@@ -56,12 +56,12 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
         <div
           className={` ${!isCollapsed && ''}  mt-2 py-2 overflow-y-auto ${
             !isCollapsed ? 'w-56' : 'inline-block w-8 '
-          } origin-center rounded-md bg-gray-800 ring-1 ring-black ring-opacity-5 transition focus:outline-none`}
+          } origin-center rounded-md ring-1 ring-black ring-opacity-5 transition focus:outline-none`}
         >
           <div className="flex flex-col space-y-5">
             {/* <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
-                isActive('/Dashboard/AboutUser') ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
+                isActive('/Dashboard/AboutUser') ? 'bg-cyan-700' : ''
               }`}
               href="/Dashboard/AboutUser"
             >
@@ -70,14 +70,14 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 {!isCollapsed && <span className="ps-3">About</span>}
               </div>
             </Link> */}
-            <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.user) ? 'bg-gray-700' : ''}`} href={routes.user}>
+            <Link className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.user) ? 'bg-cyan-700' : ''}`} href={routes.user}>
               <div className="justify-start flex items-center w-52">
                 <FiUsers className="" />
                 {!isCollapsed && <span className='ps-3'>Users</span>}
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.role) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.role) ? 'bg-cyan-700' : ''
                 }`}
               href={routes.role}
             >
@@ -87,7 +87,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.group) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.group) ? 'bg-cyan-700' : ''
                 }`}
               href={routes.group}
             >
@@ -97,7 +97,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.groupUsers) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.groupUsers) ? 'bg-cyan-700' : ''
                 }`}
               href={routes.groupUsers}
             >
@@ -107,7 +107,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             {/* <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-cyan-700' : ''
                 }`}
               href={routes.practices}
             >
@@ -117,7 +117,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link> */}
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceAdminDashboard) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceAdminDashboard) ? 'bg-cyan-700' : ''
                 }`}
               href={routes.practiceAdminDashboard}
             >
@@ -127,7 +127,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.roleClaim) ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.roleClaim) ? '' : ''
                 }`}
               href={routes.roleClaim}
             >
@@ -137,8 +137,8 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             {/* <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
-                isActive('/Dashboard/CreateRole') ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
+                isActive('/Dashboard/CreateRole') ? 'bg-cyan-700' : ''
               }`}
               href="/Dashboard/CreateRole"
             >
@@ -148,8 +148,8 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
-                isActive('/Dashboard/AddRoleToUser') ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
+                isActive('/Dashboard/AddRoleToUser') ? 'bg-cyan-700' : ''
               }`}
               href="/Dashboard/AddRoleToUser"
             >
@@ -159,8 +159,8 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
-                isActive('/Dashboard/AddClaimToRole') ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
+                isActive('/Dashboard/AddClaimToRole') ? 'bg-cyan-700' : ''
               }`}
               href="/Dashboard/AddClaimToRole"
             >
@@ -171,8 +171,8 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
             </Link>
             <Link
               href="/Dashboard/AddClaimToUser"
-              className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
-                isActive('/Dashboard/AddClaimToUser') ? 'bg-gray-700' : ''
+              className={`text-white hover:bg-cyan-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${
+                isActive('/Dashboard/AddClaimToUser') ? 'bg-cyan-700' : ''
               }`}
             >
               <div className="justify-start flex items-center w-48">

@@ -83,6 +83,10 @@ width: -webkit-fill-available;
   height:65vh;
 }
 
+.left-menu-bar-style{
+ background-color:  #263238;
+}
+
 :root {
   --top-menu-height: 48px; 
 }

@@ -22,7 +22,7 @@ export const LeftMenubar = () => {
 
   return (
     <div className=" flex flex-col">
-      <nav className={`bg-gray-800 flex flex-col overflow-hidden ${isCollapsed ? 'w-14' : 'w-64'} h-[calc(100vh-var(--top-menu-height))] transition-all duration-50`}>
+      <nav className={`left-menu-bar-style flex flex-col overflow-hidden ${isCollapsed ? 'w-14' : 'w-64'} h-[calc(100vh-var(--top-menu-height))] transition-all duration-50`}>
         {/* Toggle Button */}
         <div className="flex items-center justify-between px-4 py-2 bg-gray-900">
           <div className="text-white text-lg font-bold">
@@ -45,7 +45,7 @@ export const LeftMenubar = () => {
         <div className='pt-3 flex flex-col justify-center overflow-hidden items-center'>
           <ul className={`flex flex-col overflow-y-auto space-y-5 ${isCollapsed && 'w-8'}`}>
             <li>
-              <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.home) ? 'bg-gray-700' : ''}`} href={routes.home}>
+              <Link className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.home) ? 'bg-cyan-700' : ''}`} href={routes.home}>
                 <div className="justify-start flex items-center w-52">
                   <FaHome className="" />
                   {!isCollapsed && <span className='ps-3'>Home</span>}
@@ -54,7 +54,7 @@ export const LeftMenubar = () => {
             </li>
             {roles.includes("Admin") ? (
               <li>
-                <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-gray-700' : ''}`} href={routes.practices}>
+                <Link className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practices) ? 'bg-cyan-700' : ''}`} href={routes.practices}>
                   <div className="justify-start flex items-center w-52">
                     <MdDeveloperMode className="" />
                     {!isCollapsed && <span className='ps-3'>Practices</span>}
@@ -63,7 +63,7 @@ export const LeftMenubar = () => {
               </li>
             ) : (
               <li>
-                <Link className={`text-white hover:bg-gray-700 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-gray-700' : ''}`} href={routes.practiceDashboard}>
+                <Link className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-cyan-700' : ''}`} href={routes.practiceDashboard}>
                   <div className="justify-start flex items-center w-52">
                     <MdDeveloperMode className="" />
                     {!isCollapsed && <span className='ps-3'>My Practice</span>}

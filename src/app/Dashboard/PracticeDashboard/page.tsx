@@ -40,7 +40,7 @@ const Detail: React.FC<DetailProps> = ({ content, title }) => {
 };
 
 const PracticeDashboard: React.FC = () => {
-    debugger;
+    
     const searchParams = useSearchParams();
     const data = searchParams.get('data') as string;
     const parsedData = JSON.parse(data);

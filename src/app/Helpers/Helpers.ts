@@ -69,7 +69,7 @@ export function getCurrentTime() {
 
 
 export const getDataTypeForKey = (key :string,array:any[]) => {
-  debugger;
+  
   const config = array?.find((item) => item.field === key);
   return config ? config.dataType : null; 
 };

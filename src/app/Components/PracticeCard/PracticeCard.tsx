@@ -2,68 +2,50 @@
 import { routes } from '@/app/Constants/Constants';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { Card, ProgressBar, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import { FaArrowRight } from 'react-icons/fa'; // Font Awesome Icon
 
 type DepartmentCardProps = {
     title: string;
-    metrics: string[];
-    links: { text: string; url: string }[];
-    highlights: string[];
-    visuals?: { progress?: number };
+    description: string[];
 };
 
-const PracticeCard: React.FC<DepartmentCardProps> = ({ title, metrics, links, highlights, visuals }) => {
-
+const PracticeCard: React.FC<DepartmentCardProps> = ({ title, description }) => {
     const router = useRouter();
 
     const handleNavigation = () => {
-        const data = JSON.stringify({ key: {title}});
+        const data = JSON.stringify({ key: { title } });
         router.push(`${routes.practiceDashboard}?data=${encodeURIComponent(data)}`);
     };
 
     return (
-        // <Link className={` justify-start transition-all duration-50 no-underline }`} href={{
-        //     pathname: '/targetPage',
-        //     query: { data: JSON.stringify({ practice: {title}}) }, 
-        // }}>
+        <Card 
+            className="shadow-sm cursor-pointer border-0 rounded-lg card-hover-effect mb-3" 
+            onClick={handleNavigation} 
+            style={{ transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}
+        >
+            <Card.Body style={{ padding: '20px' }}>
+                <Card.Title 
+                    className="text-primary font-weight-bold mb-2" 
+                    style={{ fontSize: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                >
+                    {title}
+                    <FaArrowRight style={{ fontSize: '1rem', color: '#0056D2' }} />
+                </Card.Title>
 
-        <Card className="shadow-sm cursor-pointer" onClick={handleNavigation} >
-            <Card.Body>
-
-                <Card.Title className="text-primary">{title}</Card.Title>
-
-                <Card.Text>
-                    <strong>Description:</strong>
-                    <ul>
-                        {highlights.map((highlight, index) => (
-                            <li key={index}>{highlight}</li>
+                <Card.Text style={{ color: '#616161', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                    <strong style={{ fontSize: '0.9rem', color: '#333' }}>Description:</strong>
+                    <ul style={{ paddingLeft: '20px', marginTop: '8px' }}>
+                        {description.map((item, index) => (
+                            <li key={index} style={{ marginBottom: '4px' }}>
+                                {item}
+                            </li>
                         ))}
                     </ul>
                 </Card.Text>
-
-                <Card.Text className='mt-3'>
-                    <strong>Metrics:</strong>
-                    <ul>
-                        {metrics.map((metric, index) => (
-                            <li key={index}>{metric}</li>
-                        ))}
-                    </ul>
-                </Card.Text>
-
-
-                {/* <div className="d-grid gap-2">
-                    {links.map((link, index) => (
-                        <Button key={index} variant="outline-primary" href={link.url} target="_blank">
-                            {link.text}
-                        </Button>
-                    ))}
-                </div> */}
             </Card.Body>
         </Card>
-        // </Link>
     );
 };
 
 export default PracticeCard;
-
-

@@ -4,6 +4,7 @@ import { useAppContext } from '@/app/Context/AppContext';
 import { isString } from '@/app/Helpers/Helpers';
 import Link from 'next/link'
 import UserAvatar from '../UserAvatar/UserAvatar';
+import './CustomNavbar.scss';
 
 
 
@@ -21,7 +22,7 @@ export const CustomNavbar = () => {
 
   return (
     <div>
-    <nav className='bg-blue-600 h-12  px-3 flex justify-between items-center' >
+    <nav className='top-nav-background-color h-12  px-3 flex justify-between items-center' >
         <div>
           <h3 className='font-semibold text-xl text-white m-0' ><Link href="/Dashboard/Home">SME Connect</Link></h3>
         </div>

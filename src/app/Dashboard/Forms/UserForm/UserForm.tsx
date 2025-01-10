@@ -48,7 +48,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
     const loadData = async () => {
         setIsLoading(true);
-        debugger;
+        
         try {
 
             const allRoles = await new RoleService().getRoles();
@@ -94,7 +94,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     }
 
     function updateSelectedRoles(allRoles: IRole[]) {
-        debugger;
+        
         const userRoles = user?.roles?.map((role: any) => role.name) || [];
 
         const selectedRoles = allRoles
@@ -111,7 +111,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         var formError;
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
-                debugger;
+                
 
                 const updatedUser = { ...user };
 
