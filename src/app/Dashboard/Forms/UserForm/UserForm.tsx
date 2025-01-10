@@ -35,8 +35,8 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [claims, setClaims] = useState<IUserClaim[]>(userClaims);
     const [practices, setPractces] = useState<IPractice[]>(practicesData);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedRoles,setSelectedRoles] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
-    const [selectedClaims,setSelectedClaims] = useState<IMultiSelectSelected[]>([{label:"",value:""}]);
+    const [selectedRoles, setSelectedRoles] = useState<IMultiSelectSelected[]>([{ label: "", value: "" }]);
+    const [selectedClaims, setSelectedClaims] = useState<IMultiSelectSelected[]>([{ label: "", value: "" }]);
 
     useEffect(() => {
 
@@ -46,36 +46,26 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
     }, [isCreate, isEdit])
 
-    useEffect(()=>{
-
-        if(employee !== null && employee != undefined){
-            setUser(employee);
-        }
-        else{
-            setUser(emptyUser)
-        }
-
-    },[employee])
-
     const loadData = async () => {
         setIsLoading(true);
         debugger;
-        try{
+        try {
 
-            const allRoles =  await new RoleService().getRoles();
+            const allRoles = await new RoleService().getRoles();
             const allClaims = await new UserClaimService().getClaims();
             const allPractices = await new PracticesService().getPractices();
 
-            setRoles(allRoles?.value);
+
             updateSelectedRoles(allRoles?.value);
+            setRoles(allRoles?.value);
 
 
-            setClaims(allClaims?.value);
             updateSelectedClaims(allClaims?.value);
+            setClaims(allClaims?.value);
 
             setPractces(allPractices?.value?.data);
 
-        }catch(e:any){
+        } catch (e: any) {
             console.log(e)
             setIsLoading(false);
         }
@@ -83,26 +73,37 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         setIsLoading(false);
     }
 
+    useEffect(() => {
+        if (employee) {
+            setUser(employee);
+            updateSelectedRoles(roles);
+            updateSelectedClaims(claims);
+        } else {
+            setUser(emptyUser);
+            clearFormData();
+        }
+    }, [employee, roles, claims]);
+
     function updateSelectedClaims(allClaims: IUserClaim[]) {
         const userIds = user?.id;
         const selectedClaims = allClaims
             .filter(claim => claim.userId == userIds)
             .map(claim => ({ label: claim.claimType, value: claim.claimValue }));
-    
+
         setSelectedClaims(selectedClaims);
     }
 
-    function updateSelectedRoles(allRoles: IUserGroup[]) {
+    function updateSelectedRoles(allRoles: IRole[]) {
         debugger;
-        const userRoles = user?.roles?.map((role:any)=>role.name) || [];
-    
+        const userRoles = user?.roles?.map((role: any) => role.name) || [];
+
         const selectedRoles = allRoles
             .filter(r => userRoles.includes(r.name))
             .map(role => ({ label: role.name, value: role.id }));
-    
+
         setSelectedRoles(selectedRoles);
     }
-    
+
 
     const handleSubmitForm = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -112,21 +113,21 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
                 debugger;
 
-                 const updatedUser = { ...user };
+                const updatedUser = { ...user };
 
-                    updatedUser.roles = selectedRoles.map(role => role.label);
-                    updatedUser.claims = selectedClaims.map(claim => ({
-                        claimType: claim.label,
-                        claimValue: claim.value
-                    }));
+                updatedUser.roles = selectedRoles.map(role => role.label);
+                updatedUser.claims = selectedClaims.map(claim => ({
+                    claimType: claim.label,
+                    claimValue: claim.value
+                }));
 
-                if(isCreate){
+                if (isCreate) {
                     result = await new UsersService().createUser(updatedUser);
-                }else {
+                } else {
                     result = await new UsersService().updateUser(updatedUser);
                 }
-                
-                if (result?.value?.status !== "Success" ) {
+
+                if (result?.value?.status !== "Success") {
                     formError = result.value.statusText
                     if (formError.includes("Duplicate")) {
                         setErrors({ ...errors, email: formError });
@@ -145,9 +146,13 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     }
 
     const clearFormData = () => {
-        setUser(emptyUser)
+        setUser(emptyUser);
+        setRoles(rolesData);
+        setClaims(userClaims);
+        setSelectedRoles([{ label: "", value: "" }]);
+        setSelectedClaims([{ label: "", value: "" }]);
         setErrors(registerUserFormErrors);
-    }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any>) => {
         const { id, value } = e.target;
@@ -171,10 +176,10 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
             if (value !== "") {
                 setErrors({ ...errors, [id]: "" })
             }
-        }else if(id.includes('phoneNumber')){
-            if (!isValidPhoneNumber(value)){
-                    setErrors({...errors,phoneNumber:"Invalid mobile number."})
-            }else {
+        } else if (id.includes('phoneNumber')) {
+            if (!isValidPhoneNumber(value)) {
+                setErrors({ ...errors, phoneNumber: "Invalid mobile number." })
+            } else {
                 setErrors({ ...errors, phoneNumber: "" })
             }
         }
@@ -329,42 +334,18 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <FormNumberInput validateField={errors} placeholder={"Enter mobile no."} required={true} fieldName={"phoneNumber"} fieldValue={user?.phoneNumber} fieldLabel={"Mobile Number"} handleInputChange={handleChange} maxLength={10} />
-{/* 
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Roles<span className='text-danger font-14 p-1'>*</span></Form.Label>
-                                        <Form.Select className=" " value={roles?.find((role) => role?.id == user?.id)?.name} onChange={handleChange} name="ROLE" id="ROLE">
-                                            <option value="User">User</option>
-                                            {roles?.map((role) => (
-                                                <option value={role?.name}>{role.name}</option>
-                                            ))
-                                            } 
-                                        </Form.Select>
-                                        <div className="text-red-600">
-                                            {errors.role}
-                                        </div>
-                                    </div> */}
 
+                                    {/* in the below claims and roles component when form is open first time values are populating but they are not getting selected when close and open again then the selected values are gettign mapping with all the values in the drop down please handle the state for this form */}
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <ReactMultiSelectComponent values={roles?.map((role)=> ({label:role.name,value: role.id }))} title={"Roles"} selectedNames={selectedRoles} handleChange={setSelectedRoles}/>
+                                        <ReactMultiSelectComponent values={roles?.map((role) => ({ label: role.name, value: role.id }))} title={"Roles"} selectedNames={selectedRoles} handleChange={setSelectedRoles} />
                                     </div>
 
-                                    {/* <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claims</Form.Label>
-                                        <Form.Select className=" " value={claims?.find((claim) => claim?.userId == user?.id)?.claimType} onChange={handleChange} name="Claim" id="Claim">
-                                            <option value=""></option>
-                                            {claims?.map((claim) => (
-                                                <option value={claim?.id}>{claim.claimType}</option>
-                                            ))
-                                            }
-                                        </Form.Select>
-                                        <div className="text-red-600">
-                                            {errors.claim}
+                                    {claims?.length > 0 &&
+                                        <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                            <ReactMultiSelectComponent values={claims?.map((claim) => ({ label: claim.claimType, value: claim.claimValue }))} title={"Claims"} selectedNames={selectedClaims} handleChange={setSelectedClaims} />
                                         </div>
-                                    </div> */}
+                                    }
 
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <ReactMultiSelectComponent values={userClaims?.map((claim)=> ({label:claim.claimType,value: claim.claimValue }))} title={"Claims"} selectedNames={selectedClaims} handleChange={setSelectedClaims}/>
-                                    </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
@@ -382,21 +363,21 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
 
                                     <div></div>
                                     {isCreate &&
-                                    <div className="mb-3 col  p-0 ps-3">
-                                        <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
-                                        {questionOperation === "Next" &&
-                                            <div className="flex justify-center items-center">
-                                                <button
-                                                    type="button"
-                                                    onClick={nextQuestion}
-                                                    className="btn-sm mt-2 cursor-pointer btn flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold  rounded-lg shadow-md transition-all duration-300"
-                                                >
-                                                    <span>Next</span>
-                                                    <FiArrowRight className="text-lg ms-1" />
-                                                </button>
-                                            </div>
-                                        }
-                                    </div>
+                                        <div className="mb-3 col  p-0 ps-3">
+                                            <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={visibleQuestion} />
+                                            {questionOperation === "Next" &&
+                                                <div className="flex justify-center items-center">
+                                                    <button
+                                                        type="button"
+                                                        onClick={nextQuestion}
+                                                        className="btn-sm mt-2 cursor-pointer btn flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold  rounded-lg shadow-md transition-all duration-300"
+                                                    >
+                                                        <span>Next</span>
+                                                        <FiArrowRight className="text-lg ms-1" />
+                                                    </button>
+                                                </div>
+                                            }
+                                        </div>
                                     }
                                 </div>
                             </div>
