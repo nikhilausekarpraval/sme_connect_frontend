@@ -127,7 +127,7 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               </div>
             </Link>
             <Link
-              className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.roleClaim) ? '' : ''
+              className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.roleClaim) ? 'bg-cyan-700' : ''
                 }`}
               href={routes.roleClaim}
             >

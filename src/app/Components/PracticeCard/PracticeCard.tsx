@@ -3,7 +3,8 @@ import { routes } from '@/app/Constants/Constants';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { FaArrowRight } from 'react-icons/fa'; // Font Awesome Icon
+import { FaArrowRight } from 'react-icons/fa'; 
+import './PracticeCard.scss';
 
 type DepartmentCardProps = {
     title: string;
@@ -20,13 +21,13 @@ const PracticeCard: React.FC<DepartmentCardProps> = ({ title, description }) => 
 
     return (
         <Card 
-            className="shadow-sm cursor-pointer border-0 rounded-lg card-hover-effect mb-3" 
+            className="shadow-md cursor-pointer rounded-lg card-hover-effect mb-3" 
             onClick={handleNavigation} 
             style={{ transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}
         >
             <Card.Body style={{ padding: '20px' }}>
                 <Card.Title 
-                    className="text-primary font-weight-bold mb-2" 
+                    className="text-primary pt-2 pb-3 font-weight-bold mb-2" 
                     style={{ fontSize: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                 >
                     {title}
