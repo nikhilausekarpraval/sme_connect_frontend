@@ -1,38 +1,41 @@
-// File: /app/practice/page.tsx
+// app/practice/page.tsx
+import { cookies } from 'next/headers';
+import PracticeDashboard from '../PracticeDashboardClient/PracticeDashboard';
 import GroupService from '@/app/Services/GroupService';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import { discussions } from '@/app/Constants/Constants';
-import PracticeDashboard from '../PracticeDashboardClient/PracticeDashboard'; // Client component
 
 export default async function PracticeDashboardPage() {
-    try {
-        const groupService = new GroupService();
-        const userGroupService = new GroupUserService();
+  const cookieStore = cookies();
+  const authToken = cookieStore.get('authToken')?.value;
 
-        const allGroupsResponse = await groupService.getGroups();
-        const userGroupsResponse = await userGroupService.getUserGroups();
+  if (!authToken) {
+    return <div>Please log in to view this page.</div>; // Redirect if needed
+  }
 
-        const initialGroups = allGroupsResponse.value.data || [];
-        const initialUserGroups = userGroupsResponse.value.data || {};
-        const practiceTitle = 'Your Practice Name'; // Replace with dynamic logic if needed
+  const groupService = new GroupService(); 
+  const userGroupService = new GroupUserService();
 
-        return (
-            <PracticeDashboard
-                initialGroups={initialGroups}
-                initialUserGroups={initialUserGroups}
-                recentDiscussions={discussions}
-                practiceTitle={practiceTitle}
-            />
-        );
-    } catch (error) {
-        console.error('Failed to fetch data:', error);
-        return (
-            <PracticeDashboard
-                initialGroups={[]}
-                initialUserGroups={[]}
-                recentDiscussions={[]}
-                practiceTitle="Error"
-            />
-        );
-    }
+  try {
+    debugger;
+    const userGroupsResponse = await userGroupService.getUserGroups(authToken);
+    const allGroupsResponse = await groupService.getGroups(authToken);
+
+
+    const initialGroups = allGroupsResponse?.value?.data || [];
+    const initialUserGroups = userGroupsResponse?.value?.data || [];
+    const practiceTitle = 'Your Practice Name';
+
+    return (
+      <PracticeDashboard
+        initialGroups={initialGroups}
+        initialUserGroups={initialUserGroups}
+        recentDiscussions={discussions}
+        practiceTitle={practiceTitle}
+      />
+    );
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    return <PracticeDashboard initialGroups={[]} initialUserGroups={[]} recentDiscussions={[]} practiceTitle="Error" />;
+  }
 }

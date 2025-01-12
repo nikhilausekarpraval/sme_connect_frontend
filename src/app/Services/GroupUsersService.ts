@@ -23,8 +23,8 @@ class GroupUserService {
         return await apiService.delete("api/GroupUsers/delete_group_users",group_user_user)
     }
 
-    async getUserGroups(){
-        return await apiService.get("get_user_groups");
+    async getUserGroups(token=""){
+        return await apiService.get("api/GroupUsers/get_user_groups",token);
     }
 
 

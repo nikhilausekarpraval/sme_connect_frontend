@@ -15,8 +15,9 @@ class GroupService {
         return await apiService.post("api/Group/update_group", group)
     }
 
-    async getGroups () {
-        return await apiService.get("api/Group/get_groups")
+    async getGroups (token="") {
+        debugger;
+        return await apiService.get("api/Group/get_groups",token)
     }
 
     async deleteGroups(groups:IUserGroup[]) {

@@ -20,12 +20,12 @@ class ApiService {
    * @returns {Promise<any>} - The response data.
    */
   // eslint-disable-next-line
-  async apiFetch(endpoint: string, options: any) {
+  async apiFetch(endpoint: string, options: any,serverToken="") {
 
   let response : any;
     try {
       
-      const token = await authService.getAccessToken();
+      const token = serverToken != "" ? serverToken : await authService.getAccessToken();
   
       const headers = {
         ...options.headers,
@@ -74,8 +74,8 @@ class ApiService {
   
 
   // CRUD methods
-  async get(endpoint: string) {
-    return await this.apiFetch(endpoint, { method: 'GET' });
+  async get(endpoint: string,token="") {
+    return await this.apiFetch(endpoint, { method: 'GET' },token);
   }
 
   async post(endpoint: string, body: object) {

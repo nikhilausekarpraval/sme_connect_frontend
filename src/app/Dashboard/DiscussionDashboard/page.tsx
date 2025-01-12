@@ -12,7 +12,7 @@ import { discussions } from '@/app/Constants/Constants';
 const page: React.FC = () => {
 
     const searchParams = useSearchParams();
-    const discussion = searchParams.get('title');
+    const discussion = searchParams?.get('title');
     const userContext = useAppContext()[0] as any;
     const [similarDiscussions, setSimilarDiscussions] = useState(discussions);
 

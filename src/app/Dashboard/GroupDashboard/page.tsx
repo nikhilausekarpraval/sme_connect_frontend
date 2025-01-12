@@ -13,7 +13,7 @@ import { IDiscussion } from '@/app/Interfaces/Interfaces';
 const page: React.FC = () => {
 
     const searchParams = useSearchParams();
-    const group = searchParams.get('group');
+    const group = searchParams?.get('group');
     const userContext = useAppContext()[0] as any
     const [activeTab, setActiveTab] = useState("Open Discussions");
     const [showDisscussionForm, setShowDisscussionForm] = useState(false);
