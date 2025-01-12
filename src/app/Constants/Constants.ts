@@ -13,7 +13,8 @@ export const emptyRole = {
 }
 
 export const emptyPractice = {
-  id:0,group:"",userEmail:"",  groupRole:""
+  id:0,name:"", description:"",    modifiedBy:"",
+  modifiedOnDt:new Date(),
 }
 
 export const emptyGroupUsers = {

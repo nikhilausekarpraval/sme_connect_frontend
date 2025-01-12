@@ -13,6 +13,9 @@ const authService = {
       const data = await apiService.post("api/Authenticate/login",{ username, password })
 
       accessToken = data?.value.token;
+
+      // set token to next js server 
+    await  this.storeToken(accessToken);
       
       localStorage.setItem('accessToken', accessToken);
 
@@ -22,6 +25,21 @@ const authService = {
       throw error;
     }
   },
+
+   async storeToken (token :string) {
+
+    try {
+      const response = await fetch('/api/auth/saveToken', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+      });
+  
+    } catch (error) {
+      console.error('Error storing token:', error);
+    }
+  },
+  
 
   /**
    * Logs out the user by clearing tokens and invalidating the session.

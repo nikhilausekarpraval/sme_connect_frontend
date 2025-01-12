@@ -15,7 +15,7 @@ class GroupService {
         return await apiService.post("api/Group/update_group", group)
     }
 
-    async getGroups() {
+    async getGroups () {
         return await apiService.get("api/Group/get_groups")
     }
 

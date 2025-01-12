@@ -60,7 +60,7 @@ export default function GroupUsersAdminDashboard() {
 
     try {
 
-      const result = await _groupUsersService.getGroupUsers();
+      const result = await _groupUsersService.getAllGroupUsers();
 
       if(result?.statusCode == 200 && result?.value.status === "Success"){
         const sortedApis = await getSortedData(result?.value.data);

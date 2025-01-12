@@ -144,6 +144,16 @@ export interface IUserCredentials{
   password:string
 }
 
+export interface IUserJoinedGroups{
+
+   id : number,
+
+   group : string,
+
+   groupRole : string;
+
+   userEmail :string;
+}
 
 export interface IRole{
  id:string,
@@ -220,7 +230,26 @@ export interface IUserForm{
   claims : IClaimDto[];
   roles:string[];
   practice : string;
+}
 
+export interface IUserQuestions{
+  id:string,
+  userName: string,
+  email: string,
+  password: string,
+  displayName: string,
+  newPassword: string,
+  confirmPassword: string,
+  question1:string,
+  question2:string,
+  question3:string,
+  answer1:string,
+  answer2:string,
+  answer3:string
+  phoneNumber:string,
+  claims : any;
+  roles:any;
+  practice : string;
 }
 
 export interface ITableBodyProps {

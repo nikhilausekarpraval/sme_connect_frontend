@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { quenstionsAndAnswers, questions } from '../Constants/Constants';
-import { IRegisterUserErrors, IUserForm } from '../Interfaces/Interfaces';
+import { IRegisterUserErrors, IUserForm, IUserQuestions } from '../Interfaces/Interfaces';
 import FormPasswordInput from './FormPasswordInput';
 import { Form } from 'react-bootstrap';
 
 
 interface FormSelectQuestionAndAnswerProps {
-  formData: IUserForm;
+  formData: IUserQuestions;
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   errors: IRegisterUserErrors;
   title?: string;
