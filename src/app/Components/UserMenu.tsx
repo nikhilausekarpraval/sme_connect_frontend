@@ -5,7 +5,7 @@ import { routes } from '../Constants/Constants'
 export default function UserMenu() {
 
     const logout=()=>{
-        localStorage.clear();
+        sessionStorage.clear();
         window.location.reload();
     }
 

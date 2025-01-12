@@ -40,7 +40,7 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
         }else {
 
           setApplicationContext(result.value.userContext);
-          localStorage.setItem('userContext', JSON.stringify(result.value.userContext));
+          sessionStorage.setItem('userContext', JSON.stringify(result.value.userContext));
           closeForm();
           clearForm();
         }

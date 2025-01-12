@@ -84,7 +84,7 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
 
 
 const updateApplication = () => {
-  localStorage.clear();
+  sessionStorage.clear();
   window.location.reload();
 }
 

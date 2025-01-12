@@ -129,7 +129,7 @@ const AboutUser = () => {
 
   const updateApplication = () => {
 
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.reload();
   }
 
