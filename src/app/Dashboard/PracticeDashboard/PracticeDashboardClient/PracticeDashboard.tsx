@@ -23,9 +23,11 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
     const [allGroups, setAllGroups] = useState<IUserGroup[]>(initialGroups);
     const [userJoinedGroups, setUserJoinedGroups] = useState<IUserJoinedGroups[]>(initialUserGroups);
     const [newGroups, setNewGroups] = useState<IUserGroup[]>(
-        initialGroups.filter((group) => initialUserGroups?.map((u) => u.group).includes(group.name))
+        initialGroups.filter((group) => 
+            !initialUserGroups?.some((u) => u.group === group.name)
+        )
     );
-
+    
     return (
         <div className="d-flex h-100 border p-2">
             <div className='h-100 overflow-auto w-full'>

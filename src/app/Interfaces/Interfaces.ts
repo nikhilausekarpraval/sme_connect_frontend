@@ -164,6 +164,7 @@ export interface IRole{
 export interface IUserGroup{
   id:number,
   name:string,
+  practice:string,
   description:string,
   modifiedBy:string,
   modifiedOnDt:Date,

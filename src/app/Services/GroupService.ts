@@ -16,7 +16,6 @@ class GroupService {
     }
 
     async getGroups (token="") {
-        debugger;
         return await apiService.get("api/Group/get_groups",token)
     }
 

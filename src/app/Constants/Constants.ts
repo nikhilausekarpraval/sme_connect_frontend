@@ -24,7 +24,7 @@ export const emptyGroupUsers = {
 }
 
 export const emptyGroup = {
-  id:0,name:"",description:"",  modifiedBy:"",
+  id:0,name:"",description:"",practice:"",  modifiedBy:"",
   modifiedOnDt:new Date(),
 }
 
@@ -286,9 +286,13 @@ export const GroupColumnConfig = [
     dataType: "string",
   },
   {
-    field: "description",
+    field: "practice",
     dataType: "string",
   },
+  {
+    field: "description",
+    dataType: "string",
+  }
 
 ];
 
@@ -299,10 +303,10 @@ export const rolesData:IRole[]=[
 ]
 
 export const groupsData: IUserGroup[] = [
-  { id: 1, name: "React",description:"", modifiedBy:"", modifiedOnDt:new Date() },
-  { id: 2, name: "Dot Net Core",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "Angular",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "QA",description:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 1, name: "React",description:"",practice:"", modifiedBy:"", modifiedOnDt:new Date() },
+  { id: 2, name: "Dot Net Core",description:"", practice:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 3, name: "Angular",description:"",practice:"", modifiedBy: "", modifiedOnDt: new Date() },
+  { id: 4, name: "QA",description:"", practice:"",modifiedBy: "", modifiedOnDt: new Date() },
 ];
 
 export const mobileNumberRegex = /^[6-9]\d{9}$/;
@@ -443,6 +447,8 @@ export const groupHeaders = {
   id: "ID",
 
   name: "Name",
+
+  practice : "Practice",
 
   description:"Description",
 

@@ -1,12 +1,13 @@
 
-import { createGroupErrors, emptyGroup } from "@/app/Constants/Constants";
+import { createGroupErrors, emptyGroup, practicesData } from "@/app/Constants/Constants";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Loader from "@/app/Components/Loader/Loader";
 import '../../../Common/Styles/Form.scss';
 import { isValidTitle } from "@/app/Helpers/Helpers";
-import { IUserGroup } from "@/app/Interfaces/Interfaces";
+import { IPractice, IUserGroup } from "@/app/Interfaces/Interfaces";
 import GroupService from "@/app/Services/GroupService";
+import PracticesService from "@/app/Services/PracticesService";
 
 
 
@@ -25,6 +26,7 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [practices, setPractces] = useState<IPractice[]>(practicesData);
 
     useEffect(() => {
 
@@ -37,6 +39,8 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
 
 
     const loadData = async () => {
+        const allPractices = await new PracticesService().getPractices();
+        setPractces(allPractices?.value?.data)
         setIsLoading(true);
         setErrors(createGroupErrors);
         setIsLoading(false);
@@ -51,7 +55,7 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
 
                 if (isCreate) {
                     result = await new GroupService().addGroup(group);
-                }else {
+                } else {
                     result = await new GroupService().updateGroup(group);
                 }
 
@@ -152,6 +156,17 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
                                         <div className="text-red-600">
                                             {errors?.name}
                                         </div>
+                                    </div>
+
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
+                                        <Form.Select className="" value={group?.practice} onChange={handleChange} name="Practice" id="Practice">
+                                            <option value=""></option>
+                                            {practices?.map((prac) => (
+                                                <option value={prac?.name}>{prac?.name}</option>
+                                            ))
+                                            }
+                                        </Form.Select>
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
