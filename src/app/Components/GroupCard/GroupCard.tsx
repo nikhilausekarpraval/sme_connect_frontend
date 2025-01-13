@@ -45,7 +45,7 @@ const GroupCard: React.FC<IGroupDetails> = ({ group }) => {
         bg={variant.toLowerCase()}
         key={variant}
         text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-        className="shadow-sm group-card-style"
+        className="shadow-sm group-card-style group-card-max-wdith"
       >
         <Card.Body className="d-flex flex-column justify-content-between">
           <div className="d-flex align-items-center">
