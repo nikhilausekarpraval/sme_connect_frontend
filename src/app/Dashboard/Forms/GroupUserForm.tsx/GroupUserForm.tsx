@@ -102,6 +102,10 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any>) => {
         const { id, value } = e.target;
 
+        if(id == "group" || id =="userEmail"){
+            setErrors(createGroupUsersErrors);
+        }
+
         setGroupUser({
             ...groupUser,
             [id]: value,

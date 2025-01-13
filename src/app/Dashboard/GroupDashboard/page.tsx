@@ -1,6 +1,5 @@
 'use client';
 import EmployeeCard from '@/app/Components/EmployeeCard/EmployeeCard';
-import { useAppContext } from '@/app/Context/AppContext';
 import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap';
@@ -9,17 +8,19 @@ import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionLi
 import { discussions, discussionTabs } from '@/app/Constants/Constants';
 import DiscussionForm from '../Forms/DiscussionForm/DiscussionForm';
 import { IDiscussion } from '@/app/Interfaces/Interfaces';
+import GroupUserService from '@/app/Services/GroupUsersService';
 
 const page: React.FC = () => {
 
     const searchParams = useSearchParams();
     const group = searchParams?.get('group');
-    const userContext = useAppContext()[0] as any
+    const group_id = searchParams?.get("group_id");
     const [activeTab, setActiveTab] = useState("Open Discussions");
     const [showDisscussionForm, setShowDisscussionForm] = useState(false);
     const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>(discussions);
     const [selectedDiscussion,setSelectedDiscussion] = useState<IDiscussion>(discussions[0]);
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
+    const groupUsersService = new GroupUserService();
 
    const users = [
         { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
@@ -44,12 +45,6 @@ const page: React.FC = () => {
        
     };
 
-    const tabs = [
-        { label: "Open Discussions" },
-        { label: "Closed Discussions" },
-        { label: "Starred", icon: <span className="text-red-600">*</span> },
-    ];
-
     function getKeyByValue(value : string) {
         for (const [key, val] of Object.entries(discussionTabs)) {
             if (val === value) {
@@ -68,6 +63,11 @@ const page: React.FC = () => {
         setShowDisscussionForm(false)
     }
 
+    const exitGroup= async()=>{
+            // delete user joined group
+     const result = await groupUsersService.deleteGroupUsers([group_id ? group_id : ""]);
+    }
+
     return (
         <div className='flex h-100 flex-1 overflow-hidden'>
             <DiscussionForm isCreate={showDisscussionForm} isEdit={false} clearForm={clearForm} selectedDiscussion={selectedDiscussion } save={saveDiscussion}/>
@@ -75,6 +75,7 @@ const page: React.FC = () => {
                 <div className='flex p-4 gap-4 items-center'>
                     <div className='h4 font-bold m-0'>{group}</div>
                     <Button onClick={()=>setShowDisscussionForm(true)}>Create Discussion</Button>
+                    <Button type={"button"} className={"btn-danger"} onClick={()=>exitGroup()}>Exit Group</Button>
                 </div>
                 <div className="discussion-tabs ps-2">
                     <span 

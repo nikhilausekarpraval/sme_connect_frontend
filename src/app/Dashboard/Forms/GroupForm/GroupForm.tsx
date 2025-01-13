@@ -160,7 +160,7 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
-                                        <Form.Select className="" value={group?.practice} onChange={handleChange} name="Practice" id="Practice">
+                                        <Form.Select className="" value={group?.practice} onChange={handleChange} name="practice" id="practice">
                                             <option value=""></option>
                                             {practices?.map((prac) => (
                                                 <option value={prac?.name}>{prac?.name}</option>

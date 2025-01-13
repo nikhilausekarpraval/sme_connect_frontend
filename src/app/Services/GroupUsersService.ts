@@ -19,7 +19,7 @@ class GroupUserService {
         return await apiService.get("api/GroupUsers/get_group_users")
     }
 
-    async deleteGroupUsers(group_user_user:IGroupUser[]) {
+    async deleteGroupUsers(group_user_user:string[]) {
         return await apiService.delete("api/GroupUsers/delete_group_users",group_user_user)
     }
 
