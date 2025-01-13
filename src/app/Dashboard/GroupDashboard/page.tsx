@@ -22,7 +22,7 @@ export default function page() {
     const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>(discussions);
     const [selectedDiscussion, setSelectedDiscussion] = useState<IDiscussion>(discussions[0]);
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
-    const groupUsersService = new GroupUserService();
+    const router = useRouter();
 
     const users = [
         { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
@@ -70,7 +70,7 @@ export default function page() {
             const result = await new GroupUserService().deleteGroupUsers([group_id ? group_id : ""]);
 
             if (result?.statusCode == 200) {
-                useRouter().back();
+                router.back();
             } else {
                 console.error('Failed to exit the group');
             }
