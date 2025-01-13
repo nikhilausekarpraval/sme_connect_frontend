@@ -14,6 +14,7 @@ export default async function PracticeDashboardPage({ searchParams }: PracticeDa
   const cookieStore = cookies();
   const authToken = cookieStore.get('authToken')?.value;
   const dataParam = searchParams['data'];
+  const refreshToken = searchParams['refresh'];
 
   const decodedData = JSON?.parse(decodeURIComponent(dataParam));
   const title = decodedData?.key?.title;

@@ -8,12 +8,14 @@ import PracticeHeader from '@/app/Components/PracticHeader/PracticeHeader';
 import { IUserGroup, IUserJoinedGroups } from '@/app/Interfaces/Interfaces';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAppContext } from '@/app/Context/AppContext';
+import GroupService from '@/app/Services/GroupService';
+import GroupUserService from '@/app/Services/GroupUsersService';
 
 interface PracticeDashboardProps {
     initialGroups: IUserGroup[];
     initialUserGroups: IUserJoinedGroups[];
     recentDiscussions: any[];
-    data:any
+    data: any
 }
 
 const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
@@ -29,6 +31,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
     const searchParams = useSearchParams();
     const userContext = useAppContext()[0] as any
     const practice = userContext?.user?.practice;
+    const token = sessionStorage?.getItem("accessToken") ;
 
     useEffect(() => {
         const dataParam = searchParams?.get('data');
@@ -36,16 +39,40 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
             try {
                 const decodedData = JSON.parse(decodeURIComponent(dataParam));
                 const title = decodedData?.key?.title;
-                setPracticeTitle(title ? title : practice); 
+                setPracticeTitle(title ? title : practice);
                 console.log(data);
             } catch (error) {
                 console.error('Error parsing data:', error);
-                setPracticeTitle(practice); 
+                setPracticeTitle(practice);
             }
         } else {
-            setPracticeTitle(practice); 
+            setPracticeTitle(practice);
         }
     }, [searchParams, practice]);
+
+    const updateUserJoinedGroup = async (group: any) => {
+
+        const groupService = new GroupService(); 
+        const userGroupService = new GroupUserService();
+      
+        try {
+      
+          const userGroupsResponse = await userGroupService.getUserGroups(practiceTitle,token ? token :"");
+      
+          const allGroupsResponse = await groupService.getUserPracticeGroups(practiceTitle,token ? token :"");
+      
+          const newGroups = allGroupsResponse?.value?.data || [];
+          const newUserGroups = userGroupsResponse?.value?.data || [];
+          setUserJoinedGroups(newUserGroups);
+          setNewGroups(newGroups.filter((g:any) => !newUserGroups?.some((u:any) => u.group === g.name)));
+
+        }
+            catch(ex:any){
+                console.log(ex)
+            }
+
+    };
+
 
     return (
         <div className="d-flex h-100 border p-2">
@@ -57,7 +84,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
                     <PracticeHeader />
                     <div className='grid-container overflow-hidden'>
                         {newGroups?.map((item) => (
-                            <GroupCard key={item.id} group={item} />
+                            <GroupCard key={item.id} group={item} updateUserJoinedGroup={updateUserJoinedGroup} />
                         ))}
                     </div>
                 </div>

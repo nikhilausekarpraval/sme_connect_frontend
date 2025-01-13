@@ -8,9 +8,10 @@ import { useAppContext } from '@/app/Context/AppContext';
 
 interface IGroupDetails {
   group: { id: number, name: string };
+  updateUserJoinedGroup:(group:any)=>void;
 }
 
-const GroupCard: React.FC<IGroupDetails> = ({ group }) => {
+const GroupCard: React.FC<IGroupDetails> = ({ group ,updateUserJoinedGroup}) => {
 
   const groupService = new GroupUserService();
   const userContext = useAppContext()[0] as any
@@ -18,7 +19,7 @@ const GroupCard: React.FC<IGroupDetails> = ({ group }) => {
   const joinGroup = async() => {
 
     try{
-      const result = await groupService.addGroupUser({
+      const newGroup ={
         Id : 0,
   
         Group : group.name,
@@ -30,7 +31,10 @@ const GroupCard: React.FC<IGroupDetails> = ({ group }) => {
          ModifiedOnDt : new Date(),
       
          ModifiedBy :""
-      })
+      }
+      const result = await groupService.addGroupUser(newGroup)
+
+      updateUserJoinedGroup(newGroup)
   
     }catch(ex:any){
       console.log(ex);
