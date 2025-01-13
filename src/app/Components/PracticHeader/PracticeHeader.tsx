@@ -2,17 +2,14 @@ import { useAppContext } from '@/app/Context/AppContext'
 import React from 'react'
 
 interface IPracticHeaderProps{
-    title:string
+
 }
 
- const PracticeHeader : React.FC<IPracticHeaderProps>=({title}) =>{
-
-    const userContext = useAppContext()[0].userContext
+ const PracticeHeader : React.FC<IPracticHeaderProps>=() =>{
     
     return (
-        <div className='px-3 mt-2 flex  justify-between font-bold text-xl'>
+        <div className='px-3 mt-2 flex  justify-between font-bold '>
             <span className='font-bold m-0'>New Groups</span>
-            <span>Welcome,{title} {userContext?.user?.displayName}</span>
         </div>
     )
 };export default PracticeHeader;
