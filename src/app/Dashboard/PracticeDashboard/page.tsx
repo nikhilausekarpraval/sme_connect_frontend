@@ -27,7 +27,7 @@ export default async function PracticeDashboardPage({ searchParams }: PracticeDa
 
   try {
 
-    const userGroupsResponse = await userGroupService.getUserGroups(authToken);
+    const userGroupsResponse = await userGroupService.getUserGroups(title,authToken);
 
     const allGroupsResponse = await groupService.getUserPracticeGroups(title,authToken);
 
