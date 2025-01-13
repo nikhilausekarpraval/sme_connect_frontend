@@ -50,6 +50,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
         }
     }, [searchParams, practice]);
 
+
     const updateUserJoinedGroup = async (group: any) => {
 
         const groupService = new GroupService(); 

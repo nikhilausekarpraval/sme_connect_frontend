@@ -34,7 +34,7 @@ const GroupCard: React.FC<IGroupDetails> = ({ group ,updateUserJoinedGroup}) => 
       }
       const result = await groupService.addGroupUser(newGroup)
 
-      updateUserJoinedGroup(newGroup)
+      updateUserJoinedGroup(newGroup);
   
     }catch(ex:any){
       console.log(ex);
