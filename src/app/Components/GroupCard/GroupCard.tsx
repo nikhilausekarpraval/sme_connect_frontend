@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { FaUsers } from 'react-icons/fa';  // Importing a user group icon
 import './GroupCard.scss';
+import GroupUserService from '@/app/Services/GroupUsersService';
+import { useAppContext } from '@/app/Context/AppContext';
+
 
 interface IGroupDetails {
   group: { id: number, name: string };
@@ -9,8 +12,30 @@ interface IGroupDetails {
 
 const GroupCard: React.FC<IGroupDetails> = ({ group }) => {
 
-  const joinGroup = () => {
-    console.log(`Joining group: ${group.name}`);
+  const groupService = new GroupUserService();
+  const userContext = useAppContext()[0] as any
+  
+  const joinGroup = async() => {
+
+    try{
+      const result = await groupService.addGroupUser({
+        Id : 0,
+  
+        Group : group.name,
+      
+        GroupRole : "Member",
+      
+         UserEmail : userContext?.user?.email,
+      
+         ModifiedOnDt : new Date(),
+      
+         ModifiedBy :""
+      })
+  
+    }catch(ex:any){
+      console.log(ex);
+    }
+
   };
 
   const variant = "Light";
