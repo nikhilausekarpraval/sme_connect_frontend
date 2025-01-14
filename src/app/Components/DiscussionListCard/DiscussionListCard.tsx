@@ -8,15 +8,15 @@ import { IDiscussion } from "@/app/Interfaces/Interfaces";
 import { useRouter } from "next/navigation";
 
 interface discussionListCard {
-    discussions:IDiscussion[],
-    isUpdate?:boolean,
-    listStyle?:string,
-    cardStyle?:string,
+    discussions: IDiscussion[],
+    isUpdate?: boolean,
+    listStyle?: string,
+    cardStyle?: string,
 }
 
-const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdate = true, listStyle="",cardStyle="" }) => {
+const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdate = true, listStyle = "", cardStyle = "" }) => {
     const router = useRouter();
-    
+
     const closeDiscussion = () => {
 
     }
@@ -45,7 +45,7 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdat
 
             case discussionStatusTypes.Starred:
                 return discussionStatusTypes.Close;
-            default :
+            default:
                 return discussionStatusTypes.Open;
         }
 
@@ -66,42 +66,42 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdat
         }
     };
 
-    const showDiscussion=(title:string)=>{
+    const showDiscussion = (title: string) => {
         router.push(`${routes.discussionDashboard}?title=${title}`);
     }
 
     return (
         <React.Fragment>
-            <div className={`technology-list h-100 ${cardStyle != "" ? cardStyle : '' }w-100`}>
+            <div className={`technology-list h-100 ${cardStyle != "" ? cardStyle : ''}w-100`}>
                 <ul className={listStyle}>
                     {discussions?.map((discussion, index) => (
                         <li key={index} className="discussion-item flex justify-between items-center">
                             <div>
-                                <h2 className="cursor-pointer" onClick={()=>showDiscussion(discussion.title)}>{discussion.title}</h2>
-                                <p className="m-0">{discussion.description}</p>
+                                <h2 className="cursor-pointer" onClick={() => showDiscussion(discussion.title)}>{discussion.title}</h2>
+                                <p className="m-0 discussion-description-style" title={discussion?.description}>{discussion?.description}</p>
                             </div>
-                            <div className="flex w-1/2 justify-center items-center gap-3">
-                                {isUpdate && (<React.Fragment>
-                                    {
-                                        discussion.status !== discussionStatusTypes.Close &&
+                            {isUpdate &&
+                                <div className="flex w-1/2 justify-center items-center gap-3">
+                                    {isUpdate && (<React.Fragment>
+                                        {
+                                            discussion.status !== discussionStatusTypes.Close &&
                                             <CommonButton
                                                 handleClick={getFunction(discussion.status === discussionStatusTypes.Starred ? discussionStatusTypes.Unstar : discussionStatusTypes.Star)}
                                                 title={discussion.status === discussionStatusTypes.Starred ? discussionStatusTypes.Unstar : discussionStatusTypes.Star}
                                                 styles={`button-width ${discussionCloseType.filter((item) => item === (discussion.status === discussionStatusTypes.Starred ? discussionStatusTypes.Unstar : discussionStatusTypes.Star)).length > 0 ? 'btn-secondary' : ''}`}
                                             />
+                                        }
+
+                                        < CommonButton
+                                            handleClick={getFunction(discussion.status)}
+                                            title={getButtonType(discussion.status) as string}
+                                            styles={`button-width ${discussionCloseType.includes(getButtonType(discussion.status)) ? 'btn-secondary' : ''}`}
+                                        />
+                                    </React.Fragment>
+                                    )
                                     }
-
-                                    < CommonButton
-                                    handleClick={getFunction(discussion.status)}
-                                title={getButtonType(discussion.status) as string}
-                                styles={`button-width ${discussionCloseType.includes(getButtonType(discussion.status)) ? 'btn-secondary' : ''}`}
-                                />
-                                </React.Fragment>
-                                )
-                                }
-
-
-                            </div>
+                                </div>
+                            }
                         </li>
                     ))}
                 </ul>

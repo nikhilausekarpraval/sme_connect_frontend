@@ -29,8 +29,8 @@ const EmployeeCard: React.FC<CandidateProps> = ({ user }) => {
                             </Avatar>
 
                             <div className="user-info d-flex">
-                                <h2 >{user?.name}</h2>
-                                <p>{user?.email}</p>
+                                <h2 className='user-name-style' title={user?.name}>{user?.name}</h2>
+                                <p className='user-name-style' title={user?.email}>{user?.email}</p>
                             </div>
 
                         </div>

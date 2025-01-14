@@ -54,7 +54,7 @@ const GroupCard: React.FC<IGroupDetails> = ({ group ,updateUserJoinedGroup}) => 
         <Card.Body className="d-flex flex-column justify-content-between">
           <div className="d-flex align-items-center">
             <FaUsers size={24} className="me-2 text-primary" /> 
-            <Card.Title className="m-0">{group.name}</Card.Title>
+            <Card.Title className="m-0 group-name-style" title={group.name}>{group.name}</Card.Title>
           </div>
           <div className="d-flex justify-content-end">
             <Button variant="primary" onClick={joinGroup} size="sm">

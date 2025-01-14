@@ -12,4 +12,11 @@
     .group-card-max-wdith{
       max-width: 16rem;
     }
+
+    .group-name-style{
+      max-width: 108px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   }

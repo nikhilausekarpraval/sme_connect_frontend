@@ -6,6 +6,13 @@
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 10px;
+
+        .user-name-style{
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 90%;
+            overflow: hidden;
+        }
     }
 
     .card-header {

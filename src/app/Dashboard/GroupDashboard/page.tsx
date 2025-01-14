@@ -110,7 +110,7 @@ export default function page() {
                             }`}>Starred <span className=" text-red-600 p-0">*</span></span>
                 </div>
 
-                <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 border rounded overflow-y-auto '>
+                <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 shadow-sm rounded overflow-y-auto '>
                     <DiscussionListCard discussions={filteredDiscussions} />
                 </div>
 
