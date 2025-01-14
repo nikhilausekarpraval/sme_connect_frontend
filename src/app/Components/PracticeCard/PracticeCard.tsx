@@ -25,13 +25,13 @@ const PracticeCard: React.FC<DepartmentCardProps> = ({ name, description }) => {
             onClick={handleNavigation}
         >
             <Card.Body className="card-body">
-                <Card.Title className="card-title text-blue-500">
-                    {name}
+                <Card.Title className="card-title text-blue-500 ">
+                      <div className='practice-title-style' title={name}>{name}</div>
                     <FaArrowRight className="arrow-icon" />
                 </Card.Title>
                 <Card.Text className="card-text">
                     <strong className="card-description-label">Description:</strong>
-                    <div className="card-description text-black">{description}</div>
+                    <div className="card-description text-black" title={description}>{description}</div>
                 </Card.Text>
             </Card.Body>
         </Card>

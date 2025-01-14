@@ -21,6 +21,12 @@
       margin-bottom: 0.75rem;
       font-weight: 600;
       font-family: 'Inter', sans-serif; // Modern sans-serif font for better readability
+      .practice-title-style{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+      }
     }
   
     .arrow-icon {
@@ -37,14 +43,23 @@
         font-size: 0.95rem;
         color: #212529; // Slightly darker for strong contrast
         font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 280px;
       }
   
       .card-description {
         padding-left: 1rem;
         margin-top: 0.5rem;
         font-weight: 400;
-        font-family: 'Roboto', sans-serif; // Pairing with a clean font for body text
-        color: #343a40; // Darker neutral tone for clarity
+        font-family: 'Roboto', sans-serif;
+        color: #343a40;
+        display: -webkit-box; 
+        -webkit-box-orient: vertical;
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        -webkit-line-clamp: 5; 
       }
     }
   }
