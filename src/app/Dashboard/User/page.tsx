@@ -67,8 +67,11 @@ export default function User() {
                 setIsLoading(false);
             }
             const sortedApis = await getSortedData(result.value);
-            setSortedData(sortedApis);
-            setAllItems(sortedApis);
+
+            setTimeout(function() {
+                setSortedData(sortedApis);
+                setAllItems(sortedApis);
+              }, 500);
 
         } catch (error) {
             console.error("Error fetching data:", error);
