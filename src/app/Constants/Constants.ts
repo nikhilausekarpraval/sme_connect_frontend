@@ -71,7 +71,7 @@ export const discussionStatusTypes = {
   Open: "Open", Close: "Close", Starred: "Starred", Unstar : "Unstar", Star:"Star"
 };
 
-export const groupRoles = ["Admin","SME","Member","Lead"];
+export const groupRoles = ["Lead","SME","Member",];
 
 export const discussionCloseType = ["Close","Unstar"]
 
