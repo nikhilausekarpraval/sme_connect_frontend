@@ -21,6 +21,7 @@ export const emptyGroupUsers = {
   id:0,group:"",userEmail:"",  groupRole:"",
     modifiedBy:"",
     modifiedOnDt:new Date(),
+    name:"",
 }
 
 export const emptyGroup = {
@@ -77,7 +78,7 @@ export const discussionCloseType = ["Close","Unstar"]
 
 export const emptyDiscussion = {
   id:0,
-  title:"",
+  name:"",
   description:"",
   status:"Open",
 }
@@ -112,37 +113,37 @@ export const routes = {
 export const discussions:IDiscussion[] = [
   {
     id: 0,
-    title: ".NET Discussion",
+    name: ".NET Discussion",
     description: "Focuses on .NET technologies for enterprise applications.",
     status: "Open"
   },
   {
     id: 0,
-    title: "Frontend Discussion",
+    name: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
     status: "Closed"
   },
   {
     id: 0,
-    title: "Python Developers",
+    name: "Python Developers",
     description: "Dedicated to Python and its diverse ecosystem.",
     status: "Star"
   },
   {
     id: 0,
-    title: ".NET Discussion",
+    name: ".NET Discussion",
     description: "Focuses on .NET technologies for enterprise applications.",
     status: "Open"
   },
   {
     id: 0,
-    title: "Frontend Discussion",
+    name: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
     status: "Closed"
   },
   {
     id: 0,
-    title: "Python Developers",
+    name: "Python Developers",
     description: "Dedicated to Python and its diverse ecosystem.",
     status: "Star"
   },

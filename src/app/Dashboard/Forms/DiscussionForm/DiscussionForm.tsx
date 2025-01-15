@@ -6,17 +6,19 @@ import Loader from "@/app/Components/Loader/Loader";
 import '../../../Common/Styles/Form.scss';
 import { IDiscussion } from "@/app/Interfaces/Interfaces";
 import { createDiscussionErrors, discussionStatus, emptyDiscussion } from "@/app/Constants/Constants";
+import DiscussionsService from "@/app/Services/DiscussionService";
 
 
-interface EmployeeFormProps {
+interface DiscussionFormProps {
     selectedDiscussion: IDiscussion | null | undefined;
     isEdit: boolean;
     isCreate: boolean;
     clearForm: (e: any) => void,
+    group:string;
     save: () => void,
 }
 
-const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCreate, isEdit, clearForm, save }) => {
+const DiscussionForm: React.FC<DiscussionFormProps> = ({ selectedDiscussion, isCreate, isEdit, clearForm,group, save }) => {
 
     const [errors, setErrors] = useState(createDiscussionErrors)
     const [isDuplicate, setIsDuplicate] = useState(false);
@@ -33,7 +35,7 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
 
         if(selectedDiscussion){
             setEditDiscussion(selectedDiscussion);
-            console.log(selectedDiscussion)
+
         }
 
     }, [isCreate, isEdit,selectedDiscussion])
@@ -52,19 +54,31 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
+                const newDiscussion = {
+                    description: editDiscussion.description,
+                    id: 0,
+                    name: editDiscussion.name,
+                    status: editDiscussion.status,
+                    groupName: group, 
+                };
+
+                newDiscussion.groupName = group;
+                
                 if (isCreate) {
-                    //result = await new DiscussionService().addDiscussion();
+                    result = await new DiscussionsService().addDiscussion(newDiscussion);
+                }else {
+                    result = await new DiscussionsService().updateDiscussion(newDiscussion);
                 }
 
-                // if (result.statusCode != 200) {
-                //     formError = result.value
-                //     if (formError.includes("already exist")) {
-                //         setErrors({ ...errors, editDiscussion: formError });
-                //     }
-                // } else {
-                //     save();
-                //     clearFormData();
-                // }
+                if (result.statusCode != 200) {
+                    formError = result?.value?.message
+                    if (formError?.includes("already exist") || formError?.includes("not found.")) {
+                        setErrors({ ...errors, title: formError });
+                    }
+                } else {
+                    save();
+                    clearFormData();
+                }
             }
         } catch (e: any) {
             console.log(e);
@@ -82,9 +96,9 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | any>) => {
         const { id, value} = e.target;
 
-        if (id === "title") {
+        if (id === "name") {
             if (value === "") {
-                setErrors({ ...errors, title : "Invalid editDiscussion title." })
+                setErrors({ ...errors, title : "Invalid Discussion title." })
             } else {
                 setErrors({ ...errors, title: "" })
             }
@@ -127,11 +141,12 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
                                             type="text"
                                             placeholder="Title."
                                             className="w-100"
-                                            id="title"
+                                            id="name"
                                             onChange={handleChange}
-                                            value={editDiscussion?.title}
+                                            value={editDiscussion?.name}
                                             maxLength={30}
                                             required
+                                            disabled={isEdit}
                                         />
                                         <div className="text-red-600">
                                             {errors?.title}
@@ -144,7 +159,7 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
                                             type="text"
                                             placeholder="Description."
                                             className="w-100"
-                                            id="discussion"
+                                            id="description"
                                             onChange={handleChange}
                                             value={editDiscussion?.description}
                                             maxLength={50}

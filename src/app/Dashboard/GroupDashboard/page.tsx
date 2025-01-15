@@ -7,9 +7,10 @@ import './GroupDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
 import { discussions, discussionTabs, emptyDiscussion, routes } from '@/app/Constants/Constants';
 import DiscussionForm from '../Forms/DiscussionForm/DiscussionForm';
-import { IDiscussion } from '@/app/Interfaces/Interfaces';
+import { IDiscussion, IGroupUser } from '@/app/Interfaces/Interfaces';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
+import DiscussionsService from '@/app/Services/DiscussionService';
 
 
 export default function page() {
@@ -19,31 +20,43 @@ export default function page() {
     const group_id = searchParams?.get("group_id");
     const [activeTab, setActiveTab] = useState("Open Discussions");
     const [showDisscussionForm, setShowDisscussionForm] = useState(false);
-    const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>(discussions);
+    const [isEdit, setIsEdit] = useState(false);
+    const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>();
     const [selectedDiscussion, setSelectedDiscussion] = useState<IDiscussion>();
+    const [allUsers,setAllUsers] = useState<IGroupUser[]>();
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
     const router = useRouter();
-
-    const users = [
-        { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
-        { "name": "JaneSmith", "email": "jane.smith@example.com", "roleName": "Lead" },
-        { "name": "SamWilson", "email": "sam.wilson@example.com", "roleName": "Viewer" },
-        { "name": "EmilyClark", "email": "emily.clark@example.com", "roleName": "Member" },
-        { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
-        { "name": "JaneSmith", "email": "jane.smith@example.com", "roleName": "Lead" },
-        { "name": "SamWilson", "email": "sam.wilson@example.com", "roleName": "Viewer" },
-        { "name": "EmilyClark", "email": "emily.clark@example.com", "roleName": "Member" },
-        { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
-        { "name": "JaneSmith", "email": "jane.smith@example.com", "roleName": "Lead" },
-        { "name": "SamWilson", "email": "sam.wilson@example.com", "roleName": "Viewer" },
-        { "name": "EmilyClark", "email": "emily.clark@example.com", "roleName": "Member" }
-    ]
+    const _discussionService = new DiscussionsService();
 
 
+    useEffect(()=>{
+        loadData();
+    },[])
+
+
+    useEffect(()=>{
+        handleTabChange("Open Discussions");
+    },[allDiscussions])
+
+
+    const loadData=async()=>{
+        try{
+            const decodedGroup = decodeURIComponent(group as string)?.toString();
+            const allDiscussions = await  _discussionService.getDiscussions(decodedGroup)
+            const allUsers = await new GroupUserService().getGroupAllUsers(decodedGroup);
+
+            setAllDiscussions(allDiscussions?.value?.data);
+            setAllUsers(allUsers?.value?.data);
+
+        }catch(ex:any){
+            console.log(ex);
+        }
+            
+    }
 
     const handleTabChange = async (tab: any) => {
         await setActiveTab(tab);
-        await setFilteredDiscussions(allDiscussions.filter((discussion) => discussion.status === getKeyByValue(tab)))
+        await setFilteredDiscussions(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(tab)))
 
     };
 
@@ -59,10 +72,13 @@ export default function page() {
     const clearForm = () => {
         // setSelectedDiscussion();
         setShowDisscussionForm(false);
+        setIsEdit(false);
     }
 
     const saveDiscussion = () => {
-        setShowDisscussionForm(false)
+        setShowDisscussionForm(false);
+        setIsEdit(false);
+        loadData();
     }
 
     const exitGroup = async () => {
@@ -91,14 +107,29 @@ export default function page() {
     //   }, [selectedDiscussion]);
     
     const showEditForm=(discussion:any)=>{
-            console.log(discussion);
+            
             setSelectedDiscussion(discussion);
-            setShowDisscussionForm(true);
+            setIsEdit(true);
+    }
+
+    const deleteDiscussion=async(discussion:any)=>{
+        try {
+            const result = await new DiscussionsService().deleteDiscussion(discussion?.name);
+
+            if (result?.statusCode == 200) {
+                // call reload to load data
+                loadData();
+            } else {
+                console.error('Failed to delete the discussion');
+            }
+        } catch (error) {
+            console.error('Error while deleting discussion:', error);
+        }
     }
 
     return (
         <div className='flex h-100 flex-1 overflow-hidden'>
-            <DiscussionForm isCreate={showDisscussionForm} isEdit={false} clearForm={clearForm} selectedDiscussion={selectedDiscussion} save={saveDiscussion} />
+            <DiscussionForm isCreate={showDisscussionForm} isEdit={isEdit} group={decodeURIComponent(group as string)?.toString()} clearForm={clearForm} selectedDiscussion={selectedDiscussion} save={saveDiscussion} />
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='flex p-4 gap-4 items-center'>
                     <div className='h4 font-bold m-0'>{group}</div>
@@ -127,7 +158,7 @@ export default function page() {
                 </div>
 
                 <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 shadow-sm rounded overflow-y-auto '>
-                    <DiscussionListCard showEditForm={showEditForm} discussions={filteredDiscussions} isUpdate={true}/>
+                    <DiscussionListCard deleteDiscussion={deleteDiscussion} showEditForm={showEditForm} discussions={filteredDiscussions as any} isUpdate={true}/>
                 </div>
 
             </div>
@@ -136,24 +167,24 @@ export default function page() {
                     <div className="role-section p-2">
                         <div className="role-title">Leads</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.roleName === "Lead").map((user1: any) => (
-                                <EmployeeCard key={user1.email} user={{ name: user1.name, email: user1.email }} />
+                            {allUsers?.filter((user) => user?.groupRole === "Lead").map((user1: any) => (
+                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">SMEs</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.roleName === "SME").map((user1: any) => (
-                                <EmployeeCard key={user1.email} user={{ name: user1.name, email: user1.email }} />
+                            {allUsers?.filter((user) => user?.groupRole === "SME").map((user1: any) => (
+                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">Members</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.roleName === "Member").map((user1: any) => (
-                                <EmployeeCard key={user1.email} user={{ name: user1.name, email: user1.email }} />
+                            {allUsers?.filter((user) => user?.groupRole === "Member").map((user1: any) => (
+                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
                     </div>

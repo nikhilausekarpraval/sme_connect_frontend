@@ -102,6 +102,7 @@ export interface IGroupUser{
   id:number,
   group:string,
   userEmail:string,
+  name:string,
   groupRole:string,
 }
 
@@ -204,7 +205,7 @@ export interface JwtPayload {
 
 export interface IDiscussion{
   id: number;
-  title:string;
+  name:string;
   description:string;
   status:string;
 }
