@@ -96,7 +96,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
 
                     <div className='recent-discussion-height border rounded-3 mt-2 bg-white border-top-0 overflow-hidden'>
                         <div className='py-2 ps-3 font-bold'>Recent discussions from my Groups</div>
-                        <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-2 '} listStyle={"overflow-y-auto pe-3 h-100"} />
+                        <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-2 '} listStyle={"overflow-y-auto pe-2 h-100"} />
                     </div>
                 </div>
 
