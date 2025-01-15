@@ -12,9 +12,10 @@ interface discussionListCard {
     isUpdate?: boolean,
     listStyle?: string,
     cardStyle?: string,
+    showEditForm:(discussion:any)=>void;
 }
 
-const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdate = true, listStyle = "", cardStyle = "" }) => {
+const discussionListCard: React.FC<discussionListCard> = ({ discussions, showEditForm, isUpdate = false, listStyle = "", cardStyle = "" }) => {
     const router = useRouter();
 
     const closeDiscussion = () => {
@@ -33,6 +34,9 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdat
 
     }
 
+    const setShowEdit=(discussion:any)=>{
+        showEditForm(discussion);
+    }
 
     const getButtonType = (buttonStatus: string) => {
 
@@ -82,7 +86,8 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdat
                             </div>
                             {isUpdate &&
                                 <div className="flex w-1/2 justify-center items-center gap-3">
-                                    {isUpdate && (<React.Fragment>
+                                    <CommonButton handleClick={()=>setShowEdit(discussion)} title={"Edit"} styles={""} />
+                                    {/* {isUpdate && (<React.Fragment>
                                         {
                                             discussion.status !== discussionStatusTypes.Close &&
                                             <CommonButton
@@ -99,7 +104,7 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, isUpdat
                                         />
                                     </React.Fragment>
                                     )
-                                    }
+                                    } */}
                                 </div>
                             }
                         </li>

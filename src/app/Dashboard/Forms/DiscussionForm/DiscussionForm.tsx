@@ -31,7 +31,12 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
             loadData();
         }
 
-    }, [isCreate, isEdit])
+        if(selectedDiscussion){
+            setEditDiscussion(selectedDiscussion);
+            console.log(selectedDiscussion)
+        }
+
+    }, [isCreate, isEdit,selectedDiscussion])
 
 
     const loadData = async () => {
@@ -113,19 +118,19 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
                 <Modal.Body className="p-0">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
-                            <div className="px-4 py-4 form-row-container">
+                            <div className="px-4 py-4 ">
                                 <div className="row m-0">
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Title</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder="Discussion."
+                                            placeholder="Title."
                                             className="w-100"
-                                            id="name"
+                                            id="title"
                                             onChange={handleChange}
                                             value={editDiscussion?.title}
-                                            max={256}
+                                            maxLength={30}
                                             required
                                         />
                                         <div className="text-red-600">
@@ -137,12 +142,12 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Description</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder="Discussion."
+                                            placeholder="Description."
                                             className="w-100"
-                                            id="name"
+                                            id="discussion"
                                             onChange={handleChange}
                                             value={editDiscussion?.description}
-                                            max={256}
+                                            maxLength={50}
                                             required
                                         />
                                         <div className="text-red-600">
@@ -152,9 +157,9 @@ const DiscussionForm: React.FC<EmployeeFormProps> = ({ selectedDiscussion, isCre
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
                                         <Form.Label className="block text-gray-700 font-bold mb-2">Status</Form.Label>
-                                        <Form.Select className=" " value={editDiscussion?.status} onChange={handleChange} name="Status" id="Status">
+                                        <Form.Select className=" " value={editDiscussion?.status} onChange={handleChange} name="status" id="status">
                                                 {discussionStatus?.map((status) => (
-                                                    <option selected={isCreate ? status === "Open" ? true : false : false} value={status}>{status}</option>
+                                                    <option  value={status}>{status}</option>
                                                 ))
                                             }
                                         </Form.Select>

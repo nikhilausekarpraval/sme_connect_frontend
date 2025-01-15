@@ -1,11 +1,11 @@
 'use client';
 import EmployeeCard from '@/app/Components/EmployeeCard/EmployeeCard';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import './GroupDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
-import { discussions, discussionTabs, routes } from '@/app/Constants/Constants';
+import { discussions, discussionTabs, emptyDiscussion, routes } from '@/app/Constants/Constants';
 import DiscussionForm from '../Forms/DiscussionForm/DiscussionForm';
 import { IDiscussion } from '@/app/Interfaces/Interfaces';
 import GroupUserService from '@/app/Services/GroupUsersService';
@@ -20,7 +20,7 @@ export default function page() {
     const [activeTab, setActiveTab] = useState("Open Discussions");
     const [showDisscussionForm, setShowDisscussionForm] = useState(false);
     const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>(discussions);
-    const [selectedDiscussion, setSelectedDiscussion] = useState<IDiscussion>(discussions[0]);
+    const [selectedDiscussion, setSelectedDiscussion] = useState<IDiscussion>();
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
     const router = useRouter();
 
@@ -79,6 +79,22 @@ export default function page() {
         }
     };
 
+    const showCreateForm=()=>{
+        setSelectedDiscussion(emptyDiscussion);
+        setShowDisscussionForm(true); 
+    }
+
+    // useEffect(() => {
+    //     if (selectedDiscussion) {
+    //       setShowDisscussionForm(true);
+    //     }
+    //   }, [selectedDiscussion]);
+    
+    const showEditForm=(discussion:any)=>{
+            console.log(discussion);
+            setSelectedDiscussion(discussion);
+            setShowDisscussionForm(true);
+    }
 
     return (
         <div className='flex h-100 flex-1 overflow-hidden'>
@@ -86,7 +102,7 @@ export default function page() {
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='flex p-4 gap-4 items-center'>
                     <div className='h4 font-bold m-0'>{group}</div>
-                    <Button onClick={() => setShowDisscussionForm(true)}>Create Discussion</Button>
+                    <Button onClick={showCreateForm}>Create Discussion</Button>
                     <Button type="button" className="btn-danger" onClick={exitGroup}>
                         Exit Group
                     </Button>
@@ -103,15 +119,15 @@ export default function page() {
                             ? "text-blue-600"
                             : "text-gray-500 hover:text-blue-600"
                             }`}>Closed Discussions</span>
-                    <span onClick={() => handleTabChange("Starred")}
-                        className={`relative px-6 py-3 font-medium text-sm cursor-pointer transition-colors duration-200 ${activeTab === "Starred"
+                    <span onClick={() => handleTabChange("Star Discussions")}
+                        className={`relative px-6 py-3 font-medium text-sm cursor-pointer transition-colors duration-200 ${activeTab === "Star Discussions"
                             ? "text-blue-600"
                             : "text-gray-500 hover:text-blue-600"
-                            }`}>Starred <span className=" text-red-600 p-0">*</span></span>
+                            }`}>Star Discussions <span className=" text-red-600 p-0">*</span></span>
                 </div>
 
                 <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 shadow-sm rounded overflow-y-auto '>
-                    <DiscussionListCard discussions={filteredDiscussions} />
+                    <DiscussionListCard showEditForm={showEditForm} discussions={filteredDiscussions} isUpdate={true}/>
                 </div>
 
             </div>

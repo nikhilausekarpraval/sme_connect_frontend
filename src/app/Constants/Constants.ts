@@ -82,7 +82,7 @@ export const emptyDiscussion = {
   status:"Open",
 }
 
-export const discussionStatus = ["Open","Closed","Starred"];
+export const discussionStatus = ["Open","Closed","Star"];
 
 export const createRoleClaimErrors = {claimType:"",claimValue:""}
 
@@ -120,13 +120,13 @@ export const discussions:IDiscussion[] = [
     id: 0,
     title: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Close"
+    status: "Closed"
   },
   {
     id: 0,
     title: "Python Developers",
     description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Starred"
+    status: "Star"
   },
   {
     id: 0,
@@ -138,13 +138,13 @@ export const discussions:IDiscussion[] = [
     id: 0,
     title: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Close"
+    status: "Closed"
   },
   {
     id: 0,
     title: "Python Developers",
     description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Starred"
+    status: "Star"
   },
 ];
 
@@ -393,8 +393,8 @@ export const userHeaders = {
 }
 
 export const discussionTabs = {
-  Starred: "Starred",
-  Close: "Closed Discussions",
+  Star: "Star Discussions",
+  Closed: "Closed Discussions",
   Open: "Open Discussions"
 }
 

@@ -31,6 +31,9 @@ const page: React.FC = () => {
         { "name": "EmilyClark", "email": "emily.clark@example.com", "roleName": "Member" }
     ]
 
+    const showEditForm=()=>{
+
+    }
 
     return (
         <div className='flex h-100 flex-1 overflow-hidden'>
@@ -48,7 +51,7 @@ const page: React.FC = () => {
                 </div>
                 <div className='h6 font-bold py-2 mb-0 px-3'>Similar discussions:</div>
                 <div className='flex flex-1 mb-2 overflow-y-auto '>
-                    <DiscussionListCard discussions={similarDiscussions} isUpdate={false}/>
+                    <DiscussionListCard showEditForm={showEditForm} discussions={similarDiscussions} />
                 </div>
 
             </div>
