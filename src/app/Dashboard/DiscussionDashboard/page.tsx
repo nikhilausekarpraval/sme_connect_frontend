@@ -36,9 +36,9 @@ const page: React.FC = () => {
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='px-3 pt-2'>
                     <div className='h4 font-bold m-0'>{discussion}</div>
-                    <div className='h6 m-0 py-3'>Lorem Ipsum</div>
+                    {/* <div className='h6 m-0 py-3 font-bold'>Lets grow together.</div> */}
                 </div>
-                <div className="px-3 discussion-height overflow-auto h-50 mb-2">
+                <div className="px-3 discussion-height mt-1 overflow-auto h-50 mb-2">
                     <div className='text-lg font-bold m-0'>Comments:</div>
                     <div className='comment-section-height  overflow-y-auto '>
                         <ChatSection title={''} discussions={discussions as any}/>

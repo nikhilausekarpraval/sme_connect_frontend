@@ -39,7 +39,7 @@ const UserAvatar: React.FC<IUserAvatar>=({initials,userContext})=> {
                                           </div>
                                           <div className='flex gap-3 items-center'>
                                               <div className="text-sm text-white ">
-                                                  {userContext?.roles[0]}
+                                                  {userContext?.roles?.sort()[0]}
                                               </div>
                                               <div className=" text-gray-100 cursor-pointer" onClick={() => setIsDropdown(!isDropdown)}>
                                                   <UserMenuDropdown />

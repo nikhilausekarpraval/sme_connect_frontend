@@ -112,7 +112,7 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions,deleteDi
                             </div>
                             {isUpdate &&
                                 <div className="flex w-1/2 justify-center items-center gap-3">
-                                    <CommonButton handleClick={()=>setShowEdit(discussion)} title={"Edit"} styles={""} />
+                                    <CommonButton handleClick={()=>setShowEdit(discussion)} title={"Edit"} styles={"edit-button-style"} />
                                     <CommonButton handleClick={()=>deleteSelected(discussion)} title={"Delete"} styles={"btn-danger"}/>
                                     {/* {isUpdate && (<React.Fragment>
                                         {

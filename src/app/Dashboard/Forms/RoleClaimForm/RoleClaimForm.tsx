@@ -74,7 +74,6 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
                 var result ;
-                debugger;
                 if (selectedRoles) {
                     const claimService = new ClaimService();
                     for (const roleId of selectedRoles) {

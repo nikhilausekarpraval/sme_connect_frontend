@@ -9,6 +9,7 @@ import AdminOptionsDropdown from '../AdminOptionsDropdown';
 import { MdDeveloperMode } from "react-icons/md";
 import { useAppContext } from '@/app/Context/AppContext';
 
+
 export const LeftMenubar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -17,6 +18,12 @@ export const LeftMenubar = () => {
   };
   const userContext = useAppContext()[0] as any
   const roles = userContext?.user?.roles.map((role: any) => role?.name);
+  const practice = userContext?.user?.practice;
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    router.push(`${routes.practiceDashboard}?data=${encodeURIComponent(JSON.stringify({ key: { title: practice } }))}`);
+  };
 
   const isActive = (path: string) => usePathname() === path as any;
 
@@ -62,13 +69,16 @@ export const LeftMenubar = () => {
                 </Link>
               </li>
             ) : (
-              <li>
-                <Link className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-cyan-700' : ''}`} href={routes.practiceDashboard}>
+              <li onClick={handleNavigation}>
+                <div
+                  className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-cyan-700' : ''}`}
+
+                >
                   <div className="justify-start flex items-center w-52">
-                    <MdDeveloperMode className="" />
+                    <MdDeveloperMode />
                     {!isCollapsed && <span className='ps-3'>My Practice</span>}
                   </div>
-                </Link>
+                </div>
               </li>
             )}
 

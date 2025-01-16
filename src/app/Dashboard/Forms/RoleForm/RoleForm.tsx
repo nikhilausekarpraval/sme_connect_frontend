@@ -184,7 +184,8 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                                             id="name"
                                             onChange={handleChange}
                                             value={role?.name}
-                                            max={256}
+                                            maxLength={256}
+                                            disabled={isEdit}
                                             required
                                         />
                                         <div className="text-red-600">

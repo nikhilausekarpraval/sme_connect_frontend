@@ -38,20 +38,20 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
         },
         {
           id: 4,
-          displayName: "Nikhil Ausekar",
+          displayName: "Uday Ganesuni",
           timestamp: "11:19 AM",
-          message: "You're welcome!",
+          message: "Hi Nikhil, What's update on task?",
         },        {
             id: 3,
-            displayName: "Sai Chandana Konanki",
+            displayName: "Nikhil Ausekar",
             timestamp: "11:18 AM",
-            message: "Got it, thank you!",
+            message: "It's done uday, Raising PR",
           },
           {
             id: 4,
-            displayName: "Nikhil Ausekar",
+            displayName: "Uday Ganesuni",
             timestamp: "11:19 AM",
-            message: "You're welcome!",
+            message: "Ok, Let me know after it's done.",
           }
       ];
       
@@ -87,7 +87,7 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
   }, [messages]); 
 
     return (
-        <div className="px-3 h-100">
+        <div className="ps-3 h-100 pe-2">
             <div className='text-lg font-bold m-0'>{title}</div>
             <div className='h-100 overflow-y-auto'>
                 <div className="chat-container-wrapper">
