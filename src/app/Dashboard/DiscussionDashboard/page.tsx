@@ -17,18 +17,13 @@ const page: React.FC = () => {
     const [similarDiscussions, setSimilarDiscussions] = useState(discussions);
 
     const users = [
-        { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
-        { "name": "JaneSmith", "email": "jane.smith@example.com", "roleName": "Lead" },
-        { "name": "SamWilson", "email": "sam.wilson@example.com", "roleName": "Viewer" },
-        { "name": "EmilyClark", "email": "emily.clark@example.com", "roleName": "Member" },
-        { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
-        { "name": "JaneSmith", "email": "jane.smith@example.com", "roleName": "Lead" },
-        { "name": "SamWilson", "email": "sam.wilson@example.com", "roleName": "Viewer" },
-        { "name": "EmilyClark", "email": "emily.clark@example.com", "roleName": "Member" },
-        { "name": "JohnDoe", "email": "john.doe@example.com", "roleName": "SME" },
-        { "name": "JaneSmith", "email": "jane.smith@example.com", "roleName": "Lead" },
-        { "name": "SamWilson", "email": "sam.wilson@example.com", "roleName": "Viewer" },
-        { "name": "EmilyClark", "email": "emily.clark@example.com", "roleName": "Member" }
+        { "name": "Nikhil Ausekar", "email": "nikhil.a@gmail.com", "roleName": "SME" },
+        { "name": "Sachin Jaggumantri", "email": "sachin@gmail.com", "roleName": "Lead" },
+        { "name": "Pradeep Ram", "email": "pradeep@gmail.com", "roleName": "Viewer" },
+        { "name": "Uday G", "email": "uday@gmail.com", "roleName": "Member" },
+        { "name": "Kedar Rodge", "email": "kedar@gmail.com", "roleName": "SME" },
+        { "name": "Rakesh", "email": "rakesh@gmail.com", "roleName": "Lead" },
+        { "name": "Solomon", "email": "solomon@gmail.com", "roleName": "Viewer" },
     ]
 
     const showEditForm=()=>{
