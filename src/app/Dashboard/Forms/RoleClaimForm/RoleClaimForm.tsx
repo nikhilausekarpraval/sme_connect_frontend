@@ -28,7 +28,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedRoles, setSelectedRoles] = React.useState<[{label:"",value:""}]>();
+    const [selectedRoles, setSelectedRoles] = React.useState<any>();
 
 
     useEffect(() => {
@@ -40,7 +40,6 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
 
     }, [isCreate, isEdit])
 
-
     const loadData = async () => {
         setIsLoading(true);
         setErrors(createRoleClaimErrors);
@@ -49,12 +48,21 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
 
         setRoles(allRoles?.value);
 
-        const selectedCla = selectedClaim?.roles?.map((role) => ({
-            label: role.name,
-            value: role.id
-        }));
+        if (selectedClaim?.roles != null) {
 
-        setSelectedRoles( selectedCla as any);
+            const selectedCla = selectedClaim.roles.map((role) => ({
+                label: role.name,
+                value: role.id
+            }));
+        
+            if(selectedClaim?.roles[0].name =="")
+                setSelectedRoles([]);
+            else
+            setSelectedRoles(selectedCla as any);
+
+        }
+        
+
         setIsLoading(false);
     }
 
@@ -66,14 +74,15 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
                 var result ;
-                if (roleClaim?.roles) {
+                debugger;
+                if (selectedRoles) {
                     const claimService = new ClaimService();
-                    for (const roleId of roleClaim.roles) {
+                    for (const roleId of selectedRoles) {
                         const claim = {
                             id: roleClaim.id,
                             claimType: roleClaim.claimType,
                             claimValue: roleClaim.claimValue,
-                            roleId: roleId.id,
+                            roleId: roleId?.value,
                         } as any;
                      result =  await claimService.createClaim(claim);
                     }
@@ -99,7 +108,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
     const clearFormData = () => {
         setRoles([{name:"",id:"",claims:[]}])
         setRoleClaim(emptyClaim);
-        setSelectedRoles([{label:"",value:""}]);
+        setSelectedRoles([]);
         setErrors(createRoleClaimErrors);
         clearForm(null);
     }

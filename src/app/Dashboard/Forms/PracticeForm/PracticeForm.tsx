@@ -145,7 +145,7 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
                                             id="name"
                                             onChange={handleChange}
                                             value={practice?.name}
-                                            max={256}
+                                            maxLength={256}
                                             required
                                         />
                                         <div className="text-red-600">
@@ -162,7 +162,7 @@ const PracticeForm: React.FC<PracticeFormProps> = ({ selectedPractice, isCreate,
                                             id="description"
                                             onChange={handleChange}
                                             value={practice?.description}
-                                            max={256}
+                                            maxLength={256}
                                             required
                                         />
                                         <div className="text-red-600">

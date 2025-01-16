@@ -29,17 +29,15 @@ export default async function PracticeDashboardPage({ searchParams }: PracticeDa
   try {
 
     const userGroupsResponse = await userGroupService.getUserGroups(title,authToken);
-
     const allGroupsResponse = await groupService.getUserPracticeGroups(title,authToken);
 
-    const initialGroups = allGroupsResponse?.value?.data || [];
-    const initialUserGroups = userGroupsResponse?.value?.data || [];
-
+    const groups = allGroupsResponse?.value?.data || [];
+    const userGroups = userGroupsResponse?.value?.data || [];
 
     return (
       <PracticeDashboard
-        initialGroups={initialGroups}
-        initialUserGroups={initialUserGroups}
+        initialGroups={groups}
+        initialUserGroups={userGroups}
         recentDiscussions={discussions}
         data = {title}
       />

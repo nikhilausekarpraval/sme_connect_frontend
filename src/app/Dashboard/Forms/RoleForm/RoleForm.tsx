@@ -27,7 +27,7 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedClaims, setSelectedClaims] = React.useState<string[]>([""]);
+    const [selectedClaims, setSelectedClaims] = React.useState<any>([]);
 
 
     useEffect(() => {
@@ -41,10 +41,11 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
 
 
     const loadData = async () => {
+
         setIsLoading(true);
         setErrors(createRoleErrors);
-        const selectedClam = selectedRole?.claims?.map((claim) => claim.claimType);
-        setSelectedClaims(selectedClam ? selectedClam : [""]);
+        const selectedClam = selectedRole?.claims?.map((claim) => ({label: claim.claimType,value:claim.claimValue}));
+        setSelectedClaims(selectedClam ? selectedClam : []);
         var allClaims = await new ClaimService().getClaims();
         setClaims(allClaims?.value);
         setIsLoading(false);
@@ -61,8 +62,22 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                     result = await new RoleService().addRole(role);
                 }
 
-                if (role?.claims) {
-                    result = await new ClaimService().createClaim(role?.claims)
+                if (selectedClaims) {
+                    const claimService = new ClaimService();
+                
+                    for (const claim of selectedClaims || []) {
+                        const item = {
+                            claimType: claim.label,
+                            claimValue: claim.value,
+                            roleId: role?.id,
+                            id: 0
+                        };
+                        try {
+                            await claimService.createClaim(item);
+                        } catch (error) {
+                            console.error('Error creating claim:', error);
+                        }
+                    }
                 }
 
                 if (result.statusCode != 200) {
@@ -85,7 +100,7 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
     const clearFormData = () => {
         setClaims([])
         setRole(emptyRole);
-        setSelectedClaims([""]);
+        setSelectedClaims([]);
         setErrors(registerUserFormErrors);
         clearForm(null);
     }
@@ -191,7 +206,7 @@ const RoleForm: React.FC<EmployeeFormProps> = ({ selectedRole, isCreate, isEdit,
                                         </div>
                                     </div> */}
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <ReactMultiSelectComponent values={claims.map((claim) => ({ label: `${claim.claimType}: ${claim.claimValue}`, value: claim.claimValue.toLowerCase() }))} title={"Claim"} selectedNames={selectedClaims} handleChange={setSelectedClaims} />
+                                        <ReactMultiSelectComponent values={claims.map((claim) => ({ label: claim.claimType, value: claim.claimValue }))} title={"Claim"} selectedNames={selectedClaims} handleChange={setSelectedClaims} />
                                     </div>
                                 </div>
                             </div>

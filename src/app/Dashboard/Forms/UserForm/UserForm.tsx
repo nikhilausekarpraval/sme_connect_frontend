@@ -78,6 +78,8 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
             setUser(employee);
             updateSelectedRoles(roles);
             updateSelectedClaims(claims);
+            setVisibleQuestion(1);
+            setQuestionOperation("Next");
         } else {
             setUser(emptyUser);
             clearFormData();
