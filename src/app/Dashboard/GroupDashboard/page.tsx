@@ -12,7 +12,6 @@ import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
 import DiscussionsService from '@/app/Services/DiscussionService';
 
-
 export default function page() {
 
     const searchParams = useSearchParams();
@@ -26,6 +25,7 @@ export default function page() {
     const [allUsers,setAllUsers] = useState<IGroupUser[]>();
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
     const router = useRouter();
+    const [groupName,setGroupName] = useState<string>();
     const _discussionService = new DiscussionsService();
 
 
@@ -44,7 +44,7 @@ export default function page() {
             const decodedGroup = decodeURIComponent(group as string)?.toString();
             const allDiscussions = await  _discussionService.getDiscussions(decodedGroup)
             const allUsers = await new GroupUserService().getGroupAllUsers(decodedGroup);
-
+            setGroupName(decodedGroup);
             setAllDiscussions(allDiscussions?.value?.data);
             setAllUsers(allUsers?.value?.data);
 

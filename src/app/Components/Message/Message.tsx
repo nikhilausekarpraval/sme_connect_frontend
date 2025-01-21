@@ -1,21 +1,22 @@
+import { getCurrentTime } from '@/app/Helpers/Helpers';
 import React from 'react';
 interface IMessage  {
     displayName: string,
-    timestamp: string,
-    message: string,
+    createdDate: Date,
+    text: string,
     isCurrentUser: boolean,
   };
 
-const Message : React.FC<IMessage>= ({ displayName, timestamp, message, isCurrentUser }) => {
+const Message : React.FC<IMessage>= ({ displayName, createdDate, text, isCurrentUser }) => {
 
   return (
     <div className={`message-wrapper ${isCurrentUser ? 'current-user-wrapper' : ''}`}>
       <div className="message-info">
         <span className="displayName">{displayName}</span>
-        <span className="timestamp">{timestamp}</span>
+        <span className="timestamp">{getCurrentTime(createdDate)}</span>
       </div>
       <div className={`message ${isCurrentUser ? 'current-user' : 'other-user'}`}>
-        {message}
+        {text}
       </div>
     </div>
   );

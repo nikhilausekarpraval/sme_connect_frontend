@@ -20,7 +20,7 @@ class ApiService {
    * @returns {Promise<any>} - The response data.
    */
   // eslint-disable-next-line
-  async apiFetch(endpoint: string, options: any,serverToken="") {
+  async apiFetch(endpoint: string, options: any,serverToken="",newBaseUrl:string,) {
 
   let response : any;
     try {
@@ -34,7 +34,7 @@ class ApiService {
           cache: 'no-store' 
       };
   
-       response = await fetch(`${this.baseUrl}${endpoint}`, {
+       response = await fetch(`${ newBaseUrl != "" ? newBaseUrl : this.baseUrl}${endpoint}`, {
         ...options,
         headers,
       });
@@ -74,26 +74,26 @@ class ApiService {
   
 
   // CRUD methods
-  async get(endpoint: string,token="") {
-    return await this.apiFetch(endpoint, { method: 'GET' },token);
+  async get(endpoint: string,token="",newBaseUrl="") {
+    return await this.apiFetch(endpoint, { method: 'GET' },token,newBaseUrl);
   }
 
-  async post(endpoint: string, body: object) {
+  async post(endpoint: string, body: object,newBaseUrl="") {
     return  await this.apiFetch(endpoint, {
       method: 'POST',
       body: JSON.stringify(body),
-    });
+    },"",newBaseUrl);
   }
 
-  async put(endpoint: string, body: object) {
+  async put(endpoint: string, body: object,newBaseUrl="") {
     return await this.apiFetch(endpoint, {
       method: 'PUT',
       body: JSON.stringify(body),
-    });
+    },"",newBaseUrl);
   }
 
-  async delete(endpoint: string,items:any) {
-    return await this.apiFetch(endpoint, { method: 'DELETE',body:JSON.stringify(items) });
+  async delete(endpoint: string,items:any,newBaseUrl="") {
+    return await this.apiFetch(endpoint, { method: 'DELETE',body:JSON.stringify(items) },"",newBaseUrl);
   }
 }
 

@@ -4,7 +4,9 @@ import { IDiscussion } from '@/app/Interfaces/Interfaces';
 import Message from '../Message/Message';
 import { useAppContext } from '@/app/Context/AppContext';
 import { getCurrentTime } from '@/app/Helpers/Helpers';
-
+import * as signalR from '@microsoft/signalr';
+import { useSearchParams } from 'next/navigation';
+import messagesService from '@/app/Services/messageService';
 
 interface IChatComponet{
     title:string,
@@ -13,82 +15,73 @@ interface IChatComponet{
 
 const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
 
+      const [connection, setConnection] = useState<any>(null);
+      const [messages, setMessages] = useState<any[]>([]);
       const userContext = useAppContext()[0] as any
-     
       const displayName = userContext?.user?.displayName;
+      const [currentMessage,setCurrentMessage] = useState("");
+      const chatContainerRef = useRef<HTMLDivElement | null>(null);
+      const searchParams = useSearchParams();
+      const groupName = searchParams?.get('groupName');
+      const messageService = new messagesService();
 
-    const tempMessages = [
-        {
-          id: 1,
-          displayName: "Sai Chandana Konanki",
-          timestamp: "11:16 AM",
-          message: "What is the column name?",
-        },
-        {
-          id: 2,
-          displayName: "Nikhil Ausekar",
-          timestamp: "11:17 AM",
-          message: "The column name is 'user_id'.",
-        },
-        {
-          id: 3,
-          displayName: "Sai Chandana Konanki",
-          timestamp: "11:18 AM",
-          message: "Got it, thank you!",
-        },
-        {
-          id: 4,
-          displayName: "Uday Ganesuni",
-          timestamp: "11:19 AM",
-          message: "Hi Nikhil, What's update on task?",
-        },        {
-            id: 3,
-            displayName: "Nikhil Ausekar",
-            timestamp: "11:18 AM",
-            message: "It's done uday, Raising PR",
-          },
-          {
-            id: 4,
-            displayName: "Uday Ganesuni",
-            timestamp: "11:19 AM",
-            message: "Ok, Let me know after it's done.",
-          }
-      ];
+        useEffect(() => {
+          const newConnection = new signalR.HubConnectionBuilder()
+            .withUrl('http://localhost:5234/chathub')  // Adjust the URL if needed
+            .withAutomaticReconnect()
+            .build();
       
+          setConnection(newConnection);
+        }, []);
+      
+        useEffect(() => {
+          if (connection) {
+            connection.start()
+              .then(() => {
+                console.log('Connected to SignalR server');
+                connection.on('ReceiveMessage', (message:any) => {
+                  console.log(message,"got message")
+                  setMessages(prevMessages => [...prevMessages,  message ]);
+                });
+              })
+              .catch((error:any) => console.error('Connection failed:', error));
+          }
+        }, [connection]);
 
-   const [currentMessage,setCurrentMessage] = useState("");
-
-   const [messages,setMessages] = useState(tempMessages);
-
-   function updateResponses(){
-            // write signla r logic here to update the message response from the other members
-   }
-
-   function sendMessage() {
-
-    const newMessage = {
-      id: messages.length + 1, 
-      displayName: displayName,
-      timestamp: getCurrentTime(),
-      message: currentMessage,
-    };
-  
-    setMessages([...messages, newMessage]);
-  
-    setCurrentMessage("");
-  }
-
-  const chatContainerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [messages]); 
-
+        useEffect(() => {
+          if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+          }
+        }, [messages]); 
+      
+        const sendMessage = async () => {
+          const newMessage = {
+            id: null, 
+            displayName: displayName,
+            createdDate: new Date(),
+            text: currentMessage,
+            groupName: groupName,
+            discussion: title,
+            replyedTo: "",
+            practice: userContext?.user?.practice,
+            userName: userContext?.user?.email,
+            attachments: [] // Adjust if you handle file uploads
+          };
+        
+          console.log(newMessage);
+          setMessages([...messages, newMessage]);
+          setCurrentMessage("");
+        
+          if (connection && newMessage) {
+            
+            await messageService.addMessage(newMessage);  
+          }
+        };
+        
+      
     return (
         <div className="ps-3 h-100 pe-2">
-            <div className='text-lg font-bold m-0'>{title}</div>
+            {/* <div className='text-lg font-bold m-0'>{title}</div> */}
             <div className='h-100 overflow-y-auto'>
                 <div className="chat-container-wrapper">
                     <div className="chat-container h-100 overflow-auto" ref={chatContainerRef}>

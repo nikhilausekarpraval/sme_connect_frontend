@@ -41,7 +41,7 @@ const page: React.FC = () => {
                 <div className="px-3 discussion-height mt-1 overflow-auto h-50 mb-2">
                     <div className='text-lg font-bold m-0'>Comments:</div>
                     <div className='comment-section-height  overflow-y-auto '>
-                        <ChatSection title={''} discussions={discussions as any}/>
+                        <ChatSection title={discussion as string} discussions={discussions as any}/>
                     </div>
                 </div>
                 <div className='h6 font-bold py-2 mb-0 px-3'>Similar discussions:</div>

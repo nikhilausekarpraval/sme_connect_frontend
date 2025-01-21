@@ -95,8 +95,8 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions,deleteDi
         }
     };
 
-    const showDiscussion = (title: string) => {
-        router.push(`${routes.discussionDashboard}?title=${title}`);
+    const showDiscussion = (title: string,groupName:string) => {
+        router.push(`${routes.discussionDashboard}?title=${title}&groupName=${groupName}`);
     }
 
     return (
@@ -107,7 +107,7 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions,deleteDi
                     {discussions?.map((discussion, index) => (
                         <li key={index} className="discussion-item flex justify-between items-center">
                             <div>
-                                <h2 className="cursor-pointer" onClick={() => showDiscussion(discussion.name)}>{discussion.name}</h2>
+                                <h2 className="cursor-pointer" onClick={() => showDiscussion(discussion.name,discussion.groupName)}>{discussion.name}</h2>
                                 <p className="m-0 discussion-description-style" title={discussion?.description}>{discussion?.description}</p>
                             </div>
                             {isUpdate &&

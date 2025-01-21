@@ -208,6 +208,7 @@ export interface IDiscussion{
   name:string;
   description:string;
   status:string;
+  groupName:string;
 }
 
 export interface IRegisterUserErrors {

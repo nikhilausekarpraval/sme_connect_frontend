@@ -57,14 +57,16 @@ export function isValidPhoneNumber(inputData:any){
   }
 }
 
-export function getCurrentTime() {
-  const now = new Date();
-  let hours = now.getHours();
-  const minutes = now.getMinutes().toString().padStart(2, '0');
+export function getCurrentTime(date: any) {
+  debugger;
+  const currentDate = new Date(date); 
+  let hours = currentDate.getHours();
+  const minutes = currentDate.getMinutes();
   const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12 || 12; 
-  return `${hours}:${minutes} ${ampm}`;
+  hours = hours > 12 ? hours - 12 : hours;
+  return `${hours.toString()}:${minutes.toString()} ${ampm}`;
 }
+
 
 
 

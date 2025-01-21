@@ -81,6 +81,7 @@ export const emptyDiscussion = {
   name:"",
   description:"",
   status:"Open",
+  groupName:"",
 }
 
 export const discussionStatus = ["Open","Closed","Star"];
@@ -115,37 +116,43 @@ export const discussions:IDiscussion[] = [
     id: 0,
     name: ".NET Discussion",
     description: "Focuses on .NET technologies for enterprise applications.",
-    status: "Open"
+    status: "Open",
+    groupName:"",
   },
   {
     id: 0,
     name: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Closed"
+    status: "Closed",
+    groupName:"",
   },
   {
     id: 0,
     name: "Python Developers",
     description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Star"
+    status: "Star",
+    groupName:"",
   },
   {
     id: 0,
     name: ".NET Discussion",
     description: "Focuses on .NET technologies for enterprise applications.",
-    status: "Open"
+    status: "Open",
+    groupName:"",
   },
   {
     id: 0,
     name: "Frontend Discussion",
     description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Closed"
+    status: "Closed",
+    groupName:"",
   },
   {
     id: 0,
     name: "Python Developers",
     description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Star"
+    status: "Star",
+    groupName:"",
   },
 ];
 
