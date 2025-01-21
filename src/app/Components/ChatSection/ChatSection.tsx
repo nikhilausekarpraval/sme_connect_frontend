@@ -68,13 +68,12 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
             attachments: [] // Adjust if you handle file uploads
           };
         
-          console.log(newMessage);
-          setMessages([...messages, newMessage]);
-          setCurrentMessage("");
-        
+          //setMessages([...messages, newMessage]);
+          
           if (connection && newMessage) {
             
             await messageService.addMessage(newMessage);  
+            setCurrentMessage("");
           }
         };
         

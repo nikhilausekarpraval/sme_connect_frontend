@@ -58,7 +58,6 @@ export function isValidPhoneNumber(inputData:any){
 }
 
 export function getCurrentTime(date: any) {
-  debugger;
   const currentDate = new Date(date); 
   let hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
