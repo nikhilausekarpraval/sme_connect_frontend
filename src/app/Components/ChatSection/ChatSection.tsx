@@ -22,7 +22,6 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
       const [currentMessage,setCurrentMessage] = useState("");
       const chatContainerRef = useRef<HTMLDivElement | null>(null);
       const searchParams = useSearchParams();
-      debugger;
       const groupName = decodeURIComponent(searchParams?.get('groupName') as string)?.toString() ;
       const messageService = new messagesService();
 
@@ -39,10 +38,8 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
 
         const loadPreviousChat=async()=>{
            var result = await messageService.getMessages({id:0,name:"",practice:userContext?.user?.practice,group:groupName,discussion:title});
-           console.log(result?.value?.length)
            if(result?.value?.length > 0)
            setMessages(result?.value);
-          console.log(result)
         }
       
         useEffect(() => {
