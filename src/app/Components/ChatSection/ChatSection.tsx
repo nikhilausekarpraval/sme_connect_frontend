@@ -22,7 +22,8 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
       const [currentMessage,setCurrentMessage] = useState("");
       const chatContainerRef = useRef<HTMLDivElement | null>(null);
       const searchParams = useSearchParams();
-      const groupName = searchParams?.get('groupName');
+      debugger;
+      const groupName = decodeURIComponent(searchParams?.get('groupName') as string)?.toString() ;
       const messageService = new messagesService();
 
         useEffect(() => {
@@ -31,8 +32,18 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
             .withAutomaticReconnect()
             .build();
       
-          setConnection(newConnection);
+             setConnection(newConnection);
+             loadPreviousChat();
+
         }, []);
+
+        const loadPreviousChat=async()=>{
+           var result = await messageService.getMessages({id:0,name:"",practice:userContext?.user?.practice,group:groupName,discussion:title});
+           console.log(result?.value?.length)
+           if(result?.value?.length > 0)
+           setMessages(result?.value);
+          console.log(result)
+        }
       
         useEffect(() => {
           if (connection) {
@@ -46,7 +57,7 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
               })
               .catch((error:any) => console.error('Connection failed:', error));
           }
-        }, [connection]);
+        }, [connection,messages]);
 
         useEffect(() => {
           if (chatContainerRef.current) {
@@ -60,7 +71,7 @@ const ChatComponent : React.FC<IChatComponet>= ({title,discussions}) => {
             displayName: displayName,
             createdDate: new Date(),
             text: currentMessage,
-            groupName: groupName,
+            group: groupName,
             discussion: title,
             replyedTo: "",
             practice: userContext?.user?.practice,
