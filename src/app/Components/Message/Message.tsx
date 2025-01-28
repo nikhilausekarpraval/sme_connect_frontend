@@ -4,6 +4,7 @@ interface IMessage  {
     displayName: string,
     createdDate: Date,
     text: string,
+    attachments:any[],
     isCurrentUser: boolean,
   };
 

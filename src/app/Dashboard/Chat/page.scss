@@ -1,0 +1,25 @@
+.chat-container{ 
+    padding: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 8px
+    
+
+    }
+
+    .message-input-style
+    { 
+        width: 80%; 
+        padding: 8px;
+        margin-right: 5px;
+    }
+
+    .send-button-style{ 
+        padding: 8px 12px
+    }
+
+    .received-message-section{ 
+        maxHeight: 300px;
+         overflowY: auto;
+          border: 1px solid #ddd;
+           padding: 10px;
+    }

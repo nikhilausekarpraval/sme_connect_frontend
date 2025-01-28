@@ -2,6 +2,8 @@
 
 import { getSocket } from '@/config/socket';
 import { useEffect, useMemo, useState } from 'react';
+import { GrSend } from "react-icons/gr";
+import './page.scss';
 
 export default function Chat() {
   const [inputMessage, setInputMessage] = useState('');
@@ -30,21 +32,21 @@ export default function Chat() {
   };
 
   return (
-    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
+    <div className='chat-container'>
       <h1>Chat</h1>
-      <div style={{ marginBottom: '10px' }}>
+      <div className='mb-2'>
         <input
           type="text"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           placeholder="Type your message..."
-          style={{ width: '80%', padding: '8px', marginRight: '5px' }}
+          className='message-input-style'
         />
-        <button className="btn-primary" onClick={sendMessage} style={{ padding: '8px 12px' }}>
-          Send
+        <button className="btn-primary send-button-style" onClick={sendMessage} >
+          Send <span className='ps-2'><GrSend /></span>
         </button>
       </div>
-      <div style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ddd', padding: '10px' }}>
+      <div className='received-message-section'>
         <h3>Received Messages:</h3>
         <ul>
           {receivedMessages.map((msg, index) => (
