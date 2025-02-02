@@ -8,7 +8,7 @@ class messagesService {
     }
 
     async addMessage(messages: any) {
-        debugger;
+
         return await apiService.post("api/message/add-message", messages,this.baseUrl)
     }
 

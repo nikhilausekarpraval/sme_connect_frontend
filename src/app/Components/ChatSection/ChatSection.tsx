@@ -67,7 +67,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   }, [messages]);
 
   const sendMessage = async () => {
-    debugger;
+
     const formData = new FormData();
 
     formData.append("Id", ""); 
@@ -100,11 +100,11 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   }
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debugger;
-    if (!e.target.files) return; // Prevent errors if no files are selected
+
+    if (!e.target.files) return; 
   
-    const files = Array.from(e.target.files); // Convert FileList to an array
-    setSelectedFiles(files); // Update state with selected files
+    const files = Array.from(e.target.files); 
+    setSelectedFiles(files); 
   };
 
   return (
