@@ -10,6 +10,7 @@ import messagesService from '@/app/Services/messageService';
 import { GrSend } from 'react-icons/gr';
 import { BsEmojiSmile } from "react-icons/bs";
 import { CgAttachment } from "react-icons/cg";
+import EmojiPicker from 'emoji-picker-react';
 
 interface IChatComponet {
   title: string,
@@ -28,6 +29,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   const groupName = decodeURIComponent(searchParams?.get('groupName') as string)?.toString();
   const messageService = new messagesService();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [showEmoji,setShowEmoji] = useState(false);
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
@@ -119,7 +121,10 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
           </div>
 
           <div className="chat-input px-2 py-1">
-            <span className='cursor-pointer'><BsEmojiSmile /></span>
+            <span className='cursor-pointer'>
+              <BsEmojiSmile onClick={(e)=>setShowEmoji(!showEmoji)} />
+              <EmojiPicker open={showEmoji}/>
+            </span>
             <input
               type="text"
               placeholder="Type a message..."
