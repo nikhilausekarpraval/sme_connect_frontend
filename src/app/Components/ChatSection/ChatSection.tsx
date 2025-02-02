@@ -67,12 +67,11 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   }, [messages]);
 
   const sendMessage = async () => {
-
+    debugger;
     const formData = new FormData();
 
     formData.append("Id", ""); 
     formData.append("DisplayName", displayName);
-    formData.append("CreatedDate", new Date().toISOString());
     formData.append("Text", currentMessage);
     formData.append("Group", groupName);
     formData.append("Discussion", title);
@@ -80,8 +79,8 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
     formData.append("Practice",userContext?.user?.practice);
     formData.append("UserName",userContext?.user?.email);
 
-    if(selectedFiles?.length > 0){
-      selectedFiles.forEach((file, index) => {
+    if (selectedFiles && selectedFiles.length > 0) {
+      selectedFiles.forEach((file) => {
         formData.append("Attachments", file); 
       });
     }
@@ -89,9 +88,8 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
     //setMessages([...messages, newMessage]);
 
     if (connection && formData) {
-
-      await messageService.addMessage(formData);
       setCurrentMessage("");
+      await messageService.addMessage(formData);
     }
   };
 
@@ -101,10 +99,13 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
     }
   }
 
-  const handleChangeFile=(e:any)=>{
-    const files = Array.from(e.target.files || []); // Convert FileList to an array
-    setSelectedFiles(files as any);
-  }
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debugger;
+    if (!e.target.files) return; // Prevent errors if no files are selected
+  
+    const files = Array.from(e.target.files); // Convert FileList to an array
+    setSelectedFiles(files); // Update state with selected files
+  };
 
   return (
     <div className="ps-3 h-100 pe-2">
@@ -124,17 +125,19 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
               placeholder="Type a message..."
               className="input-box"
               value={currentMessage}
+              multiple={true}
               onChange={(e) => setCurrentMessage(e.target.value)}
               onKeyDown={handleKeyDown}
             />
             <span className='cursor-pointer'>
               <div className="relative flex flex-col items-center">
                 <label className="cursor-pointer">
-                  <input
+                <input
                     type="file"
                     className="hidden"
-                    id='attachments'
-                    onChange={(e) => handleChangeFile(e)}
+                    id="attachments"
+                    multiple  
+                    onChange={handleChangeFile}  
                   />
                   <CgAttachment className="text-xl text-gray-600 hover:text-blue-500" />
                 </label>
