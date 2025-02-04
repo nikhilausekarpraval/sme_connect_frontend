@@ -67,7 +67,7 @@ const Message: React.FC<IMessage> = ({
                   {menuOpen === file.fileName && (
                     <div className="absolute right-0 mt-2 w-24 bg-white border rounded-lg shadow-lg z-10">
                       <button
-                        className="block px-3 py-2 text-sm hover:bg-gray-100"
+                        className="block px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
                         onClick={() => handleDownloadFile(file.fileName, file.content, file.contentType)}
                       >
                         Download
