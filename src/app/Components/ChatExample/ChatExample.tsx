@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { CgAttachment } from "react-icons/cg";
 import { CiFileOn } from "react-icons/ci";
@@ -7,18 +7,23 @@ import { RxCross2 } from "react-icons/rx";
 interface IFileUpload {
   setSelectedFiles: (item: any) => void;
   selectedFiles: any;
+  fileToRemove:string;
+
 }
 
-const FileUpload: React.FC<IFileUpload> = ({ setSelectedFiles, selectedFiles }) => {
+const FileUpload: React.FC<IFileUpload> = ({ setSelectedFiles, selectedFiles,fileToRemove }) => {
   const [openFileDialog, setOpenFileDialog] = useState<boolean>(false);
+
+  useEffect(()=>{
+    removeFile(fileToRemove);
+  },[fileToRemove])
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedFiles((prevFiles: any) => [...prevFiles, ...acceptedFiles]);
     setOpenFileDialog(false); // Close the dialog after files are selected
   }, [setSelectedFiles]);
 
-  const removeFile = (fileName: string, e: React.MouseEvent) => {
-    e.preventDefault(); 
+  const removeFile = (fileName: string) => {
     setSelectedFiles((prevFiles: any) =>
       prevFiles.filter((file: any) => file.name !== fileName)
     );
@@ -41,26 +46,6 @@ const FileUpload: React.FC<IFileUpload> = ({ setSelectedFiles, selectedFiles }) 
 
   return (
     <div className="flex items-center justify-between w-full max-w-md p-2 rounded-lg">
-      {/* Left Side: Rendered Files */}
-      <div className="flex flex-wrap gap-3">
-        {selectedFiles.map((file: any) => (
-          <div
-            key={file.name}
-            className="flex items-center justify-between p-2 bg-gray-100 border rounded-lg"
-          >
-            <CiFileOn size={18} className="text-blue-600" />
-            <span className="text-sm text-gray-700 px-2">{file.name}</span>
-            <button
-              onClick={(e) => removeFile(file.name, e)}
-              className="p-1 text-red-500 hover:bg-red-100 rounded-md"
-            >
-              <RxCross2 size={16} />
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {/* File Upload Zone */}
       <div {...getRootProps()} className="cursor-pointer">
         <input
           {...getInputProps()}

@@ -12,6 +12,8 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { CgAttachment } from "react-icons/cg";
 import EmojiPicker from 'emoji-picker-react';
 import FileUpload from '../ChatExample/ChatExample';
+import { CiFileOn } from 'react-icons/ci';
+import { RxCross2 } from 'react-icons/rx';
 
 interface IChatComponet {
   title: string,
@@ -30,7 +32,8 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   const groupName = decodeURIComponent(searchParams?.get('groupName') as string)?.toString();
   const messageService = new messagesService();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [showEmoji,setShowEmoji] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [fileToRemove, setFiletoRemove] = useState("");
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
@@ -73,21 +76,21 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
 
     const formData = new FormData();
 
-    formData.append("Id", ""); 
+    formData.append("Id", "");
     formData.append("DisplayName", displayName);
     formData.append("Text", currentMessage);
     formData.append("Group", groupName);
     formData.append("Discussion", title);
     formData.append("ReplyedTo", "");
-    formData.append("Practice",userContext?.user?.practice);
-    formData.append("UserName",userContext?.user?.email);
+    formData.append("Practice", userContext?.user?.practice);
+    formData.append("UserName", userContext?.user?.email);
 
     if (selectedFiles && selectedFiles.length > 0) {
       selectedFiles.forEach((file) => {
-        formData.append("Attachments", file); 
+        formData.append("Attachments", file);
       });
     }
-    
+
     //setMessages([...messages, newMessage]);
 
     if (connection && formData) {
@@ -104,13 +107,17 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-    if (!e.target.files) return; 
-  
-    const files = Array.from(e.target.files); 
-    setSelectedFiles(files); 
+    if (!e.target.files) return;
+
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files);
   };
 
-  
+  const removeFile = (fileName: string, e: any) => {
+    e.preventDefault();
+    setFiletoRemove(fileName);
+  }
+
 
   return (
     <div className="ps-3 h-100 pe-2">
@@ -123,39 +130,59 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
             ))}
           </div>
 
-          <div className="chat-input px-2 py-1">
-            <span className='cursor-pointer'>
-              <BsEmojiSmile onClick={(e)=>setShowEmoji(!showEmoji)} />
-              <EmojiPicker open={showEmoji}/>
-            </span>
-            <input
-              type="text"
-              placeholder="Type a message..."
-              className="input-box"
-              value={currentMessage}
-              multiple={true}
-              onChange={(e) => setCurrentMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <span className='cursor-pointer'>
-              <div className="relative flex flex-col items-center">
-                <label className="cursor-pointer">
-                  <input
+          <div className="chat-input-section ">
+          {selectedFiles?.length > 0 &&
+            <div className="flex flex-wrap px-2 pt-2 gap-3">
+              {selectedFiles.map((file: any) => (
+                <div
+                  key={file.name}
+                  className="flex items-center justify-between p-2 bg-gray-100 border rounded-lg"
+                >
+                  <CiFileOn size={18} className="text-blue-600" />
+                  <span className="text-sm text-gray-700 px-2">{file.name}</span>
+                  <button
+                    onClick={(e) => removeFile(file.name, e)}
+                    className="p-1 text-red-500 hover:bg-red-100 rounded-md"
+                  >
+                    <RxCross2 size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          }
+            <div className='chat-input px-2 py-1'>
+              <span className='cursor-pointer'>
+                <BsEmojiSmile onClick={(e) => setShowEmoji(!showEmoji)} />
+                <EmojiPicker open={showEmoji} />
+              </span>
+              <input
+                type="text"
+                placeholder="Type a message..."
+                className="input-box"
+                value={currentMessage}
+                multiple={true}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <span className='cursor-pointer'>
+                <div className="relative flex flex-col items-center">
+                  <label className="cursor-pointer">
+                    <input
                       type="file"
                       className="hidden"
                       id="attachments"
-                      multiple  
-                      onChange={handleChangeFile}  
+                      multiple
+                      onChange={handleChangeFile}
                     />
-                    <FileUpload setSelectedFiles={setSelectedFiles} selectedFiles={selectedFiles} />
+                    <FileUpload setSelectedFiles={setSelectedFiles} fileToRemove={fileToRemove} selectedFiles={selectedFiles} />
                     {/* <CgAttachment className="text-xl text-gray-600 hover:text-blue-500" /> */}
-                </label>
-              </div>
-            </span>
-            <div>
-              
+                  </label>
+                </div>
+              </span>
+              <div>
             </div>
             <button className="send-button flex items-center" onClick={sendMessage}><span className=''> Send </span> <GrSend className='ms-2' /></button>
+          </div>
           </div>
         </div>
       </div>
