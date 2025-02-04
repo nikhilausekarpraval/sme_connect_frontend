@@ -47,6 +47,15 @@ export function formatDate(inputDate : any, yearMonth = false) {
   return yearMonth ? `${month.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())}-${dateObj.getFullYear().toString()}` : `${day}-${month}-${year}`;
 }
 
+export const downloadFile = (fileName: string, content: string, contentType: string) => {
+  const link = document.createElement("a");
+  link.href = `data:${contentType};base64,${content}`;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 
 export function isValidPhoneNumber(inputData:any){
 

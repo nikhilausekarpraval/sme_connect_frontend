@@ -11,6 +11,7 @@ import { GrSend } from 'react-icons/gr';
 import { BsEmojiSmile } from "react-icons/bs";
 import { CgAttachment } from "react-icons/cg";
 import EmojiPicker from 'emoji-picker-react';
+import FileUpload from '../ChatExample/ChatExample';
 
 interface IChatComponet {
   title: string,
@@ -109,6 +110,8 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
     setSelectedFiles(files); 
   };
 
+  
+
   return (
     <div className="ps-3 h-100 pe-2">
       {/* <div className='text-lg font-bold m-0'>{title}</div> */}
@@ -137,17 +140,21 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
             <span className='cursor-pointer'>
               <div className="relative flex flex-col items-center">
                 <label className="cursor-pointer">
-                <input
-                    type="file"
-                    className="hidden"
-                    id="attachments"
-                    multiple  
-                    onChange={handleChangeFile}  
-                  />
-                  <CgAttachment className="text-xl text-gray-600 hover:text-blue-500" />
+                  <input
+                      type="file"
+                      className="hidden"
+                      id="attachments"
+                      multiple  
+                      onChange={handleChangeFile}  
+                    />
+                    <FileUpload setSelectedFiles={setSelectedFiles} selectedFiles={selectedFiles} />
+                    {/* <CgAttachment className="text-xl text-gray-600 hover:text-blue-500" /> */}
                 </label>
               </div>
             </span>
+            <div>
+              
+            </div>
             <button className="send-button flex items-center" onClick={sendMessage}><span className=''> Send </span> <GrSend className='ms-2' /></button>
           </div>
         </div>
