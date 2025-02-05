@@ -7,6 +7,7 @@ import { AppWrapper } from "./Context/AppContext";
 import "./globals.css";
 import { CustomNavbar } from "./Components/TopNavBar/CustomNavbar";
 import { LeftMenubar } from "./Components/LeftMenuBar/LeftMenubar";
+import ClientProvider from "./ClientProvider/ClientProvider";
 
 
 const roboto = Roboto({
@@ -48,6 +49,7 @@ export default function RootLayout({
         {/* <ThemeProvider theme={theme}> */}
         {/* <CssBaseline /> */}
         <AppWrapper>
+        <ClientProvider>
           <div className="min-h-screen">
             <CustomNavbar />
             <div className="flex  h-[calc(100vh-var(--top-menu-height))] transition-all duration-50">
@@ -60,6 +62,7 @@ export default function RootLayout({
               </div>
             </div>
           </div>
+          </ClientProvider>
         </AppWrapper>
         {/* </ThemeProvider> */}
         {/* </AppRouterCacheProvider> */}

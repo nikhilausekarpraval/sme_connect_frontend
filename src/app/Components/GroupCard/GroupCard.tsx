@@ -11,7 +11,7 @@ interface IGroupDetails {
   updateUserJoinedGroup:(group:any)=>void;
 }
 
-const GroupCard: React.FC<IGroupDetails> = ({ group ,updateUserJoinedGroup}) => {
+const   GroupCard: React.FC<IGroupDetails> = ({ group ,updateUserJoinedGroup}) => {
 
   const groupService = new GroupUserService();
   const userContext = useAppContext()[0] as any

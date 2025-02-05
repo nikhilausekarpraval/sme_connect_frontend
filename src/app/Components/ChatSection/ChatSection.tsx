@@ -12,6 +12,8 @@ import EmojiPicker from 'emoji-picker-react';
 import FileUpload from '../ChatExample/ChatExample';
 import { CiFileOn } from 'react-icons/ci';
 import { RxCross2 } from 'react-icons/rx';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 interface IChatComponet {
   title: string,
@@ -33,6 +35,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   const [showEmoji, setShowEmoji] = useState(false);
   const [fileToRemove, setFiletoRemove] = useState("");
   const selectedFilesRef = useRef([]);
+  const practice = useSelector((state: RootState) => state.user.practice);
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
@@ -45,8 +48,16 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
 
   }, []);
 
+  const isSelectedRoleAdmin=()=>{
+    return   userContext?.user?.roles?.some((role:any)=> role?.name?.toLowerCase() === "admin" );
+}
+
+  const getUserPractice=()=>{
+   return isSelectedRoleAdmin() ? practice : userContext?.user?.practice;
+  }
+
   const loadPreviousChat = async () => {
-    var result = await messageService.getMessages({ id: 0, name: "", practice: userContext?.user?.practice, group: groupName, discussion: title });
+    var result = await messageService.getMessages({ id: 0, name: "", practice: getUserPractice(), group: groupName, discussion: title });
     if (result?.value?.length > 0)
       setMessages(result?.value);
   }
@@ -70,14 +81,13 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   const sendMessage = async () => {
 
     const formData = new FormData();
-
     formData.append("Id", "");
     formData.append("DisplayName", displayName);
     formData.append("Text", currentMessage);
     formData.append("Group", groupName);
     formData.append("Discussion", title);
     formData.append("ReplyedTo", "");
-    formData.append("Practice", userContext?.user?.practice);
+    formData.append("Practice", getUserPractice());
     formData.append("UserName", userContext?.user?.email);
 
     if (selectedFiles && selectedFiles.length > 0) {
@@ -97,7 +107,6 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   };
 
   const handleKeyDown = (event: any) => {
-    event.preventDefault();
     if (event.key === 'Enter') {
       sendMessage();
     }
@@ -160,7 +169,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
                 className="input-box"
                 value={currentMessage}
                 multiple={true}
-                onChange={(e) => setCurrentMessage(e.target.value)}
+                onChange={(e) => setCurrentMessage(e?.target?.value)}
                 onKeyDown={handleKeyDown}
               />
               <span className='cursor-pointer'>

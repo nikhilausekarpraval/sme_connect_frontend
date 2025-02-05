@@ -273,7 +273,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                 ? "All Practices" 
                 : employee?.practice
         }));
-    }, [selectedRoles,practices]);  // Include `practices` in dependency array
+    }, [selectedRoles,practices]);  
     
 
     return (
@@ -379,6 +379,10 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             {
                                                 (user?.roles?.length <= 0 || !user?.practice) && 
                                                 <option value={""} className="text-gray-400">Select...</option> 
+                                            }
+                                            {
+                                                (isSelectedRoleAdmin()) && 
+                                                <option value={"All Practices"} >All Practices</option> 
                                             }
                                             {
                                                 practices?.map((prac) => (
