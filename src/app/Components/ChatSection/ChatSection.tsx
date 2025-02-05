@@ -3,13 +3,11 @@ import './ChatSection.scss';
 import { IDiscussion } from '@/app/Interfaces/Interfaces';
 import Message from '../Message/Message';
 import { useAppContext } from '@/app/Context/AppContext';
-import { getCurrentTime } from '@/app/Helpers/Helpers';
 import * as signalR from '@microsoft/signalr';
 import { useSearchParams } from 'next/navigation';
 import messagesService from '@/app/Services/messageService';
 import { GrSend } from 'react-icons/gr';
 import { BsEmojiSmile } from "react-icons/bs";
-import { CgAttachment } from "react-icons/cg";
 import EmojiPicker from 'emoji-picker-react';
 import FileUpload from '../ChatExample/ChatExample';
 import { CiFileOn } from 'react-icons/ci';
@@ -34,10 +32,11 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [showEmoji, setShowEmoji] = useState(false);
   const [fileToRemove, setFiletoRemove] = useState("");
+  const selectedFilesRef = useRef([]);
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5234/chathub')  // Adjust the URL if needed
+      .withUrl('http://localhost:5234/chathub')  
       .withAutomaticReconnect()
       .build();
 
@@ -56,21 +55,17 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
     if (connection) {
       connection.start()
         .then(() => {
-          console.log('Connected to SignalR server');
           connection.on('ReceiveMessage', (message: any) => {
-            console.log(message, "got message")
-            setMessages(prevMessages => [...prevMessages, message]);
+            setMessages(prevMessages => [...prevMessages, message]);  
           });
         })
         .catch((error: any) => console.error('Connection failed:', error));
+  
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
     }
-  }, [connection, messages]);
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
+  }, [connection]);  
 
   const sendMessage = async () => {
 
@@ -91,15 +86,18 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
       });
     }
 
-    //setMessages([...messages, newMessage]);
-
     if (connection && formData) {
-      setCurrentMessage("");
+      setCurrentMessage("");  
       await messageService.addMessage(formData);
     }
+  
+    setSelectedFiles([]);  
+    selectedFilesRef.current = [];
+    
   };
 
   const handleKeyDown = (event: any) => {
+    event.preventDefault();
     if (event.key === 'Enter') {
       sendMessage();
     }
@@ -111,6 +109,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
 
     const files = Array.from(e.target.files);
     setSelectedFiles(files);
+    selectedFilesRef.current = Array.from(e.target.files) as any;
   };
 
   const removeFile = (fileName: string, e: any) => {

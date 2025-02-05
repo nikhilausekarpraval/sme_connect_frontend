@@ -33,7 +33,7 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
     const [isDisabled, setIsDisabled] = useState(false);
     const [roles, setRoles] = useState<IRole[]>(rolesData);
     const [claims, setClaims] = useState<IUserClaim[]>(userClaims);
-    const [practices, setPractces] = useState<IPractice[]>(practicesData);
+    const [practices, setPractces] = useState<IPractice[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedRoles, setSelectedRoles] = useState<IMultiSelectSelected[]>([{ label: "", value: "" }]);
     const [selectedClaims, setSelectedClaims] = useState<IMultiSelectSelected[]>([{ label: "", value: "" }]);
@@ -262,6 +262,19 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
         return true;
     }
 
+    const isSelectedRoleAdmin=()=>{
+         return   selectedRoles?.some((role)=> role?.label?.toLowerCase() === "admin" );
+    }
+
+    useEffect(() => {
+        setUser(prevUser => ({
+            ...prevUser,
+            practice: isSelectedRoleAdmin() 
+                ? "All Practices" 
+                : employee?.practice
+        }));
+    }, [selectedRoles,practices]);  // Include `practices` in dependency array
+    
 
     return (
         <div className="building-form-container">
@@ -349,21 +362,36 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                             <ReactMultiSelectComponent values={claims?.map((claim) => ({ label: claim.claimType, value: claim.claimValue }))} title={"Claims"} selectedNames={selectedClaims} handleChange={setSelectedClaims} />
                                         </div>
                                     }
-
-
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Practice<span className='text-danger font-14 p-1'>*</span></Form.Label>
-                                        <Form.Select className="" required value={practices?.find((prac) => prac?.name == user?.practice)?.name} onChange={handleChange} name="practice" id="practice">
-                                            {practices?.map((prac) => (
-                                                <option value={prac?.name}>{prac?.name}</option>
-                                            ))
+                                        <Form.Label className="block text-gray-700 font-bold mb-2">
+                                            Practice<span className="text-danger font-14 p-1">*</span>
+                                        </Form.Label>
+                                        
+                                        <Form.Select 
+                                            className="" 
+                                            required 
+                                            value={isSelectedRoleAdmin() ? "All Practices" : user?.practice || ""}  
+                                            onChange={handleChange} 
+                                            name="practice" 
+                                            id="practice"
+                                            disabled={isSelectedRoleAdmin()} 
+                                        >
+                                            {
+                                                (user?.roles?.length <= 0 || !user?.practice) && 
+                                                <option value={""} className="text-gray-400">Select...</option> 
+                                            }
+                                            {
+                                                practices?.map((prac) => (
+                                                    <option key={prac?.name} value={prac?.name}>
+                                                        {prac?.name}
+                                                    </option>
+                                                ))
                                             }
                                         </Form.Select>
                                         <div className="text-red-600">
                                             {errors.practice}
                                         </div>
                                     </div>
-
                                     <div></div>
                                     {isCreate &&
                                         <div className="mb-3 col  p-0 ps-3">
