@@ -68,15 +68,22 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
         .then(() => {
           connection.on('ReceiveMessage', (message: any) => {
             setMessages(prevMessages => [...prevMessages, message]);  
+
+            if (chatContainerRef.current) {
+              chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
           });
         })
         .catch((error: any) => console.error('Connection failed:', error));
-  
+    }
+  }, [connection]);  
+
+  // New useEffect for scrolling to bottom when messages update
+    useEffect(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
       }
-    }
-  }, [connection]);  
+    }, [messages]);  // Trigger scroll when messages update
 
   const sendMessage = async () => {
 
