@@ -1,0 +1,22 @@
+.group-card {
+    transition: transform 0.2s ease-in-out;
+  }
+  .group-card:hover {
+    transform: translateY(-3px); /* Subtle hover effect */
+  }
+  
+  .group-card{
+    .group-card-style{
+        border-radius : 10px;
+    }
+    .group-card-max-wdith{
+      max-width: 16rem;
+    }
+
+    .group-name-style{
+      max-width: 108px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }

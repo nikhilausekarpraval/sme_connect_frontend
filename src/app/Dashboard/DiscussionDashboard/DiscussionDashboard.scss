@@ -1,0 +1,49 @@
+.discussion-tabs {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+}
+
+.discussion-tabs span {
+    position: relative;
+    padding: 0 1rem;
+}
+
+
+.comment-section-height{
+    height: 90%;
+}
+
+//////////////////////////////////
+
+.discussion-tabs span:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 1px;
+    background-color: #ccc;
+
+}
+
+.role-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+}
+
+.role-title {
+    flex-shrink: 0;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.role-content {
+    flex: 1;
+    overflow-y: auto;
+}

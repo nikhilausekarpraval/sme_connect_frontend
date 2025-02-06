@@ -1,0 +1,52 @@
+.candidate-card-section {
+
+    .user-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+
+        .user-name-style{
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 90%;
+            overflow: hidden;
+        }
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .user-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10px;
+        flex: 1;
+    }
+
+    .user-info h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .card-body {
+        margin-top: 10px;
+    }
+
+    .card-body p {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .card-footer {
+        display: flex;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+}

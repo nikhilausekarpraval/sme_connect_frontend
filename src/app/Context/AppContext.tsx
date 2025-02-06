@@ -14,7 +14,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false); 
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('accessToken');
+    const storedToken = sessionStorage.getItem('accessToken');
     
     if (!storedToken) {
       setIsAuthenticated(false); 
@@ -22,7 +22,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         if(isTokenExpired(storedToken)){
             setIsAuthenticated(false);
         }else {
-            const storedUserContext = localStorage.getItem('userContext');
+            const storedUserContext = sessionStorage.getItem('userContext');
             if (storedUserContext) {
               setApplicationContext(JSON.parse(storedUserContext));
               setIsAuthenticated(true);
@@ -33,7 +33,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 
   function handleLogin(userContext: IApplicationContext) {
     setApplicationContext(userContext);
-    localStorage.setItem('userContext', JSON.stringify(userContext));
+    sessionStorage.setItem('userContext', JSON.stringify(userContext));
     setIsAuthenticated(true);
     
   };
@@ -52,7 +52,6 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export function useAppContext() {
-  debugger;
   const context = useContext(ApplicationContext);
   if (context === undefined) {
     throw new Error('useAppContext must be used within an AppWrapper');

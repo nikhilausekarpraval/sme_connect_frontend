@@ -1,0 +1,268 @@
+.building-form-header {
+    font-family: Helvetica;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.building-form-container {
+    .modal {
+        .la-snapshot-width {
+            width: 500px !important;
+        }
+    }
+}
+
+.building-level-edit-form {
+
+    .dlr-drop-down .btn-dropdown,
+    #dlrMultiDropDown .btn-dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 0px solid #c7c7c7;
+        background-color: white;
+        padding: 8px;
+        font-size: 14px;
+        width: 287px;
+        text-align: left;
+        position: relative;
+        border-radius: 5px;
+        color: #383838;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .button-style {
+        background-color: var(--apex-primary);
+        font-size: 12px;
+        color: var(--apex-menu-bar-text-color)
+    }
+
+    .button-style:hover {
+        background-color: var(--apex-secondary);
+        color: var(--apex-menu-bar-text-color)
+    }
+
+    .cancel-button-style {
+        background-color: var(--apex-menu-bar-text-color);
+        font-size: 12px;
+        color: var(--apex-primary);
+        border-color: var(--apex-primary)
+    }
+
+    .cancel-button-style:hover {
+        background-color: white;
+        color: var(--apex-primary);
+        border-color: var(--apex-primary)
+    }
+
+    .label-styles {
+        font-family: Helvetica;
+        font-size: 0.9vw;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0em;
+    }
+
+    .form-input-style {
+        font-family: Helvetica;
+        color: var(--apex-form-input-color);
+        font-size: 0.9vw;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0em;
+    }
+
+    .form-input-font-style {
+        font-family: Helvetica;
+        color: var(--apex-form-input-color);
+        font-size: 0.8vw;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0em;
+    }
+
+    .form-row-container {
+        height: 62vh;
+        overflow-y: scroll;
+    }
+
+    .laT-form-row-container {
+        width: 50wh;
+        height: auto;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--apex-primary) !important;
+        border-color: var(--apex-primary) !important;
+    }
+
+    .form-check-input {
+        font-size: 18px;
+    }
+
+    // need this style for forms
+    .react-datepicker-wrapper {
+        display: block;
+        padding: 0;
+        border: 0;
+    }
+
+    .form-input-filed {
+        font-size: 14px;
+        font-weight: 400;
+        font-family: Helvetica;
+    }
+
+    .form-check-label {
+        font-family: Helvetica;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 12px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding-top: 7px;
+    }
+
+    .snapshot-label {
+        font-size: 14px;
+        font-weight: 400;
+        font-family: helvetica;
+        line-height: 10px;
+        letter-spacing: 0em;
+        text-align: start;
+        width: 166px;
+    }
+
+    .button-width {
+        width: 86px;
+
+    }
+
+    .date-input-padding {
+        padding-left: 15px;
+    }
+
+    .padding-start-oa-input {
+        padding-left: 28px;
+    }
+
+    .la-edit-form-input-field {
+        width: 134px;
+    }
+
+
+    .date-field-container {
+        position: relative;
+    }
+
+    .calender-icon-styles {
+        position: absolute;
+        top: 50%;
+        right: 4px;
+        transform: translate(-50%, -50%);
+    }
+
+    .react-datepicker {
+        font-size: 1.2em;
+    }
+
+    .react-datepicker__header {
+        padding-top: 0.8em;
+    }
+
+    .react-datepicker__month {
+        margin: 0.4em 1em;
+    }
+
+    .react-datepicker__day-name,
+    .react-datepicker__day {
+        width: 1.9em;
+        line-height: 1.9em;
+        margin: 0.166em;
+    }
+
+    .react-datepicker__current-month {
+        font-size: 1em;
+    }
+
+    .react-datepicker__navigation {
+        top: 1em;
+        line-height: 1.7em;
+        border: 0.45em solid transparent;
+    }
+
+    .react-datepicker__navigation--previous {
+        top: 0rem;
+        left: 1em;
+    }
+
+    .react-datepicker__navigation--next {
+        right: 1em;
+        top: 0rem
+    }
+
+
+}
+
+
+input#session-date {
+    //border: none;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .75rem;
+    position: relative;
+    width: 100%;
+}
+
+input#session-date::-webkit-calendar-picker-indicator {
+    background: initial;
+    bottom: 0;
+    color: initial;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+.access-form {
+    .permissions-lable {
+        font-size: 14px;
+        font-weight: bold;
+        font-family: helvetica;
+        line-height: 10px;
+        letter-spacing: 0em;
+        text-align: start
+    }
+
+    .permissions-toggles {
+        height: 75vh;
+        overflow: auto
+    }
+
+    .module-label {
+        font-size: 14px;
+        font-weight: 400;
+        font-family: helvetica;
+        line-height: 10px;
+        letter-spacing: 0em;
+        text-align: start;
+        width: 214px;
+    }
+}
+
+.user-form {
+    .select-container {
+        position: relative;
+    }
+
+    .simpleSelect-downarrow {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(-50%, -50%);
+    }
+}

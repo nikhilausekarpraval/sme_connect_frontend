@@ -5,6 +5,27 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+      --apex-primary: #002F93 ;
+    --apex-secondary:#1D48A4;
+    --apex-lightgrey: #D9D9D9;
+    --apex-lightblue: #DEE7FC80;
+    --apex-disabledbtn: #778dbc;
+    --apex-vertical-line:rgb(220, 228, 232);
+    --apex-menu-bar-text-color:white;
+    --apex-list-background-color:#e8edf6;
+    --apex-form-background-color:#F8F8FC;
+    --apex-form-input-color:#202020;
+    --apex-form-input-background-color:#E5E5E580;
+    
+    --sidebar-width:170px;
+    --primary-fontsize:16px;
+    --secondary-fontsize:14px;
+    --table-title-fontsize:18px;
+    --table-data-row-height:40px;
+    --table-header-row-height:49px;
+    --table-font-weight:400;
+    --header-height:151px;
+    --table-header-background:#f2f3f3;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -60,6 +81,10 @@ width: -webkit-fill-available;
 
 .form-content-height{
   height:65vh;
+}
+
+.left-menu-bar-style{
+ background-color:  #263238;
 }
 
 :root {

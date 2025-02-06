@@ -5,9 +5,9 @@ import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import { validatePassword } from "@/app/Helpers/Helpers";
 import { IApplicationContext } from "@/app/Interfaces/Interfaces";
 import authService from "@/app/Services/authService";
-import usersService from "@/app/Services/usersService";
 import React, { useEffect, useState } from "react";
 import LoginModal from "../RegisterUser/page";
+import UsersService from "@/app/Services/usersService";
 
 interface ILoginFormProps{
     handleLogin:(userContext:IApplicationContext)=> void;
@@ -22,7 +22,7 @@ const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
   const [isRegister,setIsRegister] = useState(false);
   const [isResetUsingQuestion, setIsResetUsingQuestion] = useState(false);
   const [currentOperation, setCurrentOperation] = useState("Login");
-  const service = new usersService()
+  const service = new UsersService()
   //const router = useRouter();
 
 //   const [show, setShow] = useState(isShow);
@@ -42,39 +42,39 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
   var result ;
   try{
     
+    if ( !errors.password.includes("Invalid password")) {
 
     if(currentOperation === "Login"){
 
-      result = await authService.login(user.userName,user.password);
-      debugger;
-      if (result?.statusCode !== 200 && result?.statusCode != 404){
-          setErrors({...errors,invalid:"Invalid username or password"})
-      } else if (result?.statusCode == 404){
-        setErrors({...errors,invalid:"User not found"})
-        
-      }else {
-        closeForm();
-        console.log(result)
-        handleLogin(result.value.userContext);
-        clearForm();
-      }
-
-    }else {
-        // used to forget user 
-        const result = await service.forgettUserPasssword(user);
-        const message = result?.value?.statusText
-        const status = result?.value?.status
-
-        if(status === "Error" && message.includes("Question or answer is wrong!")){
-          setErrors({...errors,answer1 : message});
+        result = await authService.login(user.userName,user.password);
+        if (result?.statusCode !== 200 && result?.statusCode != 404){
+            setErrors({...errors,invalid:"Invalid username or password"})
+        } else if (result?.statusCode == 404){
+          setErrors({...errors,invalid:"User not found"})
+          
         }else {
-          setErrors({...errors,answer1 : ""});
-            resetForm();
-            updateApplication();
+          closeForm();
+          console.log(result)
+          handleLogin(result.value.userContext);
+          clearForm();
         }
 
+      }else {
+          // used to forget user 
+          const result = await service.forgettUserPasssword(user);
+          const message = result?.value?.statusText
+          const status = result?.value?.status
+
+          if(status === "Error" && message.includes("Question or answer is wrong!")){
+            setErrors({...errors,answer1 : message});
+          }else {
+            setErrors({...errors,answer1 : ""});
+              resetForm();
+              updateApplication();
+          }
+
     }
-        
+  }
   }catch(e:any){
     
       setErrors({...errors,invalid : e.message});
@@ -84,7 +84,7 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
 
 
 const updateApplication = () => {
-  localStorage.clear();
+  sessionStorage.clear();
   window.location.reload();
 }
 

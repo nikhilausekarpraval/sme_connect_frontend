@@ -1,7 +1,7 @@
 
 import { apiService } from "./commonService"
 
-export class employeeService  {
+export class EmployeeService  {
 
     constructor(){
 

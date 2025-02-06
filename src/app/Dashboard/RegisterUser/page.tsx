@@ -5,7 +5,7 @@ import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndA
 import { emptyUser, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, registerUserFormErrors, totalAnswers, totalQuestions } from "@/app/Constants/Constants";
 import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";
 import { IUserForm } from "@/app/Interfaces/Interfaces";
-import usersService from "@/app/Services/usersService";
+import UsersService from "@/app/Services/usersService";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap"; // React Bootstrap components
@@ -32,7 +32,7 @@ const LoginModal:React.FC = () => {
       var formError;
       try{
         if(Object.values(errors).filter((error)=> error !=="").length == 0){
-          result = await  new usersService().createUser(user);
+          result = await  new UsersService().createUser(user);
           if(result.value.status === "Error"){
             formError = result.value.statusText
             if( formError.includes("Duplicate")){
@@ -191,6 +191,7 @@ const LoginModal:React.FC = () => {
                 className="w-100"
                 onChange={handleChange}
                 value={user.userName}
+                max={255}
                 required
               />
               <div className="text-red-600">
@@ -205,6 +206,7 @@ const LoginModal:React.FC = () => {
                 className="w-100"
                 onChange={handleChange}
                 value={user.displayName}
+                max={255}
                 
               />
             </Form.Group>
@@ -216,6 +218,7 @@ const LoginModal:React.FC = () => {
                 className="w-100"
                 onChange={handleChange}
                 value={user.email}
+                max={255}
                 required
               />
               <div className="text-red-600">

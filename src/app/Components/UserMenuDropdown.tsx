@@ -14,7 +14,7 @@ export default function UserMenuDropdown() {
     const logout= async()=>{
         await authService.logout();
         router.push("/")
-        localStorage.clear();
+        sessionStorage.clear();
         window.location.reload();
     }
 

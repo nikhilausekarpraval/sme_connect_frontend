@@ -1,0 +1,62 @@
+.joined-groups-section {
+
+    .group-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .joined-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+
+            .group-header h2 {
+                font-size: 20px;
+                color: #007bff !important;
+                margin-bottom: 10px;
+            }
+
+            .group-name-style{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 200px;
+                min-width: 100px;
+            }
+
+            .group-notification {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+
+                .chat-count {
+                    position: absolute;
+                    top: -8px;
+                    right: -10px;
+                    background: #ff4d4d;
+                    color: #fff;
+                    font-size: 9px;
+                    font-weight: bold;
+                    width: 19px;
+                    height: 18px;
+                    border-radius: 50%;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
+
+.joined-group-list-style{
+    height: 96% ;
+}

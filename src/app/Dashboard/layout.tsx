@@ -6,7 +6,7 @@ const Layout = ({
     children: React.ReactNode;
   }>) => {
   return (
-    <div className="max-width justify-center items-center flex">
+    <div className="h-100 flex-1 dashboard-background-color">
          {children} 
     </div>
         

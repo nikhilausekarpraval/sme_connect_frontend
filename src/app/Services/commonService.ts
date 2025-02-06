@@ -20,80 +20,80 @@ class ApiService {
    * @returns {Promise<any>} - The response data.
    */
   // eslint-disable-next-line
-  async apiFetch(endpoint: string, options: any) {
-
-  let response : any;
+  async apiFetch(endpoint: string, options: any, serverToken = "", newBaseUrl = "") {
+    let response: any;
     try {
-      
-      const token = await authService.getAccessToken();
+      const token = serverToken !== "" ? serverToken : await authService.getAccessToken();
   
-      const headers = {
+      // Check if the request body is FormData
+      const isFormData = options?.body instanceof FormData;
+  
+      // Set headers dynamically
+      const headers: any = {
         ...options.headers,
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
-          cache: 'no-store' 
+        cache: 'no-store',
       };
   
-       response = await fetch(`${this.baseUrl}${endpoint}`, {
-        ...options,
-        headers,
-      });
+      // Remove 'Content-Type' header for FormData (browser will set it automatically)
+      if (!isFormData) {
+        headers['Content-Type'] = 'application/json';
+      }
   
-      // Check for 401 and try to refresh the token
-      // if (response.status === 401) {
-      //   token = await authService.refreshToken();
-      //   if (token) {
-      //     headers['Authorization'] = `Bearer ${token}`;
-      //     response = await fetch(`${this.baseUrl}${endpoint}`, {
-      //       ...options,
-      //       headers,
-      //     });
-      //   }
-      // }
+      response = await fetch(
+        `${newBaseUrl !== "" ? newBaseUrl : this.baseUrl}${endpoint}`,
+        {
+          ...options,
+          headers,
+        }
+      );
   
-      // Check if response body is present and is JSON
-
+      // Check if response is JSON
       const contentType = response.headers.get('Content-Type');
       if (response.ok && contentType && contentType.includes('application/json')) {
         return await response.json();
       } else if (response.ok && response.status === 204) {
-        // 204 No Content
-        return null;
+        return null; // 204 No Content
       } else {
-        //const errorText = await response.json();
-        return response;
-        // console.error('API fetch error - non-JSON response:', errorText);
-        // throw new Error(`Error: ${errorText}`);
+        return response; // Return full response if not JSON
       }
   
-    } catch (error:any) {
+    } catch (error: any) {
       console.error('API fetch error:', error);
       throw error;
     }
   }
   
+  
 
   // CRUD methods
-  async get(endpoint: string) {
-    return await this.apiFetch(endpoint, { method: 'GET' });
+  async get(endpoint: string,token="",newBaseUrl="") {
+    return await this.apiFetch(endpoint, { method: 'GET' },token,newBaseUrl);
   }
 
-  async post(endpoint: string, body: object) {
-    return  await this.apiFetch(endpoint, {
-      method: 'POST',
-      body: JSON.stringify(body),
-    });
+  async post(endpoint: string, body: object | FormData, newBaseUrl = "") {
+    const isFormData = body instanceof FormData;
+  
+    return await this.apiFetch(
+      endpoint,
+      {
+        method: 'POST',
+        body: isFormData ? body : JSON.stringify(body),
+      },
+      "",
+      newBaseUrl
+    );
   }
-
-  async put(endpoint: string, body: object) {
+  
+  async put(endpoint: string, body: object,newBaseUrl="") {
     return await this.apiFetch(endpoint, {
       method: 'PUT',
       body: JSON.stringify(body),
-    });
+    },"",newBaseUrl);
   }
 
-  async delete(endpoint: string,items:any) {
-    return await this.apiFetch(endpoint, { method: 'DELETE',body:JSON.stringify(items) });
+  async delete(endpoint: string,items:any,newBaseUrl="") {
+    return await this.apiFetch(endpoint, { method: 'DELETE',body:JSON.stringify(items) },"",newBaseUrl);
   }
 }
 

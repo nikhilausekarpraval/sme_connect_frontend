@@ -1,0 +1,35 @@
+  .small-column-width {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 150px;
+      max-width: 150px;
+  }
+
+  .changed-by {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+      min-width: 200px;
+  }
+
+.padding-right-for-number-rows {
+    padding-right: 2rem;
+}
+
+.item-table-row td {
+    color: #02100F;
+    font-family: Helvetica;
+    font-size: var(--secondary-fontsize);
+    font-weight: 400;
+    line-height: normal;
+}
+
+.item-table-row:nth-child(odd) td {
+    background-color: white;
+}
+
+.item-table-row:nth-child(even) td {
+    background-color: #fafbfb;
+}

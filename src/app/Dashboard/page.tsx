@@ -4,8 +4,7 @@
 function Dashboard(){
 
     return(
-        <div className="max-width">
-            body content
+        <div className="w-full">
         </div>
     );
 }export default Dashboard

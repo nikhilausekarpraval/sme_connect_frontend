@@ -51,7 +51,7 @@ createdBy:string;
 export interface IUser{
 
     id : string
-    
+        
     userName : string
 
     email : string
@@ -59,6 +59,22 @@ export interface IUser{
     password: string
  
     displayName : string
+
+    phoneNumber : string
+
+    claims : IClaimDto[];
+
+    roles:string[];
+
+    practice : string;
+
+}
+
+export interface IClaimDto{
+  
+  claimType : string
+      
+  claimValue : string
 }
 
 export interface IClaim{
@@ -72,13 +88,49 @@ export interface IClaim{
       claimValue : string
 }
 
+export interface IUserClaim{
+  userId: string
+
+  claimType: string
+
+  claimValue: string
+
+  id: number
+}
+
+export interface IGroupUser{
+  id:number,
+  group:string,
+  userEmail:string,
+  name:string,
+  groupRole:string,
+}
+
 export interface IRoleClaim{
 
-  roleName : string
+  roleId : string
 
   claimType : string
   
   claimValue : string
+
+  id : number
+}
+
+export interface IRoleClaimWithRoles {
+
+  claimType: string
+
+  claimValue: string
+
+  id: number
+
+  roles :IRoleDto[]
+}
+
+export interface IRoleDto {
+  id: string,
+  name: string,
 }
 
 export interface IRoleUser{
@@ -93,13 +145,43 @@ export interface IUserCredentials{
   password:string
 }
 
+export interface IUserJoinedGroups{
+
+   id : number,
+
+   group : string,
+
+   groupRole : string;
+
+   userEmail :string;
+}
 
 export interface IRole{
  id:string,
  name:string,
+ claims:IRoleClaim[] | null,
 }
 
+export interface IUserGroup{
+  id:number,
+  name:string,
+  practice:string,
+  description:string,
+  modifiedBy:string,
+  modifiedOnDt:Date,
+}
 
+export interface IMultiSelectSelected{
+  label:string,
+  value:any,
+}
+export interface IPractice{
+  id:number,
+  name:string,
+  description:string,
+  modifiedBy: string,
+  modifiedOnDt: Date,
+}
 
 export interface IUserContext {
   user : IUser,
@@ -121,12 +203,20 @@ export interface JwtPayload {
   [key: string]:unknown;
 }
 
+export interface IDiscussion{
+  id: number;
+  name:string;
+  description:string;
+  status:string;
+  groupName:string;
+}
 
 export interface IRegisterUserErrors {
   email: string,password:string,username:string,answer1:string,answer2:string,answer3:string,newPassword:string,confirmPassword:string
 }
 
 export interface IUserForm{
+  id:string,
   userName: string,
   email: string,
   password: string,
@@ -139,6 +229,50 @@ export interface IUserForm{
   answer1:string,
   answer2:string,
   answer3:string
-  mobileNumber:string,
+  phoneNumber:string,
+  claims : IClaimDto[];
+  roles:string[];
+  practice : string;
+}
+
+export interface IUserQuestions{
   id:string,
+  userName: string,
+  email: string,
+  password: string,
+  displayName: string,
+  newPassword: string,
+  confirmPassword: string,
+  question1:string,
+  question2:string,
+  question3:string,
+  answer1:string,
+  answer2:string,
+  answer3:string
+  phoneNumber:string,
+  claims : any;
+  roles:any;
+  practice : string;
+}
+
+export interface ITableBodyProps {
+  sortTableData: (data: IRole[],
+    sortedColumn: string,
+    sortOrder: string) => IRole[];
+  sortedData: IRole[];
+  isLoading: boolean;
+  getData: () => void;
+  defaultSortedColumn: string;
+  setLoaderAndSortedData: (loading: boolean, sortedData: IRole[]) => void;
+  handleRowCheckboxChange: (id: any) => void;
+  selectedItems: Set<any>;
+  sortOrder: string;
+  setSortOrder: (order: string) => void;
+  sortedColumn: string;
+  setSortedColumn: (col: string) => void;
+  itemsPerPage: number;
+  setItemsPerPage: (page: number) => void;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  tableHeaders: any;
 }

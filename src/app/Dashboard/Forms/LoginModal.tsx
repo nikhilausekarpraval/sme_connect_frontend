@@ -34,13 +34,13 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
   var result ;
   try{
         result = await authService.login(user.userName,user.password);
-        debugger;
+        
         if(result?.statusCode != 200){
             setErrors({...errors,invalid:"Invalid username or password"})
         }else {
 
           setApplicationContext(result.value.userContext);
-          localStorage.setItem('userContext', JSON.stringify(result.value.userContext));
+          sessionStorage.setItem('userContext', JSON.stringify(result.value.userContext));
           closeForm();
           clearForm();
         }
