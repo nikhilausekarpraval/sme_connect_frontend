@@ -36,6 +36,11 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
   const selectedFilesRef = useRef([]);
   const practice = useSelector((state: RootState) => state.user.practice);
 
+
+  useEffect(() => {
+    loadPreviousChat();
+  }, [searchParams]); 
+
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl('http://localhost:5234/chathub')  
@@ -56,10 +61,25 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
   }
 
   const loadPreviousChat = async () => {
-    var result = await messageService.getMessages({ id: 0, name: "", practice: getUserPractice(), group: groupName, discussion: title });
-    if (result?.value?.length > 0)
-      setMessages(result?.value);
-  }
+    if (!title) return; 
+    try {
+      const result = await messageService.getMessages({
+        id: 0,
+        name: "",
+        practice: getUserPractice(),
+        group: groupName,
+        discussion: title,
+      });
+
+      if (result?.value?.length > 0) {
+        setMessages(result.value);
+      } else {
+        setMessages([]); 
+      }
+    } catch (error) {
+      console.error("Error loading chat:", error);
+    }
+  };
 
   useEffect(() => {
     if (connection) {
