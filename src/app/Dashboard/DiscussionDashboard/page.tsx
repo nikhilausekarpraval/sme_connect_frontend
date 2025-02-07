@@ -1,20 +1,35 @@
 'use client';
 import EmployeeCard from '@/app/Components/EmployeeCard/EmployeeCard';
-import { useAppContext } from '@/app/Context/AppContext';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './DiscussionDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
 import ChatSection from '@/app/Components/ChatSection/ChatSection';
-import { discussions } from '@/app/Constants/Constants';
-
+import DiscussionsService from '@/app/Services/DiscussionService';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 const page: React.FC = () => {
 
     const searchParams = useSearchParams();
     const discussion = searchParams?.get('title');
-    const userContext = useAppContext()[0] as any;
-    const [similarDiscussions, setSimilarDiscussions] = useState(discussions);
+    const [similarDiscussions, setSimilarDiscussions] = useState([]);
+    const practice = useSelector((state: RootState) => state.user.practice);
+    const groupName = decodeURIComponent(searchParams?.get('groupName') as string)?.toString();
+    
+    useEffect(()=>{
+        loadData();
+    },[])
+
+    const loadData=async()=>{
+        try{
+            var result = await new DiscussionsService().getSimilarDiscussion({discussion:discussion,practice:practice,description:"",group:groupName});
+            setSimilarDiscussions(result?.value?.data);
+
+        }catch(ex:any){
+            console.log(ex);
+        }
+    }
 
     const users = [
         { "name": "Nikhil Ausekar", "email": "nikhil.a@gmail.com", "roleName": "SME" },
@@ -41,7 +56,7 @@ const page: React.FC = () => {
                 <div className="px-3 discussion-height mt-1 overflow-auto h-50 mb-2">
                     <div className='text-lg font-bold m-0'>Comments:</div>
                     <div className='comment-section-height  overflow-y-auto '>
-                        <ChatSection title={discussion as string} discussions={discussions as any}/>
+                        <ChatSection title={discussion as string}/>
                     </div>
                 </div>
                 <div className='h6 font-bold py-2 mb-0 px-3'>Similar discussions:</div>

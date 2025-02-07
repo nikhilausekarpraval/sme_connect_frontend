@@ -21,6 +21,7 @@ class ApiService {
    */
   // eslint-disable-next-line
   async apiFetch(endpoint: string, options: any, serverToken = "", newBaseUrl = "") {
+    debugger;
     let response: any;
     try {
       const token = serverToken !== "" ? serverToken : await authService.getAccessToken();
@@ -71,7 +72,7 @@ class ApiService {
     return await this.apiFetch(endpoint, { method: 'GET' },token,newBaseUrl);
   }
 
-  async post(endpoint: string, body: object | FormData, newBaseUrl = "") {
+  async post(endpoint: string, body: object | FormData, newBaseUrl = "", token="") {
     const isFormData = body instanceof FormData;
   
     return await this.apiFetch(
@@ -80,7 +81,7 @@ class ApiService {
         method: 'POST',
         body: isFormData ? body : JSON.stringify(body),
       },
-      "",
+      token,
       newBaseUrl
     );
   }

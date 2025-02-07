@@ -40,7 +40,6 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = ({
                 const decodedData = JSON.parse(decodeURIComponent(dataParam));
                 const title = decodedData?.key?.title;
                 setPracticeTitle(title ? title : practice);
-                console.log(data);
             } catch (error) {
                 console.error('Error parsing data:', error);
                 setPracticeTitle(practice);

@@ -3,8 +3,7 @@ import { cookies } from 'next/headers';
 import PracticeDashboard from './PracticeDashboardClient/PracticeDashboard';
 import GroupService from '@/app/Services/GroupService';
 import GroupUserService from '@/app/Services/GroupUsersService';
-import { discussions } from '@/app/Constants/Constants';
-import { useSearchParams } from 'next/navigation';
+import DiscussionsService from '@/app/Services/DiscussionService';
 
 interface PracticeDashboardPageProps {
   searchParams: any; 
@@ -25,14 +24,17 @@ export default async function PracticeDashboardPage({ searchParams }: PracticeDa
 
   const groupService = new GroupService(); 
   const userGroupService = new GroupUserService();
+  const discussionService = new DiscussionsService();
 
   try {
 
     const userGroupsResponse = await userGroupService.getUserGroups(title,authToken);
     const allGroupsResponse = await groupService.getUserPracticeGroups(title,authToken);
+    const recentDiscussions = await discussionService.getRecentDiscussion({practice:title,group:"",discussion:"",description:""},authToken);
 
     const groups = allGroupsResponse?.value?.data || [];
     const userGroups = userGroupsResponse?.value?.data || [];
+    const discussions = recentDiscussions?.value?.data ||  [];
 
     return (
       <PracticeDashboard

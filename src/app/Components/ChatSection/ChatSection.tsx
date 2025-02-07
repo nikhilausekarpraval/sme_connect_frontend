@@ -17,10 +17,9 @@ import { RootState } from '../../../store/store';
 
 interface IChatComponet {
   title: string,
-  discussions: IDiscussion
 }
 
-const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
+const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
 
   const [connection, setConnection] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
