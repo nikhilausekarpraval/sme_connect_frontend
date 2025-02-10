@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './ChatSection.scss';
-import { IDiscussion } from '@/app/Interfaces/Interfaces';
 import Message from '../Message/Message';
 import { useAppContext } from '@/app/Context/AppContext';
 import * as signalR from '@microsoft/signalr';
@@ -12,8 +11,7 @@ import EmojiPicker from 'emoji-picker-react';
 import FileUpload from '../ChatExample/ChatExample';
 import { CiFileOn } from 'react-icons/ci';
 import { RxCross2 } from 'react-icons/rx';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+
 
 interface IChatComponet {
   title: string,
@@ -34,7 +32,6 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
   const [showEmoji, setShowEmoji] = useState(false);
   const [fileToRemove, setFiletoRemove] = useState("");
   const selectedFilesRef = useRef([]);
-  const practice = useSelector((state: RootState) => state.user.practice);
 
 
   useEffect(() => {
@@ -57,7 +54,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
 }
 
   const getUserPractice=()=>{
-   return isSelectedRoleAdmin() ? practice : userContext?.user?.practice;
+   return isSelectedRoleAdmin() ? searchParams?.get("practice") : userContext?.user?.practice;
   }
 
   const loadPreviousChat = async () => {

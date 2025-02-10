@@ -1,9 +1,7 @@
 import React from "react";
 import './joinedGroupList.scss';
-import { FaBell } from "react-icons/fa"; // Importing a bell icon from react-icons
-import Link from "next/link";
 import { routes } from "@/app/Constants/Constants";
-import  { useRouter } from "next/navigation";
+import  { useRouter, useSearchParams } from "next/navigation";
 import BellIconSVG from "@/app/Assets/Images/BellIconSVG";
 import { IUserJoinedGroups } from "@/app/Interfaces/Interfaces";
 
@@ -15,9 +13,13 @@ interface IJoinedGroups {
 const JoinedGroups : React.FC<IJoinedGroups> = ({userJoinedGroups}) => {
 
     const router = useRouter();
-    
+    const searchParams = useSearchParams();
+
     const handleNavigation = (group:IUserJoinedGroups) => {
-        router.push(`${routes.groupDashboard}?group=${group.group}&group_id=${group.id}`);
+
+        const practice = searchParams?.get('practice');
+        router.push(`${routes.groupDashboard}?practice=${practice}&group=${group.group}&group_id=${group.id}`);
+        
     };
 
     return (

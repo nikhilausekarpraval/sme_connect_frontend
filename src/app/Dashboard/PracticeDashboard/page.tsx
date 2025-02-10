@@ -33,13 +33,11 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
 
 
     useEffect(() => {
-        const dataParam = searchParams?.get('data');
+        const dataParam = searchParams?.get('practice');
         if (dataParam) {
             try {
-                const decodedData = JSON.parse(decodeURIComponent(dataParam));
-                const title = decodedData?.key?.title;
-                setPracticeTitle(title ? title : practice);
-                loadData(title);
+                setPracticeTitle(dataParam ? dataParam : practice);
+                loadData(dataParam);
             } catch (error) {
                 console.error('Error parsing data:', error);
                 setPracticeTitle(practice);
@@ -50,10 +48,9 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
     }, [searchParams, practice]);
 
     useEffect(()=>{
-        const dataParam = searchParams?.get('data');
+        const dataParam = searchParams?.get('practice');
         if(dataParam){
-            const decodedData = JSON.parse(decodeURIComponent(dataParam));
-            loadData(decodedData?.key?.title);
+            loadData(dataParam);
         }
     },[])
 

@@ -16,8 +16,8 @@ const page: React.FC = () => {
 
     const searchParams = useSearchParams();
     const discussion = searchParams?.get('title');
+    const practice = searchParams?.get('practice');
     const [similarDiscussions, setSimilarDiscussions] = useState([]);
-    const practice = useSelector((state: RootState) => state.user.practice);
     const groupName = decodeURIComponent(searchParams?.get('groupName') as string)?.toString();
     const discussionService = new DiscussionsService();
     const [users,setUsers] = useState<IGroupUser[]>([]);

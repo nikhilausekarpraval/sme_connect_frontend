@@ -4,7 +4,7 @@ import './DiscussionListCard.scss';
 import CommonButton from "../CommonButton/CommonButton";
 import { routes } from "@/app/Constants/Constants";
 import { IDiscussion, IGroupUser } from "@/app/Interfaces/Interfaces";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
 import { useAppContext } from "@/app/Context/AppContext";
 
@@ -27,6 +27,7 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
     const userContext = useAppContext()[0] as any;
     const userEmail = userContext?.user?.email;
     const [isLead, setIsLead] = useState(false);
+    const searchParams = useSearchParams();
 
 
     useEffect(() => {
@@ -64,7 +65,8 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
 
 
     const showDiscussion = (title: string, groupName: string) => {
-        router.push(`${routes.discussionDashboard}?title=${title}&groupName=${groupName}`);
+        const dataParam = searchParams?.get('practice');
+        router.push(`${routes.discussionDashboard}?practice=${dataParam}&title=${title}&groupName=${groupName}`);
     }
 
     return (
