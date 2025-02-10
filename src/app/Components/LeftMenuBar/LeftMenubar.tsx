@@ -8,6 +8,8 @@ import { FaBars, FaHome, FaInfoCircle, FaTasks, FaTimes, FaUser } from 'react-ic
 import AdminOptionsDropdown from '../AdminOptionsDropdown';
 import { MdDeveloperMode } from "react-icons/md";
 import { useAppContext } from '@/app/Context/AppContext';
+import { useDispatch } from 'react-redux';
+import { setPractice } from '@/store/userSlice';
 
 
 export const LeftMenubar = () => {
@@ -20,8 +22,11 @@ export const LeftMenubar = () => {
   const roles = userContext?.user?.roles.map((role: any) => role?.name);
   const practice = userContext?.user?.practice;
   const router = useRouter();
+  const dispatch = useDispatch();
+
 
   const handleNavigation = () => {
+    dispatch(setPractice(practice));
     router.push(`${routes.practiceDashboard}?data=${encodeURIComponent(JSON.stringify({ key: { title: practice } }))}`);
   };
 

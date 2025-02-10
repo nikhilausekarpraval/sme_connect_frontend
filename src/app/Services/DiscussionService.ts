@@ -22,6 +22,10 @@ class DiscussionsService {
         return await apiService.post("api/Discussion/get_similer_discussions", discussionDetails)
     }
 
+    async getDiscussionUsers(discussionDetails: any) {
+        return await apiService.post("api/Discussion/get_discussion_users", discussionDetails)
+    }
+
     async deleteDiscussion(items:any) {
         return await apiService.delete("api/Discussion/delete_discussion",items)
     }

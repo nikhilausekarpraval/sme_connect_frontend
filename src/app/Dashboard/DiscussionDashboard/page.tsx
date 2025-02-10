@@ -8,6 +8,7 @@ import ChatSection from '@/app/Components/ChatSection/ChatSection';
 import DiscussionsService from '@/app/Services/DiscussionService';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { IGroupUser, IUser } from '@/app/Interfaces/Interfaces';
 
 const page: React.FC = () => {
 
@@ -16,6 +17,8 @@ const page: React.FC = () => {
     const [similarDiscussions, setSimilarDiscussions] = useState([]);
     const practice = useSelector((state: RootState) => state.user.practice);
     const groupName = decodeURIComponent(searchParams?.get('groupName') as string)?.toString();
+    const discussionService = new DiscussionsService();
+    const [users,setUsers] = useState<IGroupUser[]>([]);
     
     useEffect(()=>{
         loadData();
@@ -23,23 +26,15 @@ const page: React.FC = () => {
 
     const loadData=async()=>{
         try{
-            var result = await new DiscussionsService().getSimilarDiscussion({discussion:discussion,practice:practice,description:"",group:groupName});
+            var result = await discussionService.getSimilarDiscussion({discussion:discussion,practice:practice,description:"",group:groupName});
+            var discussionUsers = await discussionService.getDiscussionUsers({discussion:discussion,practice:practice,description:"",group:groupName});
+            setUsers(discussionUsers?.value?.data);
             setSimilarDiscussions(result?.value?.data);
 
         }catch(ex:any){
             console.log(ex);
         }
     }
-
-    const users = [
-        { "name": "Nikhil Ausekar", "email": "nikhil.a@gmail.com", "roleName": "SME" },
-        { "name": "Sachin Jaggumantri", "email": "sachin@gmail.com", "roleName": "Lead" },
-        { "name": "Pradeep Ram", "email": "pradeep@gmail.com", "roleName": "Viewer" },
-        { "name": "Uday G", "email": "uday@gmail.com", "roleName": "Member" },
-        { "name": "Kedar Rodge", "email": "kedar@gmail.com", "roleName": "SME" },
-        { "name": "Rakesh", "email": "rakesh@gmail.com", "roleName": "Lead" },
-        { "name": "Solomon", "email": "solomon@gmail.com", "roleName": "Viewer" },
-    ]
 
     const showEditForm=()=>{
 
@@ -70,24 +65,24 @@ const page: React.FC = () => {
                     <div className="role-section p-2">
                         <div className="role-title">Leads</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.roleName === "Lead").map((user1: any) => (
-                                <EmployeeCard key={user1.email} user={{ name: user1.name, email: user1.email }} />
+                            {users.filter((user) => user.groupRole === "Lead").map((user1: any) => (
+                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">SMEs</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.roleName === "SME").map((user1: any) => (
-                                <EmployeeCard key={user1.email} user={{ name: user1.name, email: user1.email }} />
+                            {users.filter((user) => user.groupRole === "SME").map((user1: any) => (
+                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">Members</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.roleName === "Member").map((user1: any) => (
-                                <EmployeeCard key={user1.email} user={{ name: user1.name, email: user1.email }} />
+                            {users.filter((user) => user.groupRole === "Member").map((user1: any) => (
+                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
                     </div>
