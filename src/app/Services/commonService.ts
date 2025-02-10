@@ -21,7 +21,7 @@ class ApiService {
    */
   // eslint-disable-next-line
   async apiFetch(endpoint: string, options: any, serverToken = "", newBaseUrl = "") {
-    debugger;
+
     let response: any;
     try {
       const token = serverToken !== "" ? serverToken : await authService.getAccessToken();

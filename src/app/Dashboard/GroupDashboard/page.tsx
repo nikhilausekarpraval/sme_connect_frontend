@@ -158,7 +158,7 @@ export default function page() {
                 </div>
 
                 <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 shadow-sm rounded overflow-y-auto '>
-                    <DiscussionListCard deleteDiscussion={deleteDiscussion} showEditForm={showEditForm} discussions={filteredDiscussions as any} isUpdate={true}/>
+                    <DiscussionListCard deleteDiscussion={deleteDiscussion} listStyle={"overflow-auto"} showEditForm={showEditForm} discussions={filteredDiscussions as any} isUpdate={true}/>
                 </div>
 
             </div>

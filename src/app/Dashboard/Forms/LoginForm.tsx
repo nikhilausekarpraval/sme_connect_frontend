@@ -54,7 +54,6 @@ const  handleSubmitForm = async (e:React.FormEvent)=>{
           
         }else {
           closeForm();
-          console.log(result)
           handleLogin(result.value.userContext);
           clearForm();
         }

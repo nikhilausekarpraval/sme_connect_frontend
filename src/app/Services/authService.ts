@@ -15,7 +15,7 @@ const authService = {
       accessToken = data?.value.token;
 
       // set token to next js server 
-    await  this.storeToken(accessToken);
+      await  this.storeToken(accessToken);
       
       sessionStorage.setItem('accessToken', accessToken);
 
