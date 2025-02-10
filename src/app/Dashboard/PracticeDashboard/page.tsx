@@ -11,6 +11,7 @@ import { useAppContext } from '@/app/Context/AppContext';
 import GroupService from '@/app/Services/GroupService';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import DiscussionsService from '@/app/Services/DiscussionService';
+import LoadingAnimation from '@/app/Components/Loading';
 
 interface PracticeDashboardProps {
     // initialGroups: IUserGroup[];
@@ -19,7 +20,6 @@ interface PracticeDashboardProps {
 }
 
 const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
-    const [allGroups, setAllGroups] = useState<IUserGroup[]>([]);
     const [userJoinedGroups, setUserJoinedGroups] = useState<IUserJoinedGroups[]>([]);
     const [newGroups, setNewGroups] = useState<IUserGroup[]>([]);
     const [practiceTitle, setPracticeTitle] = useState("");
@@ -30,6 +30,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
     const groupService = new GroupService();
     const userGroupService = new GroupUserService();
     const discussionService = new DiscussionsService();
+    const [isLoading,setIsLoading] = useState(false);
 
 
     useEffect(() => {
@@ -58,7 +59,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
     const loadData = async (practiceName: any) => {
 
         try {
-
+            setIsLoading(true);
             const userGroupsResponse = await userGroupService.getUserGroups(practiceName);
             const allGroupsResponse = await groupService.getUserPracticeGroups(practiceName);
             const recentDis = await discussionService.getRecentDiscussion({ practice: practiceName, group: "", discussion: "", description: "" });
@@ -67,9 +68,9 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
             const userGroupsData = userGroupsResponse?.value?.data || [];
             
             setNewGroups(allGroupsData?.filter((group:any) => !userGroupsData?.some((u:any) => u.group === group.name)));
-            setAllGroups(allGroupsData);
             setUserJoinedGroups(userGroupsData);
             setRecentDiscussions(recentDis?.value?.data || []);
+            setIsLoading(false);
 
         } catch (ex: any) {
             console.log(ex)
@@ -95,6 +96,9 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
     return (
 
         <div className="d-flex h-100 border p-2 practice-dashboard-background-color">
+            {isLoading &&
+                 <LoadingAnimation/>
+            }
             {/* 
             <div className='h-100 d-flex overflow-auto practice-dashboard-background-color'>
             <div className='font-bold m-0 pb-2 ps-3 text-xl'>
