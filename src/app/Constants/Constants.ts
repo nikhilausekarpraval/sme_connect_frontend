@@ -107,8 +107,8 @@ export const routes = {
   practices: "/Dashboard/Practices",
   groupUsers: "/Dashboard/GroupUsers",
   practiceDashboard: "/Dashboard/PracticeDashboard",
-  groupDashboard: "/Dashboard/GroupDashboard",
-  discussionDashboard:"/Dashboard/DiscussionDashboard"
+  groupDashboard: "/Dashboard/PracticeDashboard/GroupDashboard",
+  discussionDashboard:"/Dashboard/PracticeDashboard/GroupDashboard/DiscussionDashboard"
 }
 
 export const discussions:IDiscussion[] = [

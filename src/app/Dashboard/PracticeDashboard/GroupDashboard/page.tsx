@@ -6,11 +6,11 @@ import { Button } from 'react-bootstrap';
 import './GroupDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
 import { discussions, discussionTabs, emptyDiscussion, routes } from '@/app/Constants/Constants';
-import DiscussionForm from '../Forms/DiscussionForm/DiscussionForm';
 import { IDiscussion, IGroupUser } from '@/app/Interfaces/Interfaces';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
 import DiscussionsService from '@/app/Services/DiscussionService';
+import DiscussionForm from '../../Forms/DiscussionForm/DiscussionForm';
 
 export default function page() {
 

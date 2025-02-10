@@ -1,14 +1,16 @@
 'use client';
-import EmployeeCard from '@/app/Components/EmployeeCard/EmployeeCard';
+
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import './DiscussionDashboard.scss'
-import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
-import ChatSection from '@/app/Components/ChatSection/ChatSection';
-import DiscussionsService from '@/app/Services/DiscussionService';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { IGroupUser, IUser } from '@/app/Interfaces/Interfaces';
+import DiscussionsService from '@/app/Services/DiscussionService';
+import { IGroupUser } from '@/app/Interfaces/Interfaces';
+import ChatSection from '@/app/Components/ChatSection/ChatSection';
+import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
+import EmployeeCard from '@/app/Components/EmployeeCard/EmployeeCard';
+
 
 const page: React.FC = () => {
 
