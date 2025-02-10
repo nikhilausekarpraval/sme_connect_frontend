@@ -55,8 +55,8 @@ const page: React.FC = () => {
                     </div>
                 </div>
                 <div className='h6 font-bold py-2 mb-0 px-3'>Similar discussions:</div>
-                <div className='flex flex-1 mb-2 overflow-y-auto '>
-                    <DiscussionListCard showEditForm={showEditForm} discussions={similarDiscussions} />
+                <div className='flex flex-1 mb-2 me-3 overflow-y-auto '>
+                    <DiscussionListCard showEditForm={showEditForm} cardStyle={" pe-2 "} discussions={similarDiscussions} />
                 </div>
 
             </div>
