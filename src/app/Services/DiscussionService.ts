@@ -14,7 +14,7 @@ class DiscussionsService {
         return await apiService.post("api/Discussion/update_discussion", discussion)
     }
 
-    async getRecentDiscussion(discussionDetails: any,token:string) {
+    async getRecentDiscussion(discussionDetails: any,token="") {
         return await apiService.post("api/Discussion/get_recent_discussions", discussionDetails,"",token)
     }
 
