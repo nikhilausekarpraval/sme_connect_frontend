@@ -154,7 +154,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
 
 
   return (
-    <div className="ps-3 h-100 pe-2">
+    <div className=" h-100 pe-2">
       {/* <div className='text-lg font-bold m-0'>{title}</div> */}
       <div className='h-100 overflow-y-auto'>
         <div className="chat-container-wrapper">

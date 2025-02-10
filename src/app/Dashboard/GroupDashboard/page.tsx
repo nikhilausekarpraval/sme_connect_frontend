@@ -22,36 +22,36 @@ export default function page() {
     const [isEdit, setIsEdit] = useState(false);
     const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>();
     const [selectedDiscussion, setSelectedDiscussion] = useState<IDiscussion>();
-    const [allUsers,setAllUsers] = useState<IGroupUser[]>();
+    const [allUsers, setAllUsers] = useState<IGroupUser[]>();
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
     const router = useRouter();
-    const [groupName,setGroupName] = useState<string>();
+    const [groupName, setGroupName] = useState<string>();
     const _discussionService = new DiscussionsService();
 
 
-    useEffect(()=>{
+    useEffect(() => {
         loadData();
-    },[])
+    }, [])
 
 
-    useEffect(()=>{
+    useEffect(() => {
         handleTabChange("Open Discussions");
-    },[allDiscussions])
+    }, [allDiscussions])
 
 
-    const loadData=async()=>{
-        try{
+    const loadData = async () => {
+        try {
             const decodedGroup = decodeURIComponent(group as string)?.toString();
-            const allDiscussions = await  _discussionService.getDiscussions(decodedGroup)
-            const allUsers = await new GroupUserService().getGroupAllUsers(decodedGroup);
+            const allDiscussions = await _discussionService.getDiscussions(decodedGroup)
+            const users = await new GroupUserService().getGroupAllUsers(decodedGroup);
             setGroupName(decodedGroup);
             setAllDiscussions(allDiscussions?.value?.data);
-            setAllUsers(allUsers?.value?.data);
+            setAllUsers(users?.value?.data);
 
-        }catch(ex:any){
+        } catch (ex: any) {
             console.log(ex);
         }
-            
+
     }
 
     const handleTabChange = async (tab: any) => {
@@ -95,9 +95,9 @@ export default function page() {
         }
     };
 
-    const showCreateForm=()=>{
+    const showCreateForm = () => {
         setSelectedDiscussion(emptyDiscussion);
-        setShowDisscussionForm(true); 
+        setShowDisscussionForm(true);
     }
 
     // useEffect(() => {
@@ -105,14 +105,14 @@ export default function page() {
     //       setShowDisscussionForm(true);
     //     }
     //   }, [selectedDiscussion]);
-    
-    const showEditForm=(discussion:any)=>{
-            
-            setSelectedDiscussion(discussion);
-            setIsEdit(true);
+
+    const showEditForm = (discussion: any) => {
+
+        setSelectedDiscussion(discussion);
+        setIsEdit(true);
     }
 
-    const deleteDiscussion=async(discussion:any)=>{
+    const deleteDiscussion = async (discussion: any) => {
         try {
             const result = await new DiscussionsService().deleteDiscussion(discussion?.name);
 
@@ -158,7 +158,10 @@ export default function page() {
                 </div>
 
                 <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 shadow-sm rounded overflow-y-auto '>
-                    <DiscussionListCard deleteDiscussion={deleteDiscussion} listStyle={"overflow-auto"} showEditForm={showEditForm} discussions={filteredDiscussions as any} isUpdate={true}/>
+                    {
+                    allUsers &&
+                        <DiscussionListCard deleteDiscussion={deleteDiscussion} listStyle={"overflow-auto"} showEditForm={showEditForm} groupAllUsers={allUsers} discussions={filteredDiscussions as any} isUpdate={true} />
+                    }
                 </div>
 
             </div>

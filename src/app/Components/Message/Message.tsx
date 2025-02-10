@@ -51,7 +51,7 @@ const Message: React.FC<IMessage> = ({
         {text}
 
         {attachments.length > 0 && (
-          <div className="attachments-container flex gap-3 mt-2">
+          <div className="attachments-container flex gap-3 ">
             {attachments.map((file, index) => (
               <div key={index} className="attachment-item relative flex items-center bg-white p-2 rounded-md">
                 <span className="text-sm text-gray-700">{file.fileName}</span>
