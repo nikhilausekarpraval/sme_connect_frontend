@@ -31,8 +31,6 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
 
     useEffect(() => {
         if (isUpdate && userEmail) {
-            debugger;
-            console.log(userEmail)
             const user = groupAllUsers?.find((user) => user.userEmail === userEmail);
             if (user?.groupRole.toLowerCase() === 'lead') {
                     setIsLead(true);

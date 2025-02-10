@@ -73,7 +73,6 @@ const clearForm =()=>{
 
   const showRegisterForm=()=>{
 
-      console.log("sdfsdfsf")
       clearForm()
       closeForm();
 

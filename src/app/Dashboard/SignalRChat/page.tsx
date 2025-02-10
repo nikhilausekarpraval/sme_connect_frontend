@@ -24,7 +24,6 @@ const ChatComponent = () => {
         .then(() => {
           console.log('Connected to SignalR server');
           connection.on('ReceiveMessage', (message:any) => {
-            console.log(message)
             //setMessages(prevMessages => [...prevMessages, { message }]);
           });
         })
