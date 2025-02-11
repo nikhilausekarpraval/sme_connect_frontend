@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function LoadingAnimation() {
     return (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50 z-50">
         <button type="button" className="bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center" disabled>
             <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

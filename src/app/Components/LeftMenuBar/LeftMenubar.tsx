@@ -27,7 +27,7 @@ export const LeftMenubar = () => {
 
   const handleNavigation = () => {
     dispatch(setPractice(practice));
-    router.push(`${routes.practiceDashboard}?data=${encodeURIComponent(JSON.stringify({ key: { title: practice } }))}`);
+    router.push(`${routes.practiceDashboard}?practice=${ practice }`);
   };
 
   const isActive = (path: string) => usePathname() === path as any;
