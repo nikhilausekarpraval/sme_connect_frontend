@@ -196,6 +196,19 @@ token:string,
 userContext : IUserContext
 }
 
+export interface IAnnouncement {
+  id: number;
+  userName?: string; 
+  groupName: string;
+  practiceName: string;
+  isFeature: boolean;
+  isAdmin: boolean;
+  message: string;
+  createdAt: Date;
+  createdBy: string;
+  isRead: boolean;
+}
+
 export interface JwtPayload {
   exp:  number;  
   iat?: number; 
