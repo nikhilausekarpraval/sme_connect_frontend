@@ -26,15 +26,20 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
     const [selectedDiscussion, setSelectedDiscussion] = useState<any>();
     const userContext = useAppContext()[0] as any;
     const userEmail = userContext?.user?.email;
+    const roles = userContext?.user?.roles;
     const [isLead, setIsLead] = useState(false);
     const searchParams = useSearchParams();
 
 
     useEffect(() => {
         if (isUpdate && userEmail) {
-            const user = groupAllUsers?.find((user) => user.userEmail === userEmail);
-            if (user?.groupRole.toLowerCase() === 'lead') {
-                    setIsLead(true);
+            if(roles?.some((role:any)=> role.name === 'Admin')){
+                setIsLead(true);
+            }else{
+                const user = groupAllUsers?.find((user) => user.userEmail === userEmail);
+                if (user?.groupRole.toLowerCase() === 'lead') {
+                        setIsLead(true);
+                }
             }
         }
     }, [userContext])

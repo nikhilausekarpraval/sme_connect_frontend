@@ -1,5 +1,5 @@
 
-import { Description } from "@headlessui/react";
+
 import { IApplicationContext, IClaim, IDiscussion, IPractice, IRole, IRoleClaim, IUser, IUserClaim, IUserGroup } from "../Interfaces/Interfaces";
 
 
@@ -111,51 +111,6 @@ export const routes = {
   discussionDashboard:"/Dashboard/PracticeDashboard/GroupDashboard/DiscussionDashboard"
 }
 
-export const discussions:IDiscussion[] = [
-  {
-    id: 0,
-    name: ".NET Discussion",
-    description: "Focuses on .NET technologies for enterprise applications.",
-    status: "Open",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Frontend Discussion",
-    description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Closed",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Python Developers",
-    description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Star",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: ".NET Discussion",
-    description: "Focuses on .NET technologies for enterprise applications.",
-    status: "Open",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Frontend Discussion",
-    description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Closed",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Python Developers",
-    description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Star",
-    groupName:"",
-  },
-];
-
 
 export const pleaseSelectQuestionAndAswer = "Please select question and answer";
 
@@ -164,38 +119,6 @@ export const pleaseSelectDifferentQuestion = "Please select different question";
 export const totalQuestions = ["question1", "question2", "question3"];
 
 export const totalAnswers = ["answer1", "answer2", "answer3"];
-
-export const practicesList = [
-  {
-    title: "Web Development",
-
-    description: ["Deployed New Website Optimized Code 95% Deployment Success"],
-  },
-  {
-    title: "Database Management",
-
-    description: ["Improved Indexing Automated Backups"],
-
-  },
-  {
-    title: "Azure",
-
-    description: ["Deployed 3 New VMs Improved Network Performance"],
-
-  },
-  {
-    title: "Oracle ERP",
-
-    description: ["Deployed Fraud Detection Model Improved Precision by 5%"],
-
-  },
-  {
-    title: "ServiceNow",
-
-    description: ["Resolved Major Incident Improved Workflow Automation"],
-
-  },
-];
 
 
 export const UserColumnConfig = [
@@ -310,13 +233,6 @@ export const rolesData:IRole[]=[
   {id:"34",name:"User",claims:null},
 ]
 
-export const groupsData: IUserGroup[] = [
-  { id: 1, name: "React",description:"",practice:"", modifiedBy:"", modifiedOnDt:new Date() },
-  { id: 2, name: "Dot Net Core",description:"", practice:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "Angular",description:"",practice:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "QA",description:"", practice:"",modifiedBy: "", modifiedOnDt: new Date() },
-];
-
 export const mobileNumberRegex = /^[6-9]\d{9}$/;
 export const allow15Numbers = /^\d{0,15}$/;
 export const allow15_7Numbers = /^(-?\d{0,15}\.\d{0,7})$/;
@@ -328,13 +244,6 @@ export const replaceChracterWithSpace = /[^0-9\-]/g;
 export const replaceNumbersWithSpace = /[^0-9\.\-]/g;
 export const validString = /^[a-zA-Z]+$/;
 export const validTitle = /^[a-zA-Z\s]+$/;
-
-export const practicesData: IPractice[] = [
-  { id: 1, name: "Software Development",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 2, name: "Quality Assurance",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "Project Management",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "Business Analysis",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-];
 
 export const userClaims: IUserClaim[] = [
   {
@@ -502,3 +411,10 @@ export const roleClaimConfig = [
   },
 
 ];
+
+
+export const warningMessages = {
+
+   addLeadToGroup : "Please add Lead into current group",
+    
+}

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import './GroupDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
-import { discussions, discussionTabs, emptyDiscussion, routes } from '@/app/Constants/Constants';
+import { discussionTabs, emptyDiscussion, routes, warningMessages } from '@/app/Constants/Constants';
 import { IDiscussion, IGroupUser } from '@/app/Interfaces/Interfaces';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
@@ -127,7 +127,22 @@ export default function page() {
         }
     }
 
+    const getEmployees = (role: string) => {
+        if(allUsers){
+        const leads = allUsers?.filter((user) => user?.groupRole === role) || [];
+      
+        if (leads.length > 0) {
+          return leads.map((user) => (
+            <EmployeeCard key={user.userEmail} user={{ name: user.name, email: user.userEmail }} />
+          ));
+        }else if(role === "Lead" && leads?.length <= 0) {
+            return <div className='text-yellow-400'>{warningMessages.addLeadToGroup}</div>;
+          }
+        }
+      };
+
     return (
+
         <div className='flex h-100 flex-1 overflow-hidden'>
             <DiscussionForm isCreate={showDisscussionForm} isEdit={isEdit} group={decodeURIComponent(group as string)?.toString()} clearForm={clearForm} selectedDiscussion={selectedDiscussion} save={saveDiscussion} />
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
@@ -170,25 +185,19 @@ export default function page() {
                     <div className="role-section p-2">
                         <div className="role-title">Leads</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {allUsers?.filter((user) => user?.groupRole === "Lead").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("Lead")}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">SMEs</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {allUsers?.filter((user) => user?.groupRole === "SME").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("SME")}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">Members</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {allUsers?.filter((user) => user?.groupRole === "Member").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("Member")}
                         </div>
                     </div>
                 </div>
