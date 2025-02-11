@@ -33,11 +33,11 @@ export default function AnnouncementsCard() {
                     </span>
                 </h2>
             </div>
-            <div className="space-y-4 overflow-y-auto max-h-32">
+            <div className="space-y-4 overflow-y-auto max-h-64">
                 {announcements?.map((item, index) => (
                     <div key={index} className="flex items-start space-x-3">
                         <div className="flex-1">
-                            <p className=" font-medium text-gray-800 truncate">
+                            <p title={item.message} className=" font-medium text-gray-800 overflow-hidden text-ellipsis whitespace-nowrap max-w-[29vw]">
                                 {item.message}
                             </p>
                             <p className="text-sm text-green-600">{GetTimeStampFormatedDate(item.createdAt)}</p>
