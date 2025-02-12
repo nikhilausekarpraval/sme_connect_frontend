@@ -9,7 +9,7 @@ class ApiService {
   baseUrl: string;
 
   constructor() {
-      this.baseUrl = 'http://localhost:9091/';
+      this.baseUrl = 'https://localhost:9091/';
   }
 
 

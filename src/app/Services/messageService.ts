@@ -2,7 +2,7 @@ import { apiService } from "./commonService"
 
 class messagesService {
 
-    baseUrl = "http://localhost:5234/";
+    baseUrl = "https://localhost:5234/";
     constructor() {
 
     }
