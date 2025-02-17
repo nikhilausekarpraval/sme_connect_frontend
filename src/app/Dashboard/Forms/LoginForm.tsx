@@ -65,7 +65,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
 
           } else {
             closeForm();
-            handleLogin(result.value.userContext);
+            handleLogin(result?.value?.userContext);
             clearForm();
           }
 

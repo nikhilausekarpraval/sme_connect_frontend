@@ -1,8 +1,8 @@
 'use client';
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { emptyApplicationContext } from '../Constants/Constants';
 import LoginForm from '../Dashboard/Forms/LoginForm';
-import { acceptIntegers, isTokenExpired } from '../Helpers/Helpers';
+import { isTokenExpired } from '../Helpers/Helpers';
 import { IApplicationContext } from '../Interfaces/Interfaces';
 import { useSession } from 'next-auth/react';
 import UsersService from '../Services/usersService';
@@ -14,89 +14,56 @@ export const ApplicationContext = createContext<ApplicationContextType | undefin
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [applicationContext, setApplicationContext] = useState<IApplicationContext>(emptyApplicationContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { data: session, status } = useSession();
-  const userService = new UsersService();
-
+  const { data: session } = useSession();
+  const userService = useMemo(() => new UsersService(), []);
+  
   useEffect(() => {
     const initializeUserContext = async () => {
-      if (session) {
-        const userEmail = session?.user?.email;
-        const idToken = session?.idToken;
-        const accessToken = session?.accessToken;
-        console.log(idToken,session)
-        
-        if (accessToken) {
-          try {
-            // const accessToken = await getAccessToken();
-            if (accessToken) {
-              sessionStorage.setItem("accessToken", accessToken);
-              console.log("Access Token:", accessToken);
+      if (!session) return;
 
-              // Fetch user data using the access token
-              await getUsersData(userEmail || "", accessToken);
-            }
-          } catch (error) {
-            console.error("Error fetching access token:", error);
-          }
-        }
-      }
+      const userEmail = session?.user?.email;
+      const accessToken = session?.accessToken;
 
-      const storedToken = sessionStorage.getItem('accessToken');
-      if (!storedToken) {
+      if (!accessToken || !userEmail) {
         setIsAuthenticated(false);
         return;
       }
 
-      if (isTokenExpired(storedToken)) {
-        setIsAuthenticated(false);
-      } else {
-        const storedUserContext = sessionStorage.getItem('userContext');
-        if (storedUserContext) {
-          setApplicationContext(JSON.parse(storedUserContext));
+      // Check if we already have valid user data in sessionStorage
+      const storedToken = sessionStorage.getItem('accessToken');
+      const storedUserContext = sessionStorage.getItem('userContext');
+
+      if (storedToken === accessToken && storedUserContext && !isTokenExpired(storedToken)) {
+        setApplicationContext(JSON.parse(storedUserContext));
+        setIsAuthenticated(true);
+        return;
+      }
+
+      try {
+        sessionStorage.setItem("accessToken", accessToken);
+        console.log("Access Token:", accessToken);
+        
+        // Fetch user data only if not stored or expired
+        const data = await userService.getCurrentUserContext(userEmail, accessToken);
+        if (data?.value?.userContext) {
+          setApplicationContext(data.value.userContext);
+          sessionStorage.setItem('userContext', JSON.stringify(data.value.userContext));
           setIsAuthenticated(true);
         }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setIsAuthenticated(false);
       }
     };
 
     initializeUserContext();
-  }, [session]);
+  }, [session, userService]);
 
-  const getAccessToken = async (idToken: string) => {
-    try {
-      const response = await fetch("/api/auth/exchange-token", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch access token");
-      }
-
-      const data = await response.json();
-      return data.accessToken;
-    } catch (err) {
-      console.error("Error fetching access token:", err);
-      return null;
-    }
-  };
-
-  const getUsersData = async (user: string, token: string) => {
-    try {
-      const data = await userService.getCurrentUserContext(user, token);
-      console.log(data);
-      setApplicationContext(JSON.parse(data?.value?.data));
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  function handleLogin(userContext: IApplicationContext) {
+  const handleLogin = useCallback((userContext: IApplicationContext) => {
     setApplicationContext(userContext);
     sessionStorage.setItem('userContext', JSON.stringify(userContext));
     setIsAuthenticated(true);
-  }
+  }, []);
 
   if (!isAuthenticated) {
     return <LoginForm handleLogin={handleLogin} />;
@@ -111,7 +78,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 
 export function useAppContext() {
   const context = useContext(ApplicationContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAppContext must be used within an AppWrapper');
   }
   return context;
