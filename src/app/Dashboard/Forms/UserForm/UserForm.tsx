@@ -1,6 +1,6 @@
 import FormPasswordInput from "@/app/Components/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
-import { emptyUser, groupsData, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, practicesData, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
+import { emptyUser, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
 import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
 import { IClaimDto, IMultiSelectSelected, IPractice, IRole, IUser, IUserClaim, IUserForm, IUserGroup } from "@/app/Interfaces/Interfaces";
 import UsersService from "@/app/Services/usersService";

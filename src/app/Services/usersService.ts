@@ -52,5 +52,9 @@ class UsersService {
         return await apiService.get("api/Authenticate/logout");
     }
 
+    async getCurrentUserContext(user:any,token:any){
+        return await apiService.post("api/Authenticate/get-user-context",user,"",token);
+    }
+
 
 }export default UsersService

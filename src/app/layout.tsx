@@ -1,5 +1,6 @@
+"use client"
+
 import "bootstrap/dist/css/bootstrap.min.css";
-import type { Metadata } from "next";
 import { Roboto } from 'next/font/google';
 import localFont from "next/font/local";
 import BootstrapClient from "./Components/BootstrapClient";
@@ -8,6 +9,7 @@ import "./globals.css";
 import { CustomNavbar } from "./Components/TopNavBar/CustomNavbar";
 import { LeftMenubar } from "./Components/LeftMenuBar/LeftMenubar";
 import ClientProvider from "./ClientProvider/ClientProvider";
+import { SessionProvider } from "next-auth/react";
 
 
 const roboto = Roboto({
@@ -29,10 +31,10 @@ const geistMono = localFont({
 });
 
 
-export const metadata: Metadata = {
-  title: "SME Connect",
-  description: "",
-};
+// export const metadata: Metadata = {
+//   title: "SME Connect",
+//   description: "",
+// };
 
 export default function RootLayout({
   children,
@@ -45,9 +47,7 @@ export default function RootLayout({
       <body
         className={` ${geistSans.variable} ${geistMono.variable} antialiased ${roboto.variable}`}
       >
-        {/* <AppRouterCacheProvider options={{ enableCssLayer: true, key: 'css' }}> */}
-        {/* <ThemeProvider theme={theme}> */}
-        {/* <CssBaseline /> */}
+        <SessionProvider>
         <AppWrapper>
         <ClientProvider>
           <div className="min-h-screen">
@@ -56,7 +56,6 @@ export default function RootLayout({
               <div className="">
                 <LeftMenubar />
               </div>
-              {/* flex-1 flex */}
               <div className="w-100 overflow-hidden">
                 {children}
               </div>
@@ -64,8 +63,7 @@ export default function RootLayout({
           </div>
           </ClientProvider>
         </AppWrapper>
-        {/* </ThemeProvider> */}
-        {/* </AppRouterCacheProvider> */}
+        </SessionProvider>
         <BootstrapClient />
       </body>
     </html>

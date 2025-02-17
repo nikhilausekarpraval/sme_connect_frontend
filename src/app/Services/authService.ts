@@ -26,6 +26,27 @@ const authService = {
     }
   },
 
+
+  async getAccessTokenUsingIdToken (idToken:string) {
+    try {
+      debugger;
+      const response = await fetch("/api/auth/exchange-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }), 
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch access token");
+      }
+
+      const data = await response.json();
+      return data.accessToken;
+    } catch (err) {
+
+    }
+  },
+
    async storeToken (token :string) {
 
     try {
