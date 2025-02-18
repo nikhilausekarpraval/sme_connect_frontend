@@ -1,5 +1,5 @@
 
-import { createGroupErrors, emptyGroup, practicesData } from "@/app/Constants/Constants";
+import { createGroupErrors, emptyGroup } from "@/app/Constants/Constants";
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Loader from "@/app/Components/Loader/Loader";
@@ -26,7 +26,7 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
     const [isDuplicate, setIsDuplicate] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [practices, setPractces] = useState<IPractice[]>(practicesData);
+    const [practices, setPractces] = useState<IPractice[]>([]);
 
     useEffect(() => {
 

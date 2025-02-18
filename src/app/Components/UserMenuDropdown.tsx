@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { routes } from '../Constants/Constants';
 import authService from '../Services/authService';
 import { useRouter } from 'next/navigation';
+import { signOut } from "next-auth/react";
 
 export default function UserMenuDropdown() {
     
@@ -13,6 +14,7 @@ export default function UserMenuDropdown() {
 
     const logout= async()=>{
         await authService.logout();
+        await signOut();
         router.push("/")
         sessionStorage.clear();
         window.location.reload();

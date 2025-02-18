@@ -19,9 +19,10 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account,profile,user}) {
       if (account ) {
           token.accessToken = account.access_token; 
+          token.idToken = account.id_token;
       }
       return token;
     },
