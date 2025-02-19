@@ -18,10 +18,14 @@ export const emptyPractice = {
 }
 
 export const emptyGroupUsers = {
-  id:0,group:"",userEmail:"",  groupRole:"",
+    id:0,
+    group:"",
+    userEmail:"",  
+    groupRole:"",
     modifiedBy:"",
     modifiedOnDt:new Date(),
     name:"",
+    groupRoleClaims:[]
 }
 
 export const emptyGroup = {
@@ -73,6 +77,8 @@ export const discussionStatusTypes = {
 };
 
 export const groupRoles = ["Lead","SME","Member",];
+
+export const groupRoleClaims = ["Create","Update","Delete"];
 
 export const discussionCloseType = ["Close","Unstar"]
 

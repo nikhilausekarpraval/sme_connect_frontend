@@ -1,5 +1,5 @@
 
-import {  createGroupUsersErrors, emptyGroupUsers, groupRoles } from "@/app/Constants/Constants";
+import {  createGroupUsersErrors, emptyGroupUsers, groupRoles,groupRoleClaims } from "@/app/Constants/Constants";
 
 import { IGroupUser, IUser, IUserGroup } from "@/app/Interfaces/Interfaces";
 import React, { useState, useEffect } from "react";
@@ -9,6 +9,9 @@ import '../../../Common/Styles/Form.scss';
 import GroupUserService from "@/app/Services/GroupUsersService";
 import UsersService from "@/app/Services/usersService";
 import GroupService from "@/app/Services/GroupService";
+import ReactMultiSelectComponent from "@/app/Components/ReactMultiSelectDropdown/ReactMultiSelectDropdown";
+import GroupUserRoleClaimsService from "@/app/Services/GroupUserRoleClaimsService";
+
 
 
 
@@ -22,20 +25,23 @@ interface GroupUserFormProps {
 
 const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCreate, isEdit, clearForm, save }) => {
 
-    const [groupUser, setGroupUser] = useState<any>(selectedGroupUser)
-    const [errors, setErrors] = useState(createGroupUsersErrors)
+    const [groupUser, setGroupUser] = useState<any>(selectedGroupUser);
+    const [errors, setErrors] = useState(createGroupUsersErrors);
+    const [selectedClaims,setSelectedClaims] = useState<any[]>([]);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [groups,setGroups] = useState<IUserGroup[]>();
     const [users,setUsers] = useState<IUser[]>();
     const _userService = new UsersService();
     const _groupService = new GroupService();
+    const _groupRoleClaimsService = new GroupUserRoleClaimsService();
 
 
     useEffect(() => {
 
         if (isEdit || isCreate) {
             setGroupUser(selectedGroupUser);
+            setSelectedClaims([]);
             loadData();
         }
 
@@ -62,6 +68,20 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
         setIsLoading(false);
     }
 
+     useEffect(()=>{
+
+        if(isEdit){
+        getRoleClaims(groupUser?.id);
+        }
+
+    },[groupUser?.groupRole])
+
+   const getRoleClaims=async(id:number)=>{
+        const oldClaims = await _groupRoleClaimsService.getRoleClaims(id);
+        const onlyClaims = oldClaims?.value?.map((claim : any) => (claim?.claim)) as string []
+        setSelectedClaims(onlyClaims?.map(claim => ({label:claim,value:claim})))
+    }
+
     const handleSubmitForm = async (e: React.FormEvent) => {
         e.preventDefault();
         var result;
@@ -69,10 +89,13 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
         try {
             if (Object.values(errors).filter((error) => error !== "").length <= 0) {
 
+                const newGroupUser = {...groupUser}
+                    newGroupUser.groupRoleClaims = selectedClaims?.map((claim)=> claim?.value)
+
                 if (isCreate) {
-                    result = await new GroupUserService().addGroupUser(groupUser);
+                    result = await new GroupUserService().addGroupUser(newGroupUser);
                 }else {
-                    result = await new GroupUserService().updateGroupUser(groupUser);
+                    result = await new GroupUserService().updateGroupUser(newGroupUser);
                 }
 
                 if (result?.statusCode != 200) {
@@ -187,6 +210,10 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                                         <div className="text-red-600">
                                             {errors.groupRole}
                                         </div>
+                                    </div>
+                                    
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                        <ReactMultiSelectComponent values={groupRoleClaims?.map((claim)=> ({label:claim,value: claim }))} title={"Role Claims"} selectedNames={selectedClaims as any} handleChange={setSelectedClaims} />
                                     </div>
 
                                 </div>

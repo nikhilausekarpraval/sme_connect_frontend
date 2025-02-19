@@ -65,6 +65,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
 
           } else {
             closeForm();
+            sessionStorage.setItem('accessToken',result?.value?.token);
             handleLogin(result?.value?.userContext);
             clearForm();
           }

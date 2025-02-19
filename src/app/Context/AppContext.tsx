@@ -16,7 +16,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { data: session } = useSession();
   const userService = useMemo(() => new UsersService(), []);
-  
+
   useEffect(() => {
     const initializeUserContext = async () => {
       if (!session) return;
@@ -24,32 +24,32 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       const userEmail = session?.user?.email;
       const accessToken = session?.accessToken;
 
-      if (!accessToken || !userEmail) {
-        setIsAuthenticated(false);
-        return;
-      }
-
       // Check if we already have valid user data in sessionStorage
       const storedToken = sessionStorage.getItem('accessToken');
       const storedUserContext = sessionStorage.getItem('userContext');
 
-      if (storedToken === accessToken && storedUserContext && !isTokenExpired(storedToken)) {
-        setApplicationContext(JSON.parse(storedUserContext));
-        setIsAuthenticated(true);
+      if ((!accessToken && !userEmail && isTokenExpired(accessToken)) && (storedToken && storedUserContext && isTokenExpired(storedToken))) {
+        setIsAuthenticated(false);
         return;
       }
 
+      if ((storedToken && storedUserContext && !isTokenExpired(storedToken))) {
+        setApplicationContext(JSON.parse(storedUserContext));
+        setIsAuthenticated(true);
+      }
+
+
       try {
-        sessionStorage.setItem("accessToken", accessToken);
-        console.log("Access Token:", accessToken);
-        
-        // Fetch user data only if not stored or expired
-        const data = await userService.getCurrentUserContext(userEmail, accessToken);
-        if (data?.value?.userContext) {
-          setApplicationContext(data.value.userContext);
-          sessionStorage.setItem('userContext', JSON.stringify(data.value.userContext));
-          setIsAuthenticated(true);
+
+        if (userEmail && accessToken && isTokenExpired(accessToken)) {
+          const data = await userService.getCurrentUserContext(userEmail, accessToken);
+          if (data?.value?.userContext) {
+            setApplicationContext(data.value.userContext);
+            sessionStorage.setItem('userContext', JSON.stringify(data.value.userContext));
+            setIsAuthenticated(true);
+          }
         }
+
       } catch (error) {
         console.error("Error fetching user data:", error);
         setIsAuthenticated(false);
