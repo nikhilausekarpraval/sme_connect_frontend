@@ -27,7 +27,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       const storedToken = sessionStorage.getItem('accessToken');
       const storedUserContext = sessionStorage.getItem('userContext');
 
-      if ((accessToken && userEmail && isTokenExpired(accessToken)) && (storedToken && storedUserContext && isTokenExpired(storedToken))) {
+      if ((accessToken && !userEmail && isTokenExpired(accessToken)) && (storedToken && storedUserContext && isTokenExpired(storedToken))) {
         setIsAuthenticated(false);
         return;
       }
@@ -40,7 +40,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 
       try {
 
-        if (userEmail && accessToken && isTokenExpired(accessToken)) {
+        if (userEmail && accessToken && !isTokenExpired(accessToken)) {
           const data = await userService.getCurrentUserContext(userEmail, accessToken);
           if (data?.value?.userContext) {
             setApplicationContext(data.value.userContext);
