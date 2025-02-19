@@ -22,12 +22,14 @@ export default function page() {
     const [isEdit, setIsEdit] = useState(false);
     const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>();
     const [selectedDiscussion, setSelectedDiscussion] = useState<IDiscussion>();
-    const [allUsers, setAllUsers] = useState<IGroupUser[]>();
+    const [allUsers, setAllUsers] = useState<IGroupUser[]>([]);
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
     const router = useRouter();
-    const [groupName, setGroupName] = useState<string>();
+    const [user, setUser] = useState<IGroupUser>();
     const _discussionService = new DiscussionsService();
-
+    const context = JSON.parse(sessionStorage?.getItem("userContext") as string);
+    const userEmail = context?.user?.email;
+    const userRoles = context?.roles;
 
     useEffect(() => {
         loadData();
@@ -44,7 +46,8 @@ export default function page() {
             const decodedGroup = decodeURIComponent(group as string)?.toString();
             const allDiscussions = await _discussionService.getDiscussions(decodedGroup)
             const users = await new GroupUserService().getGroupAllUsers(decodedGroup);
-            setGroupName(decodedGroup);
+            const user = users?.value?.data?.find((user:any) => user.userEmail === userEmail);
+            setUser(user);
             setAllDiscussions(allDiscussions?.value?.data);
             setAllUsers(users?.value?.data);
 
@@ -148,7 +151,9 @@ export default function page() {
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='flex p-4 gap-4 items-center'>
                     <div className='h4 font-bold m-0'>{group}</div>
-                    <Button onClick={showCreateForm}>Create Discussion</Button>
+                    { ((user?.groupRole === "Lead" || userRoles?.includes("Admin") ) || (user?.groupRoleClaims?.includes("Create"))) &&
+                        <Button onClick={showCreateForm}>Create Discussion</Button>
+                    }
                     <Button type="button" className="btn-danger" onClick={exitGroup}>
                         Exit Group
                     </Button>

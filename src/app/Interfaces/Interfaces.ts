@@ -104,6 +104,7 @@ export interface IGroupUser{
   userEmail:string,
   name:string,
   groupRole:string,
+  groupRoleClaims:string[],
 }
 
 export interface IRoleClaim{

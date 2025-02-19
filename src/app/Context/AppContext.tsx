@@ -19,16 +19,15 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initializeUserContext = async () => {
-      if (!session) return;
 
       const userEmail = session?.user?.email;
       const accessToken = session?.accessToken;
-
+      
       // Check if we already have valid user data in sessionStorage
       const storedToken = sessionStorage.getItem('accessToken');
       const storedUserContext = sessionStorage.getItem('userContext');
 
-      if ((!accessToken && !userEmail && isTokenExpired(accessToken)) && (storedToken && storedUserContext && isTokenExpired(storedToken))) {
+      if ((accessToken && userEmail && isTokenExpired(accessToken)) && (storedToken && storedUserContext && isTokenExpired(storedToken))) {
         setIsAuthenticated(false);
         return;
       }

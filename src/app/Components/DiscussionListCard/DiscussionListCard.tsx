@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import './DiscussionListCard.scss';
 import CommonButton from "../CommonButton/CommonButton";
-import { routes } from "@/app/Constants/Constants";
+import { routes, userClaims } from "@/app/Constants/Constants";
 import { IDiscussion, IGroupUser } from "@/app/Interfaces/Interfaces";
 import { useRouter, useSearchParams } from "next/navigation";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
@@ -24,6 +24,7 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
     const router = useRouter();
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const [selectedDiscussion, setSelectedDiscussion] = useState<any>();
+    const [userRoleclaims,setUserRoleClaims] = useState<any>([]);
     const userContext = useAppContext()[0] as any;
     const userEmail = userContext?.user?.email;
     const roles = userContext?.user?.roles;
@@ -40,6 +41,8 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
                 if (user?.groupRole.toLowerCase() === 'lead') {
                         setIsLead(true);
                 }
+                setUserRoleClaims(user?.groupRoleClaims);
+                
             }
         }
     }, [userContext])
@@ -79,16 +82,22 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
             <div className={`technology-list h-100 ${cardStyle != "" ? cardStyle : ''}w-100`}>
                 <ConfirmPopup show={showConfirmPopup} message={`Are you sure you want to delete selected discussion?`} deleteItem={deleteItem} handleClose={closeConfirmPopup} />
                 <ul className={listStyle}>
-                    {discussions?.map((discussion, index) => (
+                    { discussions?.map((discussion, index) => (
                         <li key={index} className="discussion-item flex justify-between items-center">
                             <div>
                                 <h2 className="cursor-pointer" onClick={() => showDiscussion(discussion.name, discussion.groupName)}>{discussion.name}</h2>
                                 <p className="m-0 discussion-description-style" title={discussion?.description}>{discussion?.description}</p>
                             </div>
-                            {(isUpdate && isLead ) &&
+                            {((isUpdate && isLead ) || (isUpdate && userRoleclaims?.length > 0)) &&
                                 <div className="flex w-1/2 justify-center items-center gap-3">
-                                    <CommonButton handleClick={() => setShowEdit(discussion)} title={"Edit"} styles={"edit-button-style"} />
-                                    <CommonButton handleClick={() => deleteSelected(discussion)} title={"Delete"} styles={"btn-danger"} />
+                                    { ((isUpdate && isLead) || (isUpdate && userRoleclaims.includes("Update"))) &&
+                                        <CommonButton handleClick={() => setShowEdit(discussion)} title={"Edit"} styles={"edit-button-style"} />
+                                    }
+
+                                    { ((isUpdate && isLead) || (isUpdate && userRoleclaims.includes("Delete"))) &&
+                                        <CommonButton handleClick={() => deleteSelected(discussion)} title={"Delete"} styles={"btn-danger"} />
+                                    }
+                                   
                                 </div>
                             }
                         </li>

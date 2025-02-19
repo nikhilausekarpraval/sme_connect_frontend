@@ -8,7 +8,7 @@ import authService from "@/app/Services/authService";
 import React, { useEffect, useState } from "react";
 import LoginModal from "../RegisterUser/page";
 import UsersService from "@/app/Services/usersService";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import pravalImage from "../../Assets/Images/PRAVAL-LOGO.jpg";
 import Image from 'next/image';
 
