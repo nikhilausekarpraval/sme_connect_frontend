@@ -45,6 +45,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
           if (data?.value?.userContext) {
             setApplicationContext(data.value.userContext);
             sessionStorage.setItem('userContext', JSON.stringify(data.value.userContext));
+            sessionStorage.setItem('accessToken',accessToken);
             setIsAuthenticated(true);
           }
         }
