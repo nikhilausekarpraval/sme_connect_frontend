@@ -28,6 +28,18 @@ export const emptyGroupUsers = {
     groupRoleClaims:[]
 }
 
+export const emptyGroupRequest = {
+  id:0,
+  requestStatus:false,
+  requestRole:"",  
+  groupName:"",
+  practiceName:"",
+  userName : "",
+  approvalStatus:false,
+  modifiedBy:"",
+  modifiedOnDt:new Date(),
+}
+
 export const emptyGroup = {
   id:0,name:"",description:"",practice:"",  modifiedBy:"",
   modifiedOnDt:new Date(),
@@ -113,6 +125,7 @@ export const routes = {
   practices: "/Dashboard/Practices",
   groupUsers: "/Dashboard/GroupUsers",
   leadGroupsUsers: "/Dashboard/LeadGroupsAccess",
+  leadGroupRequests: "/Dashboard/LeadGroupRequests",
   practiceDashboard: "/Dashboard/PracticeDashboard",
   groupDashboard: "/Dashboard/PracticeDashboard/GroupDashboard",
   discussionDashboard:"/Dashboard/PracticeDashboard/GroupDashboard/DiscussionDashboard"
@@ -217,6 +230,61 @@ export const GroupUsersColumnConfig = [
   },
 
 ];
+
+export const groupRequestColumnConfig = [
+  {
+    field: "id",
+    dataType: "number",
+  },
+  {
+    field: "practiceName",
+    dataType: "string",
+  },
+  {
+    field: "groupName",
+    dataType: "string",
+  },
+  {
+    field: "requestRole",
+    dataType: "string",
+  },
+  {
+    field: "userName",
+    dataType: "string",
+  },
+  {
+    field: "approvalStatus",
+    dataType: "boolean,Approved,Rejected",
+  },
+  {
+    field: "action",
+    dataType: "Approve,Reject",
+  }
+
+];
+
+export const groupRequestHeaders = {
+
+  id : "ID",
+
+  practiceName : "Practice",
+
+  groupName : "Group",
+
+  requestRole : "Request Role",
+
+  userName: "User Email",
+
+  approvalStatus: "Approval Status",
+
+  action :"Action",
+
+  modifiedOnDt: 'Modified On Dt',
+
+  modifiedBy : 'Modified By',
+
+}
+
 
 export const GroupColumnConfig = [
   {

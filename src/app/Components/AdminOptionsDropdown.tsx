@@ -9,6 +9,7 @@ import { PiTreeViewFill } from "react-icons/pi";
 import { MdOutlineSecurity } from "react-icons/md";
 import { FiUsers } from 'react-icons/fi';
 import { RiGroup2Line } from 'react-icons/ri';
+import { GoGitPullRequest } from 'react-icons/go';
 
 
 interface IAdminOptionsDropdownProps {
@@ -104,6 +105,17 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               <div className="justify-start flex items-center w-44">
                <RiGroup2Line />
                 {!isCollapsed && <span className="ps-3">Group Users</span>}
+              </div>
+            </Link>
+
+            <Link  href={routes.leadGroupRequests}>
+              <div
+                className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupRequests) ? 'bg-cyan-700' : ''}`}
+              >
+                <div className="justify-start flex items-center w-52">
+                  <GoGitPullRequest />
+                  {!isCollapsed && <span className='ps-3'>Group Requests</span>}
+                </div>
               </div>
             </Link>
             {/* <Link

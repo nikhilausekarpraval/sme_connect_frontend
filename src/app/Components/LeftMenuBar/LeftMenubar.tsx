@@ -12,6 +12,7 @@ import { useAppContext } from '@/app/Context/AppContext';
 import { useDispatch } from 'react-redux';
 import { setPractice } from '@/store/userSlice';
 import GroupUsersService from '@/app/Services/GroupUsersService';
+import { GoGitPullRequest } from "react-icons/go";
 
 
 export const LeftMenubar = () => {
@@ -39,15 +40,15 @@ export const LeftMenubar = () => {
   }
 
 
-  const handleNavigation = (e:any) => {
-    
-      dispatch(setPractice(practice));
+  const handleNavigation = (e: any) => {
 
-      if(typeof(e) === "string"){
-        router.push(`${routes.leadGroupsUsers}`);
-      }else{
-        router.push(`${routes.practiceDashboard}?practice=${practice}`);
-      }
+    dispatch(setPractice(practice));
+
+    if (typeof (e) === "string") {
+      router.push(`${e}`);
+    } else {
+      router.push(`${routes.practiceDashboard}?practice=${practice}`);
+    }
   };
 
   const isActive = (path: string) => usePathname() === path as any;
@@ -107,18 +108,29 @@ export const LeftMenubar = () => {
                   </div>
                 </li>
                 {isUserLead &&
-                  <li onClick={()=>handleNavigation("group")}>
-                    <div
-                      className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupsUsers) ? 'bg-cyan-700' : ''}`}
+                  <Fragment>
+                    <li onClick={() => handleNavigation(routes.leadGroupsUsers)}>
+                      <div
+                        className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupsUsers) ? 'bg-cyan-700' : ''}`}
+                      >
+                        <div className="justify-start flex items-center w-52">
+                          <GoPasskeyFill />
+                          {!isCollapsed && <span className='ps-3'>Group Access</span>}
+                        </div>
 
-                    >
-                      <div className="justify-start flex items-center w-52">
-                        <GoPasskeyFill />
-                        {!isCollapsed && <span className='ps-3'>Group Access</span>}
                       </div>
-
-                    </div>
-                  </li>
+                    </li>
+                    <li onClick={() => handleNavigation(routes.leadGroupRequests)}>
+                      <div
+                        className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupRequests) ? 'bg-cyan-700' : ''}`}
+                      >
+                        <div className="justify-start flex items-center w-52">
+                          <GoGitPullRequest />
+                          {!isCollapsed && <span className='ps-3'>Group Requests</span>}
+                        </div>
+                      </div>
+                    </li>
+                  </Fragment>
                 }
               </Fragment>
             )}

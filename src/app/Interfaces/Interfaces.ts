@@ -107,6 +107,19 @@ export interface IGroupUser{
   groupRoleClaims:string[],
 }
 
+export interface IGroupRequest {
+  id: number;
+  requestStatus: boolean;
+  requestRole: string;
+  groupName: string;
+  practiceName: string;
+  userName: string;
+  approvalStatus: boolean;
+  modifiedOnDt: Date; 
+  modifiedBy?: string;
+}
+
+
 export interface IRoleClaim{
 
   roleId : string

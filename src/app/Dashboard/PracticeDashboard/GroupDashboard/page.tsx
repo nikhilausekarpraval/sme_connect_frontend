@@ -11,11 +11,13 @@ import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
 import DiscussionsService from '@/app/Services/DiscussionService';
 import DiscussionForm from '../../Forms/DiscussionForm/DiscussionForm';
+import GroupRequestService from '@/app/Services/groupRequestService';
 
 export default function page() {
 
     const searchParams = useSearchParams();
     const group = searchParams?.get('group');
+    const practice = searchParams?.get('practice');
     const group_id = searchParams?.get("group_id");
     const [activeTab, setActiveTab] = useState("Open Discussions");
     const [showDisscussionForm, setShowDisscussionForm] = useState(false);
@@ -46,7 +48,7 @@ export default function page() {
             const decodedGroup = decodeURIComponent(group as string)?.toString();
             const allDiscussions = await _discussionService.getDiscussions(decodedGroup)
             const users = await new GroupUserService().getGroupAllUsers(decodedGroup);
-            const user = users?.value?.data?.find((user:any) => user.userEmail === userEmail);
+            const user = users?.value?.data?.find((user: any) => user.userEmail === userEmail);
             setUser(user);
             setAllDiscussions(allDiscussions?.value?.data);
             setAllUsers(users?.value?.data);
@@ -131,18 +133,28 @@ export default function page() {
     }
 
     const getEmployees = (role: string) => {
-        if(allUsers){
-        const leads = allUsers?.filter((user) => user?.groupRole === role) || [];
-      
-        if (leads.length > 0) {
-          return leads.map((user) => (
-            <EmployeeCard key={user.userEmail} user={{ name: user.name, email: user.userEmail }} />
-          ));
-        }else if(role === "Lead" && leads?.length <= 0) {
-            return <div className='text-yellow-400'>{warningMessages.addLeadToGroup}</div>;
-          }
+        if (allUsers) {
+            const leads = allUsers?.filter((user) => user?.groupRole === role) || [];
+
+            if (leads.length > 0) {
+                return leads.map((user) => (
+                    <EmployeeCard key={user.userEmail} user={{ name: user.name, email: user.userEmail }} />
+                ));
+            } else if (role === "Lead" && leads?.length <= 0) {
+                return <div className='text-yellow-400'>{warningMessages.addLeadToGroup}</div>;
+            }
         }
-      };
+    };
+
+    const RequestForRole = async (role: string) => {
+        try {
+            var groupRequest = { id: 0, RequestStatus: false, RequestRole: role, groupName: decodeURIComponent(group as string)?.toString(), practiceName: practice, userName: userEmail, approvalStatus: false }
+            var result = await new GroupRequestService().addGroupRequest(groupRequest);
+
+        } catch (e: any) {
+            console.log(e)
+        }
+    }
 
     return (
 
@@ -151,11 +163,11 @@ export default function page() {
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='flex p-4 gap-4 items-center'>
                     <div className='h4 font-bold m-0'>{group}</div>
-                    { ((user?.groupRole === "Lead" || userRoles?.includes("Admin") ) || (user?.groupRoleClaims?.includes("Create"))) &&
+                    {((user?.groupRole === "Lead" || userRoles?.includes("Admin")) || (user?.groupRoleClaims?.includes("Create"))) &&
                         <Button onClick={showCreateForm}>Create Discussion</Button>
                     }
                     <Button type="button" className="btn-danger" onClick={exitGroup}>
-                        Exit Group
+                        Leave Group
                     </Button>
                 </div>
                 <div className="discussion-tabs ps-2">
@@ -179,7 +191,7 @@ export default function page() {
 
                 <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 shadow-sm rounded overflow-y-auto '>
                     {
-                    allUsers &&
+                        allUsers &&
                         <DiscussionListCard deleteDiscussion={deleteDiscussion} listStyle={"overflow-auto"} showEditForm={showEditForm} groupAllUsers={allUsers} discussions={filteredDiscussions as any} isUpdate={true} />
                     }
                 </div>
@@ -188,13 +200,13 @@ export default function page() {
             <div className="col col-sm-3 h-100">
                 <div className="flex flex-1 flex-col h-100">
                     <div className="role-section p-2">
-                        <div className="role-title">Leads</div>
+                        <div className="role-title">Leads <span onClick={() => RequestForRole("SME")} className='ps-2 font-bold text-sm text-blue-600 underline cursor-pointer '>Register for Lead</span></div>
                         <div className="role-content pe-2 flex flex-col gap-2">
                             {getEmployees("Lead")}
                         </div>
                     </div>
                     <div className="role-section p-2">
-                        <div className="role-title ">SMEs</div>
+                        <div className="role-title ">SMEs <span onClick={() => RequestForRole("SME")} className='ps-2 font-bold text-sm text-blue-600 underline cursor-pointer '>Register for SME</span></div>
                         <div className="role-content pe-2 flex flex-col gap-2">
                             {getEmployees("SME")}
                         </div>
