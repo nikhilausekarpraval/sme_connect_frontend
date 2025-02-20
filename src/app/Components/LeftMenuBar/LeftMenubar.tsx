@@ -3,31 +3,51 @@
 import { routes } from '@/app/Constants/Constants';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { FaBars, FaHome, FaInfoCircle, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
+import { GoPasskeyFill } from "react-icons/go";
 import AdminOptionsDropdown from '../AdminOptionsDropdown';
 import { MdDeveloperMode } from "react-icons/md";
 import { useAppContext } from '@/app/Context/AppContext';
 import { useDispatch } from 'react-redux';
 import { setPractice } from '@/store/userSlice';
+import GroupUsersService from '@/app/Services/GroupUsersService';
 
 
 export const LeftMenubar = () => {
+
+  const userContext = useAppContext()[0] as any
+  const roles = userContext?.user?.roles.map((role: any) => role?.name);
+  const practice = userContext?.user?.practice;
+  const userEmail = userContext?.user?.email;
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isUserLead, setIsUserLead] = useState(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    isUserLeadForGroup();
+  }, [])
 
   const toggleMenu = () => {
     setIsCollapsed(!isCollapsed);
   };
-  const userContext = useAppContext()[0] as any
-  const roles = userContext?.user?.roles.map((role: any) => role?.name);
-  const practice = userContext?.user?.practice;
-  const router = useRouter();
-  const dispatch = useDispatch();
+
+  const isUserLeadForGroup = async () => {
+    const result = await new GroupUsersService().getIsUserLeadForGroup(userEmail);
+    setIsUserLead(result?.value?.data);
+  }
 
 
-  const handleNavigation = () => {
-    dispatch(setPractice(practice));
-    router.push(`${routes.practiceDashboard}?practice=${ practice }`);
+  const handleNavigation = (e:any) => {
+    
+      dispatch(setPractice(practice));
+
+      if(typeof(e) === "string"){
+        router.push(`${routes.leadGroupsUsers}`);
+      }else{
+        router.push(`${routes.practiceDashboard}?practice=${practice}`);
+      }
   };
 
   const isActive = (path: string) => usePathname() === path as any;
@@ -74,17 +94,33 @@ export const LeftMenubar = () => {
                 </Link>
               </li>
             ) : (
-              <li onClick={handleNavigation}>
-                <div
-                  className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-cyan-700' : ''}`}
+              <Fragment>
+                <li onClick={handleNavigation}>
+                  <div
+                    className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-cyan-700' : ''}`}
 
-                >
-                  <div className="justify-start flex items-center w-52">
-                    <MdDeveloperMode />
-                    {!isCollapsed && <span className='ps-3'>My Practice</span>}
+                  >
+                    <div className="justify-start flex items-center w-52">
+                      <MdDeveloperMode />
+                      {!isCollapsed && <span className='ps-3'>My Practice</span>}
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+                {isUserLead &&
+                  <li onClick={()=>handleNavigation("group")}>
+                    <div
+                      className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupsUsers) ? 'bg-cyan-700' : ''}`}
+
+                    >
+                      <div className="justify-start flex items-center w-52">
+                        <GoPasskeyFill />
+                        {!isCollapsed && <span className='ps-3'>Group Access</span>}
+                      </div>
+
+                    </div>
+                  </li>
+                }
+              </Fragment>
             )}
 
             {/* <li>

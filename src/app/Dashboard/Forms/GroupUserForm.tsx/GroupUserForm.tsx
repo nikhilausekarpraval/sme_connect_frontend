@@ -83,6 +83,7 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
     }
 
     const handleSubmitForm = async (e: React.FormEvent) => {
+        debugger;
         e.preventDefault();
         var result;
         var formError;
@@ -92,6 +93,8 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                 const newGroupUser = {...groupUser}
                     newGroupUser.groupRoleClaims = selectedClaims?.map((claim)=> claim?.value)
 
+                    console.log(newGroupUser)
+
                 if (isCreate) {
                     result = await new GroupUserService().addGroupUser(newGroupUser);
                 }else {
@@ -99,7 +102,7 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                 }
 
                 if (result?.statusCode != 200) {
-                    formError = result?.value?.message
+                    formError = result?.value
 
                     setErrors({ ...errors, userEmail: formError });
                     

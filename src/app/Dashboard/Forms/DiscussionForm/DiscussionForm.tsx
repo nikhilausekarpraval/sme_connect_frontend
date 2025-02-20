@@ -71,7 +71,7 @@ const DiscussionForm: React.FC<DiscussionFormProps> = ({ selectedDiscussion, isC
                 }
 
                 if (result.statusCode != 200) {
-                    formError = result?.value?.message
+                    formError = result?.value
                     if (formError?.includes("already exist") || formError?.includes("not found.")) {
                         setErrors({ ...errors, title: formError });
                     }

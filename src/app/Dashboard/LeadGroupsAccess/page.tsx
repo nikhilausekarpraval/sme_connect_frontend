@@ -5,7 +5,7 @@ import { IGroupUser } from '@/app/Interfaces/Interfaces';
 import React, { useEffect, useState } from 'react';
 import SortWorker from '@/app/Workers/SortWorker';
 import SearchWorker from '@/app/Workers/SearchWorker';
-import { emptyGroupUsers, GroupUsersColumnConfig, groupUsersHeader} from '@/app/Constants/Constants';
+import { emptyGroupUsers, GroupUsersColumnConfig, groupUsersHeader, practiceHeaders} from '@/app/Constants/Constants';
 import ConfirmPopup from '@/app/Components/ConfirmPopup/ConfirmPopup';
 import GroupUsersService from '@/app/Services/GroupUsersService';
 import GroupUserForm from '../Forms/GroupUserForm.tsx/GroupUserForm';
@@ -28,6 +28,8 @@ export default function GroupUsersAdminDashboard() {
   const [isCreate, setIsCreate] = useState(false);
   const [selectedGroupUsers, setSelectedGroupUsers] = useState<IGroupUser>(emptyGroupUsers);
   const [isShowDelete, setIsShowDelete] = useState(false);
+  const context = JSON.parse(sessionStorage?.getItem("userContext") as string);
+  const userEmail = context?.user?.email;
 
   let searchWorker: Worker;
   let sortWorker: Worker;
@@ -60,7 +62,7 @@ export default function GroupUsersAdminDashboard() {
 
     try {
 
-      const result = await _groupUsersService.getAllGroupUsers();
+      const result = await _groupUsersService.getLeadGroupAllUsers(userEmail);
 
       if(result?.statusCode == 200 && result?.value.status === "Success"){
         const sortedApis = await getSortedData(result?.value.data);

@@ -60,7 +60,7 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
                 }
 
                 if (result.statusCode != 200) {
-                    formError = result?.value?.message
+                    formError = result?.value
                     if (formError?.includes("already exist") || formError?.includes("not found.")) {
                         setErrors({ ...errors, name: formError });
                     }

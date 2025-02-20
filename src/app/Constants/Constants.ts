@@ -112,6 +112,7 @@ export const routes = {
   roleClaim:"/Dashboard/RoleClaim",
   practices: "/Dashboard/Practices",
   groupUsers: "/Dashboard/GroupUsers",
+  leadGroupsUsers: "/Dashboard/LeadGroupsAccess",
   practiceDashboard: "/Dashboard/PracticeDashboard",
   groupDashboard: "/Dashboard/PracticeDashboard/GroupDashboard",
   discussionDashboard:"/Dashboard/PracticeDashboard/GroupDashboard/DiscussionDashboard"
