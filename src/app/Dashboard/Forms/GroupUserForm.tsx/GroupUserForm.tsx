@@ -83,7 +83,6 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
     }
 
     const handleSubmitForm = async (e: React.FormEvent) => {
-        debugger;
         e.preventDefault();
         var result;
         var formError;

@@ -34,7 +34,7 @@ const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, sel
                 >  
                 {["string[]","claimDto[]"].includes(dataType)  ? (
                     <>{dataType === "string[]" ?
-                        <ItemDropdown items={item[field]?.map((item : any) => item?.name)} />
+                        <ItemDropdown items={item[field]?.map((item : any) => item?.name ? item?.name : item)} />
                         : 
                         <ItemDropdown items={item[field]?.map((item : any) => item?.claimType)} />
                     }

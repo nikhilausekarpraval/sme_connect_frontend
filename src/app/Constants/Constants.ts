@@ -211,6 +211,10 @@ export const GroupUsersColumnConfig = [
     field: "groupRole",
     dataType: "string",
   },
+  {
+    field: "groupRoleClaims",
+    dataType: "string[]",
+  },
 
 ];
 
@@ -359,6 +363,8 @@ export const groupUsersHeader = {
   userEmail:"User Email",
 
   groupRole : "Group Role",
+
+  groupRoleClaims: "Group Role Claims",
 
   modifiedOnDt: 'Modified On Dt',
 
