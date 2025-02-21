@@ -73,6 +73,8 @@ const LoginModal:React.FC = () => {
       }
     }else if(id ==="email"){
       setErrors({ ...errors, email: "" })
+    }else if(id ==="phoneNumber"){
+      setErrors({...errors,phoneNumber:""})
     }else if(id.includes("answer") ){
       // if(!validatePassword(value)){
       //   setErrors({...errors,[id]:"Invalid password, password must have Capital, small, number and special character"})
@@ -184,7 +186,7 @@ const LoginModal:React.FC = () => {
         <Modal.Body className="h-90">
           <Form className="d-flex flex-column gap-1 px-2 h-96 overflow-y-scroll" onSubmit={handleSubmitForm}>
             <Form.Group controlId="userName">
-              <Form.Label className="block text-gray-700 font-bold mb-2">User Name</Form.Label>
+              <Form.Label className="block text-gray-700 font-bold mb-2">User Name <span className="ps-1 text-red-600">*</span></Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter you name"
@@ -211,7 +213,7 @@ const LoginModal:React.FC = () => {
               />
             </Form.Group>
             <Form.Group controlId="email">
-              <Form.Label className="block text-gray-700 font-bold mb-2">Your Email</Form.Label>
+              <Form.Label className="block text-gray-700 font-bold mb-2">Your Email<span className="ps-1 text-red-600">*</span></Form.Label>
               <Form.Control
                 type="email"
                 placeholder="name@mail.com"
@@ -223,6 +225,21 @@ const LoginModal:React.FC = () => {
               />
               <div className="text-red-600">
                   {errors.email}
+              </div>
+            </Form.Group>
+            <Form.Group controlId="phoneNumber">
+              <Form.Label className="block text-gray-700 font-bold mb-2">Mobile Number<span className="ps-1 text-red-600">*</span></Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="mobile number..."
+                className="w-100"
+                onChange={handleChange}
+                value={user.phoneNumber}
+                max={10}
+                required
+              />
+              <div className="text-red-600">
+                  {errors.phoneNumber}
               </div>
             </Form.Group>
             {/* <Form.Group controlId="password">
