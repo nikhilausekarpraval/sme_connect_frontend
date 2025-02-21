@@ -500,6 +500,7 @@ export const warningMessages = {
    faildToDelete : "Failed to delete the discussion",
    faildToCreate : "Faild to create the ",
    faildToUpdate : "Faild to update the ",
+   requestExist : "Request already exist.",
 
 }
 
@@ -508,6 +509,7 @@ export const sucessMessages = {
   createdSuccessfully : "Created sucessfully.",
   updatedSuccessfully : "Updated successfully.",
   deletedSucessfully : "Deleted successfully.",
+  deletedDiscussion : "Sucessfully deleted discussion.",
   requestedToRegister : "Successfully requested for ",
   leftGroup : "Left group ",
 

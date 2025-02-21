@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import './GroupDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
-import { discussionTabs, emptyDiscussion, routes, warningMessages } from '@/app/Constants/Constants';
+import { discussionTabs, emptyDiscussion, routes, sucessMessages, warningMessages } from '@/app/Constants/Constants';
 import { IDiscussion, IGroupUser } from '@/app/Interfaces/Interfaces';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
@@ -126,13 +126,13 @@ export default function page() {
             if (result?.statusCode == 200) {
                 // call reload to load data
                 loadData();
-                toast.success(`Sucessfully deleted discussion.`);
+                toast.success(`${sucessMessages.deletedDiscussion}`);
             } else {
-                toast.success(warningMessages.faildToDelete);
+                toast.error(warningMessages.faildToDelete);
                 console.error(warningMessages.faildToDelete);
             }
         } catch (error:any) {
-            console.error('Error while deleting discussion:', error);
+            toast.error(error.message);
             console.error(error?.message);
         }
     }
@@ -155,10 +155,18 @@ export default function page() {
         try {
             var groupRequest = { id: 0, RequestStatus: false, RequestRole: role, groupName: decodeURIComponent(group as string)?.toString(), practiceName: practice, userName: userEmail, approvalStatus: false }
             var result = await new GroupRequestService().addGroupRequest(groupRequest);
-            toast.success(`Successfully requested for ${role} `);
-
+            
+            if(!(result?.value?.data)){
+                toast.warning(`${warningMessages.requestExist}`);
+            }else {
+                toast.success(`${sucessMessages.requestedToRegister} ${role} `);
+            }
+           
         } catch (e: any) {
-            toast.success(`Failed to request.`);
+            toast.success(`${warningMessages.faildToCreate}`);
+            if(e?.message.includes(warningMessages.requestExist)){
+                toast.warning(warningMessages.requestExist);
+            }
             console.log(e)
         }
     }
