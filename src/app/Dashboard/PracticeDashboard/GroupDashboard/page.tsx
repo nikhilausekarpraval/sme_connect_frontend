@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import DiscussionsService from '@/app/Services/DiscussionService';
 import DiscussionForm from '../../Forms/DiscussionForm/DiscussionForm';
 import GroupRequestService from '@/app/Services/groupRequestService';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 
 export default function page() {
 
@@ -32,6 +33,7 @@ export default function page() {
     const context = JSON.parse(sessionStorage?.getItem("userContext") as string);
     const userEmail = context?.user?.email;
     const userRoles = context?.roles;
+    
 
     useEffect(() => {
         loadData();
@@ -124,11 +126,14 @@ export default function page() {
             if (result?.statusCode == 200) {
                 // call reload to load data
                 loadData();
+                toast.success(`Sucessfully deleted discussion.`);
             } else {
-                console.error('Failed to delete the discussion');
+                toast.success(warningMessages.faildToDelete);
+                console.error(warningMessages.faildToDelete);
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error('Error while deleting discussion:', error);
+            console.error(error?.message);
         }
     }
 
@@ -150,8 +155,10 @@ export default function page() {
         try {
             var groupRequest = { id: 0, RequestStatus: false, RequestRole: role, groupName: decodeURIComponent(group as string)?.toString(), practiceName: practice, userName: userEmail, approvalStatus: false }
             var result = await new GroupRequestService().addGroupRequest(groupRequest);
+            toast.success(`Successfully requested for ${role} `);
 
         } catch (e: any) {
+            toast.success(`Failed to request.`);
             console.log(e)
         }
     }
@@ -159,6 +166,18 @@ export default function page() {
     return (
 
         <div className='flex h-100 flex-1 overflow-hidden'>
+            <ToastContainer position="top-center"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                            transition={Bounce}
+            />
             <DiscussionForm isCreate={showDisscussionForm} isEdit={isEdit} group={decodeURIComponent(group as string)?.toString()} clearForm={clearForm} selectedDiscussion={selectedDiscussion} save={saveDiscussion} />
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='flex p-4 gap-4 items-center'>

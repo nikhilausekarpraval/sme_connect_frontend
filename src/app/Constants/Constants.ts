@@ -497,5 +497,21 @@ export const roleClaimConfig = [
 export const warningMessages = {
 
    addLeadToGroup : "Please add Lead into current group",
-    
+   faildToDelete : "Failed to delete the discussion",
+   faildToCreate : "Faild to create the ",
+   faildToUpdate : "Faild to update the ",
+
 }
+
+export const sucessMessages = {
+
+  createdSuccessfully : "Created sucessfully.",
+  updatedSuccessfully : "Updated successfully.",
+  deletedSucessfully : "Deleted successfully.",
+  requestedToRegister : "Successfully requested for ",
+  leftGroup : "Left group ",
+
+
+
+}
+
