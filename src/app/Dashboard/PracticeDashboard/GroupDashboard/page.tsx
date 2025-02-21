@@ -119,7 +119,7 @@ export default function page() {
 
     const deleteDiscussion = async (discussion: any) => {
         try {
-            const result = await new DiscussionsService().deleteDiscussion(discussion?.name);
+            const result = await new DiscussionsService().deleteDiscussion(discussion);
 
             if (result?.statusCode == 200) {
                 // call reload to load data

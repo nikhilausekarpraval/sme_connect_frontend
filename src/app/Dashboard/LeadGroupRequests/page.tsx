@@ -79,13 +79,13 @@ export default function GroupRequestAdminDashboard() {
   };
 
 
-    const performAction=(action:string,item:any)=>{
-  
+    const performAction=async(action:string,item:any)=>{
+
           var updatedRequest = item;
           updatedRequest.requestStatus = true;
-          updatedRequest.approvalStatus = action === "Approved";
-          _groupRequestService.updateGroupRequest(updatedRequest)
-      
+          updatedRequest.approvalStatus = (action === "Approve");
+          await _groupRequestService.updateGroupRequest(updatedRequest)
+          reloadData();
     }
 
   const sortTableData = (
