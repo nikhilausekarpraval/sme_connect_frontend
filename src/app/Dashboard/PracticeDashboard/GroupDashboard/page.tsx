@@ -200,7 +200,7 @@ export default function page() {
             <div className="col col-sm-3 h-100">
                 <div className="flex flex-1 flex-col h-100">
                     <div className="role-section p-2">
-                        <div className="role-title">Leads <span onClick={() => RequestForRole("SME")} className='ps-2 font-bold text-sm text-blue-600 underline cursor-pointer '>Register for Lead</span></div>
+                        <div className="role-title">Leads <span onClick={() => RequestForRole("Lead")} className='ps-2 font-bold text-sm text-blue-600 underline cursor-pointer '>Register for Lead</span></div>
                         <div className="role-content pe-2 flex flex-col gap-2">
                             {getEmployees("Lead")}
                         </div>
