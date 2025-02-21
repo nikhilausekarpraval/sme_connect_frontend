@@ -18,6 +18,14 @@ class GroupRequestService {
         return await apiService.delete("api/GroupRequest/delete_group_requests",group_request)
     }
 
+    async getIsUserLeadForGroup(userName:string) {
+        return await apiService.get(`api/GroupRequest/get_is_user_lead?userName=${userName}`)
+    }
+
+    async getGroupUserCount(userName:string) {
+        return await apiService.get(`api/GroupRequest/get_group_request_count?userEmail=${userName}`)
+    }
+
     async getGroupRequests(userEmail="",token=""){
         return await apiService.get(`api/GroupRequest/get_group_requests?userEmail=${userEmail}`);
     }

@@ -1,5 +1,5 @@
 'use client'
-
+import './LeftMenubar.scss'
 import { routes } from '@/app/Constants/Constants';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -11,8 +11,10 @@ import { MdDeveloperMode } from "react-icons/md";
 import { useAppContext } from '@/app/Context/AppContext';
 import { useDispatch } from 'react-redux';
 import { setPractice } from '@/store/userSlice';
-import GroupUsersService from '@/app/Services/GroupUsersService';
 import { GoGitPullRequest } from "react-icons/go";
+import BellIconSVG from '@/app/Assets/Images/BellIconSVG';
+import GroupRequestService from '@/app/Services/groupRequestService';
+
 
 
 export const LeftMenubar = () => {
@@ -22,7 +24,7 @@ export const LeftMenubar = () => {
   const practice = userContext?.user?.practice;
   const userEmail = userContext?.user?.email;
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isUserLead, setIsUserLead] = useState(false);
+  const [userRequestCount, setUserRequestCount] = useState({isLead:false,requestCount:0});
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -35,8 +37,8 @@ export const LeftMenubar = () => {
   };
 
   const isUserLeadForGroup = async () => {
-    const result = await new GroupUsersService().getIsUserLeadForGroup(userEmail);
-    setIsUserLead(result?.value?.data);
+    const result = await new GroupRequestService().getIsUserLeadForGroup(userEmail);
+    setUserRequestCount(result?.value?.data);
   }
 
 
@@ -107,7 +109,7 @@ export const LeftMenubar = () => {
                     </div>
                   </div>
                 </li>
-                {isUserLead &&
+                {userRequestCount?.isLead  &&
                   <Fragment>
                     <li onClick={() => handleNavigation(routes.leadGroupsUsers)}>
                       <div
@@ -116,6 +118,10 @@ export const LeftMenubar = () => {
                         <div className="justify-start flex items-center w-52">
                           <GoPasskeyFill />
                           {!isCollapsed && <span className='ps-3'>Group Access</span>}
+                          <div className="group-notification ps-3">
+                            <BellIconSVG />
+                            <span className="chat-count">{userRequestCount?.requestCount}</span>
+                          </div>
                         </div>
 
                       </div>

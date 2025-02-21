@@ -27,10 +27,6 @@ class GroupUserService {
         return await apiService.get(`api/GroupUsers/get_lead_group_all_users?userName=${userName}`)
     }
 
-    async getIsUserLeadForGroup(userName:string) {
-        return await apiService.get(`api/GroupUsers/get_is_user_lead?userName=${userName}`)
-    }
-
     async deleteGroupUsers(group_user_user:string[]) {
         return await apiService.delete("api/GroupUsers/delete_group_users",group_user_user)
     }
