@@ -39,6 +39,7 @@
     "react-responsive-pagination": "^2.9.0",
     "react-toastify": "^11.0.3",
     "sass": "^1.83.4",
+    "sharp": "^0.33.5",
     "tw-elements": "^2.0.0"
   },
   "devDependencies": {

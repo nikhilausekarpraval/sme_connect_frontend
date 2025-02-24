@@ -1,5 +1,5 @@
 import React from "react";
-import './joinedGroupList.scss';
+import './JoinedGroupList.scss';
 import { routes } from "@/app/Constants/Constants";
 import  { useRouter, useSearchParams } from "next/navigation";
 import BellIconSVG from "@/app/Assets/Images/BellIconSVG";
