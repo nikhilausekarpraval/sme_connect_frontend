@@ -41,7 +41,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
   useEffect(() => {
     var token = sessionStorage.getItem("accessToken")  as string;
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5234/chathub',{
+      .withUrl(`${process.env.DOT_NET_CORE_SIGNALR_URL}/chathub`,{
         accessTokenFactory: () =>  token
       })  
       .withAutomaticReconnect()
