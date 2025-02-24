@@ -2,7 +2,7 @@ import { apiService } from "./commonService"
 
 class messagesService {
 
-    baseUrl = "https://localhost:5234/";
+    baseUrl = process.env.DOT_NET_CORE_SIGNALR_URL;
     constructor() {
 
     }

@@ -9,7 +9,7 @@ class ApiService {
   baseUrl: string;
 
   constructor() {
-      this.baseUrl = 'https://localhost:9091/';
+      this.baseUrl = process.env.DOT_NET_CORE_URL as string
   }
 
 
