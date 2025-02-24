@@ -67,7 +67,7 @@ const page: React.FC = () => {
                     <div className="role-section p-2">
                         <div className="role-title">Leads</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.groupRole === "Lead").map((user1: any) => (
+                            {users?.filter((user) => user?.groupRole === "Lead").map((user1: any) => (
                                 <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
@@ -75,7 +75,7 @@ const page: React.FC = () => {
                     <div className="role-section p-2">
                         <div className="role-title ">SMEs</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.groupRole === "SME").map((user1: any) => (
+                            {users?.filter((user) => user?.groupRole === "SME").map((user1: any) => (
                                 <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
@@ -83,7 +83,7 @@ const page: React.FC = () => {
                     <div className="role-section p-2">
                         <div className="role-title ">Members</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users.filter((user) => user.groupRole === "Member").map((user1: any) => (
+                            {users?.filter((user) => user?.groupRole === "Member").map((user1: any) => (
                                 <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
                             ))}
                         </div>
