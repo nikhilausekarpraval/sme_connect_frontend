@@ -1,6 +1,6 @@
 import { downloadFile, getCurrentTime } from "@/app/Helpers/Helpers";
 import React, { useState, useRef, useEffect } from "react";
-import { MoreVertical } from "lucide-react";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 
 interface IMessage {
@@ -61,7 +61,7 @@ const Message: React.FC<IMessage> = ({
                     onClick={() => setMenuOpen(menuOpen === file.fileName ? null : file.fileName)}
                     className="p-1 ml-2 hover:bg-gray-300 rounded-md"
                   >
-                    <MoreVertical size={18} />
+                    <BsThreeDotsVertical size={18} />
                   </button>
 
                   {menuOpen === file.fileName && (

@@ -1,4 +1,4 @@
-import { Circle } from "lucide-react";
+import { FaRegCircle } from "react-icons/fa6";
 import AnnouncementsCard from "./Components/Announcements/Announcements";
 
 
@@ -13,15 +13,15 @@ export default function Home() {
             <h2 className="text-xl font-semibold mt-2">Make connections seamlessly</h2>
             <ul className="mt-4 space-y-2">
               <li className="flex items-start gap-2">
-                <Circle className="w-4 h-4 text-green-500 mt-1" />
+                <FaRegCircle className="w-4 h-4 text-green-500 mt-1" />
                 <span>Accelerating change to achieve desired goals efficiently.</span>
               </li>
               <li className="flex items-start gap-2">
-                <Circle className="w-4 h-4 text-green-500 mt-1" />
+                <FaRegCircle className="w-4 h-4 text-green-500 mt-1" />
                 <span>Leverages top talent and in-house expertise to drive success.</span>
               </li>
               <li className="flex items-start gap-2">
-                <Circle className="w-4 h-4 text-green-500 mt-1" />
+                <FaRegCircle className="w-4 h-4 text-green-500 mt-1" />
                 <span>Focuses on building trust and delivering tangible results.</span>
               </li>
             </ul>

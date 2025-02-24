@@ -4,7 +4,7 @@ import { useAppContext } from "@/app/Context/AppContext";
 import { GetTimeStampFormatedDate } from "@/app/Helpers/Helpers";
 import { IAnnouncement } from "@/app/Interfaces/Interfaces";
 import AnnouncementService from "@/app/Services/announcementService";
-import { Bell } from "lucide-react";
+import { LuBellRing } from "react-icons/lu";
 import { useEffect, useState } from "react";
 
 export default function AnnouncementsCard() {
@@ -26,7 +26,7 @@ export default function AnnouncementsCard() {
         <div className="max-w-md bg-white  rounded-lg mt-4 ">
             <div className="flex justify-between items-center border-b pb-2 mb-2">
                 <h2 className="text-lg font-semibold flex items-center gap-2">
-                    <Bell className="w-5 h-5 text-blue-500" />
+                    <LuBellRing className="w-5 h-5 text-blue-500" />
                     Announcements 
                     <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                         {announcements?.length}
