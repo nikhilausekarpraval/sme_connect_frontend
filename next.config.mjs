@@ -4,6 +4,7 @@
 const nextConfig = {
   reactStrictMode: false,
   eslint: {
+    output: 'export',
     ignoreDuringBuilds: true, // Ignores ESLint during build
   },
 };
