@@ -9,7 +9,7 @@ class ApiService {
   baseUrl: string;
 
   constructor() {
-      this.baseUrl = process.env.DOT_NET_CORE_URL as string
+      this.baseUrl = process.env.NEXT_PUBLIC_DOT_NET_CORE_URL?.toString() as string
   }
 
 
