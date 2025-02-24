@@ -36,8 +36,8 @@ jobs:
           AZURE_AD_CLIENT_ID: "5bfa2aed-bd36-44f2-a920-f0803d1f7b62"
           AZURE_AD_TENANT_ID: "648ca8d9-38e9-44ca-bc27-20e5a79ee859"
           NEXTAUTH_URL: "http://localhost:3000/"
-          NEXT_PUBLIC_DOT_NET_CORE_URL: "https://localhost:9091/"
-          NEXT_PUBLIC_DOT_NET_CORE_SIGNALR_URL: "https://localhost:5234/"
+          NEXT_PUBLIC_DOT_NET_CORE_URL: "smeconnect-g2ewe9f0hkdpc4ap.canadacentral-01.azurewebsites.net"
+          NEXT_PUBLIC_DOT_NET_CORE_SIGNALR_URL: "smeconnectsignalr-cwb4a8ergjefbjfk.canadacentral-01.azurewebsites.net"
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
