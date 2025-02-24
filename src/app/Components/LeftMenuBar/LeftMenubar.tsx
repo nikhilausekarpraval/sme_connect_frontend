@@ -118,10 +118,6 @@ export const LeftMenubar = () => {
                         <div className="justify-start flex items-center w-52">
                           <GoPasskeyFill />
                           {!isCollapsed && <span className='ps-3'>Group Access</span>}
-                          <div className="group-notification ps-3">
-                            <BellIconSVG />
-                            <span className="chat-count">{userRequestCount?.requestCount}</span>
-                          </div>
                         </div>
 
                       </div>
@@ -133,6 +129,10 @@ export const LeftMenubar = () => {
                         <div className="justify-start flex items-center w-52">
                           <GoGitPullRequest />
                           {!isCollapsed && <span className='ps-3'>Group Requests</span>}
+                          <div className="group-notification ps-3">
+                            <BellIconSVG />
+                            <span className="chat-count">{userRequestCount?.requestCount}</span>
+                          </div>
                         </div>
                       </div>
                     </li>

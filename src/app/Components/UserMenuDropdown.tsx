@@ -1,34 +1,52 @@
-import { FaArrowUp, FaArrowDown } from "react-icons/fa6";
+import { MdOutlineKeyboardArrowUp, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { routes } from '../Constants/Constants';
 import authService from '../Services/authService';
 import { useRouter } from 'next/navigation';
 import { signOut } from "next-auth/react";
 
 export default function UserMenuDropdown() {
-    
-    const [isDropdown, setIsDropdown] = useState(false);
+    const [isDropdown, setIsDropdown] = useState<boolean>(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
     const logout = async () => {
-        await authService.logout();
-        await signOut();
-        router.push("/");
-        sessionStorage.clear();
-        window.location.reload();
+        try {
+            await authService.logout();
+            await signOut();
+            router.push("/");
+            sessionStorage.clear();
+            window.location.reload();
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
     };
 
+    // Close dropdown if clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdown(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="relative text-left">
+        <div className="relative text-left" ref={dropdownRef}>
             {/* Dropdown Button */}
             <button 
-                onClick={() => setIsDropdown(!isDropdown)} 
+                onClick={() => setIsDropdown((prev) => !prev)} 
                 className="flex justify-center items-center pe-1 rounded-md px-0 py-0 text-sm font-semibold text-gray-900 hover:bg-gray-200 opacity-70"
             >
                 {isDropdown ? 
-                    <FaArrowDown className="-mr-1 h-5 w-5 text-white" /> : 
-                    <FaArrowUp className="-mr-1 h-5 w-5 text-white" />
+                    <MdOutlineKeyboardArrowDown className="-mr-1 h-5 w-5 text-white" /> : 
+                    <MdOutlineKeyboardArrowUp className="-mr-1 h-5 w-5 text-white" />
                 }
             </button>
 
