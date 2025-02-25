@@ -1,6 +1,6 @@
 "use client";
 
-import { getSocket } from '@/config/socket';
+// import { getSocket } from '@/config/socket';
 import { useEffect, useMemo, useState } from 'react';
 import { GrSend } from "react-icons/gr";
 import './page.scss';
@@ -9,26 +9,26 @@ export default function Chat() {
   const [inputMessage, setInputMessage] = useState('');
   const [receivedMessages, setReceivedMessages] = useState<string[]>([]);
 
-  const socket = useMemo(() => {
-    const socket = getSocket();
-    return socket.connect();
-  }, []);
+  // const socket = useMemo(() => {
+  //   const socket = getSocket();
+  //   return socket.connect();
+  // }, []);
 
-  useEffect(() => {
-    socket.on("receiveMessage", (message) => {
-      setReceivedMessages((prevMessages) => [...prevMessages, message]);
-    });
+  // useEffect(() => {
+  //   socket.on("receiveMessage", (message) => {
+  //     setReceivedMessages((prevMessages) => [...prevMessages, message]);
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [socket]);
 
   const sendMessage = () => {
-    if (inputMessage.trim()) {
-      socket.emit('sendMessage', inputMessage);
-      setInputMessage('');
-    }
+    // if (inputMessage.trim()) {
+    //   socket.emit('sendMessage', inputMessage);
+    //   setInputMessage('');
+    // }
   };
 
   return (

@@ -1,9 +1,9 @@
 import * as React from "react";
-import { CaretDownFill, CaretUpFill } from 'react-bootstrap-icons';
+import { BiSolidDownArrow ,BiSolidUpArrow} from "react-icons/bi";
 export class AscSortSVG extends React.Component {
     render() {
         return (
-                <CaretUpFill />
+                <BiSolidUpArrow />
 
         );
 
@@ -13,7 +13,7 @@ export class AscSortSVG extends React.Component {
 export class DescSortSVG extends React.Component {
     render() {
         return (
-                <CaretDownFill />
+                <BiSolidDownArrow />
         );
     }
 }

@@ -73,7 +73,6 @@ const clearForm =()=>{
 
   const showRegisterForm=()=>{
 
-      console.log("sdfsdfsf")
       clearForm()
       closeForm();
 
@@ -124,18 +123,13 @@ const clearForm =()=>{
               Login
             </Button>
 
-            {/* <Button
+            <Button
               variant="outline-secondary"
               size="lg"
               className="d-flex justify-content-center align-items-center gap-2 w-100"
             >
-              <Image
-                src="https://www.material-tailwind.com/logos/logo-google.png"
-                alt="google"
-                className="h-6 w-6"
-              />
-              Sign in with Google
-            </Button> */}
+              Sign in with Praval
+            </Button>
 
             <Button
               variant="outline-secondary"

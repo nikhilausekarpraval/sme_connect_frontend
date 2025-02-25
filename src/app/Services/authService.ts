@@ -15,7 +15,7 @@ const authService = {
       accessToken = data?.value.token;
 
       // set token to next js server 
-    await  this.storeToken(accessToken);
+      await  this.storeToken(accessToken);
       
       sessionStorage.setItem('accessToken', accessToken);
 
@@ -23,6 +23,27 @@ const authService = {
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
+    }
+  },
+
+
+  async getAccessTokenUsingIdToken (idToken:string) {
+    try {
+      debugger;
+      const response = await fetch("/api/auth/exchange-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }), 
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch access token");
+      }
+
+      const data = await response.json();
+      return data.accessToken;
+    } catch (err) {
+
     }
   },
 
@@ -91,7 +112,7 @@ const authService = {
     if (!token) return null;
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

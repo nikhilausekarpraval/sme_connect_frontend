@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "../Interfaces/Interfaces";
+import moment from "moment";
 import { allow15_7Numbers, allow15Numbers, allowDotAndDash, allowIntegers, allowNumbers, mobileNumberRegex, replaceChracterWithSpace, replaceNumbersWithSpace, roleClaimConfig, validString, validTitle } from "../Constants/Constants";
 
 export const validatePassword =(password:string)=> {
@@ -22,6 +23,12 @@ export const isTokenExpired =(token :string) =>{
     return true;
   }
 }
+
+
+export function GetTimeStampFormatedDate(dateInput:any) {
+    return moment(dateInput).format("DD MMM YYYY, h:mm A");
+}
+
 
 export function formatDate(inputDate : any, yearMonth = false) {
 

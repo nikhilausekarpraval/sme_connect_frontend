@@ -9,10 +9,12 @@ class ApiService {
   baseUrl: string;
 
   constructor() {
-      this.baseUrl = 'http://localhost:9091/';
+    this.baseUrl = process.env.NEXT_PUBLIC_DOT_NET_CORE_URL ?? "";
+    if (!this.baseUrl) {
+      console.error("API base URL is missing!");
+    }
   }
-
-
+  
   /**
    * Fetch data from an API endpoint, with token handling.
    * @param {string} endpoint - The API endpoint to call.
@@ -21,6 +23,7 @@ class ApiService {
    */
   // eslint-disable-next-line
   async apiFetch(endpoint: string, options: any, serverToken = "", newBaseUrl = "") {
+
     let response: any;
     try {
       const token = serverToken !== "" ? serverToken : await authService.getAccessToken();
@@ -39,9 +42,10 @@ class ApiService {
       if (!isFormData) {
         headers['Content-Type'] = 'application/json';
       }
-  
+      const finalUrl = (newBaseUrl || this.baseUrl).replace(/\/$/, '') + "/" + endpoint.replace(/^\//, '');
+      // `${newBaseUrl !== "" ? newBaseUrl : this.baseUrl}${endpoint}`
       response = await fetch(
-        `${newBaseUrl !== "" ? newBaseUrl : this.baseUrl}${endpoint}`,
+        finalUrl,
         {
           ...options,
           headers,
@@ -71,7 +75,7 @@ class ApiService {
     return await this.apiFetch(endpoint, { method: 'GET' },token,newBaseUrl);
   }
 
-  async post(endpoint: string, body: object | FormData, newBaseUrl = "") {
+  async post(endpoint: string, body: object | FormData, newBaseUrl = "", token="") {
     const isFormData = body instanceof FormData;
   
     return await this.apiFetch(
@@ -80,7 +84,7 @@ class ApiService {
         method: 'POST',
         body: isFormData ? body : JSON.stringify(body),
       },
-      "",
+      token,
       newBaseUrl
     );
   }

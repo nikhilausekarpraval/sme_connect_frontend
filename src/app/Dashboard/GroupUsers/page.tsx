@@ -5,7 +5,7 @@ import { IGroupUser } from '@/app/Interfaces/Interfaces';
 import React, { useEffect, useState } from 'react';
 import SortWorker from '@/app/Workers/SortWorker';
 import SearchWorker from '@/app/Workers/SearchWorker';
-import { emptyGroupUsers, GroupUsersColumnConfig, groupUsersHeader, practiceHeaders} from '@/app/Constants/Constants';
+import { emptyGroupUsers, GroupUsersColumnConfig, groupUsersHeader} from '@/app/Constants/Constants';
 import ConfirmPopup from '@/app/Components/ConfirmPopup/ConfirmPopup';
 import GroupUsersService from '@/app/Services/GroupUsersService';
 import GroupUserForm from '../Forms/GroupUserForm.tsx/GroupUserForm';

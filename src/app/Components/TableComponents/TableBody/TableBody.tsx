@@ -25,6 +25,7 @@ interface ITableBodyProps<T> {
   setCurrentPage: (page: number) => void;
   tableHeaders: any; 
   columnConfig: any;
+  performAction?:(action:string,item:any)=>void;
 }
 
 const TableBody = <T,>({
@@ -44,6 +45,7 @@ const TableBody = <T,>({
   handleRowCheckboxChange,
   sortTableData,
   setLoaderAndSortedData,
+  performAction,
 }: ITableBodyProps<T>) => {
 
   const myElementRef: RefObject<HTMLDivElement> = React.createRef();
@@ -77,6 +79,7 @@ const TableBody = <T,>({
       selectedItems={selectedItems}
       idColumn={idColumn}
       FieldConfig={columnConfig as any}
+      performAction={performAction}
     />
   }
 

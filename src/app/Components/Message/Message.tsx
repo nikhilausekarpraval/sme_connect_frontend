@@ -1,6 +1,6 @@
 import { downloadFile, getCurrentTime } from "@/app/Helpers/Helpers";
 import React, { useState, useRef, useEffect } from "react";
-import { MoreVertical } from "lucide-react";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 
 interface IMessage {
@@ -51,7 +51,7 @@ const Message: React.FC<IMessage> = ({
         {text}
 
         {attachments.length > 0 && (
-          <div className="attachments-container flex gap-3 mt-2">
+          <div className="attachments-container flex gap-3 ">
             {attachments.map((file, index) => (
               <div key={index} className="attachment-item relative flex items-center bg-white p-2 rounded-md">
                 <span className="text-sm text-gray-700">{file.fileName}</span>
@@ -61,7 +61,7 @@ const Message: React.FC<IMessage> = ({
                     onClick={() => setMenuOpen(menuOpen === file.fileName ? null : file.fileName)}
                     className="p-1 ml-2 hover:bg-gray-300 rounded-md"
                   >
-                    <MoreVertical size={18} />
+                    <BsThreeDotsVertical size={18} />
                   </button>
 
                   {menuOpen === file.fileName && (

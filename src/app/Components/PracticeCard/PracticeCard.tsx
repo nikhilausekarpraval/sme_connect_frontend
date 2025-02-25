@@ -21,8 +21,7 @@ const PracticeCard: React.FC<DepartmentCardProps> = ({ name, description }) => {
 
     const handleNavigation = () => {    
         dispatch(setPractice(name));
-        const data = JSON.stringify({ key: { title: name } });
-        router.push(`${routes.practiceDashboard}?data=${encodeURIComponent(data)}`);
+        router.push(`${routes.practiceDashboard}?practice=${name}`);
     };
     
     return (

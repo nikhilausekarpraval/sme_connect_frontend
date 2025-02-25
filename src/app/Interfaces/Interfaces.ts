@@ -104,7 +104,21 @@ export interface IGroupUser{
   userEmail:string,
   name:string,
   groupRole:string,
+  groupRoleClaims:string[],
 }
+
+export interface IGroupRequest {
+  id: number;
+  requestStatus: boolean;
+  requestRole: string;
+  groupName: string;
+  practiceName: string;
+  userName: string;
+  approvalStatus: boolean;
+  modifiedOnDt: Date; 
+  modifiedBy?: string;
+}
+
 
 export interface IRoleClaim{
 
@@ -194,6 +208,19 @@ export interface IApplicationContext {
 expiration:string,
 token:string,
 userContext : IUserContext
+}
+
+export interface IAnnouncement {
+  id: number;
+  userName?: string; 
+  groupName: string;
+  practiceName: string;
+  isFeature: boolean;
+  isAdmin: boolean;
+  message: string;
+  createdAt: Date;
+  createdBy: string;
+  isRead: boolean;
 }
 
 export interface JwtPayload {

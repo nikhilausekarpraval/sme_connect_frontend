@@ -8,134 +8,146 @@ import authService from "@/app/Services/authService";
 import React, { useEffect, useState } from "react";
 import LoginModal from "../RegisterUser/page";
 import UsersService from "@/app/Services/usersService";
+import { signIn } from "next-auth/react";
+import pravalImage from "../../Assets/Images/PRAVAL-LOGO.jpg";
+import Image from 'next/image';
 
-interface ILoginFormProps{
-    handleLogin:(userContext:IApplicationContext)=> void;
+
+interface ILoginFormProps {
+  handleLogin: (userContext: IApplicationContext) => void;
 }
 
-const LoginForm:React.FC<ILoginFormProps> = ({handleLogin}) => {
+const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
 
-  const [user,setUser] = useState(emptyUser)
-  const [errors,setErrors] = useState(registerUserFormErrors)
-  const [show,setShow] = useState(true);
-  const closeForm =()=>{setShow(false)};
-  const [isRegister,setIsRegister] = useState(false);
+  const [user, setUser] = useState(emptyUser)
+  const [errors, setErrors] = useState(registerUserFormErrors)
+  const [show, setShow] = useState(true);
+  const closeForm = () => { setShow(false) };
+  const [isRegister, setIsRegister] = useState(false);
   const [isResetUsingQuestion, setIsResetUsingQuestion] = useState(false);
   const [currentOperation, setCurrentOperation] = useState("Login");
   const service = new UsersService()
   //const router = useRouter();
 
-//   const [show, setShow] = useState(isShow);
+  //   const [show, setShow] = useState(isShow);
 
-//   const handleShow = () => setShow(true);
+  //   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    
+
     setIsRegister(false);
     setIsResetUsingQuestion(false);
-  }, [show]); 
+  }, [show]);
 
+  const handleSignIn = async () => {
+    try {
+       await signIn('azure-ad');
+  
+    } catch (err) {
+      console.error("Sign-in failed:", err);
+    }
+  };
+  
+  const handleSubmitForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    var result;
+    try {
 
+      if (!errors.password.includes("Invalid password")) {
 
-const  handleSubmitForm = async (e:React.FormEvent)=>{
-  e.preventDefault();
-  var result ;
-  try{
-    
-    if ( !errors.password.includes("Invalid password")) {
+        if (currentOperation === "Login") {
 
-    if(currentOperation === "Login"){
+          result = await authService.login(user.userName, user.password);
+          if (result?.statusCode !== 200 && result?.statusCode != 404) {
+            setErrors({ ...errors, invalid: "Invalid username or password" })
+          } else if (result?.statusCode == 404) {
+            setErrors({ ...errors, invalid: "User not found" })
 
-        result = await authService.login(user.userName,user.password);
-        if (result?.statusCode !== 200 && result?.statusCode != 404){
-            setErrors({...errors,invalid:"Invalid username or password"})
-        } else if (result?.statusCode == 404){
-          setErrors({...errors,invalid:"User not found"})
-          
-        }else {
-          closeForm();
-          console.log(result)
-          handleLogin(result.value.userContext);
-          clearForm();
-        }
+          } else {
+            closeForm();
+            sessionStorage.setItem('accessToken',result?.value?.token);
+            handleLogin(result?.value?.userContext);
+            clearForm();
+          }
 
-      }else {
+        } else {
           // used to forget user 
           const result = await service.forgettUserPasssword(user);
           const message = result?.value?.statusText
           const status = result?.value?.status
 
-          if(status === "Error" && message.includes("Question or answer is wrong!")){
-            setErrors({...errors,answer1 : message});
-          }else {
-            setErrors({...errors,answer1 : ""});
-              resetForm();
-              updateApplication();
+          if (status === "Error" && message.includes("Question or answer is wrong!")) {
+            setErrors({ ...errors, answer1: message });
+          } else {
+            setErrors({ ...errors, answer1: "" });
+            resetForm();
+            updateApplication();
           }
 
+        }
+      }
+    } catch (e: any) {
+
+      setErrors({ ...errors, invalid: e.message });
+      console.log(e)
     }
   }
-  }catch(e:any){
-    
-      setErrors({...errors,invalid : e.message});
-      console.log(e)
-  }
-}
 
 
-const updateApplication = () => {
-  sessionStorage.clear();
-  window.location.reload();
-}
-
-const resetForm = () => {
-  setUser(emptyUser);
-  setErrors(registerUserFormErrors);
-  setCurrentOperation("Login")
-  setIsResetUsingQuestion(false);
-}
-
-
-const clearForm =()=>{
-  setUser(emptyUser)
-  setErrors(registerUserFormErrors)
-}
-
- const  handleChange =(e:React.ChangeEvent<HTMLInputElement | any>)=>{
-        const {id,value} = e.target;
-        if(id === "password"){
-          if(!validatePassword(value)){
-                setErrors({...errors,password:"Invalid password, password must have Capital, small, number and special character"})
-            }else {
-              setErrors({...errors,password:""})
-            }
-        }
-        
-        setUser((prevUser) => ({
-          ...prevUser,
-          email: id === "userName" ? value : prevUser.email, 
-          [id]: value 
-        }));
+  const updateApplication = () => {
+    sessionStorage.clear();
+    window.location.reload();
   }
 
-  const showRegister =()=>{
+  const resetForm = () => {
+    setUser(emptyUser);
+    setErrors(registerUserFormErrors);
+    setCurrentOperation("Login")
+    setIsResetUsingQuestion(false);
+  }
+
+
+  const clearForm = () => {
+    setUser(emptyUser)
+    setErrors(registerUserFormErrors)
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+    const { id, value } = e.target;
+    if (id === "password") {
+      if (!validatePassword(value)) {
+        setErrors({ ...errors, password: "Invalid password, password must have Capital, small, number and special character" })
+      } else {
+        setErrors({ ...errors, password: "" })
+      }
+    }
+
+    setUser((prevUser) => ({
+      ...prevUser,
+      email: id === "userName" ? value : prevUser.email,
+      [id]: value
+    }));
+  }
+
+  const showRegister = () => {
     //setShow(false);
     setIsRegister(!isRegister)
     // closeForm();
     // clearForm();
-  
+
   }
 
-  const showLogin=()=>{
+  const showLogin = () => {
 
     setIsResetUsingQuestion(false)
     setCurrentOperation("Login")
   }
 
-  const forgetPassword=()=>{
+  const forgetPassword = () => {
     setIsResetUsingQuestion(true);
     setCurrentOperation("Forget Password")
   }
+
 
 
   return (
@@ -146,7 +158,7 @@ const clearForm =()=>{
           <div className="modal-content">
             <div className="modal-header">
               <h4 className="modal-title font-bold h4 w-100 text-center">
-                    {currentOperation}
+                {currentOperation}
               </h4>
               {/* <button type="button" className="close btn-close" onClick={closeForm} aria-label="Close">
               </button> */}
@@ -181,16 +193,18 @@ const clearForm =()=>{
                 </button>
 
                 {/* Uncomment if using Google button */}
-                {/* <button
+                <button
+                  onClick={handleSignIn}
                   className="btn btn-outline-secondary btn-lg d-flex justify-content-center align-items-center gap-2 w-100"
+                  type={"button"}
                 >
-                  <img
-                    src="https://www.material-tailwind.com/logos/logo-google.png"
-                    alt="google"
+                  <Image
+                    src={pravalImage}
+                    alt="praval"
                     className="h-6 w-6"
                   />
-                  Sign in with Google
-                </button> */}
+                  Sign in with praval
+                </button>
 
                 {currentOperation === "Login" && (
                   <button
@@ -204,9 +218,9 @@ const clearForm =()=>{
 
                 <div className="text-primary gap-3 d-flex justify-content-end align-items-center">
                   {currentOperation !== "Login" && (
-                    <button type="button" className="btn btn-link" onClick={showLogin}>
-                      Login
-                    </button>
+                      <button type="button" className="btn btn-link" onClick={showLogin}>
+                        Login
+                      </button>
                   )}
                   {currentOperation !== "Forget Password" && (
                     <button type="button" className="btn btn-link" onClick={forgetPassword}>

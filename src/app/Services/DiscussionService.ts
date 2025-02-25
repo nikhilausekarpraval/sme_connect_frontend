@@ -14,6 +14,18 @@ class DiscussionsService {
         return await apiService.post("api/Discussion/update_discussion", discussion)
     }
 
+    async getRecentDiscussion(discussionDetails: any,token="") {
+        return await apiService.post("api/Discussion/get_recent_discussions", discussionDetails,"",token)
+    }
+
+    async getSimilarDiscussion(discussionDetails: any) {
+        return await apiService.post("api/Discussion/get_similer_discussions", discussionDetails)
+    }
+
+    async getDiscussionUsers(discussionDetails: any) {
+        return await apiService.post("api/Discussion/get_discussion_users", discussionDetails)
+    }
+
     async deleteDiscussion(items:any) {
         return await apiService.delete("api/Discussion/delete_discussion",items)
     }

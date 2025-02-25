@@ -20,10 +20,11 @@ interface ITableFilterProps{
     setIsEdit:(isEdit:boolean)=>void;
     setIsCreate:(isCreate:boolean)=>void;
     showDelete:()=>void;
-    haveEdit?:boolean
+    haveEdit?:boolean;
+    isCreate?:boolean;
 }
 
-const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate,showDelete,haveEdit=true, search,selectedItems,resetFilters }) =>{
+const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate,showDelete,haveEdit=true, search,selectedItems,resetFilters,isCreate =true }) =>{
 
     const [searchValue, setSearchValue] = useState("");
     const [popupTitle,setPopupTitle]= useState("Delete record");
@@ -55,7 +56,7 @@ const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate,showDel
                         {(selectedItems.size === 1 && haveEdit) && (
                             <FilterButton icon={MdEdit} onClick={()=>setIsEdit(true)} title={"Edit"} />
                         )}
-                        {selectedItems.size <= 0 && (
+                        {(selectedItems.size <= 0 && isCreate) && (
                             <FilterButton icon={RiAddLargeLine} onClick={()=>setIsCreate(true)} title={"Add"} />
                         )}
                         {selectedItems.size >= 1 && (

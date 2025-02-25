@@ -1,28 +1,56 @@
 'use client'
-
+import './LeftMenubar.scss'
 import { routes } from '@/app/Constants/Constants';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { FaBars, FaHome, FaInfoCircle, FaTasks, FaTimes, FaUser } from 'react-icons/fa'; // Importing icons
+import { GoPasskeyFill } from "react-icons/go";
 import AdminOptionsDropdown from '../AdminOptionsDropdown';
 import { MdDeveloperMode } from "react-icons/md";
 import { useAppContext } from '@/app/Context/AppContext';
+import { useDispatch } from 'react-redux';
+import { setPractice } from '@/store/userSlice';
+import { GoGitPullRequest } from "react-icons/go";
+import BellIconSVG from '@/app/Assets/Images/BellIconSVG';
+import GroupRequestService from '@/app/Services/groupRequestService';
+
 
 
 export const LeftMenubar = () => {
+
+  const userContext = useAppContext()[0] as any
+  const roles = userContext?.user?.roles.map((role: any) => role?.name);
+  const practice = userContext?.user?.practice;
+  const userEmail = userContext?.user?.email;
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [userRequestCount, setUserRequestCount] = useState({isLead:false,requestCount:0});
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    isUserLeadForGroup();
+  }, [])
 
   const toggleMenu = () => {
     setIsCollapsed(!isCollapsed);
   };
-  const userContext = useAppContext()[0] as any
-  const roles = userContext?.user?.roles.map((role: any) => role?.name);
-  const practice = userContext?.user?.practice;
-  const router = useRouter();
 
-  const handleNavigation = () => {
-    router.push(`${routes.practiceDashboard}?data=${encodeURIComponent(JSON.stringify({ key: { title: practice } }))}`);
+  const isUserLeadForGroup = async () => {
+    const result = await new GroupRequestService().getIsUserLeadForGroup(userEmail);
+    setUserRequestCount(result?.value?.data);
+  }
+
+
+  const handleNavigation = (e: any) => {
+
+    dispatch(setPractice(practice));
+
+    if (typeof (e) === "string") {
+      router.push(`${e}`);
+    } else {
+      router.push(`${routes.practiceDashboard}?practice=${practice}`);
+    }
   };
 
   const isActive = (path: string) => usePathname() === path as any;
@@ -69,17 +97,48 @@ export const LeftMenubar = () => {
                 </Link>
               </li>
             ) : (
-              <li onClick={handleNavigation}>
-                <div
-                  className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-cyan-700' : ''}`}
+              <Fragment>
+                <li onClick={handleNavigation}>
+                  <div
+                    className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.practiceDashboard) ? 'bg-cyan-700' : ''}`}
 
-                >
-                  <div className="justify-start flex items-center w-52">
-                    <MdDeveloperMode />
-                    {!isCollapsed && <span className='ps-3'>My Practice</span>}
+                  >
+                    <div className="justify-start flex items-center w-52">
+                      <MdDeveloperMode />
+                      {!isCollapsed && <span className='ps-3'>My Practice</span>}
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+                {userRequestCount?.isLead  &&
+                  <Fragment>
+                    <li onClick={() => handleNavigation(routes.leadGroupsUsers)}>
+                      <div
+                        className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupsUsers) ? 'bg-cyan-700' : ''}`}
+                      >
+                        <div className="justify-start flex items-center w-52">
+                          <GoPasskeyFill />
+                          {!isCollapsed && <span className='ps-3'>Group Access</span>}
+                        </div>
+
+                      </div>
+                    </li>
+                    <li onClick={() => handleNavigation(routes.leadGroupRequests)}>
+                      <div
+                        className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupRequests) ? 'bg-cyan-700' : ''}`}
+                      >
+                        <div className="justify-start flex items-center w-52">
+                          <GoGitPullRequest />
+                          {!isCollapsed && <span className='ps-3'>Group Requests</span>}
+                          <div className="group-notification ps-3">
+                            <BellIconSVG />
+                            <span className="chat-count">{userRequestCount?.requestCount}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </Fragment>
+                }
+              </Fragment>
             )}
 
             {/* <li>

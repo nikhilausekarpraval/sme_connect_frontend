@@ -9,6 +9,10 @@ import { PiTreeViewFill } from "react-icons/pi";
 import { MdOutlineSecurity } from "react-icons/md";
 import { FiUsers } from 'react-icons/fi';
 import { RiGroup2Line } from 'react-icons/ri';
+import { GoGitPullRequest } from 'react-icons/go';
+import GroupRequestService from '../Services/groupRequestService';
+import { useSearchParams } from 'next/navigation';
+import BellIconSVG from '../Assets/Images/BellIconSVG';
 
 
 interface IAdminOptionsDropdownProps {
@@ -19,6 +23,9 @@ interface IAdminOptionsDropdownProps {
 const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapsed, isActive }) => {
   const [isDropdown, setIsDropdown] = useState(false);
   const menuRef: any = useRef(null);
+  const [requestCount,setRequestCount] = useState(0);
+  const context = JSON.parse(sessionStorage?.getItem("userContext") as string);
+  const userEmail = context?.user?.email;
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -27,12 +34,19 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
       }
     };
 
+      getRequestCount();
+
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const getRequestCount=async()=>{
+     var result =   await new GroupRequestService().getGroupUserCount(userEmail);
+     setRequestCount(result?.value?.data);
+  }
 
   const toggleDropdown = () => setIsDropdown(!isDropdown);
 
@@ -104,6 +118,21 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
               <div className="justify-start flex items-center w-44">
                <RiGroup2Line />
                 {!isCollapsed && <span className="ps-3">Group Users</span>}
+              </div>
+            </Link>
+
+            <Link  href={routes.leadGroupRequests}>
+              <div
+                className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupRequests) ? 'bg-cyan-700' : ''}`}
+              >
+                <div className="justify-start flex items-center w-52">
+                  <GoGitPullRequest />
+                  {!isCollapsed && <span className='ps-3'>Group Requests</span>}
+                  <div className="group-notification ps-3">
+                        <BellIconSVG />
+                        <span className="chat-count">{requestCount}</span>
+                  </div>
+                </div>
               </div>
             </Link>
             {/* <Link

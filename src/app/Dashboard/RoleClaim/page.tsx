@@ -225,7 +225,6 @@ const deleteSelected = async () => {
       }
     });
 
-    console.log(selectedRoleIds)
     //const result = await _claimService.deleteClaim(selectedItemsArray);
     setIsShowDelete(false);
     reloadData();

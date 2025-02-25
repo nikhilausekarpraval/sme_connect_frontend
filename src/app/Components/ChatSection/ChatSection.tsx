@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './ChatSection.scss';
-import { IDiscussion } from '@/app/Interfaces/Interfaces';
 import Message from '../Message/Message';
 import { useAppContext } from '@/app/Context/AppContext';
 import * as signalR from '@microsoft/signalr';
@@ -12,15 +11,13 @@ import EmojiPicker from 'emoji-picker-react';
 import FileUpload from '../ChatExample/ChatExample';
 import { CiFileOn } from 'react-icons/ci';
 import { RxCross2 } from 'react-icons/rx';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+
 
 interface IChatComponet {
   title: string,
-  discussions: IDiscussion
 }
 
-const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
+const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
 
   const [connection, setConnection] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
@@ -35,11 +32,18 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
   const [showEmoji, setShowEmoji] = useState(false);
   const [fileToRemove, setFiletoRemove] = useState("");
   const selectedFilesRef = useRef([]);
-  const practice = useSelector((state: RootState) => state.user.practice);
+
 
   useEffect(() => {
+    loadPreviousChat();
+  }, [searchParams]); 
+
+  useEffect(() => {
+    var token = sessionStorage.getItem("accessToken")  as string;
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5234/chathub')  
+      .withUrl(`${process.env.NEXT_PUBLIC_DOT_NET_CORE_SIGNALR_URL}chathub`,{
+        accessTokenFactory: () =>  token
+      })  
       .withAutomaticReconnect()
       .build();
 
@@ -53,14 +57,29 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
 }
 
   const getUserPractice=()=>{
-   return isSelectedRoleAdmin() ? practice : userContext?.user?.practice;
+   return isSelectedRoleAdmin() ? searchParams?.get("practice") : userContext?.user?.practice;
   }
 
   const loadPreviousChat = async () => {
-    var result = await messageService.getMessages({ id: 0, name: "", practice: getUserPractice(), group: groupName, discussion: title });
-    if (result?.value?.length > 0)
-      setMessages(result?.value);
-  }
+    if (!title) return; 
+    try {
+      const result = await messageService.getMessages({
+        id: 0,
+        name: "",
+        practice: getUserPractice(),
+        group: groupName,
+        discussion: title,
+      });
+
+      if (result?.value?.length > 0) {
+        setMessages(result.value);
+      } else {
+        setMessages([]); 
+      }
+    } catch (error) {
+      console.error("Error loading chat:", error);
+    }
+  };
 
   useEffect(() => {
     if (connection) {
@@ -68,15 +87,22 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
         .then(() => {
           connection.on('ReceiveMessage', (message: any) => {
             setMessages(prevMessages => [...prevMessages, message]);  
+
+            if (chatContainerRef.current) {
+              chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
           });
         })
         .catch((error: any) => console.error('Connection failed:', error));
-  
+    }
+  }, [connection]);  
+
+  // New useEffect for scrolling to bottom when messages update
+    useEffect(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
       }
-    }
-  }, [connection]);  
+    }, [messages]);  // Trigger scroll when messages update
 
   const sendMessage = async () => {
 
@@ -128,7 +154,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title, discussions }) => {
 
 
   return (
-    <div className="ps-3 h-100 pe-2">
+    <div className=" h-100 pe-2">
       {/* <div className='text-lg font-bold m-0'>{title}</div> */}
       <div className='h-100 overflow-y-auto'>
         <div className="chat-container-wrapper">

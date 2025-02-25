@@ -1,5 +1,5 @@
 
-import { Description } from "@headlessui/react";
+
 import { IApplicationContext, IClaim, IDiscussion, IPractice, IRole, IRoleClaim, IUser, IUserClaim, IUserGroup } from "../Interfaces/Interfaces";
 
 
@@ -18,10 +18,26 @@ export const emptyPractice = {
 }
 
 export const emptyGroupUsers = {
-  id:0,group:"",userEmail:"",  groupRole:"",
+    id:0,
+    group:"",
+    userEmail:"",  
+    groupRole:"",
     modifiedBy:"",
     modifiedOnDt:new Date(),
     name:"",
+    groupRoleClaims:[]
+}
+
+export const emptyGroupRequest = {
+  id:0,
+  requestStatus:false,
+  requestRole:"",  
+  groupName:"",
+  practiceName:"",
+  userName : "",
+  approvalStatus:false,
+  modifiedBy:"",
+  modifiedOnDt:new Date(),
 }
 
 export const emptyGroup = {
@@ -74,6 +90,8 @@ export const discussionStatusTypes = {
 
 export const groupRoles = ["Lead","SME","Member",];
 
+export const groupRoleClaims = ["Create","Update","Delete"];
+
 export const discussionCloseType = ["Close","Unstar"]
 
 export const emptyDiscussion = {
@@ -106,55 +124,12 @@ export const routes = {
   roleClaim:"/Dashboard/RoleClaim",
   practices: "/Dashboard/Practices",
   groupUsers: "/Dashboard/GroupUsers",
+  leadGroupsUsers: "/Dashboard/LeadGroupsAccess",
+  leadGroupRequests: "/Dashboard/LeadGroupRequests",
   practiceDashboard: "/Dashboard/PracticeDashboard",
-  groupDashboard: "/Dashboard/GroupDashboard",
-  discussionDashboard:"/Dashboard/DiscussionDashboard"
+  groupDashboard: "/Dashboard/PracticeDashboard/GroupDashboard",
+  discussionDashboard:"/Dashboard/PracticeDashboard/GroupDashboard/DiscussionDashboard"
 }
-
-export const discussions:IDiscussion[] = [
-  {
-    id: 0,
-    name: ".NET Discussion",
-    description: "Focuses on .NET technologies for enterprise applications.",
-    status: "Open",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Frontend Discussion",
-    description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Closed",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Python Developers",
-    description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Star",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: ".NET Discussion",
-    description: "Focuses on .NET technologies for enterprise applications.",
-    status: "Open",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Frontend Discussion",
-    description: "Specializes in building modern UI using popular frontend tools.",
-    status: "Closed",
-    groupName:"",
-  },
-  {
-    id: 0,
-    name: "Python Developers",
-    description: "Dedicated to Python and its diverse ecosystem.",
-    status: "Star",
-    groupName:"",
-  },
-];
 
 
 export const pleaseSelectQuestionAndAswer = "Please select question and answer";
@@ -164,38 +139,6 @@ export const pleaseSelectDifferentQuestion = "Please select different question";
 export const totalQuestions = ["question1", "question2", "question3"];
 
 export const totalAnswers = ["answer1", "answer2", "answer3"];
-
-export const practicesList = [
-  {
-    title: "Web Development",
-
-    description: ["Deployed New Website Optimized Code 95% Deployment Success"],
-  },
-  {
-    title: "Database Management",
-
-    description: ["Improved Indexing Automated Backups"],
-
-  },
-  {
-    title: "Azure",
-
-    description: ["Deployed 3 New VMs Improved Network Performance"],
-
-  },
-  {
-    title: "Oracle ERP",
-
-    description: ["Deployed Fraud Detection Model Improved Precision by 5%"],
-
-  },
-  {
-    title: "ServiceNow",
-
-    description: ["Resolved Major Incident Improved Workflow Automation"],
-
-  },
-];
 
 
 export const UserColumnConfig = [
@@ -281,8 +224,67 @@ export const GroupUsersColumnConfig = [
     field: "groupRole",
     dataType: "string",
   },
+  {
+    field: "groupRoleClaims",
+    dataType: "string[]",
+  },
 
 ];
+
+export const groupRequestColumnConfig = [
+  {
+    field: "id",
+    dataType: "number",
+  },
+  {
+    field: "practiceName",
+    dataType: "string",
+  },
+  {
+    field: "groupName",
+    dataType: "string",
+  },
+  {
+    field: "requestRole",
+    dataType: "string",
+  },
+  {
+    field: "userName",
+    dataType: "string",
+  },
+  {
+    field: "approvalStatus",
+    dataType: "boolean,Approved,Rejected",
+  },
+  {
+    field: "action",
+    dataType: "Approve,Reject",
+  }
+
+];
+
+export const groupRequestHeaders = {
+
+  id : "ID",
+
+  practiceName : "Practice",
+
+  groupName : "Group",
+
+  requestRole : "Request Role",
+
+  userName: "User Email",
+
+  approvalStatus: "Approval Status",
+
+  action :"Action",
+
+  modifiedOnDt: 'Modified On Dt',
+
+  modifiedBy : 'Modified By',
+
+}
+
 
 export const GroupColumnConfig = [
   {
@@ -310,13 +312,6 @@ export const rolesData:IRole[]=[
   {id:"34",name:"User",claims:null},
 ]
 
-export const groupsData: IUserGroup[] = [
-  { id: 1, name: "React",description:"",practice:"", modifiedBy:"", modifiedOnDt:new Date() },
-  { id: 2, name: "Dot Net Core",description:"", practice:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "Angular",description:"",practice:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "QA",description:"", practice:"",modifiedBy: "", modifiedOnDt: new Date() },
-];
-
 export const mobileNumberRegex = /^[6-9]\d{9}$/;
 export const allow15Numbers = /^\d{0,15}$/;
 export const allow15_7Numbers = /^(-?\d{0,15}\.\d{0,7})$/;
@@ -328,13 +323,6 @@ export const replaceChracterWithSpace = /[^0-9\-]/g;
 export const replaceNumbersWithSpace = /[^0-9\.\-]/g;
 export const validString = /^[a-zA-Z]+$/;
 export const validTitle = /^[a-zA-Z\s]+$/;
-
-export const practicesData: IPractice[] = [
-  { id: 1, name: "Software Development",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 2, name: "Quality Assurance",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 3, name: "Project Management",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-  { id: 4, name: "Business Analysis",description:"", modifiedBy: "", modifiedOnDt: new Date() },
-];
 
 export const userClaims: IUserClaim[] = [
   {
@@ -444,6 +432,8 @@ export const groupUsersHeader = {
 
   groupRole : "Group Role",
 
+  groupRoleClaims: "Group Role Claims",
+
   modifiedOnDt: 'Modified On Dt',
 
   modifiedBy: 'Modified By',
@@ -502,3 +492,28 @@ export const roleClaimConfig = [
   },
 
 ];
+
+
+export const warningMessages = {
+
+   addLeadToGroup : "Please add Lead into current group",
+   faildToDelete : "Failed to delete the discussion",
+   faildToCreate : "Faild to create the ",
+   faildToUpdate : "Faild to update the ",
+   requestExist : "Request already exist.",
+
+}
+
+export const sucessMessages = {
+
+  createdSuccessfully : "Created sucessfully.",
+  updatedSuccessfully : "Updated successfully.",
+  deletedSucessfully : "Deleted successfully.",
+  deletedDiscussion : "Sucessfully deleted discussion.",
+  requestedToRegister : "Successfully requested for ",
+  leftGroup : "Left group ",
+
+
+
+}
+

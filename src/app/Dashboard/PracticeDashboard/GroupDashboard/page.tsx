@@ -5,53 +5,60 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import './GroupDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
-import { discussions, discussionTabs, emptyDiscussion, routes } from '@/app/Constants/Constants';
-import DiscussionForm from '../Forms/DiscussionForm/DiscussionForm';
+import { discussionTabs, emptyDiscussion, routes, sucessMessages, warningMessages } from '@/app/Constants/Constants';
 import { IDiscussion, IGroupUser } from '@/app/Interfaces/Interfaces';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
 import DiscussionsService from '@/app/Services/DiscussionService';
+import DiscussionForm from '../../Forms/DiscussionForm/DiscussionForm';
+import GroupRequestService from '@/app/Services/groupRequestService';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 
 export default function page() {
 
     const searchParams = useSearchParams();
     const group = searchParams?.get('group');
+    const practice = searchParams?.get('practice');
     const group_id = searchParams?.get("group_id");
     const [activeTab, setActiveTab] = useState("Open Discussions");
     const [showDisscussionForm, setShowDisscussionForm] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [allDiscussions, setAllDiscussions] = useState<IDiscussion[]>();
     const [selectedDiscussion, setSelectedDiscussion] = useState<IDiscussion>();
-    const [allUsers,setAllUsers] = useState<IGroupUser[]>();
+    const [allUsers, setAllUsers] = useState<IGroupUser[]>([]);
     const [filteredDiscussions, setFilteredDiscussions] = useState(allDiscussions?.filter((discussion) => discussion.status === getKeyByValue(activeTab)));
     const router = useRouter();
-    const [groupName,setGroupName] = useState<string>();
+    const [user, setUser] = useState<IGroupUser>();
     const _discussionService = new DiscussionsService();
+    const context = JSON.parse(sessionStorage?.getItem("userContext") as string);
+    const userEmail = context?.user?.email;
+    const userRoles = context?.roles;
+    
 
-
-    useEffect(()=>{
+    useEffect(() => {
         loadData();
-    },[])
+    }, [])
 
 
-    useEffect(()=>{
+    useEffect(() => {
         handleTabChange("Open Discussions");
-    },[allDiscussions])
+    }, [allDiscussions])
 
 
-    const loadData=async()=>{
-        try{
+    const loadData = async () => {
+        try {
             const decodedGroup = decodeURIComponent(group as string)?.toString();
-            const allDiscussions = await  _discussionService.getDiscussions(decodedGroup)
-            const allUsers = await new GroupUserService().getGroupAllUsers(decodedGroup);
-            setGroupName(decodedGroup);
+            const allDiscussions = await _discussionService.getDiscussions(decodedGroup)
+            const users = await new GroupUserService().getGroupAllUsers(decodedGroup);
+            const user = users?.value?.data?.find((user: any) => user.userEmail === userEmail);
+            setUser(user);
             setAllDiscussions(allDiscussions?.value?.data);
-            setAllUsers(allUsers?.value?.data);
+            setAllUsers(users?.value?.data);
 
-        }catch(ex:any){
+        } catch (ex: any) {
             console.log(ex);
         }
-            
+
     }
 
     const handleTabChange = async (tab: any) => {
@@ -95,9 +102,9 @@ export default function page() {
         }
     };
 
-    const showCreateForm=()=>{
+    const showCreateForm = () => {
         setSelectedDiscussion(emptyDiscussion);
-        setShowDisscussionForm(true); 
+        setShowDisscussionForm(true);
     }
 
     // useEffect(() => {
@@ -105,37 +112,89 @@ export default function page() {
     //       setShowDisscussionForm(true);
     //     }
     //   }, [selectedDiscussion]);
-    
-    const showEditForm=(discussion:any)=>{
-            
-            setSelectedDiscussion(discussion);
-            setIsEdit(true);
+
+    const showEditForm = (discussion: any) => {
+
+        setSelectedDiscussion(discussion);
+        setIsEdit(true);
     }
 
-    const deleteDiscussion=async(discussion:any)=>{
+    const deleteDiscussion = async (discussion: any) => {
         try {
-            const result = await new DiscussionsService().deleteDiscussion(discussion?.name);
+            const result = await new DiscussionsService().deleteDiscussion(discussion);
 
             if (result?.statusCode == 200) {
                 // call reload to load data
                 loadData();
+                toast.success(`${sucessMessages.deletedDiscussion}`);
             } else {
-                console.error('Failed to delete the discussion');
+                toast.error(warningMessages.faildToDelete);
+                console.error(warningMessages.faildToDelete);
             }
-        } catch (error) {
-            console.error('Error while deleting discussion:', error);
+        } catch (error:any) {
+            toast.error(error.message);
+            console.error(error?.message);
+        }
+    }
+
+    const getEmployees = (role: string) => {
+        if (allUsers) {
+            const leads = allUsers?.filter((user) => user?.groupRole === role) || [];
+
+            if (leads.length > 0) {
+                return leads.map((user) => (
+                    <EmployeeCard key={user.userEmail} user={{ name: user.name, email: user.userEmail }} />
+                ));
+            } else if (role === "Lead" && leads?.length <= 0) {
+                return <div className='text-yellow-400'>{warningMessages.addLeadToGroup}</div>;
+            }
+        }
+    };
+
+    const RequestForRole = async (role: string) => {
+        try {
+            var groupRequest = { id: 0, RequestStatus: false, RequestRole: role, groupName: decodeURIComponent(group as string)?.toString(), practiceName: practice, userName: userEmail, approvalStatus: false }
+            var result = await new GroupRequestService().addGroupRequest(groupRequest);
+            
+            if(!(result?.value?.data)){
+                toast.warning(`${warningMessages.requestExist}`);
+            }else {
+                toast.success(`${sucessMessages.requestedToRegister} ${role} `);
+            }
+           
+        } catch (e: any) {
+            toast.success(`${warningMessages.faildToCreate}`);
+            if(e?.message.includes(warningMessages.requestExist)){
+                toast.warning(warningMessages.requestExist);
+            }
+            console.log(e)
         }
     }
 
     return (
+
         <div className='flex h-100 flex-1 overflow-hidden'>
+            <ToastContainer position="top-center"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                            transition={Bounce}
+            />
             <DiscussionForm isCreate={showDisscussionForm} isEdit={isEdit} group={decodeURIComponent(group as string)?.toString()} clearForm={clearForm} selectedDiscussion={selectedDiscussion} save={saveDiscussion} />
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='flex p-4 gap-4 items-center'>
                     <div className='h4 font-bold m-0'>{group}</div>
-                    <Button onClick={showCreateForm}>Create Discussion</Button>
+                    {((user?.groupRole === "Lead" || userRoles?.includes("Admin")) || (user?.groupRoleClaims?.includes("Create"))) &&
+                        <Button onClick={showCreateForm}>Create Discussion</Button>
+                    }
                     <Button type="button" className="btn-danger" onClick={exitGroup}>
-                        Exit Group
+                        Leave Group
                     </Button>
                 </div>
                 <div className="discussion-tabs ps-2">
@@ -158,34 +217,31 @@ export default function page() {
                 </div>
 
                 <div className='flex flex-1 py-2 mt-3 mb-2 mx-2 shadow-sm rounded overflow-y-auto '>
-                    <DiscussionListCard deleteDiscussion={deleteDiscussion} showEditForm={showEditForm} discussions={filteredDiscussions as any} isUpdate={true}/>
+                    {
+                        allUsers &&
+                        <DiscussionListCard deleteDiscussion={deleteDiscussion} listStyle={"overflow-auto"} showEditForm={showEditForm} groupAllUsers={allUsers} discussions={filteredDiscussions as any} isUpdate={true} />
+                    }
                 </div>
 
             </div>
             <div className="col col-sm-3 h-100">
                 <div className="flex flex-1 flex-col h-100">
                     <div className="role-section p-2">
-                        <div className="role-title">Leads</div>
+                        <div className="role-title">Leads <span onClick={() => RequestForRole("Lead")} className='ps-2 font-bold text-sm text-blue-600 underline cursor-pointer '>Register for Lead</span></div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {allUsers?.filter((user) => user?.groupRole === "Lead").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("Lead")}
                         </div>
                     </div>
                     <div className="role-section p-2">
-                        <div className="role-title ">SMEs</div>
+                        <div className="role-title ">SMEs <span onClick={() => RequestForRole("SME")} className='ps-2 font-bold text-sm text-blue-600 underline cursor-pointer '>Register for SME</span></div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {allUsers?.filter((user) => user?.groupRole === "SME").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("SME")}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">Members</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {allUsers?.filter((user) => user?.groupRole === "Member").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("Member")}
                         </div>
                     </div>
                 </div>
