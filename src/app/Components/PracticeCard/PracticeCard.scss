@@ -1,6 +1,6 @@
 .card-hover-effect:hover {
     transform: translateY(-3px); // Slightly stronger lift for better effect
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); // Softer, deeper shadow for elegance
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
   }
   
   .card-container {
@@ -9,7 +9,7 @@
     height: 38vh;
 
     .card-body {
-      padding: 1.5rem; // Slightly larger padding for more spacious layout
+      padding: 1.5rem; 
     }
   
     .card-title {

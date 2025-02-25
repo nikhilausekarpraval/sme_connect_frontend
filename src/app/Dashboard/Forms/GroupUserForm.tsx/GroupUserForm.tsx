@@ -92,8 +92,6 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                 const newGroupUser = {...groupUser}
                     newGroupUser.groupRoleClaims = selectedClaims?.map((claim)=> claim?.value)
 
-                    console.log(newGroupUser)
-
                 if (isCreate) {
                     result = await new GroupUserService().addGroupUser(newGroupUser);
                 }else {

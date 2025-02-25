@@ -11,10 +11,8 @@ export default function AzureAuth() {
 
   // Fetch user data after login
   useEffect(() => {
-    if (session) {
-      console.log("User Auth Token:", session?.accessToken);
-    }
-    if (session?.user) {
+
+    if (session && session?.user) {
       fetchUserData(session?.user?.email);
     }
 
@@ -26,7 +24,7 @@ export default function AzureAuth() {
       setLoading(true);
       setError(null);
       var result = await signIn('azure-ad');
-      console.log(result)
+
     } catch (err) {
       setError('Sign-in failed. Please try again.');
     } finally {

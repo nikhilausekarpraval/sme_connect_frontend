@@ -5,15 +5,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  console.log("Received request:", req.body);
-
   const { idToken } = req.body;
   if (!idToken) {
     return res.status(400).json({ error: "idToken is required" });
   }
 
   try {
-    console.log("Fetching access token from Microsoft...");
 
     const tokenEndpoint = `https://login.microsoftonline.com/${process.env.AZURE_AD_TENANT_ID}/oauth2/v2.0/token`;
 
@@ -31,7 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const data = await response.json();
-    console.log("Azure Response:", JSON.stringify(data, null, 2));
 
     if (!response.ok) {
       throw new Error(data.error_description || "Failed to get accessToken");
