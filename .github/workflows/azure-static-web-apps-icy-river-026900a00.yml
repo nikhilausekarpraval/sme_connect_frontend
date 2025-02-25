@@ -37,8 +37,8 @@ jobs:
           AZURE_AD_TENANT_ID: "648ca8d9-38e9-44ca-bc27-20e5a79ee859"
           NEXTAUTH_URL: "https://icy-river-026900a00.6.azurestaticapps.net/"
           NEXT_PUBLIC_AZURE_AD_REDIRECT_URI: "https://icy-river-026900a00.6.azurestaticapps.net/"
-          NEXT_PUBLIC_DOT_NET_CORE_URL: "smeconnect-g2ewe9f0hkdpc4ap.canadacentral-01.azurewebsites.net/"
-          NEXT_PUBLIC_DOT_NET_CORE_SIGNALR_URL: "smeconnectsignalr-cwb4a8ergjefbjfk.canadacentral-01.azurewebsites.net/"
+          NEXT_PUBLIC_DOT_NET_CORE_URL: "https://smeconnect-g2ewe9f0hkdpc4ap.canadacentral-01.azurewebsites.net/"
+          NEXT_PUBLIC_DOT_NET_CORE_SIGNALR_URL: "https://smeconnectsignalr-cwb4a8ergjefbjfk.canadacentral-01.azurewebsites.net/"
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
