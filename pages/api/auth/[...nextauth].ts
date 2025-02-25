@@ -11,8 +11,7 @@ const authOptions: NextAuthOptions = {
       authorization: {
         url: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
         params: { 
-                  scope: `openid profile email offline_access api://${process.env.AZURE_AD_CLIENT_ID}/.default`,
-                  redirect_uri: process.env.NEXT_PUBLIC_AZURE_AD_REDIRECT_URI
+                  scope: `openid profile email offline_access api://${process.env.AZURE_AD_CLIENT_ID}/.default`
                 },
       },
       token: {
