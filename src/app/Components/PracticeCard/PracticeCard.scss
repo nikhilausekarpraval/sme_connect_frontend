@@ -6,7 +6,8 @@
   .card-container {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 0.5rem;
-  
+    height: 38vh;
+
     .card-body {
       padding: 1.5rem; // Slightly larger padding for more spacious layout
     }
