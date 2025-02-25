@@ -9,10 +9,12 @@ class ApiService {
   baseUrl: string;
 
   constructor() {
-      this.baseUrl = process.env.NEXT_PUBLIC_DOT_NET_CORE_URL?.toString() as string
+    this.baseUrl = process.env.NEXT_PUBLIC_DOT_NET_CORE_URL ?? "";
+    if (!this.baseUrl) {
+      console.error("API base URL is missing!");
+    }
   }
-
-
+  
   /**
    * Fetch data from an API endpoint, with token handling.
    * @param {string} endpoint - The API endpoint to call.
@@ -40,9 +42,10 @@ class ApiService {
       if (!isFormData) {
         headers['Content-Type'] = 'application/json';
       }
-  
+      const finalUrl = (newBaseUrl || this.baseUrl).replace(/\/$/, '') + "/" + endpoint.replace(/^\//, '');
+      // `${newBaseUrl !== "" ? newBaseUrl : this.baseUrl}${endpoint}`
       response = await fetch(
-        `${newBaseUrl !== "" ? newBaseUrl : this.baseUrl}${endpoint}`,
+        finalUrl,
         {
           ...options,
           headers,
