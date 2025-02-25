@@ -1,22 +1,23 @@
 
+import { authScopes, pca } from "@/config/config";
+import { isTokenExpired } from "../Helpers/Helpers";
 import { apiService } from "./commonService";
+import { AuthenticationResult } from "@azure/msal-browser";
 
-let accessToken : string = "";
-
-
+let accessToken: string = "";
 
 const authService = {
-  
-  async login(username:string, password:string) {
-    
+
+  async login(username: string, password: string) {
+
     try {
-      const data = await apiService.post("api/Authenticate/login",{ username, password })
+      const data = await apiService.post("api/Authenticate/login", { username, password })
 
       accessToken = data?.value.token;
 
       // set token to next js server 
-      await  this.storeToken(accessToken);
-      
+      await this.storeToken(accessToken);
+
       sessionStorage.setItem('accessToken', accessToken);
 
       return data;
@@ -27,13 +28,12 @@ const authService = {
   },
 
 
-  async getAccessTokenUsingIdToken (idToken:string) {
+  async getAccessTokenUsingIdToken(idToken: string) {
     try {
-      debugger;
       const response = await fetch("/api/auth/exchange-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken }), 
+        body: JSON.stringify({ idToken }),
       });
 
       if (!response.ok) {
@@ -47,7 +47,7 @@ const authService = {
     }
   },
 
-   async storeToken (token :string) {
+  async storeToken(token: string) {
 
     try {
       const response = await fetch('/api/auth/saveToken', {
@@ -55,19 +55,19 @@ const authService = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token }),
       });
-  
+
     } catch (error) {
       console.error('Error storing token:', error);
     }
   },
-  
+
 
   /**
    * Logs out the user by clearing tokens and invalidating the session.
    */
   async logout() {
     try {
-      await apiService.post("api/Authenticate/logout",{})
+      await apiService.post("api/Authenticate/logout", {})
       accessToken = "";
       sessionStorage.removeItem('accessToken');
     } catch (error) {
@@ -81,60 +81,94 @@ const authService = {
    */
   async getAccessToken() {
 
-    try{
+    try {
       let token;
-      if(accessToken){
+      if (accessToken) {
         token = accessToken
-      }else {
+      } else {
         token = sessionStorage.getItem("accessToken");
       }
-      // if (!token) return null;
-  
-      // Check if the access token exists and is still valid
-      // const isExpired = authService.isTokenExpired(token);
-      // if (isExpired) {
-      //   const refreshedToken = await authService.refreshToken();
-      //   return refreshedToken;
-      // }
+      if (!token) return null;
+
+      //Check if the access token exists and is still valid
+      const isExpired = isTokenExpired(accessToken);
+      if (isExpired && accessToken) {
+        window.location.reload();
+      }
+
       return token
-    }catch(ex:any){
-        console.log(ex);
-        return "";
+
+    } catch (ex: any) {
+      console.log(ex);
+      return "";
     }
   },
 
   /**
    * Refreshes the access token using the refresh token.
    * @returns {string|null} The new access token or null if refreshing fails.
+   * find if token is custom tokne or azure ad then call the api
    */
   async refreshToken() {
-    const token = this.getAccessToken();
-    if (!token) return null;
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/refresh`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken: token }),
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to refresh token');
+      var isAzureAdToken = isAzureAdToken(sessionStorage.getItem("accessToken")) as any;
+      var newToken = "";
+      if (isAzureAdToken) {
+
+        newToken = await this.getAzureRefreshToken() as any
+
+      } else {
+
+        newToken = await this.getCustomRefreshToken();
+
       }
 
-      const data = await response.json();
-      accessToken = data.accessToken;
-      sessionStorage.setItem('accessToken', data.accessToken);
+      sessionStorage.setItem("accessToken", newToken);
 
-      return data.accessToken;
     } catch (error) {
       console.error('Token refresh failed:', error);
       return null;
     }
   },
 
+  async getAzureRefreshToken() {
+    const account = pca.getAllAccounts()[0];
+
+    if (!account) {
+      console.error("No user account found.");
+      return null;
+    }
+
+    try {
+      const response: AuthenticationResult = await pca.acquireTokenSilent({
+        ...authScopes,
+        account,
+      });
+
+      return response.accessToken;
+    } catch (error) {
+      console.error("Token acquisition failed:", error);
+      return null;
+    }
+  },
+
+  async getCustomRefreshToken() {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOT_NET_CORE_URL}api/Authenticate/refresh-token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken: sessionStorage.getItem("accessToken") }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data?.value?.data;
+    } else {
+      console.error("Failed to refresh token");
+      return null;
+    }
+  }
 };
 
 export default authService;

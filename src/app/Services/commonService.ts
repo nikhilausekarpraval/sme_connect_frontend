@@ -55,6 +55,7 @@ class ApiService {
       // Check if response is JSON
       const contentType = response.headers.get('Content-Type');
       if (response.ok && contentType && contentType.includes('application/json')) {
+        this.autoRefreshToken()
         return await response.json();
       } else if (response.ok && response.status === 204) {
         return null; // 204 No Content
@@ -68,6 +69,14 @@ class ApiService {
     }
   }
   
+  autoRefreshToken(){
+
+    setTimeout(() => { 
+
+        authService.refreshToken();
+
+     }, 55 * 60 * 1000);
+  }
   
 
   // CRUD methods

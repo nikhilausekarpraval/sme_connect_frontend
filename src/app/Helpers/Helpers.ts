@@ -24,6 +24,15 @@ export const isTokenExpired =(token :string) =>{
   }
 }
 
+export const isAzureAdToken =(token :string) =>{
+  try {
+    const decodedToken : JwtPayload  = jwtDecode(token);
+    return decodedToken?.aud === `api://5bfa2aed-bd36-44f2-a920-f0803d1f7b62`;
+  } catch (error) {
+    console.error('Failed to decode token:', error);
+    return true;
+  }
+}
 
 export function GetTimeStampFormatedDate(dateInput:any) {
     return moment(dateInput).format("DD MMM YYYY, h:mm A");
