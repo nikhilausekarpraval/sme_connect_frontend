@@ -506,11 +506,13 @@ export const warningMessages = {
 
 export const sucessMessages = {
 
-  createdSuccessfully : "Created sucessfully.",
+  createdSuccessfully : "Created successfully.",
   updatedSuccessfully : "Updated successfully.",
   deletedSucessfully : "Deleted successfully.",
   deletedDiscussion : "Sucessfully deleted discussion.",
   requestedToRegister : "Successfully requested for ",
+  newDiscussionCreated : "Created new discussion successfully.",
+  joinedNewGroup : "Successfully joined new group.",
   leftGroup : "Left group ",
 
 

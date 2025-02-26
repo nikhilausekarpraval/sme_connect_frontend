@@ -12,6 +12,8 @@ import GroupService from '@/app/Services/GroupService';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import DiscussionsService from '@/app/Services/DiscussionService';
 import LoadingAnimation from '@/app/Components/Loading';
+import { Bounce, ToastContainer,toast } from 'react-toastify';
+import { sucessMessages } from '@/app/Constants/Constants';
 
 interface PracticeDashboardProps {
     // initialGroups: IUserGroup[];
@@ -82,8 +84,9 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
     const updateUserJoinedGroup = async (group: any) => {
 
         try {
-
-            loadData(practiceTitle)
+            
+            toast.success(sucessMessages.joinedNewGroup);
+            loadData(practiceTitle);
 
         }
         catch (ex: any) {
@@ -96,6 +99,18 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
     return (
 
         <div className="d-flex h-100 border p-2 practice-dashboard-background-color">
+            <ToastContainer position="top-center"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                            transition={Bounce}
+            />
             {isLoading &&
                  <LoadingAnimation/>
             }

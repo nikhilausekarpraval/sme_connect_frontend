@@ -85,6 +85,7 @@ export default function page() {
     const saveDiscussion = () => {
         setShowDisscussionForm(false);
         setIsEdit(false);
+        toast.success(`${sucessMessages.newDiscussionCreated}`);
         loadData();
     }
 
