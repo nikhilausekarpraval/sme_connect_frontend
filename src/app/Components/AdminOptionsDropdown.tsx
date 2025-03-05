@@ -51,12 +51,12 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
   const toggleDropdown = () => setIsDropdown(!isDropdown);
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden text-left py-4 px-3" ref={menuRef}>
-      <div className={isCollapsed ? "w-8": ""} onClick={(event) => {
+    <div className="flex-1 flex flex-col items-center overflow-hidden text-center py-4" ref={menuRef}>
+      <div className={isCollapsed ? "w-8": "w-56"} onClick={(event) => {
         event.stopPropagation();
         toggleDropdown(); // Toggle dropdown
       }}>
-        <button className="flex justify-start items-center w-full rounded-md p-2 font-semibold text-white ring-inset ring-gray-300 hover:bg-cyan-700">
+        <button type='button' className="flex justify-start items-center w-full rounded-md p-2 font-semibold text-white ring-inset ring-gray-300 hover:bg-cyan-700">
          {!isCollapsed &&<span className='flex justify-center items-center'> <MdAdminPanelSettings size={20}/> <span className='px-3'>Admin Menu</span></span> }
           {isDropdown ? (
             <FaChevronDown width={16} height={16} className=''/>
@@ -126,12 +126,20 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
                 className={`text-white hover:bg-cyan-600 rounded-lg px-2 py-2 flex items-center justify-start transition-all duration-50 no-underline ${isActive(routes.leadGroupRequests) ? 'bg-cyan-700' : ''}`}
               >
                 <div className="justify-start flex items-center w-52">
-                  <GoGitPullRequest />
-                  {!isCollapsed && <span className='ps-3'>Group Requests</span>}
-                  <div className="group-notification ps-3">
-                        <BellIconSVG />
+                <div className="group-notification">
+                        <GoGitPullRequest />
+                        {isCollapsed &&
                         <span className="chat-count">{requestCount}</span>
+                        }
                   </div>
+                  {!isCollapsed && <span className='ps-3'>Group Requests
+                    </span>}
+                    {!isCollapsed &&
+                    <div className="group-notification ps-3">
+                          <BellIconSVG />
+                          <span className="chat-count">{requestCount}</span>
+                    </div>
+                  }
                 </div>
               </div>
             </Link>

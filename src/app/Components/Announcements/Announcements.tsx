@@ -24,8 +24,8 @@ export default function AnnouncementsCard() {
     
     return (
         <div className="max-w-md bg-white  rounded-lg mt-4 ">
-            <div className="flex justify-between items-center border-b pb-2 mb-2">
-                <h2 className="text-lg font-semibold flex items-center gap-2">
+            <div className="flex justify-between items-center border-b">
+                <h2 className="text-lg font-semibold flex items-center gap-2 p-2">
                     <LuBellRing className="w-5 h-5 text-blue-500" />
                     Announcements 
                     <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
@@ -33,7 +33,7 @@ export default function AnnouncementsCard() {
                     </span>
                 </h2>
             </div>
-            <div className="space-y-4 overflow-y-auto max-h-64">
+            <div className="space-y-4 overflow-y-auto max-h-64 p-2">
                 {announcements?.map((item, index) => (
                     <div key={index} className="flex items-start space-x-3">
                         <div className="flex-1">
