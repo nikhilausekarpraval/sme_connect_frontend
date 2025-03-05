@@ -9,35 +9,38 @@ import { useEffect, useState } from "react";
 
 export default function AnnouncementsCard() {
 
-    const [announcements,setAnnouncements] = useState<IAnnouncement[]>([]);
-        const userContext = useAppContext()[0] as any
-        const user = userContext?.user;
+    const [announcements, setAnnouncements] = useState<IAnnouncement[]>([]);
+    const userContext = useAppContext()[0] as any
+    const user = userContext?.user;
 
-    useEffect(()=>{
-            loadData();
-    },[])
+    useEffect(() => {
+        loadData();
+    }, [])
 
-    const loadData=async()=>{
-          const data = await new AnnouncementService().getAnnouncement({userName:user.userName,practiceName:user.practice,groupName:"",isAdmin:user?.practice === "All Practices"} );
-          setAnnouncements(data?.value?.data ?? []);
+    const loadData = async () => {
+        const data = await new AnnouncementService().getAnnouncement({ userName: user.userName, practiceName: user.practice, groupName: "", isAdmin: user?.practice === "All Practices" });
+        setAnnouncements(data?.value?.data ?? []);
     }
-    
+
     return (
         <div className="max-w-md bg-white  rounded-lg mt-4 ">
             <div className="flex justify-between items-center border-b">
                 <h2 className="text-lg font-semibold flex items-center gap-2 p-2">
                     <LuBellRing className="w-5 h-5 text-blue-500" />
-                    Announcements 
+                    Announcements
                     <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                         {announcements?.length}
                     </span>
                 </h2>
             </div>
-            <div className="space-y-4 overflow-y-auto max-h-64 p-2">
+            <div className="space-y-4 overflow-y-auto overflow-x-hidden max-h-64 p-2">
                 {announcements?.map((item, index) => (
                     <div key={index} className="flex items-start space-x-3">
                         <div className="flex-1">
-                            <p title={item.message} className=" font-medium text-gray-800 overflow-hidden text-ellipsis whitespace-nowrap max-w-[29vw]">
+                            <p
+                                title={item.message}
+                                className="font-medium text-gray-800 overflow-hidden text-ellipsis whitespace-nowrap block max-w-[90vw] sm:max-w-[27rem]"
+                            >
                                 {item.message}
                             </p>
                             <p className="text-sm text-green-600">{GetTimeStampFormatedDate(item.createdAt)}</p>
