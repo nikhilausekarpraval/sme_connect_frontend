@@ -56,7 +56,7 @@ export default function RootLayout({
               <div className="">
                 <LeftMenubar />
               </div>
-              <div className="w-100 overflow-hidden">
+              <div className="w-100 overflow-auto h-100">
                 {children}
               </div>
             </div>

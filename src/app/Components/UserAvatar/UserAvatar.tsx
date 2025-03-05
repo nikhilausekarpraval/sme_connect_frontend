@@ -17,7 +17,7 @@ const UserAvatar: React.FC<IUserAvatar>=({initials,userContext})=> {
     const { data: session } = useSession();
     
   return (
-      <div className="col col-sm-3 flex justify-end">
+      <div className="col col-sm-5 flex justify-end">
           <ul className='flex m-0'>
               <li>
                   <div className="current-user col d-inline-block text-dark ">
