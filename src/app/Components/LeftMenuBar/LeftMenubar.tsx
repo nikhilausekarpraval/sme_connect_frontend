@@ -204,7 +204,7 @@ export const LeftMenubar = () => {
           </ul>
         </div> */}
         {roles.includes("Admin") &&
-          <AdminOptionsDropdown isActive={isActive} isCollapsed={isCollapsed} />
+          <AdminOptionsDropdown isActive={isActive} isCollapsed={isCollapsed}/>
         }
       </nav>
     </div>

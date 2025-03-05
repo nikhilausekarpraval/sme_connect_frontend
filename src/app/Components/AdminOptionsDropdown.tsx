@@ -26,11 +26,26 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
   const [requestCount,setRequestCount] = useState(0);
   const context = JSON.parse(sessionStorage?.getItem("userContext") as string);
   const userEmail = context?.user?.email;
+  const [isCollapsedAni, setIsCollapsedAni] = useState(false);
+
+  const toggleDropdown = () => {
+    if (isDropdown) {
+      setIsCollapsedAni(true); 
+    } else {
+      setIsDropdown(true); 
+      setIsCollapsedAni(false); 
+    }
+  };
+
+  const handleAnimationEnd = () => {
+    if (isCollapsedAni) {
+      setIsDropdown(false); 
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        // Do nothing here to prevent dropdown from closing when clicking outside
       }
     };
 
@@ -48,10 +63,8 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
      setRequestCount(result?.value?.data);
   }
 
-  const toggleDropdown = () => setIsDropdown(!isDropdown);
-
   return (
-    <div className="flex-1 flex flex-col items-center overflow-hidden text-center py-4" ref={menuRef}>
+    <div className="flex-1 admin-dropdown-section flex flex-col items-center overflow-hidden text-center py-4" ref={menuRef}>
       <div className={isCollapsed ? "w-8": "w-56"} onClick={(event) => {
         event.stopPropagation();
         toggleDropdown(); // Toggle dropdown
@@ -68,9 +81,14 @@ const AdminOptionsDropdown: React.FC<IAdminOptionsDropdownProps> = ({ isCollapse
 
       {isDropdown && (
         <div
-          className={` ${!isCollapsed && ''}  mt-2 py-2 overflow-y-auto ${
-            !isCollapsed ? 'w-56' : 'inline-block w-8 '
-          } origin-center rounded-md ring-1 ring-black ring-opacity-5 transition focus:outline-none`}
+          onAnimationEnd={handleAnimationEnd}
+          className={`
+            mt-2 py-2 overflow-y-auto 
+            origin-top rounded-md ring-1 ring-black ring-opacity-5 
+            focus:outline-none
+            ${isCollapsedAni ? 'collapse-animation' : 'expand-animation'}
+            ${!isCollapsed ? 'w-56' : 'inline-block w-8 '}
+          `}
         >
           <div className="flex flex-col space-y-5">
             {/* <Link
