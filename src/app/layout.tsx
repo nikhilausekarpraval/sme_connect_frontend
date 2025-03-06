@@ -10,6 +10,7 @@ import { CustomNavbar } from "./Components/TopNavBar/CustomNavbar";
 import { LeftMenubar } from "./Components/LeftMenuBar/LeftMenubar";
 import ClientProvider from "./ClientProvider/ClientProvider";
 import { SessionProvider } from "next-auth/react";
+import { useEffect } from "react";
 
 
 const roboto = Roboto({
@@ -30,7 +31,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-
 // export const metadata: Metadata = {
 //   title: "SME Connect",
 //   description: "",
@@ -41,6 +41,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  
+    const handleChange = (e: MediaQueryListEvent) => {
+      document.documentElement.classList.toggle("dark", e.matches);
+    };
+  
+    mediaQuery.addEventListener("change", handleChange);
+    document.documentElement.classList.toggle("dark", mediaQuery.matches);
+  
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
   
   return (
     <html lang="en">

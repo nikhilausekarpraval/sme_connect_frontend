@@ -79,14 +79,14 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
 
     return (
         <React.Fragment>
-            <div className={`technology-list h-100 ${cardStyle != "" ? cardStyle : ''}w-100`}>
+             <div className={`technology-list text-gray-900 dark:text-gray-100 h-100 ${cardStyle != "" ? cardStyle : ''}w-100`}>
                 <ConfirmPopup show={showConfirmPopup} message={`Are you sure you want to delete selected discussion?`} deleteItem={deleteItem} handleClose={closeConfirmPopup} />
                 <ul className={listStyle}>
                     { discussions?.map((discussion, index) => (
-                        <li key={index} className="discussion-item flex justify-between items-center">
+                        <li key={index} className="discussion-item flex justify-between items-center rounded-lg border border-gray-100 dark:!border-0 dark:bg-gray-900">
                             <div>
-                                <h2 className="cursor-pointer" onClick={() => showDiscussion(discussion.name, discussion.groupName)}>{discussion.name}</h2>
-                                <p className="m-0 discussion-description-style" title={discussion?.description}>{discussion?.description}</p>
+                                <h2 className="cursor-pointer text-blue-600 dark:text-blue-400 hover:underline" onClick={() => showDiscussion(discussion.name, discussion.groupName)}>{discussion.name}</h2>
+                                <p className="m-0 discussion-description-style text-gray-700 dark:text-gray-300 truncate" title={discussion?.description}>{discussion?.description}</p>
                             </div>
                             {((isUpdate && isLead ) || (isUpdate && userRoleclaims?.length > 0)) &&
                                 <div className="flex w-1/2 justify-center items-center gap-3">
@@ -103,11 +103,9 @@ const discussionListCard: React.FC<discussionListCard> = ({ discussions, deleteD
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> 
         </React.Fragment>
     )
 }; export default discussionListCard;
-function userState(): [any, any] {
-    throw new Error("Function not implemented.");
-}
+
 

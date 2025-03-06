@@ -42,19 +42,13 @@ const   GroupCard: React.FC<IGroupDetails> = ({ group ,updateUserJoinedGroup}) =
 
   };
 
-  const variant = "Light";
   return (
     <div className="group-card cursor-pointer">
-      <Card
-        bg={variant.toLowerCase()}
-        key={variant}
-        text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-        className="shadow-sm group-card-style group-card-max-wdith"
-      >
+      <Card className="shadow-sm group-card-style group-card-max-wdith dark:bg-gray-900">
         <Card.Body className="d-flex flex-column justify-content-between">
           <div className="d-flex align-items-center">
             <FaUsers size={24} className="me-2 text-primary" /> 
-            <Card.Title className="m-0 group-name-style" title={group.name}>{group.name}</Card.Title>
+            <Card.Title className="m-0 group-name-style dark:text-gray-300" title={group.name}>{group.name}</Card.Title>
           </div>
           <div className="d-flex justify-content-end">
             <Button variant="primary" onClick={joinGroup} size="sm">

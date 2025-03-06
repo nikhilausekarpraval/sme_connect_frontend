@@ -17,27 +17,24 @@ type CandidateProps = {
 const EmployeeCard: React.FC<CandidateProps> = ({ user }) => {
 
     return (
-        <React.Fragment>
-            <div className="candidate-card-section" >
-                <div>
-                    <div className="user-card">
-                        <div className="card-header">
-                            <Avatar
-                                //sx={{ bgcolor: deepPurple[500] }}
-                            >
-                                <FaUserTie />
-                            </Avatar>
-
-                            <div className="user-info d-flex">
-                                <h2 className='user-name-style' title={user?.name}>{user?.name}</h2>
-                                <p className='user-name-style' title={user?.email}>{user?.email}</p>
-                            </div>
-
-                        </div>
-                    </div>
+        <div className="candidate-card-section card dark:bg-gray-900 shadow-md rounded-lg p-2">
+            <div className="flex items-center space-x-4">
+                <Avatar>
+                <div className="flex items-center justify-center w-12 h-12 bg-purple-500 dark:bg-purple-400 text-white rounded-full">
+                    <FaUserTie className="w-6 h-6" />
+                </div>
+                </Avatar>
+                {/* User Info */}
+                <div className='w-full'>
+                    <h2 className="text-lg user-name-style font-semibold text-gray-600 dark:text-gray-400 truncate" title={user?.name}>
+                        {user?.name}
+                    </h2>
+                    <p className="text-sm user-name-style text-gray-600 dark:text-gray-400 truncate" title={user?.email}>
+                        {user?.email}
+                    </p>
                 </div>
             </div>
-        </React.Fragment>
+        </div>
     )
 };
 export default EmployeeCard;
