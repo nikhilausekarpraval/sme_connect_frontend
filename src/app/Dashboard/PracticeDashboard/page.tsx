@@ -98,7 +98,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
 
     return (
 
-        <div className="d-flex h-100 border p-2 practice-dashboard-background-color">
+        <div className="d-flex h-100 border p-2 practice-dashboard-background-color dark:bg-gray-700">
             <ToastContainer position="top-center"
                             autoClose={3000}
                             hideProgressBar={false}
@@ -121,7 +121,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
             </div> 
             */}
             <div className='h-100 overflow-auto w-full'>
-                <div className="border overflow-hidden rounded-3 bg-white group-grid-height">
+                <div className="border overflow-hidden rounded-3 group-grid-height dark:bg-black dark:!border-0">
                     <PracticeHeader />
                     {newGroups &&
                         <div className='grid-container overflow-hidden'>
@@ -132,17 +132,17 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
                     }
                 </div>
 
-                <div className='recent-discussion-height border rounded-3 mt-2 bg-white border-top-0 overflow-hidden'>
-                    <div className='py-2 ps-3 font-bold'>Recent discussions from my Groups</div>
+                <div className='recent-discussion-height border rounded-3 mt-2 overflow-hidden dark:bg-black dark:!border-0'>
+                    <div className='py-2 ps-3 font-bold dark:text-gray-400'>Recent discussions from my Groups</div>
                     {recentDiscussions &&
                         <DiscussionListCard discussions={recentDiscussions} isUpdate={false} cardStyle={'ps-3 pe-2 '} listStyle={"overflow-y-auto pe-2 h-100"} />
                     }
                 </div>
             </div>
 
-            <div className="flex-shrink-0 ps-2 border col-sm-3 rounded-3 bg-white ms-2 h-100">
+            <div className="flex-shrink-0 ps-2 border col-sm-3 rounded-3 ms-2 h-100 dark:bg-black dark:!border-0">
                 <div className="py-2 h-100">
-                    <div className='px-3 text-lg font-bold'>My Groups.</div>
+                    <div className='px-3 text-lg font-bold dark:text-gray-400'>My Groups.</div>
                     {userJoinedGroups &&
                         <JoinedGroups userJoinedGroups={userJoinedGroups} />
                     }

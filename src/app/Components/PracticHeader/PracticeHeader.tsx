@@ -9,7 +9,7 @@ interface IPracticHeaderProps{
     
     return (
         <div className='px-3 mt-2 flex  justify-between font-bold '>
-            <span className='font-bold m-0'>New Groups</span>
+            <span className='font-bold m-0 dark:text-gray-400'>New Groups</span>
         </div>
     )
 };export default PracticeHeader;
