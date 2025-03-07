@@ -18,7 +18,7 @@ interface ITableRowProps {
 const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, selectedItems, idColumn, performAction, FieldConfig, useDefaultAuditColumns = true }) => {
     return (
         <tr className="item-table-row">
-            <td className="position-sticky start-0 pt-3">
+            <td className="position-sticky start-0 pt-3 dark:!bg-gray-900">
                 <input
                     type="checkbox"
                     className="cursor-pointer"
@@ -31,7 +31,7 @@ const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, sel
                 <td
                     key={field}
                     title={dataType === 'date' ? formatDate(item?.[field]) : ["string[]", "claimsDto[]"].includes(dataType) ? "" : item[field]?.toString()}
-                    className={` ${field !== "action" ? "pt-3" : ""} ${dataType === 'number' ? 'text-end' : field === "action" ? "" : 'changed-by'}`}
+                    className={` ${field !== "action" ? "pt-3" : ""} ${dataType === 'number' ? 'text-end' : field === "action" ? "" : 'changed-by'} dark:!bg-gray-900 dark:!text-gray-200`}
                 >
                     {["string[]", "claimDto[]"].includes(dataType) ? (
                         <>{dataType === "string[]" ?
@@ -77,8 +77,8 @@ const TableRow: React.FC<ITableRowProps> = ({ item, handleRowCheckboxChange, sel
 
             {useDefaultAuditColumns &&
                 <React.Fragment>
-                    <td title={formatDate(item?.modifiedOnDt)} className='small-column-width pt-3'>{formatDate(item?.modifiedOnDt)}</td>
-                    <td title={item?.modifiedBy} className='changed-by pt-3'>{item?.modifiedBy}</td>
+                    <td title={formatDate(item?.modifiedOnDt)} className='small-column-width pt-3 dark:!bg-gray-900 dark:!text-gray-200'>{formatDate(item?.modifiedOnDt)}</td>
+                    <td title={item?.modifiedBy} className='changed-by pt-3 dark:!bg-gray-900 dark:!text-gray-200'>{item?.modifiedBy}</td>
                 </React.Fragment>
             }
 

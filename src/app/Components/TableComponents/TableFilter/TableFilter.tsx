@@ -47,6 +47,7 @@ const TableFilter: React.FC<ITableFilterProps> = ({setIsEdit,setIsCreate,showDel
                             value={searchValue}
                             onChange={e => setSearchValue(e.target.value)}
                             placeholder="Search..."
+                            className="dark:!bg-gray-600 dark:!border-gray-500  dark:!text-gray-200 dark:placeholder-gray-200"
                         />
                         <Button onClick={() => search(searchValue)}  id="searchButton">
                             <IoSearchOutline/>
