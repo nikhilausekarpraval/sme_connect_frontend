@@ -157,7 +157,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
     <div className=" h-100 pe-2">
       {/* <div className='text-lg font-bold m-0'>{title}</div> */}
       <div className='h-100 overflow-y-auto'>
-        <div className="chat-container-wrapper">
+        <div className="chat-container-wrapper dark:bg-gray-900">
           <div className="chat-container h-100 overflow-auto" ref={chatContainerRef}>
             {messages.map((message) => (
               <Message {...message} isCurrentUser={message.displayName === displayName} />
@@ -192,7 +192,7 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
               <input
                 type="text"
                 placeholder="Type a message..."
-                className="input-box"
+                className="input-box dark:bg-gray-900"
                 value={currentMessage}
                 multiple={true}
                 onChange={(e) => setCurrentMessage(e?.target?.value)}

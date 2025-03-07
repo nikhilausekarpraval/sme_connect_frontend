@@ -10,6 +10,7 @@ import { IGroupUser } from '@/app/Interfaces/Interfaces';
 import ChatSection from '@/app/Components/ChatSection/ChatSection';
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
 import EmployeeCard from '@/app/Components/EmployeeCard/EmployeeCard';
+import { warningMessages } from '@/app/Constants/Constants';
 
 
 const page: React.FC = () => {
@@ -42,6 +43,22 @@ const page: React.FC = () => {
 
     }
 
+    const getEmployees = (role: string) => {
+        if (users) {
+            const leads = users?.filter((user) => user?.groupRole === role) || [];
+
+            if (leads?.length > 0) {
+                return leads.map((user) => (
+                    <EmployeeCard key={user.userEmail} user={{ name: user.name, email: user.userEmail }} />
+                ));
+            } else if (role === "Lead" && leads?.length <= 0) {
+                return <div className='text-yellow-400'>{warningMessages.addLeadToGroup}</div>;
+            }else if(leads?.length == 0){
+                return <div className='text-yellow-400'>Not found</div>
+            }
+        }
+    };
+
     return (
         <div className='flex h-100 flex-1 overflow-hidden'>
 
@@ -67,25 +84,19 @@ const page: React.FC = () => {
                     <div className="role-section p-2">
                         <div className="role-title">Leads</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users?.filter((user) => user?.groupRole === "Lead").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("Lead")}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">SMEs</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users?.filter((user) => user?.groupRole === "SME").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("SME")}
                         </div>
                     </div>
                     <div className="role-section p-2">
                         <div className="role-title ">Members</div>
                         <div className="role-content pe-2 flex flex-col gap-2">
-                            {users?.filter((user) => user?.groupRole === "Member").map((user1: any) => (
-                                <EmployeeCard key={user1.userEmail} user={{ name: user1.name, email: user1.userEmail }} />
-                            ))}
+                            {getEmployees("Member")}
                         </div>
                     </div>
                 </div>

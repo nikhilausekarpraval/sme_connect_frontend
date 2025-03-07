@@ -142,13 +142,17 @@ export default function page() {
         if (allUsers) {
             const leads = allUsers?.filter((user) => user?.groupRole === role) || [];
 
-            if (leads.length > 0) {
+            if (leads?.length > 0) {
                 return leads.map((user) => (
                     <EmployeeCard key={user.userEmail} user={{ name: user.name, email: user.userEmail }} />
                 ));
             } else if (role === "Lead" && leads?.length <= 0) {
                 return <div className='text-yellow-400'>{warningMessages.addLeadToGroup}</div>;
+            }else if(leads?.length == 0){
+                return <div className='dark:text-white'>No {role}</div>
             }
+        }else {
+            return <div className='dark:text-white'>No found</div>
         }
     };
 

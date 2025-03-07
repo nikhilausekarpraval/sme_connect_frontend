@@ -5,7 +5,7 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #fff;
+    // background-color: #fff;
 }
 
 .chat-container {
@@ -68,14 +68,14 @@
     display: flex ;
     padding: 10px;
     border-top: none;
-    background-color: #fff;
+    // background-color: #fff;
     align-items: center;
     gap: 10px;
 }
 
 .chat-input-section{
     border-top: 1px solid #ddd;
-    background-color: #fff;
+    // background-color: #fff;
     align-items: center; 
 }
 
@@ -92,7 +92,7 @@
 .send-button {
     padding: 6px 15px;
     background-color: #007bff;
-    color: #fff;
+    // color: #fff;
     border: none;
     border-radius: 20px;
     font-size: 14px;
