@@ -23,6 +23,11 @@ export default function UserMenuDropdown() {
         }
     };
 
+    const showUserDetails=()=>{
+        router.push(routes.aboutUser);
+        setIsDropdown(false);
+    }
+
     // Close dropdown if clicking outside
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -54,12 +59,12 @@ export default function UserMenuDropdown() {
             {isDropdown && (
                 <div className="absolute right-0 z-10 mt-2 w-28 bg-white shadow-lg ring-1 ring-black ring-opacity-5 rounded-md">
                     <div className="py-1">
-                        <Link 
-                            href={routes.aboutUser} 
+                        <button 
+                            onClick={() => showUserDetails()}
                             className="block px-4 py-2 w-full text-center font-bold text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                         >
                             Profile
-                        </Link>
+                        </button>
                         <button 
                             onClick={logout} 
                             className="block w-full px-4 py-2 text-sm font-bold text-gray-700 text-center hover:bg-gray-100 hover:text-gray-900"

@@ -1,5 +1,5 @@
 "use client"
-import PasswordInput from "@/app/Components/FormPasswordInput";
+import PasswordInput from "@/app/Components/FormPasswordInput/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, registerUserFormErrors } from "@/app/Constants/Constants";
 import { validatePassword } from "@/app/Helpers/Helpers";
@@ -169,7 +169,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
                 <div className="text-danger">{errors.invalid}</div>
 
                 <div className="form-group" control-id="userName">
-                  <label className="block text-gray-700 font-bold mb-2">Your Email</label>
+                  <label className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Your Email</label>
                   <input
                     type="email"
                     className="form-control w-100"

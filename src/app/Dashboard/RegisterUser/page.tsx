@@ -1,6 +1,6 @@
 'use client'
 
-import FormPasswordInput from "@/app/Components/FormPasswordInput";
+import FormPasswordInput from "@/app/Components/FormPasswordInput/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, registerUserFormErrors, totalAnswers, totalQuestions } from "@/app/Constants/Constants";
 import { validatePassword, validateUsername } from "@/app/Helpers/Helpers";

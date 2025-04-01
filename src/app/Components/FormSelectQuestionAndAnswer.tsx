@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { quenstionsAndAnswers, questions } from '../Constants/Constants';
 import { IRegisterUserErrors, IUserForm, IUserQuestions } from '../Interfaces/Interfaces';
-import FormPasswordInput from './FormPasswordInput';
+import FormPasswordInput from './FormPasswordInput/FormPasswordInput';
 import { Form } from 'react-bootstrap';
 
 
@@ -45,14 +45,14 @@ const FormSelectQuestionAndAnswer: React.FC<FormSelectQuestionAndAnswerProps> = 
       {visibleQuestions.map((q) => (
         <div className='flex-col space-y-4'>
         <div className="form-group col-span-6">
-          <Form.Label htmlFor="rolename" className="block text-gray-700 font-bold mb-2">Q{`${Object.keys(q)[0].slice(1).slice(0,7)} ${Object.keys(q)[0].slice(8,9)} `}</Form.Label>
+          <Form.Label htmlFor="rolename" className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Q{`${Object.keys(q)[0].slice(1).slice(0,7)} ${Object.keys(q)[0].slice(8,9)} `}</Form.Label>
           <Form.Select
             id={Object.keys(q)[0]}
             name={Object.keys(q)[0]}
             value={formData[Object.keys(q)[0] as keyof IUserForm]}
             onChange={handleChange}
             required
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-200 dark:bg-gray-500"
           >
             <option value="">Select a question</option>
             {questions.map(question => (

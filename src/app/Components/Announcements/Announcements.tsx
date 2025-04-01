@@ -23,7 +23,7 @@ export default function AnnouncementsCard() {
     }
 
     return (
-        <div className="max-w-md dark:bg-gray-900 rounded-lg mt-4 shadow-md">
+        <div className="max-w-md w-100 dark:bg-gray-900 rounded-lg mt-4 shadow-md">
             <div className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
                 <h2 className="text-lg font-semibold flex items-center gap-2 p-2 text-gray-900 dark:text-gray-100">
                     <LuBellRing className="w-5 h-5 text-blue-500 dark:text-blue-400" />
@@ -33,6 +33,7 @@ export default function AnnouncementsCard() {
                     </span>
                 </h2>
             </div>
+            {announcements?.length > 0 && 
             <div className="space-y-4 overflow-y-auto overflow-x-hidden max-h-64 p-2">
                 {announcements?.map((item, index) => (
                     <div key={index} className="flex items-start space-x-3">
@@ -50,6 +51,7 @@ export default function AnnouncementsCard() {
                     </div>
                 ))}
             </div>
+            }
         </div>
     );
 }

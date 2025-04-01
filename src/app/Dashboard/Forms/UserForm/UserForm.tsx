@@ -1,4 +1,4 @@
-import FormPasswordInput from "@/app/Components/FormPasswordInput";
+import FormPasswordInput from "@/app/Components/FormPasswordInput/FormPasswordInput";
 import FormSelectQuestionAndAnswer from "@/app/Components/FormSelectQuestionAndAnswer";
 import { emptyUser, pleaseSelectDifferentQuestion, pleaseSelectQuestionAndAswer, registerUserFormErrors, rolesData, totalAnswers, totalQuestions, userClaims } from "@/app/Constants/Constants";
 import { isValidPhoneNumber, validatePassword, validateUsername } from "@/app/Helpers/Helpers";
@@ -287,23 +287,23 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
             >
-                <Modal.Header closeButton className="px-4 py-2">
+                <Modal.Header closeButton className="px-4 py-2 dark:bg-gray-700">
                     <div className="building-form-header py-2 d-flex gap-4 align-items-center">
                         {isEdit ? "Edit" : "Register"} User
                         <h4 className='m-0'> {isDuplicate && <div><span className='text-danger '>*Duplicate Email is not allowed</span></div>}</h4>
                     </div>
                 </Modal.Header>
-                <Modal.Body className="p-0">
+                <Modal.Body className="p-0 dark:bg-gray-700">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
                             <div className="px-4 py-4 form-row-container">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">User Name<span className='text-danger font-14 ps-1'>*</span></Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-300">User Name<span className='text-danger font-14 ps-1'>*</span></Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Enter you name"
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-100"
                                             onChange={handleChange}
                                             value={user?.userName}
                                             id={'userName'}
@@ -320,11 +320,11 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Full Name</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Full Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Enter full name"
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-100"
                                             id="displayName"
                                             onChange={handleChange}
                                             value={user?.displayName}
@@ -333,11 +333,11 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Your Email<span className='text-danger font-14 p-1'>*</span></Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Your Email<span className='text-danger font-14 p-1'>*</span></Form.Label>
                                         <Form.Control
                                             type="email"
                                             placeholder="name@mail.com"
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-100"
                                             onChange={handleChange}
                                             value={user?.email}
                                             id="email"
@@ -363,12 +363,12 @@ const UserForm: React.FC<EmployeeFormProps> = ({ employee, isCreate, isEdit, cle
                                         </div>
                                     }
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-300">
                                             Practice<span className="text-danger font-14 p-1">*</span>
                                         </Form.Label>
                                         
                                         <Form.Select 
-                                            className="" 
+                                            className="dark:text-gray-100 dark:bg-gray-500" 
                                             required 
                                             value={isSelectedRoleAdmin() ? "All Practices" : user?.practice || ""}  
                                             onChange={handleChange} 

@@ -1,5 +1,5 @@
 'use client';
-import FormPasswordInput from '@/app/Components/FormPasswordInput';
+import FormPasswordInput from '@/app/Components/FormPasswordInput/FormPasswordInput';
 import { emptyUser, registerUserFormErrors } from '@/app/Constants/Constants';
 import { useAppContext } from '@/app/Context/AppContext';
 import { validatePassword, validateUsername } from '@/app/Helpers/Helpers';
@@ -159,14 +159,14 @@ const AboutUser = () => {
   return (
     <div className='flex flex-1 items-center justify-center h-100'>
     <div className='flex justify-center items-center about-user-width  shadow-md max-w-screen-md'>
-      <form onSubmit={handleSubmit} className="w-full flex-col space-y-4 px-6 pb-6 bg-white rounded-lg col-span-full">
+      <form onSubmit={handleSubmit} className="w-full flex-col space-y-4 px-6 pb-6  rounded-lg col-span-full dark:bg-gray-700">
       <div className='justify-center items-center text-center font-bold h4 mb-0 pt-3'>About</div>
         <div className=' overflow-y-auto flex-col px-2 pb-2 mt-0 space-y-4 form-content-height'>
         <div className='text-red-600'>
           {formError}
         </div>
         <div className="form-group   col-span-6" >
-          <label htmlFor="userName" className="block text-gray-700 font-bold mb-2">Username</label>
+          <label htmlFor="userName" className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Username</label>
           <input
             type="text"
             id="userName"
@@ -174,7 +174,7 @@ const AboutUser = () => {
             value={formData.userName}
             onChange={handleChange}
             required
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-500"
           />
           <div className='text-red-600'>
             {errors.username}
@@ -182,7 +182,7 @@ const AboutUser = () => {
         </div>
 
         <div className="form-group   col-span-6">
-          <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
+          <label htmlFor="email" className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Email</label>
           <input
             type="email"
             id="email"
@@ -191,12 +191,12 @@ const AboutUser = () => {
             disabled
             onChange={handleChange}
             required
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-500"
           />
         </div>
 
         <div className="form-group  ">
-          <label htmlFor="displayName" className="block text-gray-700 font-bold mb-2">Display Name</label>
+          <label htmlFor="displayName" className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Display Name</label>
           <input
             type="text"
             id="displayName"
@@ -204,7 +204,7 @@ const AboutUser = () => {
             value={formData.displayName}
             onChange={handleChange}
             required
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-500"
           />
         </div>
 

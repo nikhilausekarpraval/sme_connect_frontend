@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { MultiSelect } from "react-multi-select-component";
-
-const options = [
-  { label: "Grapes 🍇", value: "grapes" },
-  { label: "Mango 🥭", value: "mango" },
-  { label: "Strawberry 🍓", value: "strawberry", disabled: true },
-];
+import './ReactMultiSelectDropdown.scss';
 
 interface IReactMultiSelectComponent {
     values: any [],
@@ -19,12 +14,13 @@ const ReactMultiSelectComponent : React.FC<IReactMultiSelectComponent>= ({values
 
   return (
     <div>
-      <Form.Label className="block text-gray-700 font-bold mb-2">{title}</Form.Label>
+      <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-300">{title}</Form.Label>
       <MultiSelect
         options={values}
         value={selectedNames}
         onChange={handleChange}
         labelledBy="Select"
+        className="custom-multiselect-styles dark:bg-gray-500"
       />
     </div>
   );
