@@ -155,7 +155,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
 
       <div className={`modal fade modal-background-color ${show ? "show d-block" : ""}`} tabIndex={-1} style={{ display: show ? "block" : "none" }} role="dialog" data-backdrop="static" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered " role="document">
-          <div className="modal-content">
+          <div className="modal-content dark:bg-gray-700">
             <div className="modal-header">
               <h4 className="modal-title font-bold h4 w-100 text-center">
                 {currentOperation}
@@ -172,7 +172,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
                   <label className="block text-gray-700 font-bold mb-2 dark:text-gray-300">Your Email</label>
                   <input
                     type="email"
-                    className="form-control w-100"
+                    className="form-control w-100 dark:placeholder-gray-200 dark:bg-gray-500"
                     placeholder="name@mail.com"
                     required
                     id="userName"
@@ -188,7 +188,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ handleLogin }) => {
                   <FormSelectQuestionAndAnswer formData={user} handleChange={handleChange} errors={errors} visibleQuestion={1} />
                 )}
 
-                <button type="submit" className="btn btn-primary btn-lg w-100">
+                <button type="submit" className="btn btn-primary btn-lg w-100 dark:bg-blue-950">
                   {currentOperation}
                 </button>
 
