@@ -147,22 +147,22 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
             >
-                <Modal.Header closeButton className="px-4 py-2">
+                <Modal.Header closeButton className="px-4 py-2 dark:bg-gray-700">
                     <div className="building-form-header py-2 d-flex gap-4 align-items-center">
                         {isEdit ? "Edit" : "Create"} GroupUser
                     </div>
                 </Modal.Header>
-                <Modal.Body className="p-0">
+                <Modal.Body className="p-0 dark:bg-gray-700">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
                             <div className="px-4 py-4 ">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Id</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Id</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="GroupUser id."
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-200"
                                             value={groupUser?.id}
                                             id={'id'}
                                             disabled
@@ -170,8 +170,8 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Group</Form.Label>
-                                        <Form.Select className=" " value={groups?.find((group) => group?.name == groupUser?.group)?.name} onChange={handleChange} name="group" id="group">
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Group</Form.Label>
+                                        <Form.Select className="dark:bg-gray-500 dark:text-gray-200 " value={groups?.find((group) => group?.name == groupUser?.group)?.name} onChange={handleChange} name="group" id="group">
                                             <option value=""></option>
                                             {groups?.map((group) => (
                                                 <option value={group?.name}>{group.name}</option>
@@ -185,8 +185,8 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
 
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">User Email</Form.Label>
-                                        <Form.Select className=" " value={users?.find((user) => user?.email == groupUser?.userEmail)?.email} onChange={handleChange} name="userEmail" id="userEmail">
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">User Email</Form.Label>
+                                        <Form.Select className=" dark:bg-gray-500 dark:text-gray-200" value={users?.find((user) => user?.email == groupUser?.userEmail)?.email} onChange={handleChange} name="userEmail" id="userEmail">
                                             <option value=""></option>
                                             {users?.map((user) => (
                                                 <option value={user?.email}>{user.email}</option>
@@ -199,8 +199,8 @@ const GroupUserForm: React.FC<GroupUserFormProps> = ({ selectedGroupUser, isCrea
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Group Role</Form.Label>
-                                        <Form.Select className=" " value={groupRoles?.find((role) => role == groupUser?.groupRole)} onChange={handleChange} name="groupRole" id="groupRole">
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Group Role</Form.Label>
+                                        <Form.Select className="dark:bg-gray-500 dark:text-gray-200" value={groupRoles?.find((role) => role == groupUser?.groupRole)} onChange={handleChange} name="groupRole" id="groupRole">
                                             <option value=""></option>
                                             {groupRoles?.map((group) => (
                                                 <option value={group}>{group}</option>

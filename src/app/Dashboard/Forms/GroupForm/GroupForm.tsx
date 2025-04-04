@@ -118,23 +118,23 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
             >
-                <Modal.Header closeButton className="px-4 py-2">
+                <Modal.Header closeButton className="px-4 py-2 dark:bg-gray-700">
                     <div className="building-form-header py-2 d-flex gap-4 align-items-center">
                         {isEdit ? "Edit" : "Create"} Group
                         <h4 className='m-0'> {isDuplicate && <div><span className='text-danger '>*Duplicate Group is not allowed</span></div>}</h4>
                     </div>
                 </Modal.Header>
-                <Modal.Body className="p-0">
+                <Modal.Body className="p-0 dark:bg-gray-700">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
                             <div className="px-4 py-4 ">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Group Id</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Group Id</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Group id."
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-200"
                                             value={group?.id}
                                             id={'id'}
                                             disabled
@@ -142,11 +142,11 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Name</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Group."
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500"
                                             id="name"
                                             onChange={handleChange}
                                             value={group?.name}
@@ -159,8 +159,8 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className=" block text-gray-700 font-bold mb-2">Practice</Form.Label>
-                                        <Form.Select className="" value={group?.practice} onChange={handleChange} name="practice" id="practice">
+                                        <Form.Label className=" block text-gray-700 font-bold mb-2 dark:text-gray-200">Practice</Form.Label>
+                                        <Form.Select className="dark:bg-gray-500 dark:text-gray-200" value={group?.practice} onChange={handleChange} name="practice" id="practice">
                                             <option value=""></option>
                                             {practices?.map((prac) => (
                                                 <option value={prac?.name}>{prac?.name}</option>
@@ -170,11 +170,11 @@ const GroupForm: React.FC<GroupFormProps> = ({ selectedGroup, isCreate, isEdit, 
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Description</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Description</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Description."
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-200 dark:placeholder:text-gray-200"
                                             id="description"
                                             onChange={handleChange}
                                             value={group?.description}

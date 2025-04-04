@@ -147,23 +147,24 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
             >
-                <Modal.Header closeButton className="px-4 py-2">
+                <Modal.Header closeButton className="px-4 py-2 dark:bg-gray-700">
                     <div className="building-form-header py-2 d-flex gap-4 align-items-center">
                         {isEdit ? "Edit" : "Create"} Role Claims
                         <h4 className='m-0'> {isDuplicate && <div><span className='text-danger '>*Duplicate Role is not allowed</span></div>}</h4>
                     </div>
                 </Modal.Header>
-                <Modal.Body className="p-0">
+                <Modal.Body className="p-0 dark:bg-gray-700">
                     <div className="building-level-edit-form">
                         <form className="form-background-color" onSubmit={handleSubmitForm}>
                             <div className="px-4 py-4">
                                 <div className="row m-0">
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claim Id</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Claim Id</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Claim id."
-                                            className="w-100"
+                                            title="read only."
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-200 dark:placeholder:text-gray-200"
                                             value={roleClaim?.id}
                                             id={'id'}
                                             disabled
@@ -171,11 +172,11 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claim Type</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Claim Type</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Claim Type."
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-200 dark:placeholder:text-gray-200"
                                             id="claimType"
                                             onChange={handleChange}
                                             value={roleClaim?.claimType}
@@ -188,11 +189,11 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                     </div>
 
                                     <div className="mb-3 col col-sm-6 p-0 ps-3">
-                                        <Form.Label className="block text-gray-700 font-bold mb-2">Claim Value</Form.Label>
+                                        <Form.Label className="block text-gray-700 font-bold mb-2 dark:text-gray-200">Claim Value</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="Claim Value."
-                                            className="w-100"
+                                            className="w-100 dark:bg-gray-500 dark:text-gray-200 dark:placeholder:text-gray-200"
                                             id="claimValue"
                                             onChange={handleChange}
                                             value={roleClaim?.claimValue}
@@ -204,7 +205,7 @@ const RoleClaimForm: React.FC<RoleClaimFormProps> = ({ selectedClaim, isCreate, 
                                         </div>
                                     </div>
                                     {roles?.length > 0 &&
-                                    <div className="mb-3 col col-sm-6 p-0 ps-3">
+                                    <div className="mb-3 col col-sm-6 p-0 ps-3 h-60">
                                         <ReactMultiSelectComponent values={roles?.map((role)=> ({label:role?.name,value: role?.id }))} title={"Roles"} selectedNames={selectedRoles as any} handleChange={setSelectedRoles} />
                                     </div>
                                     }
