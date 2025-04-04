@@ -3,15 +3,13 @@
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import './DiscussionDashboard.scss'
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 import DiscussionsService from '@/app/Services/DiscussionService';
 import { IGroupUser } from '@/app/Interfaces/Interfaces';
 import ChatSection from '@/app/Components/ChatSection/ChatSection';
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
 import EmployeeCard from '@/app/Components/EmployeeCard/EmployeeCard';
 import { warningMessages } from '@/app/Constants/Constants';
-
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 
 const page: React.FC = () => {
 
@@ -31,11 +29,15 @@ const page: React.FC = () => {
         try{
             var result = await discussionService.getSimilarDiscussion({discussion:discussion,practice:practice,description:"",group:groupName});
             var discussionUsers = await discussionService.getDiscussionUsers({discussion:discussion,practice:practice,description:"",group:groupName});
+            if(discussionUsers?.value?.status === "Error" && discussionUsers?.value?.message !== ""){
+                toast.error(discussionUsers?.value?.message);
+            }
             setUsers(discussionUsers?.value?.data);
             setSimilarDiscussions(result?.value?.data);
 
         }catch(ex:any){
             console.log(ex);
+            toast.error(ex.message);
         }
     }
 
@@ -44,7 +46,7 @@ const page: React.FC = () => {
     }
 
     const getEmployees = (role: string) => {
-        if (users) {
+  
             const leads = users?.filter((user) => user?.groupRole === role) || [];
 
             if (leads?.length > 0) {
@@ -56,12 +58,22 @@ const page: React.FC = () => {
             }else if(leads?.length == 0){
                 return <div className='text-yellow-400'>Not found</div>
             }
-        }
     };
 
     return (
         <div className='flex h-100 flex-1 overflow-hidden'>
-
+            <ToastContainer position="top-center"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                            transition={Bounce}
+            />
             <div className='col flex flex-1 flex-col h-100 overflow-auto'>
                 <div className='px-3 pt-2'>
                     <div className='h4 font-bold m-0'>{discussion}</div>

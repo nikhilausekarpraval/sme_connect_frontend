@@ -75,6 +75,7 @@ const PracticeDashboard: React.FC<PracticeDashboardProps> = () => {
             setIsLoading(false);
 
         } catch (ex: any) {
+            toast.error(ex.message);
             console.log(ex)
         }
 

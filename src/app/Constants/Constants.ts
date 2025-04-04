@@ -504,6 +504,12 @@ export const warningMessages = {
 
 }
 
+export const errorMessages ={
+  errorWhileExitingTheGroup : 'Error while exiting the group:',
+  faildToExitTheGroup: 'Failed to exit the group'
+  
+}
+
 export const sucessMessages = {
 
   createdSuccessfully : "Created successfully.",

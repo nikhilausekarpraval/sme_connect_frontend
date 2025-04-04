@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import './GroupDashboard.scss'
 import DiscussionListCard from '@/app/Components/DiscussionListCard/DiscussionListCard';
-import { discussionTabs, emptyDiscussion, routes, sucessMessages, warningMessages } from '@/app/Constants/Constants';
+import { discussionTabs, emptyDiscussion, errorMessages, routes, sucessMessages, warningMessages } from '@/app/Constants/Constants';
 import { IDiscussion, IGroupUser } from '@/app/Interfaces/Interfaces';
 import GroupUserService from '@/app/Services/GroupUsersService';
 import { useRouter } from 'next/navigation';
@@ -56,6 +56,7 @@ export default function page() {
             setAllUsers(users?.value?.data);
 
         } catch (ex: any) {
+            toast.error(ex.message);
             console.log(ex);
         }
 
@@ -96,10 +97,10 @@ export default function page() {
             if (result?.statusCode == 200) {
                 router.back();
             } else {
-                console.error('Failed to exit the group');
+                console.error(errorMessages.faildToExitTheGroup);
             }
         } catch (error) {
-            console.error('Error exiting the group:', error);
+            console.error(errorMessages.errorWhileExitingTheGroup, error);
         }
     };
 
@@ -168,7 +169,7 @@ export default function page() {
             }
            
         } catch (e: any) {
-            toast.success(`${warningMessages.faildToCreate}`);
+            toast.error(`${warningMessages.faildToCreate}`);
             if(e?.message.includes(warningMessages.requestExist)){
                 toast.warning(warningMessages.requestExist);
             }
