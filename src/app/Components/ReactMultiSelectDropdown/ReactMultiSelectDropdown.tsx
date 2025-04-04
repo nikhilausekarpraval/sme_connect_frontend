@@ -20,7 +20,7 @@ const ReactMultiSelectComponent : React.FC<IReactMultiSelectComponent>= ({values
         value={selectedNames}
         onChange={handleChange}
         labelledBy="Select"
-        className="custom-multiselect-styles dark:bg-gray-500"
+        className="custom-multiselect-styles rounded dark:bg-gray-500"
       />
     </div>
   );
