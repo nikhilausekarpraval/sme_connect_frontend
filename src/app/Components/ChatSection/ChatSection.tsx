@@ -97,6 +97,25 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
     }
   }, [connection]);  
 
+  const emojiPickerRef = useRef(null);
+
+  // Close picker when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (emojiPickerRef.current && !(emojiPickerRef.current as HTMLElement).contains(event.target as Node)) {
+        setShowEmoji(false);
+      }
+    }
+
+    if (showEmoji) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showEmoji]);
+
   // New useEffect for scrolling to bottom when messages update
     useEffect(() => {
       if (chatContainerRef.current) {
@@ -152,7 +171,6 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
     setFiletoRemove(fileName);
   }
 
-
   return (
     <div className=" h-100 pe-2">
       {/* <div className='text-lg font-bold m-0'>{title}</div> */}
@@ -187,8 +205,19 @@ const ChatComponent: React.FC<IChatComponet> = ({ title}) => {
             <div className='chat-input px-2 py-1'>
               <span className='cursor-pointer'>
                 <BsEmojiSmile onClick={(e) => setShowEmoji(!showEmoji)} />
-                <EmojiPicker open={showEmoji} />
               </span>
+              {showEmoji && (
+              <div ref={emojiPickerRef} className="absolute top-0 left-50 mt-2 p-2 shadow-md z-50 ">
+                <EmojiPicker
+                  open={showEmoji}
+                  onEmojiClick={(emojiData: any) => {
+                    setCurrentMessage((prevMessage) => prevMessage + emojiData.emoji);
+                  }}
+                  width={'w-100'}
+                  height={'48svh'}
+                />
+              </div>
+              )}
               <input
                 type="text"
                 placeholder="Type a message..."
