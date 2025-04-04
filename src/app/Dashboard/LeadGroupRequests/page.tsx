@@ -255,7 +255,7 @@ const setCurrentItem=(create:boolean)=>{
 
   return (
     <div className='px-3 flex flex-1 flex-column overflow-hidden la-table-styles h-100 role-select-none role-access-config'>
-      <TableFilter setIsEdit={setEdit} setIsCreate={setCreate} showDelete={showDelete} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} isCreate={false}/>
+      <TableFilter setIsEdit={setEdit} setIsCreate={setCreate} showDelete={showDelete} search={onSearch} resetFilters={onReset} selectedItems={selectedItems} isCreate={false} haveEdit={false}/>
       <TableBody<IGroupRequest> sortOrder={sortOrder} setSortOrder={setSortOrder} sortTableData={sortTableData} selectedItems={selectedItems} getData={getData} sortedData={sortedData} isLoading={isLoading} setLoaderAndSortedData={setLoaderAndSortedData} handleRowCheckboxChange={handleCheckboxChange} defaultSortedColumn={defaultSortedColumn} sortedColumn={sortedColumn} setSortedColumn={setSortedColumn} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} tableHeaders={groupRequestHeaders} columnConfig={groupRequestColumnConfig} performAction={performAction} />
       {true && (
         <ConfirmPopup

@@ -42,7 +42,7 @@ export default class ConfirmPopup extends React.Component<IValidSuccessProps, IV
     render() {
         return (
             <Modal dialogClassName="modal-width" centered show={this.props.show}>
-                <div className="d-flex justify-content-center align-items-center validating-modal-container p-4">
+                <div className="d-flex justify-content-center align-items-center validating-modal-container p-4 dark:bg-gray-700">
                     <div className="d-flex w-100 flex-column justify-content-center align-items-center gap-4">
                         <div className="h5 m-0"><DangerSVG /></div>
                         <div className="dialog-heading pt-2">
