@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import LoginModal from "../RegisterUser/page";
 import UsersService from "@/app/Services/usersService";
 import { signIn } from "next-auth/react";
-import pravalImage from "../../Assets/Images/PRAVAL-LOGO.jpg";
+import pravalImage from "../../Assets/Images/PRAVAL-LOGO.png";
 import Image from 'next/image';
 
 
