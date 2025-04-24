@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import type { FaceLandmarksDetector } from "@tensorflow-models/face-landmarks-detection";
+import AudioSurveillance from "./AudioSurveillance/AudioSurveillance";
 
 const SurveillanceWithLandmarks: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -168,7 +169,7 @@ const SurveillanceWithLandmarks: React.FC = () => {
           {alert}
         </div>
       )}
-
+    <AudioSurveillance />
     </div>
   );
 };
